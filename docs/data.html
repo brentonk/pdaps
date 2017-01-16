@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Practical Data Analysis for Political Scientists</title>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+  <meta name="description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right.">
+  <meta name="generator" content="bookdown 0.3 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Practical Data Analysis for Political Scientists" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right." />
+  <meta name="github-repo" content="brentonk/pdaps" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Practical Data Analysis for Political Scientists" />
+  
+  <meta name="twitter:description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right." />
+  
+
+<meta name="author" content="Brenton Kenkel">
+
+
+<meta name="date" content="2017-01-16">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="programming.html">
+<link rel="next" href="references.html">
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Practical Data Analysis for Political Scientists</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> About This Book</a></li>
+<li class="chapter" data-level="2" data-path="programming.html"><a href="programming.html"><i class="fa fa-check"></i><b>2</b> Principles of Programming</a><ul>
+<li class="chapter" data-level="2.1" data-path="programming.html"><a href="programming.html#write-programs-for-people-not-computers"><i class="fa fa-check"></i><b>2.1</b> Write Programs for People, Not Computers</a></li>
+<li class="chapter" data-level="2.2" data-path="programming.html"><a href="programming.html#let-the-computer-do-the-work"><i class="fa fa-check"></i><b>2.2</b> Let the Computer Do the Work</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>3</b> Working with Data</a><ul>
+<li class="chapter" data-level="3.1" data-path="data.html"><a href="data.html#loading"><i class="fa fa-check"></i><b>3.1</b> Loading</a></li>
+<li class="chapter" data-level="3.2" data-path="data.html"><a href="data.html#tidying"><i class="fa fa-check"></i><b>3.2</b> Tidying</a></li>
+<li class="chapter" data-level="3.3" data-path="data.html"><a href="data.html#transforming-and-aggregating"><i class="fa fa-check"></i><b>3.3</b> Transforming and Aggregating</a></li>
+<li class="chapter" data-level="3.4" data-path="data.html"><a href="data.html#appendix-creating-the-example-data"><i class="fa fa-check"></i><b>3.4</b> Appendix: Creating the Example Data</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Practical Data Analysis for Political Scientists</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="data" class="section level1">
+<h1><span class="header-section-number">3</span> Working with Data</h1>
+<p><em>Some material in this chapter is adapted from notes <a href="http://mdilorenzo.github.io">Matt DiLorenzo</a> wrote for the Spring 2016 session of PSCI 8357.</em></p>
+<p>Let me repeat something I said last week. In your careers as social scientists, starting with your dissertation research—if not earlier—you will probably spend more time collecting, merging, and cleaning data than you will on statistical analysis. So it’s worth taking some time to learn how to do this well.</p>
+<p>Best practices for data management can be summarized in a single sentence: <em>Record and document everything you do to the data.</em></p>
+<p>The first corollary of this principle is that raw data is sacrosanct. You should never edit raw data “in place”. Once you download the raw data file, that file should never change.<a href="#fn4" class="footnoteRef" id="fnref4"><sup>4</sup></a></p>
+<p>In almost any non-trivial analysis, the “final” data—the format you plug into your analysis—will differ significantly from the raw data. It may consist of information merged from multiple sources. The variables may have been transformed, aggregated, or otherwise altered. The unit of observation may even differ from the original source. You must document every one of these changes, so that another researcher working from the exact same raw data will end up with the exact same final data.</p>
+<p>The most sensible way to achieve this level of reproducibility is to do all of your data merging and cleaning in a script. In other words, no going into Excel and mucking around manually. Like any other piece of your analysis, your pipeline from raw data to final data should follow the <a href="programming.html#programming">principles of programming</a> that we discussed last week.</p>
+<p>Luckily for you,<a href="#fn5" class="footnoteRef" id="fnref5"><sup>5</sup></a> the <strong>tidyverse</strong> suite of R packages (including <strong>dplyr</strong>, <strong>tidyr</strong>, and others) makes it easy to script your “data pipeline”. We’ll begin by loading the package.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</code></pre></div>
+<div id="loading" class="section level2">
+<h2><span class="header-section-number">3.1</span> Loading</h2>
+<p>The first step in working with data is to acquire some data. Depending on the nature of your research, you will be getting some or all of your data from sources available online. When you download data from online repositories, you should keep track of where you got it from. The best way to do so is—you guessed it—to script your data acquisition.</p>
+<p>The R function <code>download.file()</code> is the easiest way to download files from URLs from within R. Just specify where you’re getting the file from and where you want it to go. For the examples today, we’ll use an “untidied” version of the World Development Indicators data from the World Bank that I’ve posted to my website.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">download.file</span>(<span class="dt">url =</span> <span class="st">&quot;http://bkenkel.com/data/untidy-data.csv&quot;</span>,
+              <span class="dt">destfile =</span> <span class="st">&quot;my-untidy-data.csv&quot;</span>)</code></pre></div>
+<p>Once you’ve got the file stored locally, use the utilities from the <strong>readr</strong> package (part of <strong>tidyverse</strong>) to read it into R as a data frame.<a href="#fn6" class="footnoteRef" id="fnref6"><sup>6</sup></a> We have a CSV file, so we will use <code>read_csv</code>. See <code>help(package = &quot;readr&quot;)</code> for other possibilities.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">untidy_data &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="dt">file =</span> <span class="st">&quot;my-untidy-data.csv&quot;</span>)</code></pre></div>
+<pre><code>## Parsed with column specification:
+## cols(
+##   country = col_character(),
+##   gdp.2005 = col_double(),
+##   gdp.2006 = col_double(),
+##   gdp.2007 = col_double(),
+##   gdp.2008 = col_double(),
+##   pop.2005 = col_double(),
+##   pop.2006 = col_double(),
+##   pop.2007 = col_double(),
+##   pop.2008 = col_double(),
+##   unemp.2005 = col_double(),
+##   unemp.2006 = col_double(),
+##   unemp.2007 = col_double(),
+##   unemp.2008 = col_double()
+## )</code></pre>
+<p>Remember that each column of a data frame might be a different type, or more formally <em>class</em>, of object. <code>read_csv</code> and its ilk try to guess the type of data each column contains: character, integer, decimal number (“double” in programming-speak), or something else. The readout above tells you what guesses it made. If it gets something wrong—say, reading a column as numbers that ought to be characters—you can use the <code>col_types</code> argument to set it straight.</p>
+<p>FYI, you could also run <code>read_csv()</code> directly on a URL, as in:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">read_csv</span>(<span class="st">&quot;http://bkenkel.com/data/untidy-data.csv&quot;</span>)</code></pre></div>
+<p>However, in analyses intended for publication, it’s usually preferable to download and save the raw data. What’s stored at a URL might change or disappear, and you’ll need to have a hard copy of the raw data for replication purposes.</p>
+<p>Now let’s take a look at the data we’ve just loaded in.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(untidy_data)</code></pre></div>
+<pre><code>## # A tibble: 6 × 13
+##   country   gdp.2005   gdp.2006   gdp.2007   gdp.2008  pop.2005  pop.2006
+##     &lt;chr&gt;      &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+## 1      AD   3.842256   4.018435   4.021571   3.675947  0.081223  0.083373
+## 2      AE 253.965547 278.948950 287.831773 297.018892  4.481976  5.171255
+## 3      AF   9.762979  10.305228  11.721188  12.144483 24.399948 25.183615
+## 4      AG   1.119029   1.268714   1.389229   1.390217  0.082565  0.083467
+## 5      AL   9.268393   9.771760  10.348294  11.127520  3.011487  2.992547
+## 6      AM   7.667756   8.679746   9.873142  10.554389  3.014917  3.002161
+## # ... with 6 more variables: pop.2007 &lt;dbl&gt;, pop.2008 &lt;dbl&gt;,
+## #   unemp.2005 &lt;dbl&gt;, unemp.2006 &lt;dbl&gt;, unemp.2007 &lt;dbl&gt;, unemp.2008 &lt;dbl&gt;</code></pre>
+<p>We have a <code>country</code> variable giving country abbreviations. The other variables are numerical values: the country’s GDP in 2005, 2006, 2007, and 2008; then the same for population and unemployment. Let’s get this into a format we could use for analysis.</p>
+</div>
+<div id="tidying" class="section level2">
+<h2><span class="header-section-number">3.2</span> Tidying</h2>
+<p><span class="citation">Wickham (<a href="#ref-Wickham:2014vp">2014</a>)</span> outlines three qualities that make data “tidy”:</p>
+<ol style="list-style-type: decimal">
+<li>Each variable forms a column.</li>
+<li>Each observation forms a row.</li>
+<li>Each type of observational unit forms a table.</li>
+</ol>
+<p>For one thing, this means that whether a dataset is tidy or not depends—at least in part (some data collections are messy from any angle)—on the purpose it’s being analyzed for.</p>
+<p>Each row of <code>untidy_data</code> is a country. In observational studies in comparative politics and international relations, more commonly the unit of observation is the country-year.<a href="#fn7" class="footnoteRef" id="fnref7"><sup>7</sup></a> How can we take <code>untidy_data</code> and easily make it into country-year data?</p>
+<p>We’ll use the <strong>tidyr</strong> package (again, part of <strong>tidyverse</strong>) to clean up this data. The biggest problem right now is that each column, besides the country identifier, really encodes two pieces of information: the year of observation and the variable being observed. To deal with this, we’ll have to first transform the data from one untidy format to another. We’re going to use the <code>gather()</code> function to make each row a country-year-variable.</p>
+<p>What <code>gather()</code> does is make a row for each entry from a set of columns. It’s probably easiest to understand it by seeing it in practice:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">long_data &lt;-<span class="st"> </span><span class="kw">gather</span>(untidy_data,
+                    <span class="dt">key =</span> variable,
+                    <span class="dt">value =</span> number,
+                    gdp<span class="fl">.2005</span>:unemp<span class="fl">.2008</span>)
+<span class="kw">head</span>(long_data)</code></pre></div>
+<pre><code>## # A tibble: 6 × 3
+##   country variable     number
+##     &lt;chr&gt;    &lt;chr&gt;      &lt;dbl&gt;
+## 1      AD gdp.2005   3.842256
+## 2      AE gdp.2005 253.965547
+## 3      AF gdp.2005   9.762979
+## 4      AG gdp.2005   1.119029
+## 5      AL gdp.2005   9.268393
+## 6      AM gdp.2005   7.667756</code></pre>
+<p>With the first argument, we told <code>gather()</code> to use the <code>untidy_data</code> data frame. With the last argument, we told it the set of columns to “gather” together into a single column. The <code>key</code> column specifies the name of the variable to store the “key” (original column name) in, and the <code>value</code> column specifies the name of the variable to store the associated value. For example, the second row of <code>long_data</code> encodes what we previously saw as the <code>gdp.2005</code> column of <code>untidy_data</code>.</p>
+<p>Now we have a new problem, which is that <code>variable</code> encodes two pieces of information: the variable and the year of its observation. <strong>tidyr</strong> provides the <code>separate()</code> function to solve that, splitting a single variable into two.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">long_data &lt;-<span class="st"> </span><span class="kw">separate</span>(long_data,
+                      <span class="dt">col =</span> variable,
+                      <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;var&quot;</span>, <span class="st">&quot;year&quot;</span>))
+<span class="kw">head</span>(long_data)</code></pre></div>
+<pre><code>## # A tibble: 6 × 4
+##   country   var  year     number
+##     &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt;
+## 1      AD   gdp  2005   3.842256
+## 2      AE   gdp  2005 253.965547
+## 3      AF   gdp  2005   9.762979
+## 4      AG   gdp  2005   1.119029
+## 5      AL   gdp  2005   9.268393
+## 6      AM   gdp  2005   7.667756</code></pre>
+<p>So now we have country-year-variable data, with the year and variable conveniently stored in different columns. To turn this into country-year data, we can use the <code>spread()</code> function, which is like the inverse of <code>gather()</code>. <code>spread()</code> takes a key column and a value column, and turns each different key into a column of its own.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clean_data &lt;-<span class="st"> </span><span class="kw">spread</span>(long_data,
+                    <span class="dt">key =</span> var,
+                    <span class="dt">value =</span> number)
+<span class="kw">head</span>(clean_data)</code></pre></div>
+<pre><code>## # A tibble: 6 × 5
+##   country  year        gdp      pop unemp
+##     &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
+## 1      AD  2005   3.842256 0.081223    NA
+## 2      AD  2006   4.018435 0.083373    NA
+## 3      AD  2007   4.021571 0.084878    NA
+## 4      AD  2008   3.675947 0.085616    NA
+## 5      AE  2005 253.965547 4.481976   3.1
+## 6      AE  2006 278.948950 5.171255   3.3</code></pre>
+<p>When using <code>spread()</code> on data that you didn’t previously <code>gather()</code>, be sure to set the <code>fill</code> argument to tell it how to fill in empty cells. A simple example:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">test_data</code></pre></div>
+<pre><code>## # A tibble: 3 × 3
+##        id     k     v
+##     &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;
+## 1 brenton     a    10
+## 2 brenton     b    20
+## 3 patrick     b     5</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">spread</span>(test_data, <span class="dt">key =</span> k, <span class="dt">value =</span> v)</code></pre></div>
+<pre><code>## # A tibble: 2 × 3
+##        id     a     b
+## *   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 brenton    10    20
+## 2 patrick    NA     5</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">spread</span>(test_data, <span class="dt">key =</span> k, <span class="dt">value =</span> v, <span class="dt">fill =</span> <span class="dv">100</span>)</code></pre></div>
+<pre><code>## # A tibble: 2 × 3
+##        id     a     b
+## *   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 brenton    10    20
+## 2 patrick   100     5</code></pre>
+<p>One more important note on <strong>tidyverse</strong> semantics. It includes a fabulous feature called the <em>pipe</em>, <code>%&gt;%</code>, which makes it easy to string together a truly mind-boggling number of commands.</p>
+<p>In pipe syntax, <code>x %&gt;% f()</code> is equivalent to <code>f(x)</code>. That seems like a wasteful and confusing way to write <code>f(x)</code>, and it is. But if you want to string together a bunch of commands, it’s much easier to comprehend</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x %&gt;%
+<span class="st">  </span><span class="kw">f</span>() %&gt;%
+<span class="st">  </span><span class="kw">g</span>() %&gt;%
+<span class="st">  </span><span class="kw">h</span>() %&gt;%
+<span class="st">  </span><span class="kw">i</span>()</code></pre></div>
+<p>than <code>i(h(g(f(x))))</code>.</p>
+<p>You can pass function arguments using the pipe too. For example, <code>f(x, bear = &quot;moose&quot;)</code> is equivalent to <code>x %&gt;% f(bear = &quot;moose&quot;)</code>.</p>
+<p>The key thing about the <strong>tidyverse</strong> functions is that each of them takes a data frame as its first argument, and returns a data frame as its output. This makes them highly amenable to piping. For example, we can combine all three steps of our tidying above with a single command, thanks to the pipe:<a href="#fn8" class="footnoteRef" id="fnref8"><sup>8</sup></a></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">untidy_data %&gt;%
+<span class="st">  </span><span class="kw">gather</span>(<span class="dt">key =</span> variable,
+         <span class="dt">value =</span> number,
+         gdp<span class="fl">.2005</span>:unemp<span class="fl">.2008</span>) %&gt;%
+<span class="st">  </span><span class="kw">separate</span>(<span class="dt">col =</span> variable,
+           <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;var&quot;</span>, <span class="st">&quot;year&quot;</span>)) %&gt;%
+<span class="st">  </span><span class="kw">spread</span>(<span class="dt">key =</span> var,
+         <span class="dt">value =</span> number)</code></pre></div>
+<pre><code>## # A tibble: 860 × 5
+##   country  year        gdp      pop unemp
+## *   &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
+## 1      AD  2005   3.842256 0.081223    NA
+## 2      AD  2006   4.018435 0.083373    NA
+## 3      AD  2007   4.021571 0.084878    NA
+## 4      AD  2008   3.675947 0.085616    NA
+## 5      AE  2005 253.965547 4.481976   3.1
+## # ... with 855 more rows</code></pre>
+<p>Without the pipe, if we wanted to run all those commands together, we would have to write:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">spread</span>(<span class="kw">separate</span>(<span class="kw">gather</span>(untidy_data,
+                       <span class="dt">key =</span> variable,
+                       <span class="dt">value =</span> number,
+                       gdp<span class="fl">.2005</span>:unemp<span class="fl">.2008</span>),
+                <span class="dt">col =</span> variable,
+                <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;var&quot;</span>, <span class="st">&quot;year&quot;</span>)),
+       <span class="dt">key =</span> var,
+       <span class="dt">value =</span> number)</code></pre></div>
+<p>Sad!</p>
+</div>
+<div id="transforming-and-aggregating" class="section level2">
+<h2><span class="header-section-number">3.3</span> Transforming and Aggregating</h2>
+<p>Tidying the data usually isn’t the end of the process. If you want to perform further calculations on the raw, that’s where the tools in <strong>dplyr</strong> (part of, you guessed it, the <strong>tidyverse</strong>) come in.</p>
+<p>Perhaps the simplest <strong>dplyr</strong> function (or “verb”, as the R hipsters would say) is <code>rename()</code>, which lets you rename columns.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clean_data %&gt;%
+<span class="st">  </span><span class="kw">rename</span>(<span class="dt">gross_domestic_product =</span> gdp)</code></pre></div>
+<pre><code>## # A tibble: 860 × 5
+##   country  year gross_domestic_product      pop unemp
+## *   &lt;chr&gt; &lt;chr&gt;                  &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
+## 1      AD  2005               3.842256 0.081223    NA
+## 2      AD  2006               4.018435 0.083373    NA
+## 3      AD  2007               4.021571 0.084878    NA
+## 4      AD  2008               3.675947 0.085616    NA
+## 5      AE  2005             253.965547 4.481976   3.1
+## # ... with 855 more rows</code></pre>
+<p>The <strong>dplyr</strong> functions, like the vast majority of R functions, do not modify their inputs. In other words, running <code>rename()</code> on <code>clean_data</code> will return a renamed copy of <code>clean_data</code>, but won’t overwrite the original.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clean_data</code></pre></div>
+<pre><code>## # A tibble: 860 × 5
+##   country  year        gdp      pop unemp
+## *   &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
+## 1      AD  2005   3.842256 0.081223    NA
+## 2      AD  2006   4.018435 0.083373    NA
+## 3      AD  2007   4.021571 0.084878    NA
+## 4      AD  2008   3.675947 0.085616    NA
+## 5      AE  2005 253.965547 4.481976   3.1
+## # ... with 855 more rows</code></pre>
+<p>If you wanted to make the change stick, you would have to run:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clean_data &lt;-<span class="st"> </span>clean_data %&gt;%
+<span class="st">  </span><span class="kw">rename</span>(<span class="dt">gross_domestic_product =</span> gdp)</code></pre></div>
+<p><code>select()</code> lets you keep a couple of columns and drop all the others. Or vice versa if you use minus signs.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clean_data %&gt;%
+<span class="st">  </span><span class="kw">select</span>(country, gdp)</code></pre></div>
+<pre><code>## # A tibble: 860 × 2
+##   country        gdp
+## *   &lt;chr&gt;      &lt;dbl&gt;
+## 1      AD   3.842256
+## 2      AD   4.018435
+## 3      AD   4.021571
+## 4      AD   3.675947
+## 5      AE 253.965547
+## # ... with 855 more rows</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clean_data %&gt;%
+<span class="st">  </span><span class="kw">select</span>(-pop)</code></pre></div>
+<pre><code>## # A tibble: 860 × 4
+##   country  year        gdp unemp
+## *   &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;
+## 1      AD  2005   3.842256    NA
+## 2      AD  2006   4.018435    NA
+## 3      AD  2007   4.021571    NA
+## 4      AD  2008   3.675947    NA
+## 5      AE  2005 253.965547   3.1
+## # ... with 855 more rows</code></pre>
+<p><code>mutate()</code> lets you create new variables that are transformations of old ones.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clean_data %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">gdppc =</span> gdp /<span class="st"> </span>pop,
+         <span class="dt">log_gdppc =</span> <span class="kw">log</span>(gdppc))</code></pre></div>
+<pre><code>## # A tibble: 860 × 7
+##   country  year        gdp      pop unemp    gdppc log_gdppc
+##     &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+## 1      AD  2005   3.842256 0.081223    NA 47.30502  3.856616
+## 2      AD  2006   4.018435 0.083373    NA 48.19828  3.875323
+## 3      AD  2007   4.021571 0.084878    NA 47.38060  3.858213
+## 4      AD  2008   3.675947 0.085616    NA 42.93528  3.759694
+## 5      AE  2005 253.965547 4.481976   3.1 56.66375  4.037135
+## # ... with 855 more rows</code></pre>
+<p><code>filter()</code> cuts down the data according to the logical condition(s) you specify.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clean_data %&gt;%
+<span class="st">  </span><span class="kw">filter</span>(year ==<span class="st"> </span><span class="dv">2006</span>)</code></pre></div>
+<pre><code>## # A tibble: 215 × 5
+##   country  year        gdp       pop unemp
+##     &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;
+## 1      AD  2006   4.018435  0.083373    NA
+## 2      AE  2006 278.948950  5.171255   3.3
+## 3      AF  2006  10.305228 25.183615   8.8
+## 4      AG  2006   1.268714  0.083467    NA
+## 5      AL  2006   9.771760  2.992547  12.4
+## # ... with 210 more rows</code></pre>
+<p><code>summarise()</code> calculates summaries of the data. For example, let’s find the maximum unemployment rate.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clean_data %&gt;%
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">max_unemp =</span> <span class="kw">max</span>(unemp, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</code></pre></div>
+<pre><code>## # A tibble: 1 × 1
+##   max_unemp
+##       &lt;dbl&gt;
+## 1      37.6</code></pre>
+<p>This seems sort of useless, until you combine it with the <code>group_by()</code> function. If you group the data before <code>summarise</code>-ing it, you’ll calculate a separate summary for each group. For example, let’s calculate the maximum unemployment rate for each year in the data.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clean_data %&gt;%
+<span class="st">  </span><span class="kw">group_by</span>(year) %&gt;%
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">max_unemp =</span> <span class="kw">max</span>(unemp, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</code></pre></div>
+<pre><code>## # A tibble: 4 × 2
+##    year max_unemp
+##   &lt;chr&gt;     &lt;dbl&gt;
+## 1  2005      37.3
+## 2  2006      36.0
+## 3  2007      34.9
+## 4  2008      37.6</code></pre>
+<p><code>summarise()</code> produces a “smaller” data frame than the input—one row per group. If you want to do something similar, but preserving the structure of the original data, use <code>mutate</code> in combination with <code>group_by</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clean_data %&gt;%
+<span class="st">  </span><span class="kw">group_by</span>(year) %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">max_unemp =</span> <span class="kw">max</span>(unemp, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),
+         <span class="dt">unemp_over_max =</span> unemp /<span class="st"> </span>max_unemp) %&gt;%
+<span class="st">  </span><span class="kw">select</span>(country, year, <span class="kw">contains</span>(<span class="st">&quot;unemp&quot;</span>))</code></pre></div>
+<pre><code>## Source: local data frame [860 x 5]
+## Groups: year [4]
+## 
+##   country  year unemp max_unemp unemp_over_max
+##     &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;     &lt;dbl&gt;          &lt;dbl&gt;
+## 1      AD  2005    NA      37.3             NA
+## 2      AD  2006    NA      36.0             NA
+## 3      AD  2007    NA      34.9             NA
+## 4      AD  2008    NA      37.6             NA
+## 5      AE  2005   3.1      37.3     0.08310992
+## # ... with 855 more rows</code></pre>
+<p>This gives us back the original data, but with a <code>max_unemp</code> variable recording the highest unemployment level that year. We can then calculate each individual country’s unemployment as a percentage of the maximum. Whether grouped <code>mutate</code> or <code>summarise</code> is better depends, of course, on the purpose and structure of your analysis.</p>
+<p>Notice how I selected all of the unemployment-related columns with <code>contains(&quot;unemp&quot;)</code>. See <code>?select_helpers</code> for a full list of helpful functions like this for <code>select</code>-ing variables.</p>
+</div>
+<div id="appendix-creating-the-example-data" class="section level2">
+<h2><span class="header-section-number">3.4</span> Appendix: Creating the Example Data</h2>
+<p>I used the same tools this chapter introduces to create the untidy data. I may as well include the code to do it, in case it helps further illustrate how to use the <strong>tidyverse</strong> tools (and, as a bonus, the <strong>WDI</strong> package for downloading World Development Indicators data).</p>
+<p>First I load the necessary packages.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)
+<span class="kw">library</span>(<span class="st">&quot;WDI&quot;</span>)
+<span class="kw">library</span>(<span class="st">&quot;countrycode&quot;</span>)
+<span class="kw">library</span>(<span class="st">&quot;stringr&quot;</span>)</code></pre></div>
+<p>Next, I download the relevant WDI data. I used the <code>WDIsearch()</code> function to locate the appropriate indicator names.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat_raw &lt;-<span class="st"> </span><span class="kw">WDI</span>(<span class="dt">country =</span> <span class="st">&quot;all&quot;</span>,
+               <span class="dt">indicator =</span> <span class="kw">c</span>(<span class="st">&quot;NY.GDP.MKTP.KD&quot;</span>,  <span class="co"># GDP in 2000 USD</span>
+                             <span class="st">&quot;SP.POP.TOTL&quot;</span>,     <span class="co"># Total population</span>
+                             <span class="st">&quot;SL.UEM.TOTL.ZS&quot;</span>), <span class="co"># Unemployment rate</span>
+               <span class="dt">start =</span> <span class="dv">2005</span>,
+               <span class="dt">end =</span> <span class="dv">2008</span>)
+
+<span class="kw">head</span>(dat_raw)</code></pre></div>
+<pre><code>##   iso2c    country year NY.GDP.MKTP.KD SP.POP.TOTL SL.UEM.TOTL.ZS
+## 1    1A Arab World 2005   1.642751e+12   313430911      12.140202
+## 2    1A Arab World 2006   1.762894e+12   320906736      11.329603
+## 3    1A Arab World 2007   1.862506e+12   328766559      10.896078
+## 4    1A Arab World 2008   1.979876e+12   336886468      10.505987
+## 5    1W      World 2005   5.770294e+13  6513959904       6.159321
+## 6    1W      World 2006   6.022909e+13  6594722462       5.899976</code></pre>
+<p>I want to get rid of the aggregates, like the “Arab World” and “World” we see here. As a rough tack at that, I’m going to exclude those so-called countries whose ISO codes don’t appear in the <strong>countrycode</strong> package data.<a href="#fn9" class="footnoteRef" id="fnref9"><sup>9</sup></a></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat_countries &lt;-<span class="st"> </span>dat_raw %&gt;%
+<span class="st">  </span><span class="kw">filter</span>(iso2c %in%<span class="st"> </span>countrycode_data$iso2c)</code></pre></div>
+<p>Let’s check on which countries are left. (I cut it down to max six characters per country name for printing purposes.)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat_countries$country %&gt;%
+<span class="st">  </span><span class="kw">unique</span>() %&gt;%
+<span class="st">  </span><span class="kw">str_sub</span>(<span class="dt">start =</span> <span class="dv">1</span>, <span class="dt">end =</span> <span class="dv">6</span>)</code></pre></div>
+<pre><code>##   [1] &quot;Andorr&quot; &quot;United&quot; &quot;Afghan&quot; &quot;Antigu&quot; &quot;Albani&quot; &quot;Armeni&quot; &quot;Angola&quot;
+##   [8] &quot;Argent&quot; &quot;Americ&quot; &quot;Austri&quot; &quot;Austra&quot; &quot;Aruba&quot;  &quot;Azerba&quot; &quot;Bosnia&quot;
+##  [15] &quot;Barbad&quot; &quot;Bangla&quot; &quot;Belgiu&quot; &quot;Burkin&quot; &quot;Bulgar&quot; &quot;Bahrai&quot; &quot;Burund&quot;
+##  [22] &quot;Benin&quot;  &quot;Bermud&quot; &quot;Brunei&quot; &quot;Bolivi&quot; &quot;Brazil&quot; &quot;Bahama&quot; &quot;Bhutan&quot;
+##  [29] &quot;Botswa&quot; &quot;Belaru&quot; &quot;Belize&quot; &quot;Canada&quot; &quot;Congo,&quot; &quot;Centra&quot; &quot;Congo,&quot;
+##  [36] &quot;Switze&quot; &quot;Cote d&quot; &quot;Chile&quot;  &quot;Camero&quot; &quot;China&quot;  &quot;Colomb&quot; &quot;Costa &quot;
+##  [43] &quot;Cuba&quot;   &quot;Cabo V&quot; &quot;Curaca&quot; &quot;Cyprus&quot; &quot;Czech &quot; &quot;German&quot; &quot;Djibou&quot;
+##  [50] &quot;Denmar&quot; &quot;Domini&quot; &quot;Domini&quot; &quot;Algeri&quot; &quot;Ecuado&quot; &quot;Estoni&quot; &quot;Egypt,&quot;
+##  [57] &quot;Eritre&quot; &quot;Spain&quot;  &quot;Ethiop&quot; &quot;Finlan&quot; &quot;Fiji&quot;   &quot;Micron&quot; &quot;Faroe &quot;
+##  [64] &quot;France&quot; &quot;Gabon&quot;  &quot;United&quot; &quot;Grenad&quot; &quot;Georgi&quot; &quot;Ghana&quot;  &quot;Gibral&quot;
+##  [71] &quot;Greenl&quot; &quot;Gambia&quot; &quot;Guinea&quot; &quot;Equato&quot; &quot;Greece&quot; &quot;Guatem&quot; &quot;Guam&quot;  
+##  [78] &quot;Guinea&quot; &quot;Guyana&quot; &quot;Hong K&quot; &quot;Hondur&quot; &quot;Croati&quot; &quot;Haiti&quot;  &quot;Hungar&quot;
+##  [85] &quot;Indone&quot; &quot;Irelan&quot; &quot;Israel&quot; &quot;Isle o&quot; &quot;India&quot;  &quot;Iraq&quot;   &quot;Iran, &quot;
+##  [92] &quot;Icelan&quot; &quot;Italy&quot;  &quot;Jamaic&quot; &quot;Jordan&quot; &quot;Japan&quot;  &quot;Kenya&quot;  &quot;Kyrgyz&quot;
+##  [99] &quot;Cambod&quot; &quot;Kiriba&quot; &quot;Comoro&quot; &quot;St. Ki&quot; &quot;Korea,&quot; &quot;Korea,&quot; &quot;Kuwait&quot;
+## [106] &quot;Cayman&quot; &quot;Kazakh&quot; &quot;Lao PD&quot; &quot;Lebano&quot; &quot;St. Lu&quot; &quot;Liecht&quot; &quot;Sri La&quot;
+## [113] &quot;Liberi&quot; &quot;Lesoth&quot; &quot;Lithua&quot; &quot;Luxemb&quot; &quot;Latvia&quot; &quot;Libya&quot;  &quot;Morocc&quot;
+## [120] &quot;Monaco&quot; &quot;Moldov&quot; &quot;Monten&quot; &quot;St. Ma&quot; &quot;Madaga&quot; &quot;Marsha&quot; &quot;Macedo&quot;
+## [127] &quot;Mali&quot;   &quot;Myanma&quot; &quot;Mongol&quot; &quot;Macao &quot; &quot;Northe&quot; &quot;Maurit&quot; &quot;Malta&quot; 
+## [134] &quot;Maurit&quot; &quot;Maldiv&quot; &quot;Malawi&quot; &quot;Mexico&quot; &quot;Malays&quot; &quot;Mozamb&quot; &quot;Namibi&quot;
+## [141] &quot;New Ca&quot; &quot;Niger&quot;  &quot;Nigeri&quot; &quot;Nicara&quot; &quot;Nether&quot; &quot;Norway&quot; &quot;Nepal&quot; 
+## [148] &quot;Nauru&quot;  &quot;New Ze&quot; &quot;Oman&quot;   &quot;Panama&quot; &quot;Peru&quot;   &quot;French&quot; &quot;Papua &quot;
+## [155] &quot;Philip&quot; &quot;Pakist&quot; &quot;Poland&quot; &quot;Puerto&quot; &quot;West B&quot; &quot;Portug&quot; &quot;Palau&quot; 
+## [162] &quot;Paragu&quot; &quot;Qatar&quot;  &quot;Romani&quot; &quot;Serbia&quot; &quot;Russia&quot; &quot;Rwanda&quot; &quot;Saudi &quot;
+## [169] &quot;Solomo&quot; &quot;Seyche&quot; &quot;Sudan&quot;  &quot;Sweden&quot; &quot;Singap&quot; &quot;Sloven&quot; &quot;Slovak&quot;
+## [176] &quot;Sierra&quot; &quot;San Ma&quot; &quot;Senega&quot; &quot;Somali&quot; &quot;Surina&quot; &quot;South &quot; &quot;Sao To&quot;
+## [183] &quot;El Sal&quot; &quot;Sint M&quot; &quot;Syrian&quot; &quot;Swazil&quot; &quot;Turks &quot; &quot;Chad&quot;   &quot;Togo&quot;  
+## [190] &quot;Thaila&quot; &quot;Tajiki&quot; &quot;Timor-&quot; &quot;Turkme&quot; &quot;Tunisi&quot; &quot;Tonga&quot;  &quot;Turkey&quot;
+## [197] &quot;Trinid&quot; &quot;Tuvalu&quot; &quot;Tanzan&quot; &quot;Ukrain&quot; &quot;Uganda&quot; &quot;United&quot; &quot;Urugua&quot;
+## [204] &quot;Uzbeki&quot; &quot;St. Vi&quot; &quot;Venezu&quot; &quot;Britis&quot; &quot;Virgin&quot; &quot;Vietna&quot; &quot;Vanuat&quot;
+## [211] &quot;Samoa&quot;  &quot;Yemen,&quot; &quot;South &quot; &quot;Zambia&quot; &quot;Zimbab&quot;</code></pre>
+<p>With that out of the way, there’s still some cleaning up to do. The magnitudes of GDP and population are too large, and the variable names are impenetrable. Also, the <code>country</code> variable, while helpful, is redundant now that we’re satisfied with the list of countries remaining.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat_countries &lt;-<span class="st"> </span>dat_countries %&gt;%
+<span class="st">  </span><span class="kw">select</span>(-country) %&gt;%
+<span class="st">  </span><span class="kw">rename</span>(<span class="dt">gdp =</span> NY.GDP.MKTP.KD,
+         <span class="dt">pop =</span> SP.POP.TOTL,
+         <span class="dt">unemp =</span> SL.UEM.TOTL.ZS,
+         <span class="dt">country =</span> iso2c) %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">gdp =</span> gdp /<span class="st"> </span><span class="fl">1e9</span>,
+         <span class="dt">pop =</span> pop /<span class="st"> </span><span class="fl">1e6</span>)
+
+<span class="kw">head</span>(dat_countries)</code></pre></div>
+<pre><code>##   country year        gdp      pop unemp
+## 1      AD 2005   3.842256 0.081223    NA
+## 2      AD 2006   4.018435 0.083373    NA
+## 3      AD 2007   4.021571 0.084878    NA
+## 4      AD 2008   3.675947 0.085616    NA
+## 5      AE 2005 253.965547 4.481976   3.1
+## 6      AE 2006 278.948950 5.171255   3.3</code></pre>
+<p>Now I convert the data to “long” format.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat_countries_long &lt;-<span class="st"> </span>dat_countries %&gt;%
+<span class="st">  </span><span class="kw">gather</span>(<span class="dt">key =</span> variable,
+         <span class="dt">value =</span> value,
+         gdp:unemp)
+
+<span class="kw">head</span>(dat_countries_long)</code></pre></div>
+<pre><code>##   country year variable      value
+## 1      AD 2005      gdp   3.842256
+## 2      AD 2006      gdp   4.018435
+## 3      AD 2007      gdp   4.021571
+## 4      AD 2008      gdp   3.675947
+## 5      AE 2005      gdp 253.965547
+## 6      AE 2006      gdp 278.948950</code></pre>
+<p>I then smush <code>variable</code> and <code>year</code> into a single column, and drop the individual components.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat_countries_long &lt;-<span class="st"> </span>dat_countries_long %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">var_year =</span> <span class="kw">paste</span>(variable, year, <span class="dt">sep =</span> <span class="st">&quot;.&quot;</span>)) %&gt;%
+<span class="st">  </span><span class="kw">select</span>(-variable, -year)
+
+<span class="kw">head</span>(dat_countries_long)</code></pre></div>
+<pre><code>##   country      value var_year
+## 1      AD   3.842256 gdp.2005
+## 2      AD   4.018435 gdp.2006
+## 3      AD   4.021571 gdp.2007
+## 4      AD   3.675947 gdp.2008
+## 5      AE 253.965547 gdp.2005
+## 6      AE 278.948950 gdp.2006</code></pre>
+<p>Finally, I “widen” the data, so that each <code>var_year</code> is a column of its own.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat_countries_wide &lt;-<span class="st"> </span>dat_countries_long %&gt;%
+<span class="st">  </span><span class="kw">spread</span>(<span class="dt">key =</span> var_year, <span class="dt">value =</span> value)
+
+<span class="kw">head</span>(dat_countries_wide)</code></pre></div>
+<pre><code>##   country   gdp.2005   gdp.2006   gdp.2007   gdp.2008  pop.2005  pop.2006
+## 1      AD   3.842256   4.018435   4.021571   3.675947  0.081223  0.083373
+## 2      AE 253.965547 278.948950 287.831773 297.018892  4.481976  5.171255
+## 3      AF   9.762979  10.305228  11.721188  12.144483 24.399948 25.183615
+## 4      AG   1.119029   1.268714   1.389229   1.390217  0.082565  0.083467
+## 5      AL   9.268393   9.771760  10.348294  11.127520  3.011487  2.992547
+## 6      AM   7.667756   8.679746   9.873142  10.554389  3.014917  3.002161
+##    pop.2007  pop.2008 unemp.2005 unemp.2006 unemp.2007 unemp.2008
+## 1  0.084878  0.085616         NA         NA         NA         NA
+## 2  6.010100  6.900142        3.1        3.3        3.4        4.0
+## 3 25.877544 26.528741        8.5        8.8        8.4        8.9
+## 4  0.084397  0.085350         NA         NA         NA         NA
+## 5  2.970017  2.947314       12.5       12.4       13.5       13.0
+## 6  2.988117  2.975029       27.8       28.6       28.4       16.4</code></pre>
+<p>Now we have some ugly data. I save the output to upload to my website.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">write_csv</span>(dat_countries_wide, <span class="dt">path =</span> <span class="st">&quot;untidy-data.csv&quot;</span>)</code></pre></div>
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-Wickham:2014vp">
+<p>Wickham, Hadley. 2014. “Tidy Data.” <em>Journal of Statistical Software</em> 59 (10).</p>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="4">
+<li id="fn4"><p>Even if it’s data you collected yourself, that data should still have a “canonical” representation that never gets overwritten. See <span class="citation">Leek (<a href="#ref-Leek:2015uw">2015</a>)</span> for more on distributing your own data.<a href="data.html#fnref4">↩</a></p></li>
+<li id="fn5"><p>But not for me, because these tools didn’t exist when I was a PhD student. Also, get off my lawn!<a href="data.html#fnref5">↩</a></p></li>
+<li id="fn6"><p>More precisely, the <strong>readr</strong> functions produce output of class <code>&quot;tbl_df&quot;</code> (pronounced “tibble diff,” I’m told), which are like data frames but better. See <code>help(package = &quot;tibble&quot;)</code> for what can be done with <code>tbl_df</code>s.<a href="data.html#fnref6">↩</a></p></li>
+<li id="fn7"><p>Insert lame joke about how Americanists haven’t heard of other countries. But, seriously, if you’re confused because you haven’t heard of other countries, just think of “state-years”.<a href="data.html#fnref7">↩</a></p></li>
+<li id="fn8"><p>If you are reading the PDF copy of these notes (i.e., the ones I hand out in class), the line breaks are eliminated, making the piped commands rather hard to read. I am working on fixing this. For now, you may find the online notes at <a href="http://bkenkel.com/pdaps" class="uri">http://bkenkel.com/pdaps</a> easier to follow.<a href="data.html#fnref8">↩</a></p></li>
+<li id="fn9"><p><strong>countrycode</strong> is a very useful, albeit imperfect, package for converting between different country naming/coding schemes.<a href="data.html#fnref9">↩</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="programming.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/02-data.Rmd",
+"text": "Edit"
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    if (location.protocol !== "file:" && /^https?:/.test(script.src))
+      script.src  = script.src.replace(/^https?:/, '');
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

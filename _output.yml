@@ -13,4 +13,5 @@ bookdown::pdf_book:
   latex_engine: xelatex
   citation_package: natbib
   keep_tex: yes
+  base_format: bookdown::tufte_book2
 bookdown::epub_book: default

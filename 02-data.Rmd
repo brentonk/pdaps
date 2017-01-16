@@ -1,0 +1,362 @@
+# Working with Data {#data}
+
+```{r, echo=FALSE}
+options(tibble.print_min = 5)
+```
+
+
+*Some material in this chapter is adapted from notes [Matt DiLorenzo](http://mdilorenzo.github.io) wrote for the Spring 2016 session of PSCI 8357.*
+
+Let me repeat something I said last week.  In your careers as social scientists, starting with your dissertation research---if not earlier---you will probably spend more time collecting, merging, and cleaning data than you will on statistical analysis.  So it's worth taking some time to learn how to do this well.
+
+Best practices for data management can be summarized in a single sentence: *Record and document everything you do to the data.*
+
+The first corollary of this principle is that raw data is sacrosanct.  You should never edit raw data "in place".  Once you download the raw data file, that file should never change.[^own-data]
+
+[^own-data]: Even if it's data you collected yourself, that data should still have a "canonical" representation that never gets overwritten.  See @Leek:2015uw for more on distributing your own data.
+
+In almost any non-trivial analysis, the "final" data---the format you plug into your analysis---will differ significantly from the raw data.  It may consist of information merged from multiple sources.  The variables may have been transformed, aggregated, or otherwise altered.  The unit of observation may even differ from the original source.  You must document every one of these changes, so that another researcher working from the exact same raw data will end up with the exact same final data.
+
+The most sensible way to achieve this level of reproducibility is to do all of your data merging and cleaning in a script.  In other words, no going into Excel and mucking around manually.  Like any other piece of your analysis, your pipeline from raw data to final data should follow the [principles of programming](#programming) that we discussed last week.
+
+Luckily for you,[^old-man] the **tidyverse** suite of R packages (including **dplyr**, **tidyr**, and others) makes it easy to script your "data pipeline".  We'll begin by loading the package.
+
+```{r tidyverse, message=FALSE}
+library("tidyverse")
+```
+
+[^old-man]: But not for me, because these tools didn't exist when I was a PhD student.  Also, get off my lawn!
+
+
+## Loading
+
+The first step in working with data is to acquire some data.  Depending on the nature of your research, you will be getting some or all of your data from sources available online.  When you download data from online repositories, you should keep track of where you got it from.  The best way to do so is---you guessed it---to script your data acquisition.
+
+The R function `download.file()` is the easiest way to download files from URLs from within R.  Just specify where you're getting the file from and where you want it to go.  For the examples today, we'll use an "untidied" version of the World Development Indicators data from the World Bank that I've posted to my website.
+
+```{r download}
+download.file(url = "http://bkenkel.com/data/untidy-data.csv",
+              destfile = "my-untidy-data.csv")
+```
+
+Once you've got the file stored locally, use the utilities from the **readr** package (part of **tidyverse**) to read it into R as a data frame.[^data-frame]  We have a CSV file, so we will use `read_csv`.  See `help(package = "readr")` for other possibilities.
+
+[^data-frame]: More precisely, the **readr** functions produce output of class `"tbl_df"` (pronounced "tibble diff," I'm told), which are like data frames but better.  See `help(package = "tibble")` for what can be done with `tbl_df`s.
+
+```{r read-csv}
+untidy_data <- read_csv(file = "my-untidy-data.csv")
+```
+
+Remember that each column of a data frame might be a different type, or more formally *class*, of object.  `read_csv` and its ilk try to guess the type of data each column contains: character, integer, decimal number ("double" in programming-speak), or something else.  The readout above tells you what guesses it made.  If it gets something wrong---say, reading a column as numbers that ought to be characters---you can use the `col_types` argument to set it straight.
+
+FYI, you could also run `read_csv()` directly on a URL, as in:
+
+```{r read-csv-url, eval=FALSE}
+read_csv("http://bkenkel.com/data/untidy-data.csv")
+```
+
+However, in analyses intended for publication, it's usually preferable to download and save the raw data.  What's stored at a URL might change or disappear, and you'll need to have a hard copy of the raw data for replication purposes.
+
+Now let's take a look at the data we've just loaded in.
+
+```{r head-untidy-data}
+head(untidy_data)
+```
+
+We have a `country` variable giving country abbreviations.  The other variables are numerical values: the country's GDP in 2005, 2006, 2007, and 2008; then the same for population and unemployment.  Let's get this into a format we could use for analysis.
+
+
+## Tidying
+
+@Wickham:2014vp outlines three qualities that make data "tidy":
+
+1. Each variable forms a column.
+2. Each observation forms a row.
+3. Each type of observational unit forms a table.
+
+For one thing, this means that whether a dataset is tidy or not depends---at least in part (some data collections are messy from any angle)---on the purpose it's being analyzed for.
+
+Each row of `untidy_data` is a country.  In observational studies in comparative politics and international relations, more commonly the unit of observation is the country-year.[^americanists]  How can we take `untidy_data` and easily make it into country-year data?
+
+[^americanists]: Insert lame joke about how Americanists haven't heard of other countries.  But, seriously, if you're confused because you haven't heard of other countries, just think of "state-years".
+
+We'll use the **tidyr** package (again, part of **tidyverse**) to clean up this data.  The biggest problem right now is that each column, besides the country identifier, really encodes two pieces of information: the year of observation and the variable being observed.  To deal with this, we'll have to first transform the data from one untidy format to another.  We're going to use the `gather()` function to make each row a country-year-variable.
+
+What `gather()` does is make a row for each entry from a set of columns.  It's probably easiest to understand it by seeing it in practice:
+
+```{r gather}
+long_data <- gather(untidy_data,
+                    key = variable,
+                    value = number,
+                    gdp.2005:unemp.2008)
+head(long_data)
+```
+
+With the first argument, we told `gather()` to use the `untidy_data` data frame.  With the last argument, we told it the set of columns to "gather" together into a single column.  The `key` column specifies the name of the variable to store the "key" (original column name) in, and the `value` column specifies the name of the variable to store the associated value.  For example, the second row of `long_data` encodes what we previously saw as the `gdp.2005` column of `untidy_data`.
+
+Now we have a new problem, which is that `variable` encodes two pieces of information: the variable and the year of its observation.  **tidyr** provides the `separate()` function to solve that, splitting a single variable into two.
+
+```{r separate}
+long_data <- separate(long_data,
+                      col = variable,
+                      into = c("var", "year"))
+head(long_data)
+```
+
+So now we have country-year-variable data, with the year and variable conveniently stored in different columns.  To turn this into country-year data, we can use the `spread()` function, which is like the inverse of `gather()`.  `spread()` takes a key column and a value column, and turns each different key into a column of its own.
+
+```{r spread}
+clean_data <- spread(long_data,
+                    key = var,
+                    value = number)
+head(clean_data)
+```
+
+When using `spread()` on data that you didn't previously `gather()`, be sure to set the `fill` argument to tell it how to fill in empty cells.  A simple example:
+
+```{r make-test-data, echo=FALSE}
+test_data <- tribble(
+  ~id, ~k, ~v,
+  "brenton", "a", 10,
+  "brenton", "b", 20,
+  "patrick", "b", 5
+)
+```
+
+```{r spread-fill}
+test_data
+spread(test_data, key = k, value = v)
+spread(test_data, key = k, value = v, fill = 100)
+```
+
+One more important note on **tidyverse** semantics.  It includes a fabulous feature called the *pipe*, `%>%`, which makes it easy to string together a truly mind-boggling number of commands.
+
+In pipe syntax, `x %>% f()` is equivalent to `f(x)`.  That seems like a wasteful and confusing way to write `f(x)`, and it is.  But if you want to string together a bunch of commands, it's much easier to comprehend
+
+```{r pipe-example, eval=FALSE}
+x %>%
+  f() %>%
+  g() %>%
+  h() %>%
+  i()
+```
+
+than `i(h(g(f(x))))`.
+
+You can pass function arguments using the pipe too.  For example, `f(x, bear = "moose")` is equivalent to `x %>% f(bear = "moose")`.
+
+The key thing about the **tidyverse** functions is that each of them takes a data frame as its first argument, and returns a data frame as its output.  This makes them highly amenable to piping.  For example, we can combine all three steps of our tidying above with a single command, thanks to the pipe:[^pdf-copy]
+
+[^pdf-copy]: If you are reading the PDF copy of these notes (i.e., the ones I hand out in class), the line breaks are eliminated, making the piped commands rather hard to read.  I am working on fixing this.  For now, you may find the online notes at <http://bkenkel.com/pdaps> easier to follow.
+
+```{r pipe}
+untidy_data %>%
+  gather(key = variable,
+         value = number,
+         gdp.2005:unemp.2008) %>%
+  separate(col = variable,
+           into = c("var", "year")) %>%
+  spread(key = var,
+         value = number)
+```
+
+Without the pipe, if we wanted to run all those commands together, we would have to write:
+
+```{r pipeless, eval=FALSE}
+spread(separate(gather(untidy_data,
+                       key = variable,
+                       value = number,
+                       gdp.2005:unemp.2008),
+                col = variable,
+                into = c("var", "year")),
+       key = var,
+       value = number)
+```
+
+Sad!
+
+
+## Transforming and Aggregating
+
+Tidying the data usually isn't the end of the process.  If you want to perform further calculations on the raw, that's where the tools in **dplyr** (part of, you guessed it, the **tidyverse**) come in.
+
+Perhaps the simplest **dplyr** function (or "verb", as the R hipsters would say) is `rename()`, which lets you rename columns.
+
+```{r rename}
+clean_data %>%
+  rename(gross_domestic_product = gdp)
+```
+
+The **dplyr** functions, like the vast majority of R functions, do not modify their inputs.  In other words, running `rename()` on `clean_data` will return a renamed copy of `clean_data`, but won't overwrite the original.
+
+```{r no-side-effects}
+clean_data
+```
+
+If you wanted to make the change stick, you would have to run:
+
+```{r rename-forever, eval=FALSE}
+clean_data <- clean_data %>%
+  rename(gross_domestic_product = gdp)
+```
+
+`select()` lets you keep a couple of columns and drop all the others.  Or vice versa if you use minus signs.
+
+```{r select}
+clean_data %>%
+  select(country, gdp)
+
+clean_data %>%
+  select(-pop)
+```
+
+`mutate()` lets you create new variables that are transformations of old ones.
+
+```{r mutate}
+clean_data %>%
+  mutate(gdppc = gdp / pop,
+         log_gdppc = log(gdppc))
+```
+
+`filter()` cuts down the data according to the logical condition(s) you specify.
+
+```{r filter}
+clean_data %>%
+  filter(year == 2006)
+```
+
+`summarise()` calculates summaries of the data.  For example, let's find the maximum unemployment rate.
+
+```{r summarise}
+clean_data %>%
+  summarise(max_unemp = max(unemp, na.rm = TRUE))
+```
+
+This seems sort of useless, until you combine it with the `group_by()` function.  If you group the data before `summarise`-ing it, you'll calculate a separate summary for each group.  For example, let's calculate the maximum unemployment rate for each year in the data.
+
+```{r grouped-summarise}
+clean_data %>%
+  group_by(year) %>%
+  summarise(max_unemp = max(unemp, na.rm = TRUE))
+```
+
+`summarise()` produces a "smaller" data frame than the input---one row per group.  If you want to do something similar, but preserving the structure of the original data, use `mutate` in combination with `group_by`.
+
+```{r grouped-mutate}
+clean_data %>%
+  group_by(year) %>%
+  mutate(max_unemp = max(unemp, na.rm = TRUE),
+         unemp_over_max = unemp / max_unemp) %>%
+  select(country, year, contains("unemp"))
+```
+
+This gives us back the original data, but with a `max_unemp` variable recording the highest unemployment level that year.  We can then calculate each individual country's unemployment as a percentage of the maximum.  Whether grouped `mutate` or `summarise` is better depends, of course, on the purpose and structure of your analysis.
+
+Notice how I selected all of the unemployment-related columns with `contains("unemp")`.  See `?select_helpers` for a full list of helpful functions like this for `select`-ing variables.
+
+
+## Appendix: Creating the Example Data
+
+I used the same tools this chapter introduces to create the untidy data.  I may as well include the code to do it, in case it helps further illustrate how to use the **tidyverse** tools (and, as a bonus, the **WDI** package for downloading World Development Indicators data).
+
+First I load the necessary packages.
+
+```{r appendix-pkgs, message=FALSE}
+library("tidyverse")
+library("WDI")
+library("countrycode")
+library("stringr")
+```
+
+Next, I download the relevant WDI data.  I used the `WDIsearch()` function to locate the appropriate indicator names.
+
+```{r wdi-download}
+dat_raw <- WDI(country = "all",
+               indicator = c("NY.GDP.MKTP.KD",  # GDP in 2000 USD
+                             "SP.POP.TOTL",     # Total population
+                             "SL.UEM.TOTL.ZS"), # Unemployment rate
+               start = 2005,
+               end = 2008)
+
+head(dat_raw)
+```
+
+I want to get rid of the aggregates, like the "Arab World" and "World" we see here.  As a rough tack at that, I'm going to exclude those so-called countries whose ISO codes don't appear in the **countrycode** package data.[^countrycode]
+
+[^countrycode]: **countrycode** is a very useful, albeit imperfect, package for converting between different country naming/coding schemes.
+
+```{r exclude-aggregates}
+dat_countries <- dat_raw %>%
+  filter(iso2c %in% countrycode_data$iso2c)
+```
+
+Let's check on which countries are left.  (I cut it down to max six characters per country name for printing purposes.)
+
+```{r check-no-aggregates}
+dat_countries$country %>%
+  unique() %>%
+  str_sub(start = 1, end = 6)
+```
+
+With that out of the way, there's still some cleaning up to do.  The magnitudes of GDP and population are too large, and the variable names are impenetrable.  Also, the `country` variable, while helpful, is redundant now that we're satisfied with the list of countries remaining.
+
+```{r wdi-clean}
+dat_countries <- dat_countries %>%
+  select(-country) %>%
+  rename(gdp = NY.GDP.MKTP.KD,
+         pop = SP.POP.TOTL,
+         unemp = SL.UEM.TOTL.ZS,
+         country = iso2c) %>%
+  mutate(gdp = gdp / 1e9,
+         pop = pop / 1e6)
+
+head(dat_countries)
+```
+
+Now I convert the data to "long" format.
+
+```{r wdi-to-long}
+dat_countries_long <- dat_countries %>%
+  gather(key = variable,
+         value = value,
+         gdp:unemp)
+
+head(dat_countries_long)
+```
+
+I then smush `variable` and `year` into a single column, and drop the individual components.
+
+```{r wdi-smush}
+dat_countries_long <- dat_countries_long %>%
+  mutate(var_year = paste(variable, year, sep = ".")) %>%
+  select(-variable, -year)
+
+head(dat_countries_long)
+```
+
+Finally, I "widen" the data, so that each `var_year` is a column of its own.
+
+```{r wdi-widen}
+dat_countries_wide <- dat_countries_long %>%
+  spread(key = var_year, value = value)
+
+head(dat_countries_wide)
+```
+
+Now we have some ugly data.  I save the output to upload to my website.
+
+```{r wdi-save}
+write_csv(dat_countries_wide, path = "untidy-data.csv")
+```
+
+
+
+
+
+
+
+
+
+
+
+

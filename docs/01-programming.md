@@ -87,24 +87,33 @@ Here's what we would need to do to see the CLT in practice.  We'd want to take a
 
 First things first.  We can use the `rpois` function to draw a random sample of $N$ numbers from the Poisson distribution.
 
-```{r set-seed, echo=FALSE}
-set.seed(22)
-```
 
-```{r runif}
+
+
+```r
 samp <- rpois(10, lambda = 3)
 samp
 ```
 
+```
+##  [1] 2 3 8 3 5 4 3 4 2 2
+```
+
 To calculate the sample mean, we simply use the `mean` function.
 
-```{r mean}
+
+```r
 mean(samp)
+```
+
+```
+## [1] 3.6
 ```
 
 We are interested in the distribution of the sample mean across many samples like this one.  To begin, we will write a **function** that automates our core task---drawing a sample of $N$ observations from Poisson(3) and calculating the sample mean.  A function consists of a set of *arguments* (the inputs) and a *body* of code specifying which calculations to perform on the inputs to produce the output.
 
-```{r function-ex}
+
+```r
 pois_mean <- function(n_obs) {
   samp <- rpois(n_obs, lambda = 3)
   ans <- mean(samp)
@@ -116,15 +125,35 @@ This code creates a function called `pois_mean`.  It has a single argument, call
 
 Let's try calling this function a few times, each with a sample size of $N = 30$.  Your output will differ slightly from what's printed here, since the function is generating random numbers.
 
-```{r try-pois-mean}
+
+```r
 pois_mean(n_obs = 30)
+```
+
+```
+## [1] 3.033333
+```
+
+```r
 pois_mean(n_obs = 30)
+```
+
+```
+## [1] 2.466667
+```
+
+```r
 pois_mean(n_obs = 30)
+```
+
+```
+## [1] 2.966667
 ```
 
 Remember that what we're interested in is the *sampling distribution* of the sample mean---the distribution of the sample mean across every possible sample of $N$ observations.  We can approximate this distribution by running `pois_mean` many times (e.g., 1000 or more).  This would be infeasible via copy-paste.  Instead, we will use a **for loop**.
 
-```{r for-ex}
+
+```r
 # Set up a vector to store the output
 n_replicates <- 1000
 sampling_dist <- rep(NA, n_replicates)
@@ -138,15 +167,33 @@ Here's how the for loop works.  We specified `i` as the name of the index variab
 
 Let's take a look at the results and compare them to our expectations.
 
-```{r sampling-dist-results}
+
+```r
 mean(sampling_dist)  # Expect 3
+```
+
+```
+## [1] 2.995167
+```
+
+```r
 var(sampling_dist)  # Expect 1/10
+```
+
+```
+## [1] 0.09694358
+```
+
+```r
 hist(sampling_dist)  # Expect roughly normal
 ```
 
+<img src="01-programming_files/figure-html/sampling-dist-results-1.png" width="672" />
+
 For loops are fun, but don't overuse them.  Many simple operations are **vectorized** and don't require a loop.  For example, suppose you want to take the square of a sequence of numbers.  You could use a for loop ...
 
-```{r square-for}
+
+```r
 input <- c(1, 3, 7, 29)
 output <- rep(NA, length(input))
 
@@ -157,18 +204,28 @@ for (i in 1:length(input)) {
 output
 ```
 
+```
+## [1]   1   9  49 841
+```
+
 
 ... but it's faster (in terms of computational speed) and easier to just take advantage of vectorization:
 
-```{r square-vectorized}
+
+```r
 input^2
+```
+
+```
+## [1]   1   9  49 841
 ```
 
 Another useful piece of control flow is **if/else statements**.  These check a logical condition---an expression whose value is `TRUE` or `FALSE`---and run different code depending on the value of the expression.  (You may want to catch up on the comparison operators: `==`, `>`, `>=`, `<`, `<=`, etc.)
 
 Let's edit the `pois_mean` function to allow us to calculate the median instead of the mean.  We'll add a second argument to the function, and implement the option using an if/else statement.
 
-```{r pois-mean-median}
+
+```r
 pois_mean <- function(n_obs, use_median = FALSE) {
   samp <- rpois(n_obs, lambda = 3)
   if (use_median) {
@@ -182,20 +239,44 @@ pois_mean <- function(n_obs, use_median = FALSE) {
 
 A couple of things to notice about the structure of the function.  We use a comma to separate multiple function arguments.  Also, we've specified `FALSE` as the *default* for the `use_median` argument.  If we call the function without explicitly specifying a value for `use_median`, the function sets it to `FALSE`.
 
-```{r call-pois-mean-median}
+
+```r
 pois_mean(n_obs = 9)
+```
+
+```
+## [1] 3.777778
+```
+
+```r
 pois_mean(n_obs = 9, use_median = TRUE)
+```
+
+```
+## [1] 2
+```
+
+```r
 pois_mean(n_obs = 9, use_median = FALSE)
+```
+
+```
+## [1] 2.666667
 ```
 
 There is a vectorized version of if/else statements called, naturally, the `ifelse` function.  This function takes three arguments, each a vector of the same length: (1) a logical condition, (2) an output value if the condition is `TRUE`, (3) an output value if the condition is `FALSE`.
 
-```{r ifelse}
+
+```r
 x <- 1:10
 big_x <- x * 100
 small_x <- x * -100
 
 ifelse(x > 5, big_x, small_x)
+```
+
+```
+##  [1] -100 -200 -300 -400 -500  600  700  800  900 1000
 ```
 
 Functions, for loops, and if/else statements are just a few of the useful tools for programming in R.[^programming]  But even these simple tools are enough to allow you to do much more at scale than you could with a copy-paste philosophy.

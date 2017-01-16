@@ -26,7 +26,7 @@
 <meta name="author" content="Brenton Kenkel">
 
 
-<meta name="date" content="2017-01-12">
+<meta name="date" content="2017-01-16">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -105,11 +105,16 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> About This Book</a></li>
-<li class="chapter" data-level="2" data-path="principles.html"><a href="principles.html"><i class="fa fa-check"></i><b>2</b> Principles of Programming</a><ul>
-<li class="chapter" data-level="2.1" data-path="principles.html"><a href="principles.html#write-programs-for-people-not-computers"><i class="fa fa-check"></i><b>2.1</b> Write Programs for People, Not Computers</a></li>
-<li class="chapter" data-level="2.2" data-path="principles.html"><a href="principles.html#let-the-computer-do-the-work"><i class="fa fa-check"></i><b>2.2</b> Let the Computer Do the Work</a></li>
+<li class="chapter" data-level="2" data-path="programming.html"><a href="programming.html"><i class="fa fa-check"></i><b>2</b> Principles of Programming</a><ul>
+<li class="chapter" data-level="2.1" data-path="programming.html"><a href="programming.html#write-programs-for-people-not-computers"><i class="fa fa-check"></i><b>2.1</b> Write Programs for People, Not Computers</a></li>
+<li class="chapter" data-level="2.2" data-path="programming.html"><a href="programming.html#let-the-computer-do-the-work"><i class="fa fa-check"></i><b>2.2</b> Let the Computer Do the Work</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>3</b> Working with Data</a></li>
+<li class="chapter" data-level="3" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>3</b> Working with Data</a><ul>
+<li class="chapter" data-level="3.1" data-path="data.html"><a href="data.html#loading"><i class="fa fa-check"></i><b>3.1</b> Loading</a></li>
+<li class="chapter" data-level="3.2" data-path="data.html"><a href="data.html#tidying"><i class="fa fa-check"></i><b>3.2</b> Tidying</a></li>
+<li class="chapter" data-level="3.3" data-path="data.html"><a href="data.html#transforming-and-aggregating"><i class="fa fa-check"></i><b>3.3</b> Transforming and Aggregating</a></li>
+<li class="chapter" data-level="3.4" data-path="data.html"><a href="data.html#appendix-creating-the-example-data"><i class="fa fa-check"></i><b>3.4</b> Appendix: Creating the Example Data</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -131,7 +136,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="principles" class="section level1">
+<div id="programming" class="section level1">
 <h1><span class="header-section-number">2</span> Principles of Programming</h1>
 <p>It may seem strange to begin a statistics class with two weeks on programming. It is strange. Here is why I have made this strange choice.</p>
 <p>First, as a working social scientist, most of the time you spend on data analysis won’t be on the <em>analysis</em> part. It’ll be on obtaining and cleaning the data, to get it in a form that makes sense to analyze. Good programming skills will let you spend less time cleaning data and more time publishing papers.</p>
@@ -272,18 +277,18 @@ small_x &lt;-<span class="st"> </span>x *<span class="st"> </span>-<span class="
 <h3>References</h3>
 <div id="refs" class="references">
 <div id="ref-Bowers:2011ua">
-<p>Bowers, Jake. 2011. “Six Steps to a Better Relationship with Your Future Self.” <em>The Political Methodologist</em>.</p>
+<p>Bowers, Jake. 2011. “Six Steps to a Better Relationship with Your Future Self.” <em>The Political Methodologist</em> 18 (2): 2–8.</p>
 </div>
 <div id="ref-Wilson:2014ck">
-<p>Wilson, Greg, D A Aruliah, C Titus Brown, Neil P Chue Hong, Matt Davis, Richard T Guy, Steven H D Haddock, et al. 2014. “Best Practices for Scientific Computing.” <em>PLOS Biology</em>.</p>
+<p>Wilson, Greg, D A Aruliah, C Titus Brown, Neil P Chue Hong, Matt Davis, Richard T Guy, Steven H D Haddock, et al. 2014. “Best Practices for Scientific Computing.” <em>PLOS Biology</em> 12 (1): e1001745.</p>
 </div>
 </div>
 <div class="footnotes">
 <hr />
 <ol start="1">
-<li id="fn1"><p>Or whatever other social science field.<a href="principles.html#fnref1">↩</a></p></li>
-<li id="fn2"><p>There could be statistical problems with this kind of analysis, at least if the subgroups were specified <em>post hoc</em>. See <a href="https://xkcd.com/882/" class="uri">https://xkcd.com/882/</a> (“Significant”). We’re going to leave this issue aside for now, but we’ll return to it later when we discuss the statistical crisis in science.<a href="principles.html#fnref2">↩</a></p></li>
-<li id="fn3"><p>Others include the <code>replicate</code> function, the <code>apply</code> family of functions (<code>sapply</code>, <code>lapply</code>, <code>tapply</code>, <code>mapply</code>, …), the <strong>foreach</strong> package, the <strong>purrr</strong> package, just to name a few of the most useful off the top of my head.<a href="principles.html#fnref3">↩</a></p></li>
+<li id="fn1"><p>Or whatever other social science field.<a href="programming.html#fnref1">↩</a></p></li>
+<li id="fn2"><p>There could be statistical problems with this kind of analysis, at least if the subgroups were specified <em>post hoc</em>. See <a href="https://xkcd.com/882/" class="uri">https://xkcd.com/882/</a> (“Significant”). We’re going to leave this issue aside for now, but we’ll return to it later when we discuss the statistical crisis in science.<a href="programming.html#fnref2">↩</a></p></li>
+<li id="fn3"><p>Others include the <code>replicate</code> function, the <code>apply</code> family of functions (<code>sapply</code>, <code>lapply</code>, <code>tapply</code>, <code>mapply</code>, …), the <strong>foreach</strong> package, the <strong>purrr</strong> package, just to name a few of the most useful off the top of my head.<a href="programming.html#fnref3">↩</a></p></li>
 </ol>
 </div>
             </section>

@@ -1,12 +1,11 @@
 --- 
 title: "Practical Data Analysis for Political Scientists"
 author: "Brenton Kenkel"
-date: "`r Sys.Date()`"
+date: "2017-01-12"
 site: bookdown::bookdown_site
 output: bookdown::gitbook
 documentclass: book
 fontsize: 12pt
-classoption: oneside,openany
 bibliography: [book.bib, packages.bib, psci-8357.bib]
 biblio-style: apalike
 link-citations: yes
