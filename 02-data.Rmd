@@ -112,6 +112,11 @@ clean_data <- spread(long_data,
 head(clean_data)
 ```
 
+```{r save-clean-data, echo=FALSE}
+write_csv(clean_data, path = "clean-data.csv")
+```
+
+
 When using `spread()` on data that you didn't previously `gather()`, be sure to set the `fill` argument to tell it how to fill in empty cells.  A simple example:
 
 ```{r make-test-data, echo=FALSE}
@@ -255,6 +260,116 @@ This gives us back the original data, but with a `max_unemp` variable recording 
 Notice how I selected all of the unemployment-related columns with `contains("unemp")`.  See `?select_helpers` for a full list of helpful functions like this for `select`-ing variables.
 
 
+## Merging
+
+Only rarely will you be lucky enough to draw all your data from a single source.  More often, you'll be merging together data from multiple sources.
+
+The key to merging data from separate tables is to have consistent identifiers across tables.  For example, if you run an experiment, you might have demographic data on each subject in one table, and each subject's response to each treatment in another table.  Naturally, you'll want to have a subject identifier that "links" the records across tables, as in the following hypothetical example.
+
+```{r faux-experimental-data, echo=FALSE}
+subject_data <- tribble(
+  ~id, ~gender, ~loves_bernie, ~does_yoga,
+  1001, "male", "yes", "no",
+  1002, "female", "no", "yes",
+  1003, "male", "no", "no"
+)
+
+subject_response_data <- tribble(
+  ~id, ~treatment, ~response,
+  1001, "read_book", "sad",
+  1001, "watch_tv", "sad",
+  1002, "read_book", "happy",
+  1002, "watch_tv", "sad",
+  1003, "read_book", "sad",
+  1003, "watch_tv", "happy"
+)
+```
+
+```{r print-faux-data}
+subject_data
+subject_response_data
+```
+
+Let's practice merging data with our cleaned-up country-year data.  We'll take two datasets from my website: a country-level dataset with latitudes and longitudes, and a country-year--level dataset with inflation over time.
+
+```{r get-supplemental-data, message=FALSE}
+latlong_data <- read_csv("http://bkenkel.com/data/latlong.csv")
+latlong_data
+inflation_data <- read_csv("http://bkenkel.com/data/inflation.csv")
+inflation_data
+```
+
+For your convenience, both of these datasets use the same two-letter country naming scheme as the original data.  Unfortunately, out in the real world, data from different sources often use incommensurate naming schemes.  Converting from one naming scheme to another is part of the data cleaning process, and it requires careful attention.
+
+**dplyr** contains various `_join()` functions for merging.  Each of these take as arguments the two data frames to merge, plus the names of the identifier variables to merge them on.  The one I use most often is `left_join()`, which keeps every row from the first ("left") data frame and merges in the columns from the second ("right") data frame.
+
+For example, let's merge the latitude and longitude data for each country into `clean_data`.
+
+```{r merge-country}
+left_join(clean_data,
+          latlong_data,
+          by = "country")
+```
+
+Since `latlong_data` is country-level, the value is the same for each year.  So the merged data contains redundant information.  This is one reason to store data observed at different levels in different tables---with redundant observations, it is easier to make errors yet harder to catch them and fix them.
+
+We can also merge data when the identifier is stored across multiple columns, as in the case of our country-year data.  But first, a technical note.[^post-hoc-download]  You might notice that the `year` column of `clean_data` is labeled `<chr>`, as in character data.  Yet the `year` column of `inflation_data` is labeled `<int>`, as in integer data.  We can check that by running `class()` on each respective column.
+
+[^post-hoc-download]: This won't be the case if you got `clean_data` by loading it in directly from `clean-data.csv` on my website, since `read_csv()` will have correctly encoded `year` as an integer.
+
+```{r check-specs}
+class(clean_data$year)
+class(inflation_data$year)
+```
+
+From R's perspective, the character string `"1999"` is a very different thing than the integer number `1999`.  Therefore, if we try to merge `clean_data` and `inflation_data` on the `year` variable, it will throw an error.
+
+```{r bad-merge, error=TRUE}
+left_join(clean_data,
+          inflation_data,
+          by = c("country", "year"))
+```
+
+To fix this, let's use `mutate()` to convert the `year` column of `clean_data` to an integer.  We probably should have done this in the first place---after all, having the year encoded as a character string would have thrown off plotting functions, statistical functions, or anything else where it would be more natural to treat the year like a number.
+
+```{r year-to-integer}
+clean_data <- mutate(clean_data,
+                     year = as.integer(year))
+clean_data
+```
+
+Looks the same as before, except with an important difference: `year` is now labeled `<int>`.
+
+Now we can merge the two datasets together without issue.  Notice how we use a vector in the `by` argument to specify multiple columns to merge on.
+
+```{r merge-country-year}
+left_join(clean_data,
+          inflation_data,
+          by = c("country", "year"))
+```
+
+You might remember that `inflation_data` contained some country-years not included in the original data (namely, observations from 2004).  If we want the merged data to use the observations from `inflation_data` rather than `clean_data`, we can use the `right_join()` function.
+
+```{r right-join}
+right_join(clean_data,
+           inflation_data,
+           by = c("country", "year"))
+```
+
+One last common issue in merging is that the identifier variables have different names in the two datasets.  If it's inconvenient or infeasible to correct this by renaming the columns in one or the other, you can specify the `by` argument as in the following example.
+
+```{r merge-different-names}
+inflation_data <- rename(inflation_data,
+                         the_country = country,
+                         the_year = year)
+inflation_data
+
+left_join(clean_data,
+          inflation_data,
+          by = c("country" = "the_country", "year" = "the_year"))
+```
+
+
 ## Appendix: Creating the Example Data
 
 I used the same tools this chapter introduces to create the untidy data.  I may as well include the code to do it, in case it helps further illustrate how to use the **tidyverse** tools (and, as a bonus, the **WDI** package for downloading World Development Indicators data).
@@ -349,7 +464,24 @@ Now we have some ugly data.  I save the output to upload to my website.
 write_csv(dat_countries_wide, path = "untidy-data.csv")
 ```
 
+And here's how I made the second country-year dataset used in the merging section.  The country dataset with latitudes and longitudes is from <https://developers.google.com/public-data/docs/canonical/countries_csv>.
 
+```{r make-country-year}
+dat_2 <-
+  WDI(country = "all",
+      indicator = "FP.CPI.TOTL.ZG",
+      start = 2004,
+      end = 2008) %>%
+  as_data_frame() %>%
+  select(country = iso2c,
+         year,
+         inflation = FP.CPI.TOTL.ZG) %>%
+  mutate(year = as.integer(year)) %>%
+  filter(country %in% clean_data$country) %>%
+  arrange(country, year)
+
+write_csv(dat_2, path = "inflation.csv")
+```
 
 
 

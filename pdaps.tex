@@ -104,7 +104,7 @@
 % title / author / date
 \title{Practical Data Analysis for Political Scientists}
 \author{Brenton Kenkel}
-\date{2017-01-16}
+\date{2017-01-18}
 
 \usepackage{booktabs}
 
@@ -1201,6 +1201,309 @@ Notice how I selected all of the unemployment-related columns with
 \texttt{contains("unemp")}. See \texttt{?select\_helpers} for a full
 list of helpful functions like this for \texttt{select}-ing variables.
 
+\section{Merging}\label{merging}
+
+Only rarely will you be lucky enough to draw all your data from a single
+source. More often, you'll be merging together data from multiple
+sources.
+
+The key to merging data from separate tables is to have consistent
+identifiers across tables. For example, if you run an experiment, you
+might have demographic data on each subject in one table, and each
+subject's response to each treatment in another table. Naturally, you'll
+want to have a subject identifier that ``links'' the records across
+tables, as in the following hypothetical example.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{subject_data}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 3 × 4
+##      id gender loves_bernie does_yoga
+##   <dbl>  <chr>        <chr>     <chr>
+## 1  1001   male          yes        no
+## 2  1002 female           no       yes
+## 3  1003   male           no        no
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{subject_response_data}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6 × 3
+##      id treatment response
+##   <dbl>     <chr>    <chr>
+## 1  1001 read_book      sad
+## 2  1001  watch_tv      sad
+## 3  1002 read_book    happy
+## 4  1002  watch_tv      sad
+## 5  1003 read_book      sad
+## 6  1003  watch_tv    happy
+\end{verbatim}
+
+Let's practice merging data with our cleaned-up country-year data. We'll
+take two datasets from my website: a country-level dataset with
+latitudes and longitudes, and a country-year--level dataset with
+inflation over time.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{latlong_data <-}\StringTok{ }\KeywordTok{read_csv}\NormalTok{(}\StringTok{"http://bkenkel.com/data/latlong.csv"}\NormalTok{)}
+\NormalTok{latlong_data}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 245 × 3
+##   country latitude longitude
+##     <chr>    <dbl>     <dbl>
+## 1      AD   42.546    1.6016
+## 2      AE   23.424   53.8478
+## 3      AF   33.939   67.7100
+## 4      AG   17.061  -61.7964
+## 5      AI   18.221  -63.0686
+## # ... with 240 more rows
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{inflation_data <-}\StringTok{ }\KeywordTok{read_csv}\NormalTok{(}\StringTok{"http://bkenkel.com/data/inflation.csv"}\NormalTok{)}
+\NormalTok{inflation_data}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 1,070 × 3
+##   country  year inflation
+##     <chr> <int>     <dbl>
+## 1      AD  2004        NA
+## 2      AD  2005        NA
+## 3      AD  2006        NA
+## 4      AD  2007        NA
+## 5      AD  2008        NA
+## # ... with 1,065 more rows
+\end{verbatim}
+
+For your convenience, both of these datasets use the same two-letter
+country naming scheme as the original data. Unfortunately, out in the
+real world, data from different sources often use incommensurate naming
+schemes. Converting from one naming scheme to another is part of the
+data cleaning process, and it requires careful attention.
+
+\textbf{dplyr} contains various \texttt{\_join()} functions for merging.
+Each of these take as arguments the two data frames to merge, plus the
+names of the identifier variables to merge them on. The one I use most
+often is \texttt{left\_join()}, which keeps every row from the first
+(``left'') data frame and merges in the columns from the second
+(``right'') data frame.
+
+For example, let's merge the latitude and longitude data for each
+country into \texttt{clean\_data}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{left_join}\NormalTok{(clean_data, latlong_data, }\DataTypeTok{by =} \StringTok{"country"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 860 × 7
+##   country  year      gdp      pop unemp
+##     <chr> <chr>    <dbl>    <dbl> <dbl>
+## 1      AD  2005   3.8423 0.081223    NA
+## 2      AD  2006   4.0184 0.083373    NA
+## 3      AD  2007   4.0216 0.084878    NA
+## 4      AD  2008   3.6759 0.085616    NA
+## 5      AE  2005 253.9655 4.481976   3.1
+## # ... with 855 more rows, and 2 more
+## #   variables: latitude <dbl>,
+## #   longitude <dbl>
+\end{verbatim}
+
+Since \texttt{latlong\_data} is country-level, the value is the same for
+each year. So the merged data contains redundant information. This is
+one reason to store data observed at different levels in different
+tables---with redundant observations, it is easier to make errors yet
+harder to catch them and fix them.
+
+We can also merge data when the identifier is stored across multiple
+columns, as in the case of our country-year data. But first, a technical
+note.\footnote{This won't be the case if you got \texttt{clean\_data} by
+  loading it in directly from \texttt{clean-data.csv} on my website,
+  since \texttt{read\_csv()} will have correctly encoded \texttt{year}
+  as an integer.} You might notice that the \texttt{year} column of
+\texttt{clean\_data} is labeled \texttt{\textless{}chr\textgreater{}},
+as in character data. Yet the \texttt{year} column of
+\texttt{inflation\_data} is labeled
+\texttt{\textless{}int\textgreater{}}, as in integer data. We can check
+that by running \texttt{class()} on each respective column.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{class}\NormalTok{(clean_data$year)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "character"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{class}\NormalTok{(inflation_data$year)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "integer"
+\end{verbatim}
+
+From R's perspective, the character string \texttt{"1999"} is a very
+different thing than the integer number \texttt{1999}. Therefore, if we
+try to merge \texttt{clean\_data} and \texttt{inflation\_data} on the
+\texttt{year} variable, it will throw an error.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{left_join}\NormalTok{(clean_data, inflation_data, }\DataTypeTok{by =} \KeywordTok{c}\NormalTok{(}\StringTok{"country"}\NormalTok{, }
+    \StringTok{"year"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Error in eval(substitute(expr), envir, enclos): Can't join on 'year' x 'year' because of incompatible types (integer / character)
+\end{verbatim}
+
+To fix this, let's use \texttt{mutate()} to convert the \texttt{year}
+column of \texttt{clean\_data} to an integer. We probably should have
+done this in the first place---after all, having the year encoded as a
+character string would have thrown off plotting functions, statistical
+functions, or anything else where it would be more natural to treat the
+year like a number.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{clean_data <-}\StringTok{ }\KeywordTok{mutate}\NormalTok{(clean_data, }\DataTypeTok{year =} \KeywordTok{as.integer}\NormalTok{(year))}
+\NormalTok{clean_data}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 860 × 5
+##   country  year      gdp      pop unemp
+##     <chr> <int>    <dbl>    <dbl> <dbl>
+## 1      AD  2005   3.8423 0.081223    NA
+## 2      AD  2006   4.0184 0.083373    NA
+## 3      AD  2007   4.0216 0.084878    NA
+## 4      AD  2008   3.6759 0.085616    NA
+## 5      AE  2005 253.9655 4.481976   3.1
+## # ... with 855 more rows
+\end{verbatim}
+
+Looks the same as before, except with an important difference:
+\texttt{year} is now labeled \texttt{\textless{}int\textgreater{}}.
+
+Now we can merge the two datasets together without issue. Notice how we
+use a vector in the \texttt{by} argument to specify multiple columns to
+merge on.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{left_join}\NormalTok{(clean_data, inflation_data, }\DataTypeTok{by =} \KeywordTok{c}\NormalTok{(}\StringTok{"country"}\NormalTok{, }
+    \StringTok{"year"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 860 × 6
+##   country  year      gdp      pop unemp
+##     <chr> <int>    <dbl>    <dbl> <dbl>
+## 1      AD  2005   3.8423 0.081223    NA
+## 2      AD  2006   4.0184 0.083373    NA
+## 3      AD  2007   4.0216 0.084878    NA
+## 4      AD  2008   3.6759 0.085616    NA
+## 5      AE  2005 253.9655 4.481976   3.1
+## # ... with 855 more rows, and 1 more
+## #   variables: inflation <dbl>
+\end{verbatim}
+
+You might remember that \texttt{inflation\_data} contained some
+country-years not included in the original data (namely, observations
+from 2004). If we want the merged data to use the observations from
+\texttt{inflation\_data} rather than \texttt{clean\_data}, we can use
+the \texttt{right\_join()} function.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{right_join}\NormalTok{(clean_data, inflation_data, }\DataTypeTok{by =} \KeywordTok{c}\NormalTok{(}\StringTok{"country"}\NormalTok{, }
+    \StringTok{"year"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 1,070 × 6
+##   country  year    gdp      pop unemp
+##     <chr> <int>  <dbl>    <dbl> <dbl>
+## 1      AD  2004     NA       NA    NA
+## 2      AD  2005 3.8423 0.081223    NA
+## 3      AD  2006 4.0184 0.083373    NA
+## 4      AD  2007 4.0216 0.084878    NA
+## 5      AD  2008 3.6759 0.085616    NA
+## # ... with 1,065 more rows, and 1 more
+## #   variables: inflation <dbl>
+\end{verbatim}
+
+One last common issue in merging is that the identifier variables have
+different names in the two datasets. If it's inconvenient or infeasible
+to correct this by renaming the columns in one or the other, you can
+specify the \texttt{by} argument as in the following example.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{inflation_data <-}\StringTok{ }\KeywordTok{rename}\NormalTok{(inflation_data, }\DataTypeTok{the_country =} \NormalTok{country, }
+    \DataTypeTok{the_year =} \NormalTok{year)}
+\NormalTok{inflation_data}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 1,070 × 3
+##   the_country the_year inflation
+##         <chr>    <int>     <dbl>
+## 1          AD     2004        NA
+## 2          AD     2005        NA
+## 3          AD     2006        NA
+## 4          AD     2007        NA
+## 5          AD     2008        NA
+## # ... with 1,065 more rows
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{left_join}\NormalTok{(clean_data, inflation_data, }\DataTypeTok{by =} \KeywordTok{c}\NormalTok{(}\DataTypeTok{country =} \StringTok{"the_country"}\NormalTok{, }
+    \DataTypeTok{year =} \StringTok{"the_year"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 860 × 6
+##   country  year      gdp      pop unemp
+##     <chr> <int>    <dbl>    <dbl> <dbl>
+## 1      AD  2005   3.8423 0.081223    NA
+## 2      AD  2006   4.0184 0.083373    NA
+## 3      AD  2007   4.0216 0.084878    NA
+## 4      AD  2008   3.6759 0.085616    NA
+## 5      AE  2005 253.9655 4.481976   3.1
+## # ... with 855 more rows, and 1 more
+## #   variables: inflation <dbl>
+\end{verbatim}
+
 \section{Appendix: Creating the Example
 Data}\label{appendix-creating-the-example-data}
 
@@ -1451,6 +1754,443 @@ Now we have some ugly data. I save the output to upload to my website.
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{write_csv}\NormalTok{(dat_countries_wide, }\DataTypeTok{path =} \StringTok{"untidy-data.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+And here's how I made the second country-year dataset used in the
+merging section. The country dataset with latitudes and longitudes is
+from
+\url{https://developers.google.com/public-data/docs/canonical/countries_csv}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dat_2 <-}\StringTok{ }\KeywordTok{WDI}\NormalTok{(}\DataTypeTok{country =} \StringTok{"all"}\NormalTok{, }\DataTypeTok{indicator =} \StringTok{"FP.CPI.TOTL.ZG"}\NormalTok{, }
+    \DataTypeTok{start =} \DecValTok{2004}\NormalTok{, }\DataTypeTok{end =} \DecValTok{2008}\NormalTok{) %>%}\StringTok{ }\KeywordTok{as_data_frame}\NormalTok{() %>%}\StringTok{ }
+\StringTok{    }\KeywordTok{select}\NormalTok{(}\DataTypeTok{country =} \NormalTok{iso2c, year, }\DataTypeTok{inflation =} \NormalTok{FP.CPI.TOTL.ZG) %>%}\StringTok{ }
+\StringTok{    }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{year =} \KeywordTok{as.integer}\NormalTok{(year)) %>%}\StringTok{ }\KeywordTok{filter}\NormalTok{(country %in%}\StringTok{ }
+\StringTok{    }\NormalTok{clean_data$country) %>%}\StringTok{ }\KeywordTok{arrange}\NormalTok{(country, year)}
+
+\KeywordTok{write_csv}\NormalTok{(dat_2, }\DataTypeTok{path =} \StringTok{"inflation.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\chapter{Data Visualization}\label{visualization}
+
+Visualization is most important at the very beginning and the very end
+of the data analysis process. In the beginning, when you've just gotten
+your data together, visualization is perhaps the easiest tool to explore
+each variable and learn about the relationships among them. And when
+your analysis is almost complete, you will (usually) use visualizations
+to communicate your findings to your audience.
+
+We only have time to scratch the surface of data visualization. This
+chapter will cover the plotting techniques I find most useful for
+exploratory and descriptive data analysis. We will talk about graphical
+techniques for presenting the results of regression analyses later in
+the class---once we've, you know, learned something about regression.
+
+\section{Basic Plots}\label{basic-plots}
+
+We will use the \textbf{ggplot2} package, which is part of---I'm as
+tired of it as you are---the \textbf{tidyverse}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(}\StringTok{"tidyverse"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+For the examples today, we'll be using a dataset with statistics about
+the fifty U.S. states in 1977,\footnote{Why 1977? Because it was easily
+  available. See the appendix to this chapter.} which is posted on my
+website.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{state_data <-}\StringTok{ }\KeywordTok{read_csv}\NormalTok{(}\StringTok{"http://bkenkel.com/data/state-data.csv"}\NormalTok{)}
+\NormalTok{state_data}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 50 × 12
+##        State Abbrev Region Population Income
+##        <chr>  <chr>  <chr>      <dbl>  <dbl>
+## 1    Alabama     AL  South       3615   3624
+## 2     Alaska     AK   West        365   6315
+## 3    Arizona     AZ   West       2212   4530
+## 4   Arkansas     AR  South       2110   3378
+## 5 California     CA   West      21198   5114
+## # ... with 45 more rows, and 7 more
+## #   variables: Illiteracy <dbl>,
+## #   LifeExp <dbl>, Murder <dbl>,
+## #   HSGrad <dbl>, Frost <dbl>, Area <dbl>,
+## #   IncomeGroup <chr>
+\end{verbatim}
+
+When I obtain data, I start by looking at the univariate distribution of
+each variable via a histogram. The following code creates a histogram in
+ggplot.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Population)) +}\StringTok{ }\KeywordTok{geom_histogram}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `stat_bin()` using `bins = 30`. Pick
+## better value with `binwidth`.
+\end{verbatim}
+
+\includegraphics{pdaps_files/figure-latex/histogram-1}
+
+Let's walk through the syntax there. In the first line, we call
+\texttt{ggplot()}, specifying the data frame to draw from, then in the
+\texttt{aes()} command (which stands for ``aesthetic'') we specify the
+variable to plot. If this were a bivariate analysis, here we would have
+also specified a \texttt{y} variable to put on the y-axis. If we had
+just stopped there, we would have a sad, empty plot. The \texttt{+}
+symbol indicates that we'll be adding something to the plot.
+\texttt{geom\_histogram()} is the command to overlay a histogram.
+
+We'll only be looking at a few of the ggplot commands today. I recommend
+taking a look at the online package documentation at
+\url{http://docs.ggplot2.org} to see all of the many features available.
+
+When you're just making graphs for yourself to explore the data, you
+don't need to worry about things like axis labels as long as you can
+comprehend what's going on. But when you prepare graphs for others to
+read (including those of us grading your problem sets!) you need to
+include an informative title and axis labels. To that end, use the
+\texttt{xlab()}, \texttt{ylab()}, and \texttt{ggtitle()} commands.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Population)) +}\StringTok{ }\KeywordTok{geom_histogram}\NormalTok{() +}\StringTok{ }
+\StringTok{    }\KeywordTok{xlab}\NormalTok{(}\StringTok{"Population (thousands)"}\NormalTok{) +}\StringTok{ }\KeywordTok{ylab}\NormalTok{(}\StringTok{"Number of states"}\NormalTok{) +}\StringTok{ }
+\StringTok{    }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Some states are big, but most are small"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `stat_bin()` using `bins = 30`. Pick
+## better value with `binwidth`.
+\end{verbatim}
+
+\includegraphics{pdaps_files/figure-latex/axis-labeling-1}
+
+The density plot is a close relative of the histogram. It provides a
+smooth estimate of the probability density function of the data.
+Accordingly, the area under the density plot integrates to one.
+Depending on your purposes, this can make the y-axis of a density plot
+easier or (usually) harder to interpret than the count given by a
+histogram.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Population)) +}\StringTok{ }\KeywordTok{geom_density}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{pdaps_files/figure-latex/density-1}
+
+The box plot is a common way to look at the distribution of a continuous
+variable across different levels of a categorical variable.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Region, }\DataTypeTok{y =} \NormalTok{Population)) +}\StringTok{ }
+\StringTok{    }\KeywordTok{geom_boxplot}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{pdaps_files/figure-latex/boxplot-1}
+
+A box plot consists of the following components:
+
+\begin{itemize}
+\tightlist
+\item
+  Center line: median of the data
+\item
+  Bottom of box: 25th percentile
+\item
+  Top of box: 75th percentile
+\item
+  Lower ``whisker'': range of observations no more than 1.5 IQR (height
+  of box) below the 25th percentile
+\item
+  Upper ``whisker'': range of observations no more than 1.5 IQR above
+  the 75th percentile
+\item
+  Plotted points: any data lying outside the whiskers
+\end{itemize}
+
+If you want to skip the summary and plot the full distribution of a
+variable across categories, you can use a violin plot.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Region, }\DataTypeTok{y =} \NormalTok{Population)) +}\StringTok{ }
+\StringTok{    }\KeywordTok{geom_violin}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{pdaps_files/figure-latex/violin-1}
+
+Technically, violin plots convey more information than box plots since
+they show the full distribution. However, readers aren't as likely to be
+familiar with a violin plot. It's harder to spot immediately where the
+median is (though you could add that to the plot if you wanted). Plus,
+violin plots look goofy with outliers---see the ``West'' column
+above---whereas box plots handle them easily.
+
+For visualizing relationships between continuous variables, nothing
+beats the scatterplot.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Illiteracy, }\DataTypeTok{y =} \NormalTok{LifeExp)) +}\StringTok{ }
+\StringTok{    }\KeywordTok{geom_point}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{pdaps_files/figure-latex/scatter-1}
+
+When you're plotting states or countries, a hip thing to do is plot
+abbreviated names instead of points. To do that, you can use
+\texttt{geom\_text()} instead of \texttt{geom\_point()}, supplying an
+additional aesthetic argument telling ggplot where to draw the labels
+from.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Illiteracy, }\DataTypeTok{y =} \NormalTok{LifeExp)) +}\StringTok{ }
+\StringTok{    }\KeywordTok{geom_text}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{label =} \NormalTok{Abbrev))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{pdaps_files/figure-latex/scatter-text-1}
+
+Maybe it's overwhelming to look at all that raw data and you just want a
+summary. For example, maybe you want an estimate of expected
+\texttt{LifeExp} for each value of \texttt{Illiteracy}. This is called
+the \emph{conditional expectation} and will be the subject of much of
+the rest of the course. For now, just now that you can calculate a
+smoothed conditional expectation via \texttt{geom\_smooth()}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Illiteracy, }\DataTypeTok{y =} \NormalTok{LifeExp)) +}\StringTok{ }
+\StringTok{    }\KeywordTok{geom_smooth}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `geom_smooth()` using method = 'loess'
+\end{verbatim}
+
+\includegraphics{pdaps_files/figure-latex/smooth-1}
+
+And if you're the kind of overachiever who likes to have the raw data
+\emph{and} the summary, you can do it. Just add them both to the
+\texttt{ggplot()} call.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Illiteracy, }\DataTypeTok{y =} \NormalTok{LifeExp)) +}\StringTok{ }
+\StringTok{    }\KeywordTok{geom_smooth}\NormalTok{() +}\StringTok{ }\KeywordTok{geom_point}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `geom_smooth()` using method = 'loess'
+\end{verbatim}
+
+\includegraphics{pdaps_files/figure-latex/combine-1}
+
+\section{Saving Plots}\label{saving-plots}
+
+When you're writing in R Markdown, the plots go straight into your
+document without much fuss. Odds are, your dissertation will contain
+plots but won't be written in R Markdown, which means you'll need to
+learn how to save them.
+
+It's pretty simple:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Assign your \texttt{ggplot()} call to a variable.
+\item
+  Pass that variable to the \texttt{ggsave()} function.
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pop_hist <-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Population)) +}\StringTok{ }
+\StringTok{    }\KeywordTok{geom_histogram}\NormalTok{()}
+
+\KeywordTok{ggsave}\NormalTok{(}\DataTypeTok{filename =} \StringTok{"pop-hist.pdf"}\NormalTok{, }\DataTypeTok{plot =} \NormalTok{pop_hist, }
+    \DataTypeTok{width =} \DecValTok{6}\NormalTok{, }\DataTypeTok{height =} \DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+If you want plot types other than PDF, just set a different extension.
+See \texttt{?ggsave} for the possibilities.
+
+\section{Faceting}\label{faceting}
+
+Suppose you want to split the data into subgroups, as defined by some
+variable in the data (e.g., the region states are in), and make the same
+plot for each subgroup. ggplot's \emph{faceting} functions,
+\texttt{facet\_wrap()} and \texttt{facet\_grid()}, make this easy.
+
+To split up plots according to a single grouping variable, use
+\texttt{facet\_wrap()}. This uses R's \emph{formula} syntax, defined by
+the tilde \texttt{\textasciitilde{}}, which you'll become well
+acquainted with once we start running regressions.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Population)) +}\StringTok{ }\KeywordTok{geom_histogram}\NormalTok{() +}\StringTok{ }
+\StringTok{    }\KeywordTok{facet_wrap}\NormalTok{(~Region)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `stat_bin()` using `bins = 30`. Pick
+## better value with `binwidth`.
+\end{verbatim}
+
+\includegraphics{pdaps_files/figure-latex/facet-wrap-1}
+
+If you don't like the default arrangement, use the \texttt{ncol}
+argument.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Population)) +}\StringTok{ }\KeywordTok{geom_histogram}\NormalTok{() +}\StringTok{ }
+\StringTok{    }\KeywordTok{facet_wrap}\NormalTok{(~Region, }\DataTypeTok{ncol =} \DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `stat_bin()` using `bins = 30`. Pick
+## better value with `binwidth`.
+\end{verbatim}
+
+\includegraphics{pdaps_files/figure-latex/facet-wrap-ncol-1}
+
+For two grouping variables, use \texttt{facet\_grid()}, putting
+variables on both sides of the formula.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Population)) +}\StringTok{ }\KeywordTok{geom_histogram}\NormalTok{() +}\StringTok{ }
+\StringTok{    }\KeywordTok{facet_grid}\NormalTok{(Region ~}\StringTok{ }\NormalTok{IncomeGroup)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `stat_bin()` using `bins = 30`. Pick
+## better value with `binwidth`.
+\end{verbatim}
+
+\includegraphics{pdaps_files/figure-latex/facet-grid-1}
+
+\section{Aesthetics}\label{aesthetics}
+
+Faceting is one way to incorporate information about additional
+variables into what would otherwise be a plot of just one or two
+variables. Aesthetics---which alter the appearance of particular plot
+features depending on the value of a variable---provide another way to
+do that.
+
+For example, when visualizing the relationship between statewide
+illiteracy and life expectancy, you might want larger states to get more
+visual weight. You can set the \texttt{size} aesthetic of the
+\texttt{point} geometry to vary according to the state's population.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Illiteracy, }\DataTypeTok{y =} \NormalTok{LifeExp)) +}\StringTok{ }
+\StringTok{    }\KeywordTok{geom_point}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{size =} \NormalTok{Population))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{pdaps_files/figure-latex/aes-size-1}
+
+The \textbf{ggplot2} documentation lists the available aesthetics for
+each function. Another popular one is \texttt{colour}, which is great
+for on-screen display but not so much for the printed page. (And
+terrible for the colorblind!)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Illiteracy, }\DataTypeTok{y =} \NormalTok{LifeExp)) +}\StringTok{ }
+\StringTok{    }\KeywordTok{geom_point}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{colour =} \NormalTok{Region))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{pdaps_files/figure-latex/aes-colour-1}
+
+For line graphs or density plots, you can set the \texttt{linetype} to
+vary by category.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Population)) +}\StringTok{ }\KeywordTok{geom_density}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{linetype =} \NormalTok{IncomeGroup))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{pdaps_files/figure-latex/aes-linetype-1}
+
+(I always find these incomprehensible with more than two lines, but
+maybe that's just me.) You can use multiple aesthetics together, and you
+can even combine aesthetics with faceting, as in the following example.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Illiteracy, }\DataTypeTok{y =} \NormalTok{LifeExp)) +}\StringTok{ }
+\StringTok{    }\KeywordTok{geom_smooth}\NormalTok{() +}\StringTok{ }\KeywordTok{geom_text}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{label =} \NormalTok{Abbrev, }
+    \DataTypeTok{colour =} \NormalTok{Region, }\DataTypeTok{size =} \NormalTok{Population)) +}\StringTok{ }\KeywordTok{facet_wrap}\NormalTok{(~IncomeGroup)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `geom_smooth()` using method = 'loess'
+\end{verbatim}
+
+\includegraphics{pdaps_files/figure-latex/too-many-things-1}
+
+But the fact that you \emph{can} do something doesn't mean you
+\emph{should}. That plot is so cluttered that it's hard to extract the
+relevant information from it. Data visualizations should communicate a
+clear message to viewers without overwhelming them. To do this well
+takes practice, patience, and maybe even a bit of taste.
+
+\section{Appendix: Creating the Example
+Data}\label{appendix-creating-the-example-data-1}
+
+The example data comes from data on U.S. states in 1977 that are
+included with base R. See \texttt{?state}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(}\StringTok{"tidyverse"}\NormalTok{)}
+
+\NormalTok{state_data <-}\StringTok{ }\NormalTok{state.x77 %>%}\StringTok{ }\KeywordTok{as_tibble}\NormalTok{() %>%}\StringTok{ }\KeywordTok{add_column}\NormalTok{(}\DataTypeTok{State =} \KeywordTok{rownames}\NormalTok{(state.x77), }
+    \DataTypeTok{Abbrev =} \NormalTok{state.abb, }\DataTypeTok{Region =} \NormalTok{state.region, }
+    \DataTypeTok{.before =} \DecValTok{1}\NormalTok{) %>%}\StringTok{ }\KeywordTok{rename}\NormalTok{(}\DataTypeTok{LifeExp =} \StringTok{`}\DataTypeTok{Life Exp}\StringTok{`}\NormalTok{, }
+    \DataTypeTok{HSGrad =} \StringTok{`}\DataTypeTok{HS Grad}\StringTok{`}\NormalTok{) %>%}\StringTok{ }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{IncomeGroup =} \KeywordTok{cut}\NormalTok{(Income, }
+    \DataTypeTok{breaks =} \KeywordTok{quantile}\NormalTok{(Income, }\DataTypeTok{probs =} \KeywordTok{seq}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{, }
+        \DataTypeTok{by =} \DecValTok{1}\NormalTok{/}\DecValTok{3}\NormalTok{)), }\DataTypeTok{labels =} \KeywordTok{c}\NormalTok{(}\StringTok{"Low"}\NormalTok{, }\StringTok{"Medium"}\NormalTok{, }
+        \StringTok{"High"}\NormalTok{), }\DataTypeTok{include.lowest =} \OtherTok{TRUE}\NormalTok{))}
+
+\KeywordTok{write_csv}\NormalTok{(state_data, }\DataTypeTok{path =} \StringTok{"state-data.csv"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 

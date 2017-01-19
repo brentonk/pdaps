@@ -1,0 +1,51 @@
+State,Abbrev,Region,Population,Income,Illiteracy,LifeExp,Murder,HSGrad,Frost,Area,IncomeGroup
+Alabama,AL,South,3615.0,3624.0,2.1,69.05,15.1,41.3,20.0,50708.0,Low
+Alaska,AK,West,365.0,6315.0,1.5,69.31,11.3,66.7,152.0,566432.0,High
+Arizona,AZ,West,2212.0,4530.0,1.8,70.55,7.8,58.1,15.0,113417.0,Medium
+Arkansas,AR,South,2110.0,3378.0,1.9,70.66,10.1,39.9,65.0,51945.0,Low
+California,CA,West,21198.0,5114.0,1.1,71.71,10.3,62.6,20.0,156361.0,High
+Colorado,CO,West,2541.0,4884.0,0.7,72.06,6.8,63.9,166.0,103766.0,High
+Connecticut,CT,Northeast,3100.0,5348.0,1.1,72.48,3.1,56.0,139.0,4862.0,High
+Delaware,DE,South,579.0,4809.0,0.9,70.06,6.2,54.6,103.0,1982.0,High
+Florida,FL,South,8277.0,4815.0,1.3,70.66,10.7,52.6,11.0,54090.0,High
+Georgia,GA,South,4931.0,4091.0,2.0,68.54,13.9,40.6,60.0,58073.0,Low
+Hawaii,HI,West,868.0,4963.0,1.9,73.6,6.2,61.9,0.0,6425.0,High
+Idaho,ID,West,813.0,4119.0,0.6,71.87,5.3,59.5,126.0,82677.0,Low
+Illinois,IL,North Central,11197.0,5107.0,0.9,70.14,10.3,52.6,127.0,55748.0,High
+Indiana,IN,North Central,5313.0,4458.0,0.7,70.88,7.1,52.9,122.0,36097.0,Medium
+Iowa,IA,North Central,2861.0,4628.0,0.5,72.56,2.3,59.0,140.0,55941.0,Medium
+Kansas,KS,North Central,2280.0,4669.0,0.6,72.58,4.5,59.9,114.0,81787.0,Medium
+Kentucky,KY,South,3387.0,3712.0,1.6,70.1,10.6,38.5,95.0,39650.0,Low
+Louisiana,LA,South,3806.0,3545.0,2.8,68.76,13.2,42.2,12.0,44930.0,Low
+Maine,ME,Northeast,1058.0,3694.0,0.7,70.39,2.7,54.7,161.0,30920.0,Low
+Maryland,MD,South,4122.0,5299.0,0.9,70.22,8.5,52.3,101.0,9891.0,High
+Massachusetts,MA,Northeast,5814.0,4755.0,1.1,71.83,3.3,58.5,103.0,7826.0,High
+Michigan,MI,North Central,9111.0,4751.0,0.9,70.63,11.1,52.8,125.0,56817.0,High
+Minnesota,MN,North Central,3921.0,4675.0,0.6,72.96,2.3,57.6,160.0,79289.0,Medium
+Mississippi,MS,South,2341.0,3098.0,2.4,68.09,12.5,41.0,50.0,47296.0,Low
+Missouri,MO,North Central,4767.0,4254.0,0.8,70.69,9.3,48.8,108.0,68995.0,Medium
+Montana,MT,West,746.0,4347.0,0.6,70.56,5.0,59.2,155.0,145587.0,Medium
+Nebraska,NE,North Central,1544.0,4508.0,0.6,72.6,2.9,59.3,139.0,76483.0,Medium
+Nevada,NV,West,590.0,5149.0,0.5,69.03,11.5,65.2,188.0,109889.0,High
+New Hampshire,NH,Northeast,812.0,4281.0,0.7,71.23,3.3,57.6,174.0,9027.0,Medium
+New Jersey,NJ,Northeast,7333.0,5237.0,1.1,70.93,5.2,52.5,115.0,7521.0,High
+New Mexico,NM,West,1144.0,3601.0,2.2,70.32,9.7,55.2,120.0,121412.0,Low
+New York,NY,Northeast,18076.0,4903.0,1.4,70.55,10.9,52.7,82.0,47831.0,High
+North Carolina,NC,South,5441.0,3875.0,1.8,69.21,11.1,38.5,80.0,48798.0,Low
+North Dakota,ND,North Central,637.0,5087.0,0.8,72.78,1.4,50.3,186.0,69273.0,High
+Ohio,OH,North Central,10735.0,4561.0,0.8,70.82,7.4,53.2,124.0,40975.0,Medium
+Oklahoma,OK,South,2715.0,3983.0,1.1,71.42,6.4,51.6,82.0,68782.0,Low
+Oregon,OR,West,2284.0,4660.0,0.6,72.13,4.2,60.0,44.0,96184.0,Medium
+Pennsylvania,PA,Northeast,11860.0,4449.0,1.0,70.43,6.1,50.2,126.0,44966.0,Medium
+Rhode Island,RI,Northeast,931.0,4558.0,1.3,71.9,2.4,46.4,127.0,1049.0,Medium
+South Carolina,SC,South,2816.0,3635.0,2.3,67.96,11.6,37.8,65.0,30225.0,Low
+South Dakota,SD,North Central,681.0,4167.0,0.5,72.08,1.7,53.3,172.0,75955.0,Low
+Tennessee,TN,South,4173.0,3821.0,1.7,70.11,11.0,41.8,70.0,41328.0,Low
+Texas,TX,South,12237.0,4188.0,2.2,70.9,12.2,47.4,35.0,262134.0,Medium
+Utah,UT,West,1203.0,4022.0,0.6,72.9,4.5,67.3,137.0,82096.0,Low
+Vermont,VT,Northeast,472.0,3907.0,0.6,71.64,5.5,57.1,168.0,9267.0,Low
+Virginia,VA,South,4981.0,4701.0,1.4,70.08,9.5,47.8,85.0,39780.0,High
+Washington,WA,West,3559.0,4864.0,0.6,71.72,4.3,63.5,32.0,66570.0,High
+West Virginia,WV,South,1799.0,3617.0,1.4,69.48,6.7,41.6,100.0,24070.0,Low
+Wisconsin,WI,North Central,4589.0,4468.0,0.7,72.48,3.0,54.5,149.0,54464.0,Medium
+Wyoming,WY,West,376.0,4566.0,0.6,70.29,6.9,62.9,173.0,97203.0,Medium

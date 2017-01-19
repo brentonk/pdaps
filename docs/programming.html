@@ -26,7 +26,7 @@
 <meta name="author" content="Brenton Kenkel">
 
 
-<meta name="date" content="2017-01-16">
+<meta name="date" content="2017-01-18">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -113,7 +113,15 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="3.1" data-path="data.html"><a href="data.html#loading"><i class="fa fa-check"></i><b>3.1</b> Loading</a></li>
 <li class="chapter" data-level="3.2" data-path="data.html"><a href="data.html#tidying"><i class="fa fa-check"></i><b>3.2</b> Tidying</a></li>
 <li class="chapter" data-level="3.3" data-path="data.html"><a href="data.html#transforming-and-aggregating"><i class="fa fa-check"></i><b>3.3</b> Transforming and Aggregating</a></li>
-<li class="chapter" data-level="3.4" data-path="data.html"><a href="data.html#appendix-creating-the-example-data"><i class="fa fa-check"></i><b>3.4</b> Appendix: Creating the Example Data</a></li>
+<li class="chapter" data-level="3.4" data-path="data.html"><a href="data.html#merging"><i class="fa fa-check"></i><b>3.4</b> Merging</a></li>
+<li class="chapter" data-level="3.5" data-path="data.html"><a href="data.html#appendix-creating-the-example-data"><i class="fa fa-check"></i><b>3.5</b> Appendix: Creating the Example Data</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="visualization.html"><a href="visualization.html"><i class="fa fa-check"></i><b>4</b> Data Visualization</a><ul>
+<li class="chapter" data-level="4.1" data-path="visualization.html"><a href="visualization.html#basic-plots"><i class="fa fa-check"></i><b>4.1</b> Basic Plots</a></li>
+<li class="chapter" data-level="4.2" data-path="visualization.html"><a href="visualization.html#saving-plots"><i class="fa fa-check"></i><b>4.2</b> Saving Plots</a></li>
+<li class="chapter" data-level="4.3" data-path="visualization.html"><a href="visualization.html#faceting"><i class="fa fa-check"></i><b>4.3</b> Faceting</a></li>
+<li class="chapter" data-level="4.4" data-path="visualization.html"><a href="visualization.html#aesthetics"><i class="fa fa-check"></i><b>4.4</b> Aesthetics</a></li>
+<li class="chapter" data-level="4.5" data-path="visualization.html"><a href="visualization.html#appendix-creating-the-example-data-1"><i class="fa fa-check"></i><b>4.5</b> Appendix: Creating the Example Data</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -211,11 +219,11 @@ samp</code></pre></div>
 <p>This code creates a function called <code>pois_mean</code>. It has a single argument, called <code>n_obs</code>. It generates a random sample of <code>n_obs</code> draws from Poisson(3) and calculates its sample mean. It then <code>return</code>s the sample mean as the output.</p>
 <p>Let’s try calling this function a few times, each with a sample size of <span class="math inline">\(N = 30\)</span>. Your output will differ slightly from what’s printed here, since the function is generating random numbers.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pois_mean</span>(<span class="dt">n_obs =</span> <span class="dv">30</span>)</code></pre></div>
-<pre><code>## [1] 3.033333</code></pre>
+<pre><code>## [1] 3.0333</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pois_mean</span>(<span class="dt">n_obs =</span> <span class="dv">30</span>)</code></pre></div>
-<pre><code>## [1] 2.466667</code></pre>
+<pre><code>## [1] 2.4667</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pois_mean</span>(<span class="dt">n_obs =</span> <span class="dv">30</span>)</code></pre></div>
-<pre><code>## [1] 2.966667</code></pre>
+<pre><code>## [1] 2.9667</code></pre>
 <p>Remember that what we’re interested in is the <em>sampling distribution</em> of the sample mean—the distribution of the sample mean across every possible sample of <span class="math inline">\(N\)</span> observations. We can approximate this distribution by running <code>pois_mean</code> many times (e.g., 1000 or more). This would be infeasible via copy-paste. Instead, we will use a <strong>for loop</strong>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Set up a vector to store the output</span>
 n_replicates &lt;-<span class="st"> </span><span class="dv">1000</span>
@@ -227,9 +235,9 @@ for (i in <span class="dv">1</span>:n_replicates) {
 <p>Here’s how the for loop works. We specified <code>i</code> as the name of the index variable, with values <code>1:n_replicates</code>. The for loop takes each value in the sequence, assigns it to the variable <code>i</code>, runs the given expression (in this case, assigning the output of <code>pois_mean</code> to the <code>i</code>’th element of <code>sampling_dist</code>), and then moves on to the next value in sequence, until it reaches the end.</p>
 <p>Let’s take a look at the results and compare them to our expectations.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean</span>(sampling_dist)  <span class="co"># Expect 3</span></code></pre></div>
-<pre><code>## [1] 2.995167</code></pre>
+<pre><code>## [1] 2.9952</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">var</span>(sampling_dist)  <span class="co"># Expect 1/10</span></code></pre></div>
-<pre><code>## [1] 0.09694358</code></pre>
+<pre><code>## [1] 0.096944</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">hist</span>(sampling_dist)  <span class="co"># Expect roughly normal</span></code></pre></div>
 <p><img src="pdaps_files/figure-html/sampling-dist-results-1.png" width="672" /></p>
 <p>For loops are fun, but don’t overuse them. Many simple operations are <strong>vectorized</strong> and don’t require a loop. For example, suppose you want to take the square of a sequence of numbers. You could use a for loop …</p>
@@ -258,11 +266,11 @@ output</code></pre></div>
 }</code></pre></div>
 <p>A couple of things to notice about the structure of the function. We use a comma to separate multiple function arguments. Also, we’ve specified <code>FALSE</code> as the <em>default</em> for the <code>use_median</code> argument. If we call the function without explicitly specifying a value for <code>use_median</code>, the function sets it to <code>FALSE</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pois_mean</span>(<span class="dt">n_obs =</span> <span class="dv">9</span>)</code></pre></div>
-<pre><code>## [1] 3.777778</code></pre>
+<pre><code>## [1] 3.7778</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pois_mean</span>(<span class="dt">n_obs =</span> <span class="dv">9</span>, <span class="dt">use_median =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <pre><code>## [1] 2</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pois_mean</span>(<span class="dt">n_obs =</span> <span class="dv">9</span>, <span class="dt">use_median =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<pre><code>## [1] 2.666667</code></pre>
+<pre><code>## [1] 2.6667</code></pre>
 <p>There is a vectorized version of if/else statements called, naturally, the <code>ifelse</code> function. This function takes three arguments, each a vector of the same length: (1) a logical condition, (2) an output value if the condition is <code>TRUE</code>, (3) an output value if the condition is <code>FALSE</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="dv">1</span>:<span class="dv">10</span>
 big_x &lt;-<span class="st"> </span>x *<span class="st"> </span><span class="dv">100</span>
