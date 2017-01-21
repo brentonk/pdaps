@@ -4,5 +4,6 @@
 _publish.R
 _book
 _bookdown_files
+pdaps_files
 rsconnect
 .DS_Store

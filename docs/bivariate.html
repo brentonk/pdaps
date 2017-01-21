@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Practical Data Analysis for Political Scientists</title>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+  <meta name="description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right.">
+  <meta name="generator" content="bookdown 0.3 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Practical Data Analysis for Political Scientists" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right." />
+  <meta name="github-repo" content="brentonk/pdaps" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Practical Data Analysis for Political Scientists" />
+  
+  <meta name="twitter:description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right." />
+  
+
+<meta name="author" content="Brenton Kenkel">
+
+
+<meta name="date" content="2017-01-21">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="visualization.html">
+<link rel="next" href="references.html">
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Practical Data Analysis for Political Scientists</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> About This Book</a></li>
+<li class="chapter" data-level="2" data-path="programming.html"><a href="programming.html"><i class="fa fa-check"></i><b>2</b> Principles of Programming</a><ul>
+<li class="chapter" data-level="2.1" data-path="programming.html"><a href="programming.html#write-programs-for-people-not-computers"><i class="fa fa-check"></i><b>2.1</b> Write Programs for People, Not Computers</a></li>
+<li class="chapter" data-level="2.2" data-path="programming.html"><a href="programming.html#let-the-computer-do-the-work"><i class="fa fa-check"></i><b>2.2</b> Let the Computer Do the Work</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>3</b> Working with Data</a><ul>
+<li class="chapter" data-level="3.1" data-path="data.html"><a href="data.html#loading"><i class="fa fa-check"></i><b>3.1</b> Loading</a></li>
+<li class="chapter" data-level="3.2" data-path="data.html"><a href="data.html#tidying"><i class="fa fa-check"></i><b>3.2</b> Tidying</a></li>
+<li class="chapter" data-level="3.3" data-path="data.html"><a href="data.html#transforming-and-aggregating"><i class="fa fa-check"></i><b>3.3</b> Transforming and Aggregating</a></li>
+<li class="chapter" data-level="3.4" data-path="data.html"><a href="data.html#merging"><i class="fa fa-check"></i><b>3.4</b> Merging</a></li>
+<li class="chapter" data-level="3.5" data-path="data.html"><a href="data.html#appendix-creating-the-example-data"><i class="fa fa-check"></i><b>3.5</b> Appendix: Creating the Example Data</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="visualization.html"><a href="visualization.html"><i class="fa fa-check"></i><b>4</b> Data Visualization</a><ul>
+<li class="chapter" data-level="4.1" data-path="visualization.html"><a href="visualization.html#basic-plots"><i class="fa fa-check"></i><b>4.1</b> Basic Plots</a></li>
+<li class="chapter" data-level="4.2" data-path="visualization.html"><a href="visualization.html#saving-plots"><i class="fa fa-check"></i><b>4.2</b> Saving Plots</a></li>
+<li class="chapter" data-level="4.3" data-path="visualization.html"><a href="visualization.html#faceting"><i class="fa fa-check"></i><b>4.3</b> Faceting</a></li>
+<li class="chapter" data-level="4.4" data-path="visualization.html"><a href="visualization.html#aesthetics"><i class="fa fa-check"></i><b>4.4</b> Aesthetics</a></li>
+<li class="chapter" data-level="4.5" data-path="visualization.html"><a href="visualization.html#appendix-creating-the-example-data-1"><i class="fa fa-check"></i><b>4.5</b> Appendix: Creating the Example Data</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="bivariate.html"><a href="bivariate.html"><i class="fa fa-check"></i><b>5</b> Bivariate Regression</a><ul>
+<li class="chapter" data-level="5.1" data-path="bivariate.html"><a href="bivariate.html#probability-refresher"><i class="fa fa-check"></i><b>5.1</b> Probability Refresher</a></li>
+<li class="chapter" data-level="5.2" data-path="bivariate.html"><a href="bivariate.html#the-linear-model"><i class="fa fa-check"></i><b>5.2</b> The Linear Model</a></li>
+<li class="chapter" data-level="5.3" data-path="bivariate.html"><a href="bivariate.html#least-squares"><i class="fa fa-check"></i><b>5.3</b> Least Squares</a></li>
+<li class="chapter" data-level="5.4" data-path="bivariate.html"><a href="bivariate.html#properties"><i class="fa fa-check"></i><b>5.4</b> Properties</a></li>
+<li class="chapter" data-level="5.5" data-path="bivariate.html"><a href="bivariate.html#appendix-regression-in-r"><i class="fa fa-check"></i><b>5.5</b> Appendix: Regression in R</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Practical Data Analysis for Political Scientists</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="bivariate" class="section level1">
+<h1><span class="header-section-number">5</span> Bivariate Regression</h1>
+<p>The goal of empirical social science is usually to learn about the relationships between variables in the social world. Our goals might be descriptive: were college graduates more likely to vote for Clinton in 2016? Or causal: does receiving more education make a person more liberal on average? Or predictive: what kinds of voters should Democrats target in 2020 to have the best chance of victory?</p>
+<p>The linear model is one of the simplest ways to model relationships between variables. Ordinary least squares regression is one of the easiest and (often) best ways to estimate the parameters of the linear model. Consequently, a linear model estimated by OLS is the starting point for many analyses. We will start with the simplest case: regression on a single covariate.</p>
+<div id="probability-refresher" class="section level2">
+<h2><span class="header-section-number">5.1</span> Probability Refresher</h2>
+Let <span class="math inline">\(Y\)</span> be a random variable that takes values in the finite set <span class="math inline">\(\mathcal{Y}\)</span> according to the probability mass function <span class="math inline">\(f_Y : \mathcal{Y} \to [0, 1]\)</span>. The <em>expected value</em> (aka <em>expectation</em>) of <span class="math inline">\(Y\)</span> is the weighted average of each value in <span class="math inline">\(\mathcal{Y}\)</span>, where the weights are the corresponding probabilities:
+<span class="math display">\[\begin{equation}
+E[Y] = \sum_{y \in \mathcal{Y}} y \: f_Y(y);
+\end{equation}\]</span>
+For a continuous random variable <span class="math inline">\(Y\)</span> on <span class="math inline">\(\mathbb{R}\)</span> with probability density function <span class="math inline">\(f_Y\)</span>, the expected value is the analogous integral:
+<span class="math display">\[\begin{equation}
+E[Y] = \int y \: f_Y(y) \, dy.
+\end{equation}\]</span>
+Now suppose <span class="math inline">\((X, Y)\)</span> is a pair of discrete random variables drawn according to the joint mass function <span class="math inline">\(f_{XY}\)</span> on <span class="math inline">\(\mathcal{X} \times \mathcal{Y}\)</span>, with respective marginal mass functions <span class="math inline">\(f_X\)</span> and <span class="math inline">\(f_Y\)</span>.<a href="#fn12" class="footnoteRef" id="fnref12"><sup>12</sup></a> Recall the formula for conditional probability,
+<span class="math display">\[\begin{equation}
+\Pr(Y = y \,|\, X = x)
+= \frac{\Pr(X = x, Y = y)}{\Pr(X = x)}
+= \frac{f_{XY}(x, y)}{f_X(x)}.
+\end{equation}\]</span>
+For each <span class="math inline">\(x \in \mathcal{X}\)</span>, we have the <em>conditional mass function</em>
+<span class="math display">\[\begin{equation}
+f_{Y|X}(y \,|\, x) = \frac{f_{XY}(x, y)}{f_X(x)}
+\end{equation}\]</span>
+and corresponding <em>conditional expectation</em>
+<span class="math display">\[\begin{equation}
+E[Y | X = x]
+= \sum_{y \in \mathcal{Y}} y \: f_{Y|X}(y \,|\, x).
+\end{equation}\]</span>
+For continuous random variables, the conditional expectation is
+<span class="math display">\[\begin{equation}
+E[Y | X = x]
+= \int y \: f_{Y|X} (y \,|\, x) \, dy,
+\end{equation}\]</span>
+<p>where <span class="math inline">\(f_{Y|X}\)</span> is the conditional density function.</p>
+The <em>variance</em> of a random variable <span class="math inline">\(Y\)</span> is
+<span class="math display">\[\begin{equation}
+V[Y] = E[(Y - E[Y])^2].
+\end{equation}\]</span>
+Given a sample <span class="math inline">\(Y_1, \ldots, Y_N\)</span> of observations of <span class="math inline">\(Y\)</span>, we usually estimate <span class="math inline">\(V[Y]\)</span> with the <em>sample variance</em>
+<span class="math display">\[\begin{equation}
+S_Y^2 = \frac{1}{N-1} \sum_n (Y_n - \bar{Y})^2,
+\end{equation}\]</span>
+<p>where <span class="math inline">\(\bar{Y}\)</span> is the sample mean and <span class="math inline">\(\sum_n\)</span> denotes summation from <span class="math inline">\(n = 1\)</span> to <span class="math inline">\(N\)</span>.</p>
+Similarly (in fact a generalization of the above), the <em>covariance</em> between random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> is <span class="math display">\[
+{\mathop{\rm Cov}\nolimits}[X, Y] = E[(X - E[X]) (Y - E[Y])],
+\]</span> which we estimate with the <em>sample covariance</em>
+<span class="math display">\[\begin{equation}
+S_{XY} = \frac{1}{N-1} \sum_n (X_n - \bar{X}) (Y_n - \bar{Y}).
+\end{equation}\]</span>
+A fun fact about the sample covariance is that
+<span class="math display">\[\begin{align}
+S_{XY}
+&amp;= \frac{1}{N-1} \sum_n (X_n - \bar{X}) (Y_n - \bar{Y}) \\
+&amp;= \frac{1}{N-1} \left[ \sum_n X_n (Y_n - \bar{Y}) + \sum_n \bar{X} (Y_n - \bar{Y}) \right] \\
+&amp;= \frac{1}{N-1} \left[ \sum_n X_n (Y_n - \bar{Y}) + \bar{X} \sum_n (Y_n - \bar{Y}) \right] \\
+&amp;= \frac{1}{N-1} \sum_n X_n (Y_n - \bar{Y}).
+\end{align}\]</span>
+<p>If we had split up the second term instead of the first, we would see that <span class="math display">\[
+S_{XY} = \frac{1}{N-1} \sum_n Y_n (X_n - \bar{X})
+\]</span> as well.</p>
+Since the (sample) variance is a special case of the (sample) covariance, by the same token we have
+<span class="math display">\[\begin{equation}
+S_Y^2 = \frac{1}{N-1} \sum_n Y_n (Y_n - \bar{Y}).
+\end{equation}\]</span>
+</div>
+<div id="the-linear-model" class="section level2">
+<h2><span class="header-section-number">5.2</span> The Linear Model</h2>
+<p>Suppose we observe a sequence of <span class="math inline">\(N\)</span> draws from <span class="math inline">\(f_{XY}\)</span>, denoted <span class="math inline">\((X_1, Y_1), (X_2, Y_2), \ldots, (X_N, Y_N)\)</span>, or <span class="math inline">\(\{(X_n, Y_n)\}_{n=1}^N\)</span> for short. What can we learn about the relationship between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> from this sample of data?</p>
+<p>If we were really ambitious, we could try to estimate the shape of the full joint distribution, <span class="math inline">\(f_{XY}\)</span>. The joint distribution encodes everything there is to know about the relationship between the two variables, so it would be pretty useful to know. But except in the most trivial cases, it would be infeasible to estimate <span class="math inline">\(f_{XY}\)</span> precisely. If <span class="math inline">\(X\)</span> or <span class="math inline">\(Y\)</span> can take on more than a few values, estimating the joint distribution would require an amount of data that we’re unlikely to have.<a href="#fn13" class="footnoteRef" id="fnref13"><sup>13</sup></a></p>
+<p>The first way we simplify our estimation task is to set our sights lower. Let <span class="math inline">\(Y\)</span> be the <em>response</em> or the <em>dependent variable</em>—i.e., the thing we want to explain. We call <span class="math inline">\(X\)</span> the <em>covariate</em> or the <em>independent variable</em>. Instead of estimating the full joint distribution, we’re just going to try to learn the conditional expectation, <span class="math inline">\(E[Y \,|\, X]\)</span>. In other words, for each potential value of the covariate, what is the expected value of the response? This will allow us to answer questions like whether greater values of <span class="math inline">\(X\)</span> are associated with greater values of <span class="math inline">\(Y\)</span>.</p>
+<p>Two important things about the estimation of conditional expectations before we go any further.</p>
+<ol style="list-style-type: decimal">
+<li><p>Statements about conditional expectations are not causal. If <span class="math inline">\(Y\)</span> is rain and <span class="math inline">\(X\)</span> is umbrella sales, we know <span class="math inline">\(E[Y | X]\)</span> increases with <span class="math inline">\(X\)</span>, but that doesn’t mean umbrella sales make it rain.</p>
+<p>We will spend some time in the latter part of the course on how to move from conditional expectations to causality. Then, in Stat III, you will learn about causal inference in excruciating detail.</p></li>
+<li><p>The conditional expectation doesn’t give you everything you’d want to know about the relationship between variables.</p>
+<p>As a hypothetical example, suppose I told you that taking a particular drug made people happier on average. In other words, <span class="math inline">\(E[\text{Happiness} \,|\, \text{Drug}] &gt; E[\text{Happiness} \,|\, \text{No Drug}]\)</span>. Sounds great! Then imagine the dose-response graph looked like this:</p>
+<p><img src="pdaps_files/figure-html/happiness-drug-1.png" width="672" /></p>
+<p>The fact that expected happiness rises by half a point doesn’t quite tell the whole story.</p></li>
+</ol>
+<p>In spite of these caveats, conditional expectation is a really useful tool for summarizing the relationship between variables.</p>
+<p>If <span class="math inline">\(X\)</span> takes on sufficiently few values (and we have enough data), we don’t need to model the conditional expectation function. We can just directly estimate <span class="math inline">\(E[Y | X = x]\)</span> for each <span class="math inline">\(x \in \mathcal{X}\)</span>. The graph above, where there are just two values of <span class="math inline">\(X\)</span>, is one example.</p>
+But if <span class="math inline">\(X\)</span> is continuous, or even if it is discrete with many values, estimating <span class="math inline">\(E[Y | X]\)</span> for each distinct value is infeasible. In this case, we need to <em>model</em> the relationship. The very simplest choice—and thus the default for social scientists—is to model the conditional expectation of <span class="math inline">\(Y\)</span> as a linear function of <span class="math inline">\(X\)</span>:
+<span class="math display">\[\begin{equation}
+E[Y \,|\, X] = \alpha + \beta X.
+\end{equation}\]</span>
+<p>In this formulation, <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> are the parameters to be estimated from sample data. We call <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> “coefficients,” with <span class="math inline">\(\alpha\)</span> the “intercept” and <span class="math inline">\(\beta\)</span> the “slope.” Regardless of how many different values <span class="math inline">\(X\)</span> might take on, we only need to estimate two parameters of the linear model.</p>
+<p>Exercise your judgment before using a linear model. Ask yourself, is a linear conditional expectation function at least minimally plausible? Not perfect—just a reasonable approximation. If <span class="math inline">\(X\)</span> is years of education and <span class="math inline">\(Y\)</span> is annual income, the answer is probably yes (depending on the population!). But if <span class="math inline">\(X\)</span> is hour of the day (0–24) and <span class="math inline">\(Y\)</span> is the amount of traffic on I-65, probably not.</p>
+To obtain the linear conditional expectation, we usually assume the following model of the response variable:
+<span class="math display">\[\begin{equation}
+Y_n = \alpha + \beta X_n + \epsilon_n,
+\end{equation}\]</span>
+where <span class="math inline">\(\epsilon_n\)</span> is “white noise” error with the property
+<span class="math display">\[\begin{equation}
+E[\epsilon_n \,|\, X_1, \ldots X_N] = 0.
+\end{equation}\]</span>
+<p>You can think of <span class="math inline">\(\epsilon_n\)</span> as the summation of everything besides the covariate <span class="math inline">\(X_n\)</span> that affects the response <span class="math inline">\(Y_n\)</span>. The assumption that <span class="math inline">\(E[\epsilon_n \,|\, X_1, \ldots, X_N] = 0\)</span> implies that these external factors are uncorrelated with the covariate. This is not a trivial technical condition that you can ignore—it is a substantive statement about the variables in your model. It requires justification, and it is difficult to justify.</p>
+<p>For now we will proceed assuming that our data satisfy the above conditions. Later in the course, we will talk about how to proceed when <span class="math inline">\(E[\epsilon_n \,|\, X_1, \ldots, X_N] \neq 0\)</span>, and you will learn much more about such strategies in Stat III.</p>
+</div>
+<div id="least-squares" class="section level2">
+<h2><span class="header-section-number">5.3</span> Least Squares</h2>
+<p>To estimate the parameters of the linear model, we will rely on a mathematically convenient method called <em>least squares</em>. We will see that this method not only is convenient, but also has nice statistical properties.</p>
+Given a parameter estimate <span class="math inline">\((\hat{\alpha}, \hat{\beta})\)</span>, define the <em>residual</em> of the <span class="math inline">\(n\)</span>’th observation as the difference between the true and predicted values:
+<span class="math display">\[\begin{equation}
+e_n(\hat{\alpha}, \hat{\beta}) = Y_n - \hat{\alpha} - \hat{\beta} X_n.
+\end{equation}\]</span>
+<p>The residual is directional. The residual is positive when the regression line falls below the observation, and vice versa when it is negative.</p>
+<p>We would like the regression line to lie close to the data—i.e., for the residuals to be small in magnitude. “Close” can mean many things, so we need to be a bit more specific to derive an estimator. The usual one, <em>ordinary least squares</em>, is chosen to minimize the sum of squared errors, <span class="math display">\[
+{\mathop{\rm SSE}\nolimits}(\hat{\alpha}, \hat{\beta}) = \sum_n e_n(\hat{\alpha}, \hat{\beta})^2.
+\]</span> (Throughout the rest of this chapter, I write <span class="math inline">\(\sum_n\)</span> as shorthand for <span class="math inline">\(\sum_{n=1}^N\)</span>.) When we focus on squared error, we penalize a positive residual the same as a negative residual of the same size. Moreover, we penalize one big residual proportionally more than a few small ones.</p>
+<p>It is important to keep the linear model and ordinary least squares distinct in your mind. The linear model is a model of the data. Ordinary least squares is one estimator—one among many—of the parameters of the linear model. Assuming a linear model does not commit you to estimate it with OLS if you think another estimator is more appropriate. And using OLS does not necessarily commit you to the linear model, as we will discuss when we get to multiple regression.</p>
+<p>To derive the OLS estimator, we will derive the conditions for minimization of the sum of squared errors. The SSE is a quadratic and therefore continuously differentiable function of the estimands, <span class="math inline">\(\hat{\alpha}\)</span> and <span class="math inline">\(\hat{\beta}\)</span>. You will remember from calculus that, at any extreme point of a continuous function, all its partial derivatives equal zero. To derive necessary conditions for minimization,<a href="#fn14" class="footnoteRef" id="fnref14"><sup>14</sup></a> we can take the derivatives of the SSE and set them to equal zero.</p>
+<p>The derivative with respect to the intercept is <span class="math display">\[
+{\frac{\partial {\mathop{\rm SSE}\nolimits}(\hat{\alpha}, \hat{\beta})}{\partial \hat{\alpha}}}
+= -2 \sum_n (Y_n - \hat{\alpha} - \hat{\beta} X_n).
+\]</span> Setting this to equal zero gives <span class="math display">\[
+\hat{\alpha}
+= \frac{1}{N} \sum_n (Y_n - \hat{\beta} X_n)
+= \bar{Y} - \hat{\beta} \bar{X}.
+\]</span> This gives us one important property of OLS: the regression line estimated by OLS always passes through <span class="math inline">\((\bar{X}, \bar{Y})\)</span>.</p>
+<p>The derivative with respect to the slope is <span class="math display">\[
+{\frac{\partial {\mathop{\rm SSE}\nolimits}(\hat{\alpha}, \hat{\beta})}{\partial \hat{\beta}}}
+= -2 \sum_n X_n (Y_n - \hat{\alpha} - \hat{\beta} X_n).
+\]</span> Setting this equal to zero and substituting in the expression for <span class="math inline">\(\hat{\alpha}\)</span> we derived above gives <span class="math display">\[
+\sum_n X_n (Y_n - \bar{Y}) = \hat{\beta} \sum_n X_n (X_n - \bar{X}).
+\]</span> As long as the sample variance of <span class="math inline">\(X\)</span> is non-zero (i.e., <span class="math inline">\(X\)</span> is not a constant), we can divide to solve for <span class="math inline">\(\hat{\beta}\)</span>: <span class="math display">\[
+\hat{\beta}
+= \frac{\sum_n X_n (Y_n - \bar{Y})}{\sum_n X_n (X_n - \bar{X})}
+= \frac{S_{XY}}{S_X^2}.
+\]</span></p>
+<p>Combining these two results, we have the OLS estimators of the intercept and slope of the bivariate linear model. We write them as functions of <span class="math inline">\((X_1, \ldots, X_N, Y_1, \ldots, Y_N)\)</span>, or <span class="math inline">\((X, Y)\)</span> for short,<a href="#fn15" class="footnoteRef" id="fnref15"><sup>15</sup></a> to emphasize that an estimator is a statistic, which in turn is a function of sample data. We place the “OLS” subscript on them to emphasize that there are many estimators of these parameters, of which OLS is just one (good!) choice. <span class="math display">\[
+\begin{aligned}
+\hat{\alpha}_{\text{OLS}}(X, Y)
+&amp;= \bar{Y} - \frac{S_{XY}}{S_X^2} \bar{X}, \\
+\hat{\beta}_{\text{OLS}}(X, Y)
+&amp;= \frac{S_{XY}}{S_X^2}. \\
+\end{aligned}
+\]</span></p>
+<p>Regression is a convenient way to summarize the relationship between variables, but it is a complement to—not a substitute for—graphical analysis. The statistician Francis Anscombe found that OLS yields nearly identical regression lines for all four of the datasets in the following graph:</p>
+<p><img src="pdaps_files/figure-html/anscombe-1.png" width="672" /></p>
+<p>Unless your data all lie along a line, the regression line estimated by OLS will not predict the data perfectly. Let the <em>residual sum of squares</em> be the squared error left over by OLS, <span class="math display">\[
+{\mathop{\rm RSS}\nolimits}= {\mathop{\rm SSE}\nolimits}(\hat{\alpha}_{\text{OLS}}, \hat{\beta}_{\text{OLS}}),
+\]</span> and let the <em>total sum of squares</em> be the squared error that would result from a horizontal regression line through the mean of <span class="math inline">\(Y\)</span>, <span class="math display">\[
+{\mathop{\rm TSS}\nolimits}= {\mathop{\rm SSE}\nolimits}(\bar{Y}, 0).
+\]</span> The <span class="math inline">\(R^2\)</span> statistic is the proportion of “variance explained” by <span class="math inline">\(X\)</span>, calculated as <span class="math display">\[
+R^2 = 1 - \frac{{\mathop{\rm RSS}\nolimits}}{{\mathop{\rm TSS}\nolimits}}.
+\]</span> If the regression line is flat, in which case <span class="math inline">\(\hat{\beta}_{\text{OLS}} = 0\)</span> and <span class="math inline">\({\mathop{\rm RSS}\nolimits}= {\mathop{\rm TSS}\nolimits}\)</span>, we have <span class="math inline">\(R^2= 0\)</span>. Conversely, if the regression line fits perfectly, in which case <span class="math inline">\({\mathop{\rm RSS}\nolimits}= 0\)</span>, we have <span class="math inline">\(R^2 = 1\)</span>.</p>
+<p>A statistic that is often more useful than <span class="math inline">\(R^2\)</span> is the <em>residual variance</em>. The residual variance is (almost) the sample variance of the regression residuals, calculated as <span class="math display">\[
+\hat{\sigma}^2
+= \frac{1}{N - 2} \sum_n e_n(\hat{\alpha}_{\text{OLS}}, \hat{\beta}_{\text{OLS}})^2
+= \frac{{\mathop{\rm RSS}\nolimits}}{N - 2}
+\]</span> Since bivariate regression uses two degrees of freedom (one for the intercept, one for the slope), we divide by <span class="math inline">\(N - 2\)</span> instead of the usual <span class="math inline">\(N - 1\)</span>. The most useful quantity is <span class="math inline">\(\hat{\sigma}\)</span>, the square root of the residual variance. <span class="math inline">\(\hat{\sigma}\)</span> is measured in the same units as <span class="math inline">\(Y\)</span>, and it is a measure of the spread of points around the regression line. If the residuals are roughly normally distributed, then we would expect roughly 95% of the data to lie within <span class="math inline">\(\pm 2 \hat{\sigma}\)</span> of the regression line.</p>
+<p><img src="pdaps_files/figure-html/r2-examples-1.png" width="672" /></p>
+</div>
+<div id="properties" class="section level2">
+<h2><span class="header-section-number">5.4</span> Properties</h2>
+<p>We didn’t use any fancy statistical theory to derive the OLS estimator. We just found the intercept and slope that minimize the sum of squared residuals. As it turns out, though, OLS indeed has some very nice statistical properties as an estimator of the linear model.</p>
+<p>The first desirable property of OLS is that it is <em>unbiased</em>. Recall that an estimator <span class="math inline">\(\hat{\theta}\)</span> of the parameter <span class="math inline">\(\theta\)</span> is unbiased if <span class="math inline">\(E[\hat{\theta}] = \theta\)</span>. This doesn’t mean the estimator always gives us the right answer, just that on average it is not systematically biased upward or downward. In other words, if we could take many many samples and apply the estimator to each of them, the average would equal the true parameter.</p>
+<p>We will begin by showing that the OLS estimator of the slope is unbiased; i.e., that <span class="math inline">\(E[\hat{\beta}_{\text{OLS}}(X, Y)] = \beta\)</span>. At first, we’ll take the conditional expectation of the slope estimator, treating the covariates <span class="math inline">\((X_1, \ldots, X_N)\)</span> as fixed. <span class="math display">\[
+\begin{aligned}
+E[\hat{\beta}_{\text{OLS}}(X, Y) \,|\, X]
+&amp;= E \left[ \left. \frac{S_{XY}}{S_X^2} \,\right|\, X \right] \\
+&amp;= E \left[ \left. \frac{\sum_n Y_n (X_n - \bar{X})}{\sum_n X_n (X_n - \bar{X})} \,\right|\, X \right] \\
+&amp;= \frac{\sum_n E[Y_n \,|\, X] (X_n - \bar{X})}{\sum_n X_n (X_n - \bar{X})} \\
+&amp;= \frac{\sum_n (\alpha + \beta X_n) (X_n - \bar{X})}{\sum_n X_n (X_n - \bar{X})} \\
+&amp;= \frac{\alpha \sum_n (X_n - \bar{X}) + \beta \sum_n X_n (X_n - \bar{X})}{\sum_n X_n (X_n - \bar{X})} \\
+&amp;= \frac{\beta \sum_n X_n (X_n - \bar{X})}{\sum_n X_n (X_n - \bar{X})} \\
+&amp;= \beta.
+\end{aligned}
+\]</span> It then follows from the <em>law of iterated expectation</em><a href="#fn16" class="footnoteRef" id="fnref16"><sup>16</sup></a> that <span class="math display">\[
+E[\hat{\beta}_{\text{OLS}}(X, Y)] = \beta.
+\]</span> Then, for the intercept, we have <span class="math display">\[
+\begin{aligned}
+E[\hat{\alpha}_{\text{OLS}}(X, Y) \,|\, X]
+&amp;= E [\bar{Y} - \hat{\beta}_{\text{OLS}}(X, Y) \bar{X} \,|\, X] \\
+&amp;= E [\bar{Y} \,|\, X] - E[\hat{\beta}_{\text{OLS}}(X, Y) \,|\, X] \bar{X} \\
+&amp;= E \left[ \left. \frac{1}{N} \sum_n Y_n \,\right|\, X \right] - \beta \bar{X} \\
+&amp;= E \left[ \left. \frac{1}{N} \sum_n (\alpha + \beta X_n + \epsilon_n) \,\right|\, X \right] - \beta \bar{X} \\
+&amp;= \frac{1}{N} \sum_n E[\alpha + \beta X_n + \epsilon_n \,|\, X] - \beta \bar{X} \\
+&amp;= \frac{1}{N} \sum_n \alpha + \frac{\beta}{N} \sum_n X_n + \frac{1}{N} \sum_n E[\epsilon_n \,|\, X] - \beta \bar{X} \\
+&amp;= \alpha + \beta \bar{X} - \beta \bar{X} \\
+&amp;= \alpha.
+\end{aligned}
+\]</span> As with the slope, this conditional expectation gives us the unconditional expectation we want: <span class="math display">\[
+E[\hat{\alpha}_{\text{OLS}}(X, Y)] = \alpha.
+\]</span></p>
+<p>To sum up: as long as the crucial condition <span class="math inline">\(E[\epsilon_n \,|\, X_1, \ldots, X_N] = 0\)</span> holds, then OLS is an unbiased estimator of the parameters of the linear model.</p>
+<p>Another important property of OLS is that it is <em>consistent</em>. Informally, this means that in sufficiently large samples, the OLS estimates <span class="math inline">\((\hat{\alpha}_{\text{OLS}}, \hat{\beta}_{\text{OLS}})\)</span> are very likely to be close to the true parameter values <span class="math inline">\((\alpha, \beta)\)</span>. Another way to think of consistency is that, as <span class="math inline">\(N \to \infty\)</span>, the bias and variance of the OLS estimator both go to zero.<a href="#fn17" class="footnoteRef" id="fnref17"><sup>17</sup></a></p>
+<p>Of course the bias “goes to” zero, since OLS is unbiased. The real trick to proving consistency is to show that the variance goes to zero. If you wanted to do that for the slope estimate, you’d derive an expression for <span class="math display">\[
+V[\hat{\beta}_{\text{OLS}}]
+=
+E[(\hat{\beta}_{\text{OLS}} - E[\hat{\beta}_{\text{OLS}}])^2]
+=
+E[(\hat{\beta}_{\text{OLS}} - \beta)^2]
+\]</span> and show that <span class="math display">\[
+\lim_{N \to \infty} V[\hat{\beta}_{\text{OLS}}] = 0.
+\]</span> This takes more algebra than we have time for, so I leave it as an exercise for the reader.</p>
+</div>
+<div id="appendix-regression-in-r" class="section level2">
+<h2><span class="header-section-number">5.5</span> Appendix: Regression in R</h2>
+<p>We will be using the <strong>tidyverse</strong> package as always, the <strong>car</strong> package for the <code>Prestige</code> data, and the <strong>broom</strong> package for its convenient post-analysis functions.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)
+<span class="kw">library</span>(<span class="st">&quot;car&quot;</span>)
+<span class="kw">library</span>(<span class="st">&quot;broom&quot;</span>)</code></pre></div>
+<p>Let’s take a look at <code>Prestige</code>, which records basic information (including perceived prestige) for a variety of occupations.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(Prestige)</code></pre></div>
+<pre><code>##                     education income women prestige census type
+## gov.administrators      13.11  12351 11.16     68.8   1113 prof
+## general.managers        12.26  25879  4.02     69.1   1130 prof
+## accountants             12.77   9271 15.70     63.4   1171 prof
+## purchasing.officers     11.42   8865  9.11     56.8   1175 prof
+## chemists                14.62   8403 11.68     73.5   2111 prof
+## physicists              15.64  11030  5.13     77.6   2113 prof</code></pre>
+<p>Suppose we want to run a regression of prestige on education. We will use the <code>lm()</code> function, which stands for <em>linear model</em>. This will employ the “formula” syntax that you previously saw when faceting in ggplot. The basic syntax of a formula is <code>response ~ covariate</code>, where <code>response</code> and <code>covariate</code> are the names of the variables in question. In this case, with <code>prestige</code> (note that the variable is lowercase, while the dataset is capitalized) as the response and education as the covariate:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lm</span>(prestige ~<span class="st"> </span>education, <span class="dt">data =</span> Prestige)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = prestige ~ education, data = Prestige)
+## 
+## Coefficients:
+## (Intercept)    education  
+##      -10.73         5.36</code></pre>
+<p>You’ll notice that didn’t give us very much. If you’ve previously used statistical programs like Stata, you might expect a ton of output at this point. It’s all there in R too, but R has a different philosophy about models. R sees the fitted model as an object in its own right—like a data frame, a function, or anything else you load or create in R. Therefore, to analyze regression results in R, you will typically save the regression results to a variable.</p>
+<p>Like any other variable, you’ll want to give your regression results meaningful names. I typically call them <code>fit_</code> to indicate a fitted model, followed by some memorable description.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_educ &lt;-<span class="st"> </span><span class="kw">lm</span>(prestige ~<span class="st"> </span>education, <span class="dt">data =</span> Prestige)</code></pre></div>
+<p>When you do this, the output doesn’t get printed. To see the default output, just run the variable name, just like you would to see the content of a data frame:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_educ</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = prestige ~ education, data = Prestige)
+## 
+## Coefficients:
+## (Intercept)    education  
+##      -10.73         5.36</code></pre>
+<p>For a more detailed readout, use the <code>summary()</code> method:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(fit_educ)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = prestige ~ education, data = Prestige)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -26.040  -6.523   0.661   6.743  18.164 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept)  -10.732      3.677   -2.92   0.0043
+## education      5.361      0.332   16.15   &lt;2e-16
+## 
+## Residual standard error: 9.1 on 100 degrees of freedom
+## Multiple R-squared:  0.723,  Adjusted R-squared:  0.72 
+## F-statistic:  261 on 1 and 100 DF,  p-value: &lt;2e-16</code></pre>
+<p>This prints out a whole boatload of information, including inferential statistics that we’re going to wait until later in the course to discuss how to interpret:</p>
+<ul>
+<li>The model you ran</li>
+<li>Basic statistics about the distribution of the residuals</li>
+<li>For each coefficient:
+<ul>
+<li>Parameter estimate</li>
+<li>Standard error estimate</li>
+<li>Test statistic for a hypothesis test of equality with zero</li>
+<li><span class="math inline">\(p\)</span>-value associated with the test statistic</li>
+</ul></li>
+<li><span class="math inline">\(\hat{\sigma}\)</span> (called the “residual standard error”, a term seemingly unique to R)</li>
+<li><span class="math inline">\(R^2\)</span> and an “adjusted” variant that accounts for the number of variables in the model</li>
+<li><span class="math inline">\(F\)</span> statistic, degrees of freedom, and associated <span class="math inline">\(p\)</span>-value for a hypothesis test that every coefficient besides the intercept equals zero</li>
+</ul>
+<p>Strangely, <code>summary()</code> doesn’t give you the sample size. For that you must use <code>nobs()</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">nobs</span>(fit_educ)</code></pre></div>
+<pre><code>## [1] 102</code></pre>
+<p>You can use a fitted model object to make predictions for new data. For example, let’s make a basic data frame of education levels.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_data &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">education =</span> <span class="dv">8</span>:<span class="dv">16</span>)
+my_data</code></pre></div>
+<pre><code>## # A tibble: 9 × 1
+##   education
+##       &lt;int&gt;
+## 1         8
+## 2         9
+## 3        10
+## 4        11
+## 5        12
+## 6        13
+## 7        14
+## 8        15
+## 9        16</code></pre>
+<p>To calculate the predicted level of prestige for each education level, use <code>predict()</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">predict</span>(fit_educ, <span class="dt">newdata =</span> my_data)</code></pre></div>
+<pre><code>##      1      2      3      4      5      6      7      8      9 
+## 32.155 37.516 42.877 48.238 53.599 58.959 64.320 69.681 75.042</code></pre>
+<p>When using <code>predict()</code>, it is crucial that the <code>newdata</code> have the same column names as in the data used to fit the model.</p>
+<p>You can also extract a confidence interval for each prediction:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">predict</span>(fit_educ,
+        <span class="dt">newdata =</span> my_data,
+        <span class="dt">interval =</span> <span class="st">&quot;confidence&quot;</span>,
+        <span class="dt">level =</span> <span class="fl">0.95</span>)</code></pre></div>
+<pre><code>##      fit    lwr    upr
+## 1 32.155 29.615 34.695
+## 2 37.516 35.393 39.639
+## 3 42.877 41.024 44.730
+## 4 48.238 46.441 50.034
+## 5 53.599 51.627 55.571
+## 6 58.959 56.632 61.287
+## 7 64.320 61.525 67.116
+## 8 69.681 66.353 73.010
+## 9 75.042 71.142 78.942</code></pre>
+<p>One of the problems with <code>summary()</code> and <code>predict()</code> is that they return inconveniently shaped output. The output of <code>summary()</code> is particularly hard to deal with. The <strong>broom</strong> package provides three utilities to help get model output into shape. The first is <code>tidy()</code>, which makes a tidy data frame out of the regression coefficients and the associated inferential statistics:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tidy</span>(fit_educ)</code></pre></div>
+<pre><code>##          term estimate std.error statistic    p.value
+## 1 (Intercept) -10.7320   3.67709   -2.9186 4.3434e-03
+## 2   education   5.3609   0.33199   16.1478 1.2863e-29</code></pre>
+<p>The second is <code>glance()</code>, which provides a one-row data frame containing overall model characteristics (e.g., <span class="math inline">\(R^2\)</span> and <span class="math inline">\(\hat{\sigma}\)</span>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">glance</span>(fit_educ)</code></pre></div>
+<pre><code>##   r.squared adj.r.squared  sigma statistic    p.value df logLik    AIC
+## 1    0.7228       0.72003 9.1033    260.75 1.2863e-29  2   -369 744.01
+##      BIC deviance df.residual
+## 1 751.88     8287         100</code></pre>
+<p>The third is <code>augment()</code>, which “augments” the original data—or new data you supply, as in <code>predict()</code>—with information from the model, such as predicted values.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Lots of output, so only printing first 10 rows</span>
+<span class="kw">head</span>(<span class="kw">augment</span>(fit_educ), <span class="dv">10</span>)</code></pre></div>
+<pre><code>##              .rownames prestige education .fitted .se.fit  .resid     .hat
+## 1   gov.administrators     68.8     13.11  59.549 1.19689  9.2509 0.017287
+## 2     general.managers     69.1     12.26  54.992 1.03332 14.1076 0.012885
+## 3          accountants     63.4     12.77  57.726 1.12584  5.6736 0.015295
+## 4  purchasing.officers     56.8     11.42  50.489 0.92936  6.3108 0.010422
+## 5             chemists     73.5     14.62  67.644 1.57269  5.8559 0.029846
+## 6           physicists     77.6     15.64  73.112 1.86034  4.4879 0.041763
+## 7           biologists     72.6     15.09  70.164 1.70291  2.4363 0.034993
+## 8           architects     78.1     15.44  72.040 1.80254  6.0600 0.039208
+## 9      civil.engineers     73.1     14.52  67.108 1.54561  5.9920 0.028827
+## 10    mining.engineers     68.8     14.64  67.751 1.57814  1.0487 0.030053
+##    .sigma    .cooksd .std.resid
+## 1  9.1010 0.00924267    1.02511
+## 2  9.0372 0.01587881    1.55981
+## 3  9.1311 0.00306360    0.62807
+## 4  9.1269 0.00255745    0.69688
+## 5  9.1296 0.00656112    0.65310
+## 6  9.1375 0.00552702    0.50362
+## 7  9.1458 0.00134578    0.27244
+## 8  9.1280 0.00941104    0.67914
+## 9  9.1287 0.00662109    0.66793
+## 10 9.1485 0.00021198    0.11697</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">augment</span>(fit_educ,
+        <span class="dt">newdata =</span> my_data)</code></pre></div>
+<pre><code>##   education .fitted .se.fit
+## 1         8  32.155 1.28013
+## 2         9  37.516 1.07023
+## 3        10  42.877 0.93407
+## 4        11  48.238 0.90555
+## 5        12  53.599 0.99397
+## 6        13  58.959 1.17319
+## 7        14  64.320 1.40897
+## 8        15  69.681 1.67763
+## 9        16  75.042 1.96574</code></pre>
+<p>Notice that you get back more information for the data used to fit the model than for newly supplied data. The most important is <code>.fitted</code>, the predicted value. See <code>?augment.lm</code> for what all the various output represents.</p>
+<p>One last note on plotting regression lines with ggplot. Use <code>geom_smooth(method = &quot;lm&quot;)</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(Prestige, <span class="kw">aes</span>(<span class="dt">x =</span> education, <span class="dt">y =</span> prestige)) +
+<span class="st">  </span><span class="kw">geom_point</span>() +
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>)</code></pre></div>
+<p><img src="pdaps_files/figure-html/ggplot-lm-1.png" width="672" /></p>
+<p>To get rid of the confidence interval:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(Prestige, <span class="kw">aes</span>(<span class="dt">x =</span> education, <span class="dt">y =</span> prestige)) +
+<span class="st">  </span><span class="kw">geom_point</span>() +
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">se =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<p><img src="pdaps_files/figure-html/ggplot-lm-no-se-1.png" width="672" /></p>
+
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="12">
+<li id="fn12"><p>The marginal mass function, if you don’t recall, is <span class="math inline">\(f_X(x) = \sum_{y \in \mathcal{Y}} f_{XY} (x, y)\)</span>. In the continuous case, the marginal density function is <span class="math inline">\(f_X(x) = \int f_{XY} (x, y) \, dy\)</span>.<a href="bivariate.html#fnref12">↩</a></p></li>
+<li id="fn13"><p>This problem only gets worse as we move from bivariate into multivariate analysis, a phenomenon called the <em>curse of dimensionality</em>.<a href="bivariate.html#fnref13">↩</a></p></li>
+<li id="fn14"><p>In fact, since the SSE function is strictly convex, these conditions are sufficient for global minimization.<a href="bivariate.html#fnref14">↩</a></p></li>
+<li id="fn15"><p>This is a bit of an abuse of notation, since previously I used <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> to refer to the random variables and now I’m using them to refer to vectors of sample data. Sorry.<a href="bivariate.html#fnref15">↩</a></p></li>
+<li id="fn16"><p>For random variables <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, <span class="math inline">\(E[f(A, B)] = E_A[ E_B[f(A, B) \,|\, A] ] = E_B [ E_A[f(A, B) \,|\, B] ]\)</span>.<a href="bivariate.html#fnref16">↩</a></p></li>
+<li id="fn17"><p>What I am describing here is <em>mean square consistency</em>, which is stronger than the broadest definitions of consistency in statistical theory.<a href="bivariate.html#fnref17">↩</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="visualization.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/04-bivariate-regression.Rmd",
+"text": "Edit"
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    if (location.protocol !== "file:" && /^https?:/.test(script.src))
+      script.src  = script.src.replace(/^https?:/, '');
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

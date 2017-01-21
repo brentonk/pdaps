@@ -1,124 +1,140 @@
-\documentclass[12pt,oneside,openany]{tufte-book}
-
-% ams
+\documentclass[12pt,oneside,openany]{book}
+\usepackage{lmodern}
 \usepackage{amssymb,amsmath}
-
 \usepackage{ifxetex,ifluatex}
 \usepackage{fixltx2e} % provides \textsubscript
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
 \else % if luatex or xelatex
-  \makeatletter
-  \@ifpackageloaded{fontspec}{}{\usepackage{fontspec}}
-  \makeatother
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
   \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
-  \makeatletter
-  \@ifpackageloaded{soul}{
-     \renewcommand\allcapsspacing[1]{{\addfontfeature{LetterSpace=15}#1}}
-     \renewcommand\smallcapsspacing[1]{{\addfontfeature{LetterSpace=10}#1}}
-   }{}
-  \makeatother
 \fi
-
-% graphix
-\usepackage{graphicx}
-\setkeys{Gin}{width=\linewidth,totalheight=\textheight,keepaspectratio}
-
-% booktabs
-\usepackage{booktabs}
-
-% url
-\usepackage{url}
-
-% hyperref
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
 \usepackage{hyperref}
-
-% units.
-\usepackage{units}
-
-
-\setcounter{secnumdepth}{2}
-
-% citations
+\hypersetup{unicode=true,
+            pdftitle={Practical Data Analysis for Political Scientists},
+            pdfauthor={Brenton Kenkel},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
 \usepackage{natbib}
 \bibliographystyle{apalike}
-
-% pandoc syntax highlighting
 \usepackage{color}
 \usepackage{fancyvrb}
 \newcommand{\VerbBar}{|}
 \newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
 \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
 % Add ',fontsize=\small' for more characters per line
-\newenvironment{Shaded}{}{}
-\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
-\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
-\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
-\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
-\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
-\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
-\newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
-\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
-\newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
-\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
-\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{{#1}}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{{#1}}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
 \newcommand{\ImportTok}[1]{{#1}}
-\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
-\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
-\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
-\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
-\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
-\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
-\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
-\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
-\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{{#1}}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{{#1}}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{{#1}}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{{#1}}}}
 \newcommand{\BuiltInTok}[1]{{#1}}
 \newcommand{\ExtensionTok}[1]{{#1}}
-\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
-\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{{#1}}}
 \newcommand{\RegionMarkerTok}[1]{{#1}}
-\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
-\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
-\newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
-\newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{{#1}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{{#1}}}}
 \newcommand{\NormalTok}[1]{{#1}}
-
-% longtable
 \usepackage{longtable,booktabs}
-
-% multiplecol
-\usepackage{multicol}
-
-% strikeout
-\usepackage[normalem]{ulem}
-
-% morefloats
-\usepackage{morefloats}
-
-
-% tightlist macro required by pandoc >= 1.14
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
 
-% title / author / date
-\title{Practical Data Analysis for Political Scientists}
-\author{Brenton Kenkel}
-\date{2017-01-18}
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+  \title{Practical Data Analysis for Political Scientists}
+  \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+  \author{Brenton Kenkel}
+  \preauthor{\centering\large\emph}
+  \postauthor{\par}
+  \predate{\centering\large\emph}
+  \postdate{\par}
+  \date{2017-01-21}
 
 \usepackage{booktabs}
 
 \begin{document}
-
 \maketitle
-
-
 
 {
 \setcounter{tocdepth}{1}
 \tableofcontents
 }
-
 \chapter{About This Book}\label{about-this-book}
 
 This book contains the course notes for
@@ -361,9 +377,9 @@ which calculations to perform on the inputs to produce the output.
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{pois_mean <-}\StringTok{ }\NormalTok{function(n_obs) \{}
-    \NormalTok{samp <-}\StringTok{ }\KeywordTok{rpois}\NormalTok{(n_obs, }\DataTypeTok{lambda =} \DecValTok{3}\NormalTok{)}
-    \NormalTok{ans <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(samp)}
-    \KeywordTok{return}\NormalTok{(ans)}
+  \NormalTok{samp <-}\StringTok{ }\KeywordTok{rpois}\NormalTok{(n_obs, }\DataTypeTok{lambda =} \DecValTok{3}\NormalTok{)}
+  \NormalTok{ans <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(samp)}
+  \KeywordTok{return}\NormalTok{(ans)}
 \NormalTok{\}}
 \end{Highlighting}
 \end{Shaded}
@@ -421,7 +437,7 @@ a \textbf{for loop}.
 \NormalTok{sampling_dist <-}\StringTok{ }\KeywordTok{rep}\NormalTok{(}\OtherTok{NA}\NormalTok{, n_replicates)}
 
 \NormalTok{for (i in }\DecValTok{1}\NormalTok{:n_replicates) \{}
-    \NormalTok{sampling_dist[i] <-}\StringTok{ }\KeywordTok{pois_mean}\NormalTok{(}\DataTypeTok{n_obs =} \DecValTok{30}\NormalTok{)}
+  \NormalTok{sampling_dist[i] <-}\StringTok{ }\KeywordTok{pois_mean}\NormalTok{(}\DataTypeTok{n_obs =} \DecValTok{30}\NormalTok{)}
 \NormalTok{\}}
 \end{Highlighting}
 \end{Shaded}
@@ -462,7 +478,7 @@ Let's take a look at the results and compare them to our expectations.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{pdaps_files/figure-latex/sampling-dist-results-1}
+\includegraphics{pdaps_files/figure-latex/sampling-dist-results-1.pdf}
 
 For loops are fun, but don't overuse them. Many simple operations are
 \textbf{vectorized} and don't require a loop. For example, suppose you
@@ -475,7 +491,7 @@ loop \ldots{}
 \NormalTok{output <-}\StringTok{ }\KeywordTok{rep}\NormalTok{(}\OtherTok{NA}\NormalTok{, }\KeywordTok{length}\NormalTok{(input))}
 
 \NormalTok{for (i in }\DecValTok{1}\NormalTok{:}\KeywordTok{length}\NormalTok{(input)) \{}
-    \NormalTok{output[i] <-}\StringTok{ }\NormalTok{input[i]^}\DecValTok{2}
+  \NormalTok{output[i] <-}\StringTok{ }\NormalTok{input[i]^}\DecValTok{2}
 \NormalTok{\}}
 
 \NormalTok{output}
@@ -514,13 +530,13 @@ and implement the option using an if/else statement.
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{pois_mean <-}\StringTok{ }\NormalTok{function(n_obs, }\DataTypeTok{use_median =} \OtherTok{FALSE}\NormalTok{) \{}
-    \NormalTok{samp <-}\StringTok{ }\KeywordTok{rpois}\NormalTok{(n_obs, }\DataTypeTok{lambda =} \DecValTok{3}\NormalTok{)}
-    \NormalTok{if (use_median) \{}
-        \NormalTok{ans <-}\StringTok{ }\KeywordTok{median}\NormalTok{(samp)}
-    \NormalTok{\} else \{}
-        \NormalTok{ans <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(samp)}
-    \NormalTok{\}}
-    \KeywordTok{return}\NormalTok{(ans)}
+  \NormalTok{samp <-}\StringTok{ }\KeywordTok{rpois}\NormalTok{(n_obs, }\DataTypeTok{lambda =} \DecValTok{3}\NormalTok{)}
+  \NormalTok{if (use_median) \{}
+    \NormalTok{ans <-}\StringTok{ }\KeywordTok{median}\NormalTok{(samp)}
+  \NormalTok{\} else \{}
+    \NormalTok{ans <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(samp)}
+  \NormalTok{\}}
+  \KeywordTok{return}\NormalTok{(ans)}
 \NormalTok{\}}
 \end{Highlighting}
 \end{Shaded}
@@ -578,8 +594,7 @@ condition is \texttt{FALSE}.
 \end{Shaded}
 
 \begin{verbatim}
-##  [1] -100 -200 -300 -400 -500  600  700  800
-##  [9]  900 1000
+##  [1] -100 -200 -300 -400 -500  600  700  800  900 1000
 \end{verbatim}
 
 Functions, for loops, and if/else statements are just a few of the
@@ -657,8 +672,8 @@ the World Bank that I've posted to my website.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{download.file}\NormalTok{(}\DataTypeTok{url =} \StringTok{"http://bkenkel.com/data/untidy-data.csv"}\NormalTok{, }
-    \DataTypeTok{destfile =} \StringTok{"my-untidy-data.csv"}\NormalTok{)}
+\KeywordTok{download.file}\NormalTok{(}\DataTypeTok{url =} \StringTok{"http://bkenkel.com/data/untidy-data.csv"}\NormalTok{,}
+              \DataTypeTok{destfile =} \StringTok{"my-untidy-data.csv"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -729,19 +744,16 @@ Now let's take a look at the data we've just loaded in.
 
 \begin{verbatim}
 ## # A tibble: 6 × 13
-##   country gdp.2005 gdp.2006 gdp.2007
-##     <chr>    <dbl>    <dbl>    <dbl>
-## 1      AD   3.8423   4.0184   4.0216
-## 2      AE 253.9655 278.9489 287.8318
-## 3      AF   9.7630  10.3052  11.7212
-## 4      AG   1.1190   1.2687   1.3892
-## 5      AL   9.2684   9.7718  10.3483
-## 6      AM   7.6678   8.6797   9.8731
-## # ... with 9 more variables: gdp.2008 <dbl>,
-## #   pop.2005 <dbl>, pop.2006 <dbl>,
-## #   pop.2007 <dbl>, pop.2008 <dbl>,
-## #   unemp.2005 <dbl>, unemp.2006 <dbl>,
-## #   unemp.2007 <dbl>, unemp.2008 <dbl>
+##   country gdp.2005 gdp.2006 gdp.2007 gdp.2008  pop.2005  pop.2006
+##     <chr>    <dbl>    <dbl>    <dbl>    <dbl>     <dbl>     <dbl>
+## 1      AD   3.8423   4.0184   4.0216   3.6759  0.081223  0.083373
+## 2      AE 253.9655 278.9489 287.8318 297.0189  4.481976  5.171255
+## 3      AF   9.7630  10.3052  11.7212  12.1445 24.399948 25.183615
+## 4      AG   1.1190   1.2687   1.3892   1.3902  0.082565  0.083467
+## 5      AL   9.2684   9.7718  10.3483  11.1275  3.011487  2.992547
+## 6      AM   7.6678   8.6797   9.8731  10.5544  3.014917  3.002161
+## # ... with 6 more variables: pop.2007 <dbl>, pop.2008 <dbl>,
+## #   unemp.2005 <dbl>, unemp.2006 <dbl>, unemp.2007 <dbl>, unemp.2008 <dbl>
 \end{verbatim}
 
 We have a \texttt{country} variable giving country abbreviations. The
@@ -790,8 +802,10 @@ practice:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{long_data <-}\StringTok{ }\KeywordTok{gather}\NormalTok{(untidy_data, }\DataTypeTok{key =} \NormalTok{variable, }
-    \DataTypeTok{value =} \NormalTok{number, gdp}\FloatTok{.2005}\NormalTok{:unemp}\FloatTok{.2008}\NormalTok{)}
+\NormalTok{long_data <-}\StringTok{ }\KeywordTok{gather}\NormalTok{(untidy_data,}
+                    \DataTypeTok{key =} \NormalTok{variable,}
+                    \DataTypeTok{value =} \NormalTok{number,}
+                    \NormalTok{gdp}\FloatTok{.2005}\NormalTok{:unemp}\FloatTok{.2008}\NormalTok{)}
 \KeywordTok{head}\NormalTok{(long_data)}
 \end{Highlighting}
 \end{Shaded}
@@ -824,8 +838,9 @@ splitting a single variable into two.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{long_data <-}\StringTok{ }\KeywordTok{separate}\NormalTok{(long_data, }\DataTypeTok{col =} \NormalTok{variable, }
-    \DataTypeTok{into =} \KeywordTok{c}\NormalTok{(}\StringTok{"var"}\NormalTok{, }\StringTok{"year"}\NormalTok{))}
+\NormalTok{long_data <-}\StringTok{ }\KeywordTok{separate}\NormalTok{(long_data,}
+                      \DataTypeTok{col =} \NormalTok{variable,}
+                      \DataTypeTok{into =} \KeywordTok{c}\NormalTok{(}\StringTok{"var"}\NormalTok{, }\StringTok{"year"}\NormalTok{))}
 \KeywordTok{head}\NormalTok{(long_data)}
 \end{Highlighting}
 \end{Shaded}
@@ -850,7 +865,9 @@ value column, and turns each different key into a column of its own.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{clean_data <-}\StringTok{ }\KeywordTok{spread}\NormalTok{(long_data, }\DataTypeTok{key =} \NormalTok{var, }\DataTypeTok{value =} \NormalTok{number)}
+\NormalTok{clean_data <-}\StringTok{ }\KeywordTok{spread}\NormalTok{(long_data,}
+                    \DataTypeTok{key =} \NormalTok{var,}
+                    \DataTypeTok{value =} \NormalTok{number)}
 \KeywordTok{head}\NormalTok{(clean_data)}
 \end{Highlighting}
 \end{Shaded}
@@ -926,7 +943,11 @@ commands, it's much easier to comprehend
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{x %>%}\StringTok{ }\KeywordTok{f}\NormalTok{() %>%}\StringTok{ }\KeywordTok{g}\NormalTok{() %>%}\StringTok{ }\KeywordTok{h}\NormalTok{() %>%}\StringTok{ }\KeywordTok{i}\NormalTok{()}
+\NormalTok{x %>%}
+\StringTok{  }\KeywordTok{f}\NormalTok{() %>%}
+\StringTok{  }\KeywordTok{g}\NormalTok{() %>%}
+\StringTok{  }\KeywordTok{h}\NormalTok{() %>%}
+\StringTok{  }\KeywordTok{i}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
 
@@ -948,10 +969,14 @@ command, thanks to the pipe:\footnote{If you are reading the PDF copy of
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{untidy_data %>%}\StringTok{ }\KeywordTok{gather}\NormalTok{(}\DataTypeTok{key =} \NormalTok{variable, }\DataTypeTok{value =} \NormalTok{number, }
-    \NormalTok{gdp}\FloatTok{.2005}\NormalTok{:unemp}\FloatTok{.2008}\NormalTok{) %>%}\StringTok{ }\KeywordTok{separate}\NormalTok{(}\DataTypeTok{col =} \NormalTok{variable, }
-    \DataTypeTok{into =} \KeywordTok{c}\NormalTok{(}\StringTok{"var"}\NormalTok{, }\StringTok{"year"}\NormalTok{)) %>%}\StringTok{ }\KeywordTok{spread}\NormalTok{(}\DataTypeTok{key =} \NormalTok{var, }
-    \DataTypeTok{value =} \NormalTok{number)}
+\NormalTok{untidy_data %>%}
+\StringTok{  }\KeywordTok{gather}\NormalTok{(}\DataTypeTok{key =} \NormalTok{variable,}
+         \DataTypeTok{value =} \NormalTok{number,}
+         \NormalTok{gdp}\FloatTok{.2005}\NormalTok{:unemp}\FloatTok{.2008}\NormalTok{) %>%}
+\StringTok{  }\KeywordTok{separate}\NormalTok{(}\DataTypeTok{col =} \NormalTok{variable,}
+           \DataTypeTok{into =} \KeywordTok{c}\NormalTok{(}\StringTok{"var"}\NormalTok{, }\StringTok{"year"}\NormalTok{)) %>%}
+\StringTok{  }\KeywordTok{spread}\NormalTok{(}\DataTypeTok{key =} \NormalTok{var,}
+         \DataTypeTok{value =} \NormalTok{number)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -972,9 +997,14 @@ would have to write:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{spread}\NormalTok{(}\KeywordTok{separate}\NormalTok{(}\KeywordTok{gather}\NormalTok{(untidy_data, }\DataTypeTok{key =} \NormalTok{variable, }
-    \DataTypeTok{value =} \NormalTok{number, gdp}\FloatTok{.2005}\NormalTok{:unemp}\FloatTok{.2008}\NormalTok{), }\DataTypeTok{col =} \NormalTok{variable, }
-    \DataTypeTok{into =} \KeywordTok{c}\NormalTok{(}\StringTok{"var"}\NormalTok{, }\StringTok{"year"}\NormalTok{)), }\DataTypeTok{key =} \NormalTok{var, }\DataTypeTok{value =} \NormalTok{number)}
+\KeywordTok{spread}\NormalTok{(}\KeywordTok{separate}\NormalTok{(}\KeywordTok{gather}\NormalTok{(untidy_data,}
+                       \DataTypeTok{key =} \NormalTok{variable,}
+                       \DataTypeTok{value =} \NormalTok{number,}
+                       \NormalTok{gdp}\FloatTok{.2005}\NormalTok{:unemp}\FloatTok{.2008}\NormalTok{),}
+                \DataTypeTok{col =} \NormalTok{variable,}
+                \DataTypeTok{into =} \KeywordTok{c}\NormalTok{(}\StringTok{"var"}\NormalTok{, }\StringTok{"year"}\NormalTok{)),}
+       \DataTypeTok{key =} \NormalTok{var,}
+       \DataTypeTok{value =} \NormalTok{number)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -993,21 +1023,21 @@ hipsters would say) is \texttt{rename()}, which lets you rename columns.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{clean_data %>%}\StringTok{ }\KeywordTok{rename}\NormalTok{(}\DataTypeTok{gross_domestic_product =} \NormalTok{gdp)}
+\NormalTok{clean_data %>%}
+\StringTok{  }\KeywordTok{rename}\NormalTok{(}\DataTypeTok{gross_domestic_product =} \NormalTok{gdp)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
 ## # A tibble: 860 × 5
-##   country  year gross_domestic_product
-## *   <chr> <chr>                  <dbl>
-## 1      AD  2005                 3.8423
-## 2      AD  2006                 4.0184
-## 3      AD  2007                 4.0216
-## 4      AD  2008                 3.6759
-## 5      AE  2005               253.9655
-## # ... with 855 more rows, and 2 more
-## #   variables: pop <dbl>, unemp <dbl>
+##   country  year gross_domestic_product      pop unemp
+## *   <chr> <chr>                  <dbl>    <dbl> <dbl>
+## 1      AD  2005                 3.8423 0.081223    NA
+## 2      AD  2006                 4.0184 0.083373    NA
+## 3      AD  2007                 4.0216 0.084878    NA
+## 4      AD  2008                 3.6759 0.085616    NA
+## 5      AE  2005               253.9655 4.481976   3.1
+## # ... with 855 more rows
 \end{verbatim}
 
 The \textbf{dplyr} functions, like the vast majority of R functions, do
@@ -1037,7 +1067,8 @@ If you wanted to make the change stick, you would have to run:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{clean_data <-}\StringTok{ }\NormalTok{clean_data %>%}\StringTok{ }\KeywordTok{rename}\NormalTok{(}\DataTypeTok{gross_domestic_product =} \NormalTok{gdp)}
+\NormalTok{clean_data <-}\StringTok{ }\NormalTok{clean_data %>%}
+\StringTok{  }\KeywordTok{rename}\NormalTok{(}\DataTypeTok{gross_domestic_product =} \NormalTok{gdp)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1046,7 +1077,8 @@ others. Or vice versa if you use minus signs.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{clean_data %>%}\StringTok{ }\KeywordTok{select}\NormalTok{(country, gdp)}
+\NormalTok{clean_data %>%}
+\StringTok{  }\KeywordTok{select}\NormalTok{(country, gdp)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1064,7 +1096,8 @@ others. Or vice versa if you use minus signs.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{clean_data %>%}\StringTok{ }\KeywordTok{select}\NormalTok{(-pop)}
+\NormalTok{clean_data %>%}
+\StringTok{  }\KeywordTok{select}\NormalTok{(-pop)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1085,21 +1118,22 @@ of old ones.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{clean_data %>%}\StringTok{ }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{gdppc =} \NormalTok{gdp/pop, }\DataTypeTok{log_gdppc =} \KeywordTok{log}\NormalTok{(gdppc))}
+\NormalTok{clean_data %>%}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{gdppc =} \NormalTok{gdp /}\StringTok{ }\NormalTok{pop,}
+         \DataTypeTok{log_gdppc =} \KeywordTok{log}\NormalTok{(gdppc))}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
 ## # A tibble: 860 × 7
-##   country  year      gdp      pop unemp
-##     <chr> <chr>    <dbl>    <dbl> <dbl>
-## 1      AD  2005   3.8423 0.081223    NA
-## 2      AD  2006   4.0184 0.083373    NA
-## 3      AD  2007   4.0216 0.084878    NA
-## 4      AD  2008   3.6759 0.085616    NA
-## 5      AE  2005 253.9655 4.481976   3.1
-## # ... with 855 more rows, and 2 more
-## #   variables: gdppc <dbl>, log_gdppc <dbl>
+##   country  year      gdp      pop unemp  gdppc log_gdppc
+##     <chr> <chr>    <dbl>    <dbl> <dbl>  <dbl>     <dbl>
+## 1      AD  2005   3.8423 0.081223    NA 47.305    3.8566
+## 2      AD  2006   4.0184 0.083373    NA 48.198    3.8753
+## 3      AD  2007   4.0216 0.084878    NA 47.381    3.8582
+## 4      AD  2008   3.6759 0.085616    NA 42.935    3.7597
+## 5      AE  2005 253.9655 4.481976   3.1 56.664    4.0371
+## # ... with 855 more rows
 \end{verbatim}
 
 \texttt{filter()} cuts down the data according to the logical
@@ -1107,7 +1141,8 @@ condition(s) you specify.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{clean_data %>%}\StringTok{ }\KeywordTok{filter}\NormalTok{(year ==}\StringTok{ }\DecValTok{2006}\NormalTok{)}
+\NormalTok{clean_data %>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(year ==}\StringTok{ }\DecValTok{2006}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1128,8 +1163,8 @@ let's find the maximum unemployment rate.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{clean_data %>%}\StringTok{ }\KeywordTok{summarise}\NormalTok{(}\DataTypeTok{max_unemp =} \KeywordTok{max}\NormalTok{(unemp, }
-    \DataTypeTok{na.rm =} \OtherTok{TRUE}\NormalTok{))}
+\NormalTok{clean_data %>%}
+\StringTok{  }\KeywordTok{summarise}\NormalTok{(}\DataTypeTok{max_unemp =} \KeywordTok{max}\NormalTok{(unemp, }\DataTypeTok{na.rm =} \OtherTok{TRUE}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1148,8 +1183,9 @@ each year in the data.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{clean_data %>%}\StringTok{ }\KeywordTok{group_by}\NormalTok{(year) %>%}\StringTok{ }\KeywordTok{summarise}\NormalTok{(}\DataTypeTok{max_unemp =} \KeywordTok{max}\NormalTok{(unemp, }
-    \DataTypeTok{na.rm =} \OtherTok{TRUE}\NormalTok{))}
+\NormalTok{clean_data %>%}
+\StringTok{  }\KeywordTok{group_by}\NormalTok{(year) %>%}
+\StringTok{  }\KeywordTok{summarise}\NormalTok{(}\DataTypeTok{max_unemp =} \KeywordTok{max}\NormalTok{(unemp, }\DataTypeTok{na.rm =} \OtherTok{TRUE}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1170,9 +1206,11 @@ combination with \texttt{group\_by}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{clean_data %>%}\StringTok{ }\KeywordTok{group_by}\NormalTok{(year) %>%}\StringTok{ }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{max_unemp =} \KeywordTok{max}\NormalTok{(unemp, }
-    \DataTypeTok{na.rm =} \OtherTok{TRUE}\NormalTok{), }\DataTypeTok{unemp_over_max =} \NormalTok{unemp/max_unemp) %>%}\StringTok{ }
-\StringTok{    }\KeywordTok{select}\NormalTok{(country, year, }\KeywordTok{contains}\NormalTok{(}\StringTok{"unemp"}\NormalTok{))}
+\NormalTok{clean_data %>%}
+\StringTok{  }\KeywordTok{group_by}\NormalTok{(year) %>%}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{max_unemp =} \KeywordTok{max}\NormalTok{(unemp, }\DataTypeTok{na.rm =} \OtherTok{TRUE}\NormalTok{),}
+         \DataTypeTok{unemp_over_max =} \NormalTok{unemp /}\StringTok{ }\NormalTok{max_unemp) %>%}
+\StringTok{  }\KeywordTok{select}\NormalTok{(country, year, }\KeywordTok{contains}\NormalTok{(}\StringTok{"unemp"}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1180,15 +1218,14 @@ combination with \texttt{group\_by}.
 ## Source: local data frame [860 x 5]
 ## Groups: year [4]
 ## 
-##   country  year unemp max_unemp
-##     <chr> <chr> <dbl>     <dbl>
-## 1      AD  2005    NA      37.3
-## 2      AD  2006    NA      36.0
-## 3      AD  2007    NA      34.9
-## 4      AD  2008    NA      37.6
-## 5      AE  2005   3.1      37.3
-## # ... with 855 more rows, and 1 more
-## #   variables: unemp_over_max <dbl>
+##   country  year unemp max_unemp unemp_over_max
+##     <chr> <chr> <dbl>     <dbl>          <dbl>
+## 1      AD  2005    NA      37.3             NA
+## 2      AD  2006    NA      36.0             NA
+## 3      AD  2007    NA      34.9             NA
+## 4      AD  2008    NA      37.6             NA
+## 5      AE  2005   3.1      37.3        0.08311
+## # ... with 855 more rows
 \end{verbatim}
 
 This gives us back the original data, but with a \texttt{max\_unemp}
@@ -1308,22 +1345,22 @@ country into \texttt{clean\_data}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{left_join}\NormalTok{(clean_data, latlong_data, }\DataTypeTok{by =} \StringTok{"country"}\NormalTok{)}
+\KeywordTok{left_join}\NormalTok{(clean_data,}
+          \NormalTok{latlong_data,}
+          \DataTypeTok{by =} \StringTok{"country"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
 ## # A tibble: 860 × 7
-##   country  year      gdp      pop unemp
-##     <chr> <chr>    <dbl>    <dbl> <dbl>
-## 1      AD  2005   3.8423 0.081223    NA
-## 2      AD  2006   4.0184 0.083373    NA
-## 3      AD  2007   4.0216 0.084878    NA
-## 4      AD  2008   3.6759 0.085616    NA
-## 5      AE  2005 253.9655 4.481976   3.1
-## # ... with 855 more rows, and 2 more
-## #   variables: latitude <dbl>,
-## #   longitude <dbl>
+##   country  year      gdp      pop unemp latitude longitude
+##     <chr> <chr>    <dbl>    <dbl> <dbl>    <dbl>     <dbl>
+## 1      AD  2005   3.8423 0.081223    NA   42.546    1.6016
+## 2      AD  2006   4.0184 0.083373    NA   42.546    1.6016
+## 3      AD  2007   4.0216 0.084878    NA   42.546    1.6016
+## 4      AD  2008   3.6759 0.085616    NA   42.546    1.6016
+## 5      AE  2005 253.9655 4.481976   3.1   23.424   53.8478
+## # ... with 855 more rows
 \end{verbatim}
 
 Since \texttt{latlong\_data} is country-level, the value is the same for
@@ -1371,8 +1408,9 @@ try to merge \texttt{clean\_data} and \texttt{inflation\_data} on the
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{left_join}\NormalTok{(clean_data, inflation_data, }\DataTypeTok{by =} \KeywordTok{c}\NormalTok{(}\StringTok{"country"}\NormalTok{, }
-    \StringTok{"year"}\NormalTok{))}
+\KeywordTok{left_join}\NormalTok{(clean_data,}
+          \NormalTok{inflation_data,}
+          \DataTypeTok{by =} \KeywordTok{c}\NormalTok{(}\StringTok{"country"}\NormalTok{, }\StringTok{"year"}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1389,7 +1427,8 @@ year like a number.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{clean_data <-}\StringTok{ }\KeywordTok{mutate}\NormalTok{(clean_data, }\DataTypeTok{year =} \KeywordTok{as.integer}\NormalTok{(year))}
+\NormalTok{clean_data <-}\StringTok{ }\KeywordTok{mutate}\NormalTok{(clean_data,}
+                     \DataTypeTok{year =} \KeywordTok{as.integer}\NormalTok{(year))}
 \NormalTok{clean_data}
 \end{Highlighting}
 \end{Shaded}
@@ -1415,22 +1454,22 @@ merge on.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{left_join}\NormalTok{(clean_data, inflation_data, }\DataTypeTok{by =} \KeywordTok{c}\NormalTok{(}\StringTok{"country"}\NormalTok{, }
-    \StringTok{"year"}\NormalTok{))}
+\KeywordTok{left_join}\NormalTok{(clean_data,}
+          \NormalTok{inflation_data,}
+          \DataTypeTok{by =} \KeywordTok{c}\NormalTok{(}\StringTok{"country"}\NormalTok{, }\StringTok{"year"}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
 ## # A tibble: 860 × 6
-##   country  year      gdp      pop unemp
-##     <chr> <int>    <dbl>    <dbl> <dbl>
-## 1      AD  2005   3.8423 0.081223    NA
-## 2      AD  2006   4.0184 0.083373    NA
-## 3      AD  2007   4.0216 0.084878    NA
-## 4      AD  2008   3.6759 0.085616    NA
-## 5      AE  2005 253.9655 4.481976   3.1
-## # ... with 855 more rows, and 1 more
-## #   variables: inflation <dbl>
+##   country  year      gdp      pop unemp inflation
+##     <chr> <int>    <dbl>    <dbl> <dbl>     <dbl>
+## 1      AD  2005   3.8423 0.081223    NA        NA
+## 2      AD  2006   4.0184 0.083373    NA        NA
+## 3      AD  2007   4.0216 0.084878    NA        NA
+## 4      AD  2008   3.6759 0.085616    NA        NA
+## 5      AE  2005 253.9655 4.481976   3.1        NA
+## # ... with 855 more rows
 \end{verbatim}
 
 You might remember that \texttt{inflation\_data} contained some
@@ -1441,22 +1480,22 @@ the \texttt{right\_join()} function.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{right_join}\NormalTok{(clean_data, inflation_data, }\DataTypeTok{by =} \KeywordTok{c}\NormalTok{(}\StringTok{"country"}\NormalTok{, }
-    \StringTok{"year"}\NormalTok{))}
+\KeywordTok{right_join}\NormalTok{(clean_data,}
+           \NormalTok{inflation_data,}
+           \DataTypeTok{by =} \KeywordTok{c}\NormalTok{(}\StringTok{"country"}\NormalTok{, }\StringTok{"year"}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
 ## # A tibble: 1,070 × 6
-##   country  year    gdp      pop unemp
-##     <chr> <int>  <dbl>    <dbl> <dbl>
-## 1      AD  2004     NA       NA    NA
-## 2      AD  2005 3.8423 0.081223    NA
-## 3      AD  2006 4.0184 0.083373    NA
-## 4      AD  2007 4.0216 0.084878    NA
-## 5      AD  2008 3.6759 0.085616    NA
-## # ... with 1,065 more rows, and 1 more
-## #   variables: inflation <dbl>
+##   country  year    gdp      pop unemp inflation
+##     <chr> <int>  <dbl>    <dbl> <dbl>     <dbl>
+## 1      AD  2004     NA       NA    NA        NA
+## 2      AD  2005 3.8423 0.081223    NA        NA
+## 3      AD  2006 4.0184 0.083373    NA        NA
+## 4      AD  2007 4.0216 0.084878    NA        NA
+## 5      AD  2008 3.6759 0.085616    NA        NA
+## # ... with 1,065 more rows
 \end{verbatim}
 
 One last common issue in merging is that the identifier variables have
@@ -1466,8 +1505,9 @@ specify the \texttt{by} argument as in the following example.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{inflation_data <-}\StringTok{ }\KeywordTok{rename}\NormalTok{(inflation_data, }\DataTypeTok{the_country =} \NormalTok{country, }
-    \DataTypeTok{the_year =} \NormalTok{year)}
+\NormalTok{inflation_data <-}\StringTok{ }\KeywordTok{rename}\NormalTok{(inflation_data,}
+                         \DataTypeTok{the_country =} \NormalTok{country,}
+                         \DataTypeTok{the_year =} \NormalTok{year)}
 \NormalTok{inflation_data}
 \end{Highlighting}
 \end{Shaded}
@@ -1486,22 +1526,22 @@ specify the \texttt{by} argument as in the following example.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{left_join}\NormalTok{(clean_data, inflation_data, }\DataTypeTok{by =} \KeywordTok{c}\NormalTok{(}\DataTypeTok{country =} \StringTok{"the_country"}\NormalTok{, }
-    \DataTypeTok{year =} \StringTok{"the_year"}\NormalTok{))}
+\KeywordTok{left_join}\NormalTok{(clean_data,}
+          \NormalTok{inflation_data,}
+          \DataTypeTok{by =} \KeywordTok{c}\NormalTok{(}\StringTok{"country"} \NormalTok{=}\StringTok{ "the_country"}\NormalTok{, }\StringTok{"year"} \NormalTok{=}\StringTok{ "the_year"}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
 ## # A tibble: 860 × 6
-##   country  year      gdp      pop unemp
-##     <chr> <int>    <dbl>    <dbl> <dbl>
-## 1      AD  2005   3.8423 0.081223    NA
-## 2      AD  2006   4.0184 0.083373    NA
-## 3      AD  2007   4.0216 0.084878    NA
-## 4      AD  2008   3.6759 0.085616    NA
-## 5      AE  2005 253.9655 4.481976   3.1
-## # ... with 855 more rows, and 1 more
-## #   variables: inflation <dbl>
+##   country  year      gdp      pop unemp inflation
+##     <chr> <int>    <dbl>    <dbl> <dbl>     <dbl>
+## 1      AD  2005   3.8423 0.081223    NA        NA
+## 2      AD  2006   4.0184 0.083373    NA        NA
+## 3      AD  2007   4.0216 0.084878    NA        NA
+## 4      AD  2008   3.6759 0.085616    NA        NA
+## 5      AE  2005 253.9655 4.481976   3.1        NA
+## # ... with 855 more rows
 \end{verbatim}
 
 \section{Appendix: Creating the Example
@@ -1540,20 +1580,13 @@ function to locate the appropriate indicator names.
 \end{Shaded}
 
 \begin{verbatim}
-##   iso2c    country year NY.GDP.MKTP.KD
-## 1    1A Arab World 2005     1.6428e+12
-## 2    1A Arab World 2006     1.7629e+12
-## 3    1A Arab World 2007     1.8625e+12
-## 4    1A Arab World 2008     1.9799e+12
-## 5    1W      World 2005     5.7703e+13
-## 6    1W      World 2006     6.0229e+13
-##   SP.POP.TOTL SL.UEM.TOTL.ZS
-## 1   313430911        12.1402
-## 2   320906736        11.3296
-## 3   328766559        10.8961
-## 4   336886468        10.5060
-## 5  6513959904         6.1593
-## 6  6594722462         5.9000
+##   iso2c    country year NY.GDP.MKTP.KD SP.POP.TOTL SL.UEM.TOTL.ZS
+## 1    1A Arab World 2005     1.6428e+12   313430911        12.1402
+## 2    1A Arab World 2006     1.7629e+12   320906736        11.3296
+## 3    1A Arab World 2007     1.8625e+12   328766559        10.8961
+## 4    1A Arab World 2008     1.9799e+12   336886468        10.5060
+## 5    1W      World 2005     5.7703e+13  6513959904         6.1593
+## 6    1W      World 2006     6.0229e+13  6594722462         5.9000
 \end{verbatim}
 
 I want to get rid of the aggregates, like the ``Arab World'' and
@@ -1565,8 +1598,8 @@ those so-called countries whose ISO codes don't appear in the
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{dat_countries <-}\StringTok{ }\NormalTok{dat_raw %>%}\StringTok{ }\KeywordTok{filter}\NormalTok{(iso2c %in%}\StringTok{ }
-\StringTok{    }\NormalTok{countrycode_data$iso2c)}
+\NormalTok{dat_countries <-}\StringTok{ }\NormalTok{dat_raw %>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(iso2c %in%}\StringTok{ }\NormalTok{countrycode_data$iso2c)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1575,66 +1608,44 @@ characters per country name for printing purposes.)
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{dat_countries$country %>%}\StringTok{ }\KeywordTok{unique}\NormalTok{() %>%}\StringTok{ }\KeywordTok{str_sub}\NormalTok{(}\DataTypeTok{start =} \DecValTok{1}\NormalTok{, }
-    \DataTypeTok{end =} \DecValTok{6}\NormalTok{)}
+\NormalTok{dat_countries$country %>%}
+\StringTok{  }\KeywordTok{unique}\NormalTok{() %>%}
+\StringTok{  }\KeywordTok{str_sub}\NormalTok{(}\DataTypeTok{start =} \DecValTok{1}\NormalTok{, }\DataTypeTok{end =} \DecValTok{6}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-##   [1] "Andorr" "United" "Afghan" "Antigu"
-##   [5] "Albani" "Armeni" "Angola" "Argent"
-##   [9] "Americ" "Austri" "Austra" "Aruba" 
-##  [13] "Azerba" "Bosnia" "Barbad" "Bangla"
-##  [17] "Belgiu" "Burkin" "Bulgar" "Bahrai"
-##  [21] "Burund" "Benin"  "Bermud" "Brunei"
-##  [25] "Bolivi" "Brazil" "Bahama" "Bhutan"
-##  [29] "Botswa" "Belaru" "Belize" "Canada"
-##  [33] "Congo," "Centra" "Congo," "Switze"
-##  [37] "Cote d" "Chile"  "Camero" "China" 
-##  [41] "Colomb" "Costa " "Cuba"   "Cabo V"
-##  [45] "Curaca" "Cyprus" "Czech " "German"
-##  [49] "Djibou" "Denmar" "Domini" "Domini"
-##  [53] "Algeri" "Ecuado" "Estoni" "Egypt,"
-##  [57] "Eritre" "Spain"  "Ethiop" "Finlan"
-##  [61] "Fiji"   "Micron" "Faroe " "France"
-##  [65] "Gabon"  "United" "Grenad" "Georgi"
-##  [69] "Ghana"  "Gibral" "Greenl" "Gambia"
-##  [73] "Guinea" "Equato" "Greece" "Guatem"
-##  [77] "Guam"   "Guinea" "Guyana" "Hong K"
-##  [81] "Hondur" "Croati" "Haiti"  "Hungar"
-##  [85] "Indone" "Irelan" "Israel" "Isle o"
-##  [89] "India"  "Iraq"   "Iran, " "Icelan"
-##  [93] "Italy"  "Jamaic" "Jordan" "Japan" 
-##  [97] "Kenya"  "Kyrgyz" "Cambod" "Kiriba"
-## [101] "Comoro" "St. Ki" "Korea," "Korea,"
-## [105] "Kuwait" "Cayman" "Kazakh" "Lao PD"
-## [109] "Lebano" "St. Lu" "Liecht" "Sri La"
-## [113] "Liberi" "Lesoth" "Lithua" "Luxemb"
-## [117] "Latvia" "Libya"  "Morocc" "Monaco"
-## [121] "Moldov" "Monten" "St. Ma" "Madaga"
-## [125] "Marsha" "Macedo" "Mali"   "Myanma"
-## [129] "Mongol" "Macao " "Northe" "Maurit"
-## [133] "Malta"  "Maurit" "Maldiv" "Malawi"
-## [137] "Mexico" "Malays" "Mozamb" "Namibi"
-## [141] "New Ca" "Niger"  "Nigeri" "Nicara"
-## [145] "Nether" "Norway" "Nepal"  "Nauru" 
-## [149] "New Ze" "Oman"   "Panama" "Peru"  
-## [153] "French" "Papua " "Philip" "Pakist"
-## [157] "Poland" "Puerto" "West B" "Portug"
-## [161] "Palau"  "Paragu" "Qatar"  "Romani"
-## [165] "Serbia" "Russia" "Rwanda" "Saudi "
-## [169] "Solomo" "Seyche" "Sudan"  "Sweden"
-## [173] "Singap" "Sloven" "Slovak" "Sierra"
-## [177] "San Ma" "Senega" "Somali" "Surina"
-## [181] "South " "Sao To" "El Sal" "Sint M"
-## [185] "Syrian" "Swazil" "Turks " "Chad"  
-## [189] "Togo"   "Thaila" "Tajiki" "Timor-"
-## [193] "Turkme" "Tunisi" "Tonga"  "Turkey"
-## [197] "Trinid" "Tuvalu" "Tanzan" "Ukrain"
-## [201] "Uganda" "United" "Urugua" "Uzbeki"
-## [205] "St. Vi" "Venezu" "Britis" "Virgin"
-## [209] "Vietna" "Vanuat" "Samoa"  "Yemen,"
-## [213] "South " "Zambia" "Zimbab"
+##   [1] "Andorr" "United" "Afghan" "Antigu" "Albani" "Armeni" "Angola"
+##   [8] "Argent" "Americ" "Austri" "Austra" "Aruba"  "Azerba" "Bosnia"
+##  [15] "Barbad" "Bangla" "Belgiu" "Burkin" "Bulgar" "Bahrai" "Burund"
+##  [22] "Benin"  "Bermud" "Brunei" "Bolivi" "Brazil" "Bahama" "Bhutan"
+##  [29] "Botswa" "Belaru" "Belize" "Canada" "Congo," "Centra" "Congo,"
+##  [36] "Switze" "Cote d" "Chile"  "Camero" "China"  "Colomb" "Costa "
+##  [43] "Cuba"   "Cabo V" "Curaca" "Cyprus" "Czech " "German" "Djibou"
+##  [50] "Denmar" "Domini" "Domini" "Algeri" "Ecuado" "Estoni" "Egypt,"
+##  [57] "Eritre" "Spain"  "Ethiop" "Finlan" "Fiji"   "Micron" "Faroe "
+##  [64] "France" "Gabon"  "United" "Grenad" "Georgi" "Ghana"  "Gibral"
+##  [71] "Greenl" "Gambia" "Guinea" "Equato" "Greece" "Guatem" "Guam"  
+##  [78] "Guinea" "Guyana" "Hong K" "Hondur" "Croati" "Haiti"  "Hungar"
+##  [85] "Indone" "Irelan" "Israel" "Isle o" "India"  "Iraq"   "Iran, "
+##  [92] "Icelan" "Italy"  "Jamaic" "Jordan" "Japan"  "Kenya"  "Kyrgyz"
+##  [99] "Cambod" "Kiriba" "Comoro" "St. Ki" "Korea," "Korea," "Kuwait"
+## [106] "Cayman" "Kazakh" "Lao PD" "Lebano" "St. Lu" "Liecht" "Sri La"
+## [113] "Liberi" "Lesoth" "Lithua" "Luxemb" "Latvia" "Libya"  "Morocc"
+## [120] "Monaco" "Moldov" "Monten" "St. Ma" "Madaga" "Marsha" "Macedo"
+## [127] "Mali"   "Myanma" "Mongol" "Macao " "Northe" "Maurit" "Malta" 
+## [134] "Maurit" "Maldiv" "Malawi" "Mexico" "Malays" "Mozamb" "Namibi"
+## [141] "New Ca" "Niger"  "Nigeri" "Nicara" "Nether" "Norway" "Nepal" 
+## [148] "Nauru"  "New Ze" "Oman"   "Panama" "Peru"   "French" "Papua "
+## [155] "Philip" "Pakist" "Poland" "Puerto" "West B" "Portug" "Palau" 
+## [162] "Paragu" "Qatar"  "Romani" "Serbia" "Russia" "Rwanda" "Saudi "
+## [169] "Solomo" "Seyche" "Sudan"  "Sweden" "Singap" "Sloven" "Slovak"
+## [176] "Sierra" "San Ma" "Senega" "Somali" "Surina" "South " "Sao To"
+## [183] "El Sal" "Sint M" "Syrian" "Swazil" "Turks " "Chad"   "Togo"  
+## [190] "Thaila" "Tajiki" "Timor-" "Turkme" "Tunisi" "Tonga"  "Turkey"
+## [197] "Trinid" "Tuvalu" "Tanzan" "Ukrain" "Uganda" "United" "Urugua"
+## [204] "Uzbeki" "St. Vi" "Venezu" "Britis" "Virgin" "Vietna" "Vanuat"
+## [211] "Samoa"  "Yemen," "South " "Zambia" "Zimbab"
 \end{verbatim}
 
 With that out of the way, there's still some cleaning up to do. The
@@ -1644,10 +1655,14 @@ redundant now that we're satisfied with the list of countries remaining.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{dat_countries <-}\StringTok{ }\NormalTok{dat_countries %>%}\StringTok{ }\KeywordTok{select}\NormalTok{(-country) %>%}\StringTok{ }
-\StringTok{    }\KeywordTok{rename}\NormalTok{(}\DataTypeTok{gdp =} \NormalTok{NY.GDP.MKTP.KD, }\DataTypeTok{pop =} \NormalTok{SP.POP.TOTL, }
-        \DataTypeTok{unemp =} \NormalTok{SL.UEM.TOTL.ZS, }\DataTypeTok{country =} \NormalTok{iso2c) %>%}\StringTok{ }
-\StringTok{    }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{gdp =} \NormalTok{gdp/}\FloatTok{1e+09}\NormalTok{, }\DataTypeTok{pop =} \NormalTok{pop/}\FloatTok{1e+06}\NormalTok{)}
+\NormalTok{dat_countries <-}\StringTok{ }\NormalTok{dat_countries %>%}
+\StringTok{  }\KeywordTok{select}\NormalTok{(-country) %>%}
+\StringTok{  }\KeywordTok{rename}\NormalTok{(}\DataTypeTok{gdp =} \NormalTok{NY.GDP.MKTP.KD,}
+         \DataTypeTok{pop =} \NormalTok{SP.POP.TOTL,}
+         \DataTypeTok{unemp =} \NormalTok{SL.UEM.TOTL.ZS,}
+         \DataTypeTok{country =} \NormalTok{iso2c) %>%}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{gdp =} \NormalTok{gdp /}\StringTok{ }\FloatTok{1e9}\NormalTok{,}
+         \DataTypeTok{pop =} \NormalTok{pop /}\StringTok{ }\FloatTok{1e6}\NormalTok{)}
 
 \KeywordTok{head}\NormalTok{(dat_countries)}
 \end{Highlighting}
@@ -1667,8 +1682,10 @@ Now I convert the data to ``long'' format.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{dat_countries_long <-}\StringTok{ }\NormalTok{dat_countries %>%}\StringTok{ }\KeywordTok{gather}\NormalTok{(}\DataTypeTok{key =} \NormalTok{variable, }
-    \DataTypeTok{value =} \NormalTok{value, gdp:unemp)}
+\NormalTok{dat_countries_long <-}\StringTok{ }\NormalTok{dat_countries %>%}
+\StringTok{  }\KeywordTok{gather}\NormalTok{(}\DataTypeTok{key =} \NormalTok{variable,}
+         \DataTypeTok{value =} \NormalTok{value,}
+         \NormalTok{gdp:unemp)}
 
 \KeywordTok{head}\NormalTok{(dat_countries_long)}
 \end{Highlighting}
@@ -1689,8 +1706,9 @@ and drop the individual components.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{dat_countries_long <-}\StringTok{ }\NormalTok{dat_countries_long %>%}\StringTok{ }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{var_year =} \KeywordTok{paste}\NormalTok{(variable, }
-    \NormalTok{year, }\DataTypeTok{sep =} \StringTok{"."}\NormalTok{)) %>%}\StringTok{ }\KeywordTok{select}\NormalTok{(-variable, -year)}
+\NormalTok{dat_countries_long <-}\StringTok{ }\NormalTok{dat_countries_long %>%}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{var_year =} \KeywordTok{paste}\NormalTok{(variable, year, }\DataTypeTok{sep =} \StringTok{"."}\NormalTok{)) %>%}
+\StringTok{  }\KeywordTok{select}\NormalTok{(-variable, -year)}
 
 \KeywordTok{head}\NormalTok{(dat_countries_long)}
 \end{Highlighting}
@@ -1711,42 +1729,28 @@ column of its own.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{dat_countries_wide <-}\StringTok{ }\NormalTok{dat_countries_long %>%}\StringTok{ }\KeywordTok{spread}\NormalTok{(}\DataTypeTok{key =} \NormalTok{var_year, }
-    \DataTypeTok{value =} \NormalTok{value)}
+\NormalTok{dat_countries_wide <-}\StringTok{ }\NormalTok{dat_countries_long %>%}
+\StringTok{  }\KeywordTok{spread}\NormalTok{(}\DataTypeTok{key =} \NormalTok{var_year, }\DataTypeTok{value =} \NormalTok{value)}
 
 \KeywordTok{head}\NormalTok{(dat_countries_wide)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-##   country gdp.2005 gdp.2006 gdp.2007
-## 1      AD   3.8423   4.0184   4.0216
-## 2      AE 253.9655 278.9489 287.8318
-## 3      AF   9.7630  10.3052  11.7212
-## 4      AG   1.1190   1.2687   1.3892
-## 5      AL   9.2684   9.7718  10.3483
-## 6      AM   7.6678   8.6797   9.8731
-##   gdp.2008  pop.2005  pop.2006  pop.2007
-## 1   3.6759  0.081223  0.083373  0.084878
-## 2 297.0189  4.481976  5.171255  6.010100
-## 3  12.1445 24.399948 25.183615 25.877544
-## 4   1.3902  0.082565  0.083467  0.084397
-## 5  11.1275  3.011487  2.992547  2.970017
-## 6  10.5544  3.014917  3.002161  2.988117
-##    pop.2008 unemp.2005 unemp.2006 unemp.2007
-## 1  0.085616         NA         NA         NA
-## 2  6.900142        3.1        3.3        3.4
-## 3 26.528741        8.5        8.8        8.4
-## 4  0.085350         NA         NA         NA
-## 5  2.947314       12.5       12.4       13.5
-## 6  2.975029       27.8       28.6       28.4
-##   unemp.2008
-## 1         NA
-## 2        4.0
-## 3        8.9
-## 4         NA
-## 5       13.0
-## 6       16.4
+##   country gdp.2005 gdp.2006 gdp.2007 gdp.2008  pop.2005  pop.2006
+## 1      AD   3.8423   4.0184   4.0216   3.6759  0.081223  0.083373
+## 2      AE 253.9655 278.9489 287.8318 297.0189  4.481976  5.171255
+## 3      AF   9.7630  10.3052  11.7212  12.1445 24.399948 25.183615
+## 4      AG   1.1190   1.2687   1.3892   1.3902  0.082565  0.083467
+## 5      AL   9.2684   9.7718  10.3483  11.1275  3.011487  2.992547
+## 6      AM   7.6678   8.6797   9.8731  10.5544  3.014917  3.002161
+##    pop.2007  pop.2008 unemp.2005 unemp.2006 unemp.2007 unemp.2008
+## 1  0.084878  0.085616         NA         NA         NA         NA
+## 2  6.010100  6.900142        3.1        3.3        3.4        4.0
+## 3 25.877544 26.528741        8.5        8.8        8.4        8.9
+## 4  0.084397  0.085350         NA         NA         NA         NA
+## 5  2.970017  2.947314       12.5       12.4       13.5       13.0
+## 6  2.988117  2.975029       27.8       28.6       28.4       16.4
 \end{verbatim}
 
 Now we have some ugly data. I save the output to upload to my website.
@@ -1764,11 +1768,18 @@ from
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{dat_2 <-}\StringTok{ }\KeywordTok{WDI}\NormalTok{(}\DataTypeTok{country =} \StringTok{"all"}\NormalTok{, }\DataTypeTok{indicator =} \StringTok{"FP.CPI.TOTL.ZG"}\NormalTok{, }
-    \DataTypeTok{start =} \DecValTok{2004}\NormalTok{, }\DataTypeTok{end =} \DecValTok{2008}\NormalTok{) %>%}\StringTok{ }\KeywordTok{as_data_frame}\NormalTok{() %>%}\StringTok{ }
-\StringTok{    }\KeywordTok{select}\NormalTok{(}\DataTypeTok{country =} \NormalTok{iso2c, year, }\DataTypeTok{inflation =} \NormalTok{FP.CPI.TOTL.ZG) %>%}\StringTok{ }
-\StringTok{    }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{year =} \KeywordTok{as.integer}\NormalTok{(year)) %>%}\StringTok{ }\KeywordTok{filter}\NormalTok{(country %in%}\StringTok{ }
-\StringTok{    }\NormalTok{clean_data$country) %>%}\StringTok{ }\KeywordTok{arrange}\NormalTok{(country, year)}
+\NormalTok{dat_2 <-}
+\StringTok{  }\KeywordTok{WDI}\NormalTok{(}\DataTypeTok{country =} \StringTok{"all"}\NormalTok{,}
+      \DataTypeTok{indicator =} \StringTok{"FP.CPI.TOTL.ZG"}\NormalTok{,}
+      \DataTypeTok{start =} \DecValTok{2004}\NormalTok{,}
+      \DataTypeTok{end =} \DecValTok{2008}\NormalTok{) %>%}
+\StringTok{  }\KeywordTok{as_data_frame}\NormalTok{() %>%}
+\StringTok{  }\KeywordTok{select}\NormalTok{(}\DataTypeTok{country =} \NormalTok{iso2c,}
+         \NormalTok{year,}
+         \DataTypeTok{inflation =} \NormalTok{FP.CPI.TOTL.ZG) %>%}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{year =} \KeywordTok{as.integer}\NormalTok{(year)) %>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(country %in%}\StringTok{ }\NormalTok{clean_data$country) %>%}
+\StringTok{  }\KeywordTok{arrange}\NormalTok{(country, year)}
 
 \KeywordTok{write_csv}\NormalTok{(dat_2, }\DataTypeTok{path =} \StringTok{"inflation.csv"}\NormalTok{)}
 \end{Highlighting}
@@ -1814,18 +1825,15 @@ website.
 
 \begin{verbatim}
 ## # A tibble: 50 × 12
-##        State Abbrev Region Population Income
-##        <chr>  <chr>  <chr>      <dbl>  <dbl>
-## 1    Alabama     AL  South       3615   3624
-## 2     Alaska     AK   West        365   6315
-## 3    Arizona     AZ   West       2212   4530
-## 4   Arkansas     AR  South       2110   3378
-## 5 California     CA   West      21198   5114
-## # ... with 45 more rows, and 7 more
-## #   variables: Illiteracy <dbl>,
-## #   LifeExp <dbl>, Murder <dbl>,
-## #   HSGrad <dbl>, Frost <dbl>, Area <dbl>,
-## #   IncomeGroup <chr>
+##        State Abbrev Region Population Income Illiteracy LifeExp Murder
+##        <chr>  <chr>  <chr>      <dbl>  <dbl>      <dbl>   <dbl>  <dbl>
+## 1    Alabama     AL  South       3615   3624        2.1   69.05   15.1
+## 2     Alaska     AK   West        365   6315        1.5   69.31   11.3
+## 3    Arizona     AZ   West       2212   4530        1.8   70.55    7.8
+## 4   Arkansas     AR  South       2110   3378        1.9   70.66   10.1
+## 5 California     CA   West      21198   5114        1.1   71.71   10.3
+## # ... with 45 more rows, and 4 more variables: HSGrad <dbl>, Frost <dbl>,
+## #   Area <dbl>, IncomeGroup <chr>
 \end{verbatim}
 
 When I obtain data, I start by looking at the univariate distribution of
@@ -1834,16 +1842,16 @@ ggplot.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Population)) +}\StringTok{ }\KeywordTok{geom_histogram}\NormalTok{()}
+\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Population)) +}
+\StringTok{  }\KeywordTok{geom_histogram}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## `stat_bin()` using `bins = 30`. Pick
-## better value with `binwidth`.
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 \end{verbatim}
 
-\includegraphics{pdaps_files/figure-latex/histogram-1}
+\includegraphics{pdaps_files/figure-latex/histogram-1.pdf}
 
 Let's walk through the syntax there. In the first line, we call
 \texttt{ggplot()}, specifying the data frame to draw from, then in the
@@ -1867,18 +1875,19 @@ include an informative title and axis labels. To that end, use the
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Population)) +}\StringTok{ }\KeywordTok{geom_histogram}\NormalTok{() +}\StringTok{ }
-\StringTok{    }\KeywordTok{xlab}\NormalTok{(}\StringTok{"Population (thousands)"}\NormalTok{) +}\StringTok{ }\KeywordTok{ylab}\NormalTok{(}\StringTok{"Number of states"}\NormalTok{) +}\StringTok{ }
-\StringTok{    }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Some states are big, but most are small"}\NormalTok{)}
+\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Population)) +}
+\StringTok{  }\KeywordTok{geom_histogram}\NormalTok{() +}
+\StringTok{  }\KeywordTok{xlab}\NormalTok{(}\StringTok{"Population (thousands)"}\NormalTok{) +}
+\StringTok{  }\KeywordTok{ylab}\NormalTok{(}\StringTok{"Number of states"}\NormalTok{) +}
+\StringTok{  }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Some states are big, but most are small"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## `stat_bin()` using `bins = 30`. Pick
-## better value with `binwidth`.
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 \end{verbatim}
 
-\includegraphics{pdaps_files/figure-latex/axis-labeling-1}
+\includegraphics{pdaps_files/figure-latex/axis-labeling-1.pdf}
 
 The density plot is a close relative of the histogram. It provides a
 smooth estimate of the probability density function of the data.
@@ -1889,23 +1898,24 @@ histogram.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Population)) +}\StringTok{ }\KeywordTok{geom_density}\NormalTok{()}
+\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Population)) +}
+\StringTok{  }\KeywordTok{geom_density}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{pdaps_files/figure-latex/density-1}
+\includegraphics{pdaps_files/figure-latex/density-1.pdf}
 
 The box plot is a common way to look at the distribution of a continuous
 variable across different levels of a categorical variable.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Region, }\DataTypeTok{y =} \NormalTok{Population)) +}\StringTok{ }
-\StringTok{    }\KeywordTok{geom_boxplot}\NormalTok{()}
+\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Region, }\DataTypeTok{y =} \NormalTok{Population)) +}
+\StringTok{  }\KeywordTok{geom_boxplot}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{pdaps_files/figure-latex/boxplot-1}
+\includegraphics{pdaps_files/figure-latex/boxplot-1.pdf}
 
 A box plot consists of the following components:
 
@@ -1932,12 +1942,12 @@ variable across categories, you can use a violin plot.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Region, }\DataTypeTok{y =} \NormalTok{Population)) +}\StringTok{ }
-\StringTok{    }\KeywordTok{geom_violin}\NormalTok{()}
+\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Region, }\DataTypeTok{y =} \NormalTok{Population)) +}
+\StringTok{  }\KeywordTok{geom_violin}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{pdaps_files/figure-latex/violin-1}
+\includegraphics{pdaps_files/figure-latex/violin-1.pdf}
 
 Technically, violin plots convey more information than box plots since
 they show the full distribution. However, readers aren't as likely to be
@@ -1951,12 +1961,12 @@ beats the scatterplot.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Illiteracy, }\DataTypeTok{y =} \NormalTok{LifeExp)) +}\StringTok{ }
-\StringTok{    }\KeywordTok{geom_point}\NormalTok{()}
+\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Illiteracy, }\DataTypeTok{y =} \NormalTok{LifeExp)) +}
+\StringTok{  }\KeywordTok{geom_point}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{pdaps_files/figure-latex/scatter-1}
+\includegraphics{pdaps_files/figure-latex/scatter-1.pdf}
 
 When you're plotting states or countries, a hip thing to do is plot
 abbreviated names instead of points. To do that, you can use
@@ -1966,12 +1976,12 @@ from.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Illiteracy, }\DataTypeTok{y =} \NormalTok{LifeExp)) +}\StringTok{ }
-\StringTok{    }\KeywordTok{geom_text}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{label =} \NormalTok{Abbrev))}
+\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Illiteracy, }\DataTypeTok{y =} \NormalTok{LifeExp)) +}
+\StringTok{  }\KeywordTok{geom_text}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{label =} \NormalTok{Abbrev))}
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{pdaps_files/figure-latex/scatter-text-1}
+\includegraphics{pdaps_files/figure-latex/scatter-text-1.pdf}
 
 Maybe it's overwhelming to look at all that raw data and you just want a
 summary. For example, maybe you want an estimate of expected
@@ -1982,8 +1992,8 @@ smoothed conditional expectation via \texttt{geom\_smooth()}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Illiteracy, }\DataTypeTok{y =} \NormalTok{LifeExp)) +}\StringTok{ }
-\StringTok{    }\KeywordTok{geom_smooth}\NormalTok{()}
+\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Illiteracy, }\DataTypeTok{y =} \NormalTok{LifeExp)) +}
+\StringTok{  }\KeywordTok{geom_smooth}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1991,7 +2001,7 @@ smoothed conditional expectation via \texttt{geom\_smooth()}.
 ## `geom_smooth()` using method = 'loess'
 \end{verbatim}
 
-\includegraphics{pdaps_files/figure-latex/smooth-1}
+\includegraphics{pdaps_files/figure-latex/smooth-1.pdf}
 
 And if you're the kind of overachiever who likes to have the raw data
 \emph{and} the summary, you can do it. Just add them both to the
@@ -1999,8 +2009,9 @@ And if you're the kind of overachiever who likes to have the raw data
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Illiteracy, }\DataTypeTok{y =} \NormalTok{LifeExp)) +}\StringTok{ }
-\StringTok{    }\KeywordTok{geom_smooth}\NormalTok{() +}\StringTok{ }\KeywordTok{geom_point}\NormalTok{()}
+\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Illiteracy, }\DataTypeTok{y =} \NormalTok{LifeExp)) +}
+\StringTok{  }\KeywordTok{geom_smooth}\NormalTok{() +}
+\StringTok{  }\KeywordTok{geom_point}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2008,7 +2019,7 @@ And if you're the kind of overachiever who likes to have the raw data
 ## `geom_smooth()` using method = 'loess'
 \end{verbatim}
 
-\includegraphics{pdaps_files/figure-latex/combine-1}
+\includegraphics{pdaps_files/figure-latex/combine-1.pdf}
 
 \section{Saving Plots}\label{saving-plots}
 
@@ -2030,11 +2041,13 @@ It's pretty simple:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{pop_hist <-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Population)) +}\StringTok{ }
-\StringTok{    }\KeywordTok{geom_histogram}\NormalTok{()}
+\NormalTok{pop_hist <-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Population)) +}
+\StringTok{  }\KeywordTok{geom_histogram}\NormalTok{()}
 
-\KeywordTok{ggsave}\NormalTok{(}\DataTypeTok{filename =} \StringTok{"pop-hist.pdf"}\NormalTok{, }\DataTypeTok{plot =} \NormalTok{pop_hist, }
-    \DataTypeTok{width =} \DecValTok{6}\NormalTok{, }\DataTypeTok{height =} \DecValTok{3}\NormalTok{)}
+\KeywordTok{ggsave}\NormalTok{(}\DataTypeTok{filename =} \StringTok{"pop-hist.pdf"}\NormalTok{,}
+       \DataTypeTok{plot =} \NormalTok{pop_hist,}
+       \DataTypeTok{width =} \DecValTok{6}\NormalTok{,}
+       \DataTypeTok{height =} \DecValTok{3}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2055,51 +2068,51 @@ acquainted with once we start running regressions.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Population)) +}\StringTok{ }\KeywordTok{geom_histogram}\NormalTok{() +}\StringTok{ }
-\StringTok{    }\KeywordTok{facet_wrap}\NormalTok{(~Region)}
+\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Population)) +}
+\StringTok{  }\KeywordTok{geom_histogram}\NormalTok{() +}
+\StringTok{  }\KeywordTok{facet_wrap}\NormalTok{(~}\StringTok{ }\NormalTok{Region)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## `stat_bin()` using `bins = 30`. Pick
-## better value with `binwidth`.
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 \end{verbatim}
 
-\includegraphics{pdaps_files/figure-latex/facet-wrap-1}
+\includegraphics{pdaps_files/figure-latex/facet-wrap-1.pdf}
 
 If you don't like the default arrangement, use the \texttt{ncol}
 argument.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Population)) +}\StringTok{ }\KeywordTok{geom_histogram}\NormalTok{() +}\StringTok{ }
-\StringTok{    }\KeywordTok{facet_wrap}\NormalTok{(~Region, }\DataTypeTok{ncol =} \DecValTok{1}\NormalTok{)}
+\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Population)) +}
+\StringTok{  }\KeywordTok{geom_histogram}\NormalTok{() +}
+\StringTok{  }\KeywordTok{facet_wrap}\NormalTok{(~}\StringTok{ }\NormalTok{Region, }\DataTypeTok{ncol =} \DecValTok{1}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## `stat_bin()` using `bins = 30`. Pick
-## better value with `binwidth`.
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 \end{verbatim}
 
-\includegraphics{pdaps_files/figure-latex/facet-wrap-ncol-1}
+\includegraphics{pdaps_files/figure-latex/facet-wrap-ncol-1.pdf}
 
 For two grouping variables, use \texttt{facet\_grid()}, putting
 variables on both sides of the formula.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Population)) +}\StringTok{ }\KeywordTok{geom_histogram}\NormalTok{() +}\StringTok{ }
-\StringTok{    }\KeywordTok{facet_grid}\NormalTok{(Region ~}\StringTok{ }\NormalTok{IncomeGroup)}
+\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Population)) +}
+\StringTok{  }\KeywordTok{geom_histogram}\NormalTok{() +}
+\StringTok{  }\KeywordTok{facet_grid}\NormalTok{(Region ~}\StringTok{ }\NormalTok{IncomeGroup)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## `stat_bin()` using `bins = 30`. Pick
-## better value with `binwidth`.
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 \end{verbatim}
 
-\includegraphics{pdaps_files/figure-latex/facet-grid-1}
+\includegraphics{pdaps_files/figure-latex/facet-grid-1.pdf}
 
 \section{Aesthetics}\label{aesthetics}
 
@@ -2116,12 +2129,12 @@ visual weight. You can set the \texttt{size} aesthetic of the
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Illiteracy, }\DataTypeTok{y =} \NormalTok{LifeExp)) +}\StringTok{ }
-\StringTok{    }\KeywordTok{geom_point}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{size =} \NormalTok{Population))}
+\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Illiteracy, }\DataTypeTok{y =} \NormalTok{LifeExp)) +}
+\StringTok{  }\KeywordTok{geom_point}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{size =} \NormalTok{Population))}
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{pdaps_files/figure-latex/aes-size-1}
+\includegraphics{pdaps_files/figure-latex/aes-size-1.pdf}
 
 The \textbf{ggplot2} documentation lists the available aesthetics for
 each function. Another popular one is \texttt{colour}, which is great
@@ -2130,23 +2143,24 @@ terrible for the colorblind!)
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Illiteracy, }\DataTypeTok{y =} \NormalTok{LifeExp)) +}\StringTok{ }
-\StringTok{    }\KeywordTok{geom_point}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{colour =} \NormalTok{Region))}
+\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Illiteracy, }\DataTypeTok{y =} \NormalTok{LifeExp)) +}
+\StringTok{  }\KeywordTok{geom_point}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{colour =} \NormalTok{Region))}
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{pdaps_files/figure-latex/aes-colour-1}
+\includegraphics{pdaps_files/figure-latex/aes-colour-1.pdf}
 
 For line graphs or density plots, you can set the \texttt{linetype} to
 vary by category.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Population)) +}\StringTok{ }\KeywordTok{geom_density}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{linetype =} \NormalTok{IncomeGroup))}
+\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Population)) +}
+\StringTok{  }\KeywordTok{geom_density}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{linetype =} \NormalTok{IncomeGroup))}
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{pdaps_files/figure-latex/aes-linetype-1}
+\includegraphics{pdaps_files/figure-latex/aes-linetype-1.pdf}
 
 (I always find these incomprehensible with more than two lines, but
 maybe that's just me.) You can use multiple aesthetics together, and you
@@ -2154,9 +2168,10 @@ can even combine aesthetics with faceting, as in the following example.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Illiteracy, }\DataTypeTok{y =} \NormalTok{LifeExp)) +}\StringTok{ }
-\StringTok{    }\KeywordTok{geom_smooth}\NormalTok{() +}\StringTok{ }\KeywordTok{geom_text}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{label =} \NormalTok{Abbrev, }
-    \DataTypeTok{colour =} \NormalTok{Region, }\DataTypeTok{size =} \NormalTok{Population)) +}\StringTok{ }\KeywordTok{facet_wrap}\NormalTok{(~IncomeGroup)}
+\KeywordTok{ggplot}\NormalTok{(state_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Illiteracy, }\DataTypeTok{y =} \NormalTok{LifeExp)) +}
+\StringTok{  }\KeywordTok{geom_smooth}\NormalTok{() +}
+\StringTok{  }\KeywordTok{geom_text}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{label =} \NormalTok{Abbrev, }\DataTypeTok{colour =} \NormalTok{Region, }\DataTypeTok{size =} \NormalTok{Population)) +}
+\StringTok{  }\KeywordTok{facet_wrap}\NormalTok{(~}\StringTok{ }\NormalTok{IncomeGroup)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2164,7 +2179,7 @@ can even combine aesthetics with faceting, as in the following example.
 ## `geom_smooth()` using method = 'loess'
 \end{verbatim}
 
-\includegraphics{pdaps_files/figure-latex/too-many-things-1}
+\includegraphics{pdaps_files/figure-latex/too-many-things-1.pdf}
 
 But the fact that you \emph{can} do something doesn't mean you
 \emph{should}. That plot is so cluttered that it's hard to extract the
@@ -2182,20 +2197,837 @@ included with base R. See \texttt{?state}.
 \begin{Highlighting}[]
 \KeywordTok{library}\NormalTok{(}\StringTok{"tidyverse"}\NormalTok{)}
 
-\NormalTok{state_data <-}\StringTok{ }\NormalTok{state.x77 %>%}\StringTok{ }\KeywordTok{as_tibble}\NormalTok{() %>%}\StringTok{ }\KeywordTok{add_column}\NormalTok{(}\DataTypeTok{State =} \KeywordTok{rownames}\NormalTok{(state.x77), }
-    \DataTypeTok{Abbrev =} \NormalTok{state.abb, }\DataTypeTok{Region =} \NormalTok{state.region, }
-    \DataTypeTok{.before =} \DecValTok{1}\NormalTok{) %>%}\StringTok{ }\KeywordTok{rename}\NormalTok{(}\DataTypeTok{LifeExp =} \StringTok{`}\DataTypeTok{Life Exp}\StringTok{`}\NormalTok{, }
-    \DataTypeTok{HSGrad =} \StringTok{`}\DataTypeTok{HS Grad}\StringTok{`}\NormalTok{) %>%}\StringTok{ }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{IncomeGroup =} \KeywordTok{cut}\NormalTok{(Income, }
-    \DataTypeTok{breaks =} \KeywordTok{quantile}\NormalTok{(Income, }\DataTypeTok{probs =} \KeywordTok{seq}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{, }
-        \DataTypeTok{by =} \DecValTok{1}\NormalTok{/}\DecValTok{3}\NormalTok{)), }\DataTypeTok{labels =} \KeywordTok{c}\NormalTok{(}\StringTok{"Low"}\NormalTok{, }\StringTok{"Medium"}\NormalTok{, }
-        \StringTok{"High"}\NormalTok{), }\DataTypeTok{include.lowest =} \OtherTok{TRUE}\NormalTok{))}
+\NormalTok{state_data <-}\StringTok{ }\NormalTok{state.x77 %>%}
+\StringTok{  }\KeywordTok{as_tibble}\NormalTok{() %>%}
+\StringTok{  }\KeywordTok{add_column}\NormalTok{(}\DataTypeTok{State =} \KeywordTok{rownames}\NormalTok{(state.x77),}
+             \DataTypeTok{Abbrev =} \NormalTok{state.abb,}
+             \DataTypeTok{Region =} \NormalTok{state.region,}
+             \DataTypeTok{.before =} \DecValTok{1}\NormalTok{) %>%}
+\StringTok{  }\KeywordTok{rename}\NormalTok{(}\DataTypeTok{LifeExp =} \StringTok{`}\DataTypeTok{Life Exp}\StringTok{`}\NormalTok{,}
+         \DataTypeTok{HSGrad =} \StringTok{`}\DataTypeTok{HS Grad}\StringTok{`}\NormalTok{) %>%}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{IncomeGroup =} \KeywordTok{cut}\NormalTok{(Income,}
+                           \DataTypeTok{breaks =} \KeywordTok{quantile}\NormalTok{(Income,}
+                                             \DataTypeTok{probs =} \KeywordTok{seq}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DataTypeTok{by =} \DecValTok{1}\NormalTok{/}\DecValTok{3}\NormalTok{)),}
+                           \DataTypeTok{labels =} \KeywordTok{c}\NormalTok{(}\StringTok{"Low"}\NormalTok{, }\StringTok{"Medium"}\NormalTok{, }\StringTok{"High"}\NormalTok{),}
+                           \DataTypeTok{include.lowest =} \OtherTok{TRUE}\NormalTok{))}
 
 \KeywordTok{write_csv}\NormalTok{(state_data, }\DataTypeTok{path =} \StringTok{"state-data.csv"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
-\bibliography{packages.bib,book.bib,psci-8357.bib}
+\chapter{Bivariate Regression}\label{bivariate}
 
+\newcommand{\SSE}{\mathop{\rm SSE}\nolimits}
+\newcommand{\RSS}{\mathop{\rm RSS}\nolimits}
+\newcommand{\TSS}{\mathop{\rm TSS}\nolimits}
+\newcommand{\Cov}{\mathop{\rm Cov}\nolimits}
+\newcommand{\pderiv}[2]{\frac{\partial #1}{\partial #2}}
+
+The goal of empirical social science is usually to learn about the
+relationships between variables in the social world. Our goals might be
+descriptive: were college graduates more likely to vote for Clinton in
+2016? Or causal: does receiving more education make a person more
+liberal on average? Or predictive: what kinds of voters should Democrats
+target in 2020 to have the best chance of victory?
+
+The linear model is one of the simplest ways to model relationships
+between variables. Ordinary least squares regression is one of the
+easiest and (often) best ways to estimate the parameters of the linear
+model. Consequently, a linear model estimated by OLS is the starting
+point for many analyses. We will start with the simplest case:
+regression on a single covariate.
+
+\section{Probability Refresher}\label{probability-refresher}
+
+Let \(Y\) be a random variable that takes values in the finite set
+\(\mathcal{Y}\) according to the probability mass function
+\(f_Y : \mathcal{Y} \to [0, 1]\). The \emph{expected value} (aka
+\emph{expectation}) of \(Y\) is the weighted average of each value in
+\(\mathcal{Y}\), where the weights are the corresponding probabilities:
+
+\begin{equation}
+E[Y] = \sum_{y \in \mathcal{Y}} y \: f_Y(y);
+\end{equation}
+
+For a continuous random variable \(Y\) on \(\mathbb{R}\) with
+probability density function \(f_Y\), the expected value is the
+analogous integral:
+
+\begin{equation}
+E[Y] = \int y \: f_Y(y) \, dy.
+\end{equation}
+
+Now suppose \((X, Y)\) is a pair of discrete random variables drawn
+according to the joint mass function \(f_{XY}\) on
+\(\mathcal{X} \times \mathcal{Y}\), with respective marginal mass
+functions \(f_X\) and \(f_Y\).\footnote{The marginal mass function, if
+  you don't recall, is
+  \(f_X(x) = \sum_{y \in \mathcal{Y}} f_{XY} (x, y)\). In the continuous
+  case, the marginal density function is
+  \(f_X(x) = \int f_{XY} (x, y) \, dy\).} Recall the formula for
+conditional probability,
+
+\begin{equation}
+\Pr(Y = y \,|\, X = x)
+= \frac{\Pr(X = x, Y = y)}{\Pr(X = x)}
+= \frac{f_{XY}(x, y)}{f_X(x)}.
+\end{equation}
+
+For each \(x \in \mathcal{X}\), we have the \emph{conditional mass
+function}
+
+\begin{equation}
+f_{Y|X}(y \,|\, x) = \frac{f_{XY}(x, y)}{f_X(x)}
+\end{equation}
+
+and corresponding \emph{conditional expectation}
+
+\begin{equation}
+E[Y | X = x]
+= \sum_{y \in \mathcal{Y}} y \: f_{Y|X}(y \,|\, x).
+\end{equation}
+
+For continuous random variables, the conditional expectation is
+
+\begin{equation}
+E[Y | X = x]
+= \int y \: f_{Y|X} (y \,|\, x) \, dy,
+\end{equation}
+
+where \(f_{Y|X}\) is the conditional density function.
+
+The \emph{variance} of a random variable \(Y\) is
+
+\begin{equation}
+V[Y] = E[(Y - E[Y])^2].
+\end{equation}
+
+Given a sample \(Y_1, \ldots, Y_N\) of observations of \(Y\), we usually
+estimate \(V[Y]\) with the \emph{sample variance}
+
+\begin{equation}
+S_Y^2 = \frac{1}{N-1} \sum_n (Y_n - \bar{Y})^2,
+\end{equation}
+
+where \(\bar{Y}\) is the sample mean and \(\sum_n\) denotes summation
+from \(n = 1\) to \(N\).
+
+Similarly (in fact a generalization of the above), the \emph{covariance}
+between random variables \(X\) and \(Y\) is \[
+\Cov[X, Y] = E[(X - E[X]) (Y - E[Y])],
+\] which we estimate with the \emph{sample covariance}
+
+\begin{equation}
+S_{XY} = \frac{1}{N-1} \sum_n (X_n - \bar{X}) (Y_n - \bar{Y}).
+\end{equation}
+
+A fun fact about the sample covariance is that
+
+\begin{align}
+S_{XY}
+&= \frac{1}{N-1} \sum_n (X_n - \bar{X}) (Y_n - \bar{Y}) \\
+&= \frac{1}{N-1} \left[ \sum_n X_n (Y_n - \bar{Y}) + \sum_n \bar{X} (Y_n - \bar{Y}) \right] \\
+&= \frac{1}{N-1} \left[ \sum_n X_n (Y_n - \bar{Y}) + \bar{X} \sum_n (Y_n - \bar{Y}) \right] \\
+&= \frac{1}{N-1} \sum_n X_n (Y_n - \bar{Y}).
+\end{align}
+
+If we had split up the second term instead of the first, we would see
+that \[
+S_{XY} = \frac{1}{N-1} \sum_n Y_n (X_n - \bar{X})
+\] as well.
+
+Since the (sample) variance is a special case of the (sample)
+covariance, by the same token we have
+
+\begin{equation}
+S_Y^2 = \frac{1}{N-1} \sum_n Y_n (Y_n - \bar{Y}).
+\end{equation}
+
+\section{The Linear Model}\label{the-linear-model}
+
+Suppose we observe a sequence of \(N\) draws from \(f_{XY}\), denoted
+\((X_1, Y_1), (X_2, Y_2), \ldots, (X_N, Y_N)\), or
+\(\{(X_n, Y_n)\}_{n=1}^N\) for short. What can we learn about the
+relationship between \(X\) and \(Y\) from this sample of data?
+
+If we were really ambitious, we could try to estimate the shape of the
+full joint distribution, \(f_{XY}\). The joint distribution encodes
+everything there is to know about the relationship between the two
+variables, so it would be pretty useful to know. But except in the most
+trivial cases, it would be infeasible to estimate \(f_{XY}\) precisely.
+If \(X\) or \(Y\) can take on more than a few values, estimating the
+joint distribution would require an amount of data that we're unlikely
+to have.\footnote{This problem only gets worse as we move from bivariate
+  into multivariate analysis, a phenomenon called the \emph{curse of
+  dimensionality}.}
+
+The first way we simplify our estimation task is to set our sights
+lower. Let \(Y\) be the \emph{response} or the \emph{dependent
+variable}---i.e., the thing we want to explain. We call \(X\) the
+\emph{covariate} or the \emph{independent variable}. Instead of
+estimating the full joint distribution, we're just going to try to learn
+the conditional expectation, \(E[Y \,|\, X]\). In other words, for each
+potential value of the covariate, what is the expected value of the
+response? This will allow us to answer questions like whether greater
+values of \(X\) are associated with greater values of \(Y\).
+
+Two important things about the estimation of conditional expectations
+before we go any further.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Statements about conditional expectations are not causal. If \(Y\) is
+  rain and \(X\) is umbrella sales, we know \(E[Y | X]\) increases with
+  \(X\), but that doesn't mean umbrella sales make it rain.
+
+  We will spend some time in the latter part of the course on how to
+  move from conditional expectations to causality. Then, in Stat III,
+  you will learn about causal inference in excruciating detail.
+\item
+  The conditional expectation doesn't give you everything you'd want to
+  know about the relationship between variables.
+
+  As a hypothetical example, suppose I told you that taking a particular
+  drug made people happier on average. In other words,
+  \(E[\text{Happiness} \,|\, \text{Drug}] > E[\text{Happiness} \,|\, \text{No Drug}]\).
+  Sounds great! Then imagine the dose-response graph looked like this:
+
+  \includegraphics{pdaps_files/figure-latex/happiness-drug-1.pdf}
+
+  The fact that expected happiness rises by half a point doesn't quite
+  tell the whole story.
+\end{enumerate}
+
+In spite of these caveats, conditional expectation is a really useful
+tool for summarizing the relationship between variables.
+
+If \(X\) takes on sufficiently few values (and we have enough data), we
+don't need to model the conditional expectation function. We can just
+directly estimate \(E[Y | X = x]\) for each \(x \in \mathcal{X}\). The
+graph above, where there are just two values of \(X\), is one example.
+
+But if \(X\) is continuous, or even if it is discrete with many values,
+estimating \(E[Y | X]\) for each distinct value is infeasible. In this
+case, we need to \emph{model} the relationship. The very simplest
+choice---and thus the default for social scientists---is to model the
+conditional expectation of \(Y\) as a linear function of \(X\):
+
+\begin{equation}
+E[Y \,|\, X] = \alpha + \beta X.
+\end{equation}
+
+In this formulation, \(\alpha\) and \(\beta\) are the parameters to be
+estimated from sample data. We call \(\alpha\) and \(\beta\)
+``coefficients,'' with \(\alpha\) the ``intercept'' and \(\beta\) the
+``slope.'' Regardless of how many different values \(X\) might take on,
+we only need to estimate two parameters of the linear model.
+
+Exercise your judgment before using a linear model. Ask yourself, is a
+linear conditional expectation function at least minimally plausible?
+Not perfect---just a reasonable approximation. If \(X\) is years of
+education and \(Y\) is annual income, the answer is probably yes
+(depending on the population!). But if \(X\) is hour of the day (0--24)
+and \(Y\) is the amount of traffic on I-65, probably not.
+
+To obtain the linear conditional expectation, we usually assume the
+following model of the response variable:
+
+\begin{equation}
+Y_n = \alpha + \beta X_n + \epsilon_n,
+\end{equation}
+
+where \(\epsilon_n\) is ``white noise'' error with the property
+
+\begin{equation}
+E[\epsilon_n \,|\, X_1, \ldots X_N] = 0.
+\end{equation}
+
+You can think of \(\epsilon_n\) as the summation of everything besides
+the covariate \(X_n\) that affects the response \(Y_n\). The assumption
+that \(E[\epsilon_n \,|\, X_1, \ldots, X_N] = 0\) implies that these
+external factors are uncorrelated with the covariate. This is not a
+trivial technical condition that you can ignore---it is a substantive
+statement about the variables in your model. It requires justification,
+and it is difficult to justify.
+
+For now we will proceed assuming that our data satisfy the above
+conditions. Later in the course, we will talk about how to proceed when
+\(E[\epsilon_n \,|\, X_1, \ldots, X_N] \neq 0\), and you will learn much
+more about such strategies in Stat III.
+
+\section{Least Squares}\label{least-squares}
+
+To estimate the parameters of the linear model, we will rely on a
+mathematically convenient method called \emph{least squares}. We will
+see that this method not only is convenient, but also has nice
+statistical properties.
+
+Given a parameter estimate \((\hat{\alpha}, \hat{\beta})\), define the
+\emph{residual} of the \(n\)'th observation as the difference between
+the true and predicted values:
+
+\begin{equation}
+e_n(\hat{\alpha}, \hat{\beta}) = Y_n - \hat{\alpha} - \hat{\beta} X_n.
+\end{equation}
+
+The residual is directional. The residual is positive when the
+regression line falls below the observation, and vice versa when it is
+negative.
+
+We would like the regression line to lie close to the data---i.e., for
+the residuals to be small in magnitude. ``Close'' can mean many things,
+so we need to be a bit more specific to derive an estimator. The usual
+one, \emph{ordinary least squares}, is chosen to minimize the sum of
+squared errors, \[
+\SSE(\hat{\alpha}, \hat{\beta}) = \sum_n e_n(\hat{\alpha}, \hat{\beta})^2.
+\] (Throughout the rest of this chapter, I write \(\sum_n\) as shorthand
+for \(\sum_{n=1}^N\).) When we focus on squared error, we penalize a
+positive residual the same as a negative residual of the same size.
+Moreover, we penalize one big residual proportionally more than a few
+small ones.
+
+It is important to keep the linear model and ordinary least squares
+distinct in your mind. The linear model is a model of the data. Ordinary
+least squares is one estimator---one among many---of the parameters of
+the linear model. Assuming a linear model does not commit you to
+estimate it with OLS if you think another estimator is more appropriate.
+And using OLS does not necessarily commit you to the linear model, as we
+will discuss when we get to multiple regression.
+
+To derive the OLS estimator, we will derive the conditions for
+minimization of the sum of squared errors. The SSE is a quadratic and
+therefore continuously differentiable function of the estimands,
+\(\hat{\alpha}\) and \(\hat{\beta}\). You will remember from calculus
+that, at any extreme point of a continuous function, all its partial
+derivatives equal zero. To derive necessary conditions for
+minimization,\footnote{In fact, since the SSE function is strictly
+  convex, these conditions are sufficient for global minimization.} we
+can take the derivatives of the SSE and set them to equal zero.
+
+The derivative with respect to the intercept is \[
+\pderiv{\SSE(\hat{\alpha}, \hat{\beta})}{\hat{\alpha}}
+= -2 \sum_n (Y_n - \hat{\alpha} - \hat{\beta} X_n).
+\] Setting this to equal zero gives \[
+\hat{\alpha}
+= \frac{1}{N} \sum_n (Y_n - \hat{\beta} X_n)
+= \bar{Y} - \hat{\beta} \bar{X}.
+\] This gives us one important property of OLS: the regression line
+estimated by OLS always passes through \((\bar{X}, \bar{Y})\).
+
+The derivative with respect to the slope is \[
+\pderiv{\SSE(\hat{\alpha}, \hat{\beta})}{\hat{\beta}}
+= -2 \sum_n X_n (Y_n - \hat{\alpha} - \hat{\beta} X_n).
+\] Setting this equal to zero and substituting in the expression for
+\(\hat{\alpha}\) we derived above gives \[
+\sum_n X_n (Y_n - \bar{Y}) = \hat{\beta} \sum_n X_n (X_n - \bar{X}).
+\] As long as the sample variance of \(X\) is non-zero (i.e., \(X\) is
+not a constant), we can divide to solve for \(\hat{\beta}\): \[
+\hat{\beta}
+= \frac{\sum_n X_n (Y_n - \bar{Y})}{\sum_n X_n (X_n - \bar{X})}
+= \frac{S_{XY}}{S_X^2}.
+\]
+
+Combining these two results, we have the OLS estimators of the intercept
+and slope of the bivariate linear model. We write them as functions of
+\((X_1, \ldots, X_N, Y_1, \ldots, Y_N)\), or \((X, Y)\) for
+short,\footnote{This is a bit of an abuse of notation, since previously
+  I used \(X\) and \(Y\) to refer to the random variables and now I'm
+  using them to refer to vectors of sample data. Sorry.} to emphasize
+that an estimator is a statistic, which in turn is a function of sample
+data. We place the ``OLS'' subscript on them to emphasize that there are
+many estimators of these parameters, of which OLS is just one (good!)
+choice. \[
+\begin{aligned}
+\hat{\alpha}_{\text{OLS}}(X, Y)
+&= \bar{Y} - \frac{S_{XY}}{S_X^2} \bar{X}, \\
+\hat{\beta}_{\text{OLS}}(X, Y)
+&= \frac{S_{XY}}{S_X^2}. \\
+\end{aligned}
+\]
+
+Regression is a convenient way to summarize the relationship between
+variables, but it is a complement to---not a substitute for---graphical
+analysis. The statistician Francis Anscombe found that OLS yields nearly
+identical regression lines for all four of the datasets in the following
+graph:
+
+\includegraphics{pdaps_files/figure-latex/anscombe-1.pdf}
+
+Unless your data all lie along a line, the regression line estimated by
+OLS will not predict the data perfectly. Let the \emph{residual sum of
+squares} be the squared error left over by OLS, \[
+\RSS = \SSE(\hat{\alpha}_{\text{OLS}}, \hat{\beta}_{\text{OLS}}),
+\] and let the \emph{total sum of squares} be the squared error that
+would result from a horizontal regression line through the mean of
+\(Y\), \[
+\TSS = \SSE(\bar{Y}, 0).
+\] The \(R^2\) statistic is the proportion of ``variance explained'' by
+\(X\), calculated as \[
+R^2 = 1 - \frac{\RSS}{\TSS}.
+\] If the regression line is flat, in which case
+\(\hat{\beta}_{\text{OLS}} = 0\) and \(\RSS = \TSS\), we have
+\(R^2= 0\). Conversely, if the regression line fits perfectly, in which
+case \(\RSS = 0\), we have \(R^2 = 1\).
+
+A statistic that is often more useful than \(R^2\) is the \emph{residual
+variance}. The residual variance is (almost) the sample variance of the
+regression residuals, calculated as \[
+\hat{\sigma}^2
+= \frac{1}{N - 2} \sum_n e_n(\hat{\alpha}_{\text{OLS}}, \hat{\beta}_{\text{OLS}})^2
+= \frac{\RSS}{N - 2}
+\] Since bivariate regression uses two degrees of freedom (one for the
+intercept, one for the slope), we divide by \(N - 2\) instead of the
+usual \(N - 1\). The most useful quantity is \(\hat{\sigma}\), the
+square root of the residual variance. \(\hat{\sigma}\) is measured in
+the same units as \(Y\), and it is a measure of the spread of points
+around the regression line. If the residuals are roughly normally
+distributed, then we would expect roughly 95\% of the data to lie within
+\(\pm 2 \hat{\sigma}\) of the regression line.
+
+\includegraphics{pdaps_files/figure-latex/r2-examples-1.pdf}
+
+\section{Properties}\label{properties}
+
+We didn't use any fancy statistical theory to derive the OLS estimator.
+We just found the intercept and slope that minimize the sum of squared
+residuals. As it turns out, though, OLS indeed has some very nice
+statistical properties as an estimator of the linear model.
+
+The first desirable property of OLS is that it is \emph{unbiased}.
+Recall that an estimator \(\hat{\theta}\) of the parameter \(\theta\) is
+unbiased if \(E[\hat{\theta}] = \theta\). This doesn't mean the
+estimator always gives us the right answer, just that on average it is
+not systematically biased upward or downward. In other words, if we
+could take many many samples and apply the estimator to each of them,
+the average would equal the true parameter.
+
+We will begin by showing that the OLS estimator of the slope is
+unbiased; i.e., that \(E[\hat{\beta}_{\text{OLS}}(X, Y)] = \beta\). At
+first, we'll take the conditional expectation of the slope estimator,
+treating the covariates \((X_1, \ldots, X_N)\) as fixed. \[
+\begin{aligned}
+E[\hat{\beta}_{\text{OLS}}(X, Y) \,|\, X]
+&= E \left[ \left. \frac{S_{XY}}{S_X^2} \,\right|\, X \right] \\
+&= E \left[ \left. \frac{\sum_n Y_n (X_n - \bar{X})}{\sum_n X_n (X_n - \bar{X})} \,\right|\, X \right] \\
+&= \frac{\sum_n E[Y_n \,|\, X] (X_n - \bar{X})}{\sum_n X_n (X_n - \bar{X})} \\
+&= \frac{\sum_n (\alpha + \beta X_n) (X_n - \bar{X})}{\sum_n X_n (X_n - \bar{X})} \\
+&= \frac{\alpha \sum_n (X_n - \bar{X}) + \beta \sum_n X_n (X_n - \bar{X})}{\sum_n X_n (X_n - \bar{X})} \\
+&= \frac{\beta \sum_n X_n (X_n - \bar{X})}{\sum_n X_n (X_n - \bar{X})} \\
+&= \beta.
+\end{aligned}
+\] It then follows from the \emph{law of iterated expectation}\footnote{For
+  random variables \(A\) and \(B\),
+  \(E[f(A, B)] = E_A[ E_B[f(A, B) \,|\, A] ] = E_B [ E_A[f(A, B) \,|\, B] ]\).}
+that \[
+E[\hat{\beta}_{\text{OLS}}(X, Y)] = \beta.
+\] Then, for the intercept, we have \[
+\begin{aligned}
+E[\hat{\alpha}_{\text{OLS}}(X, Y) \,|\, X]
+&= E [\bar{Y} - \hat{\beta}_{\text{OLS}}(X, Y) \bar{X} \,|\, X] \\
+&= E [\bar{Y} \,|\, X] - E[\hat{\beta}_{\text{OLS}}(X, Y) \,|\, X] \bar{X} \\
+&= E \left[ \left. \frac{1}{N} \sum_n Y_n \,\right|\, X \right] - \beta \bar{X} \\
+&= E \left[ \left. \frac{1}{N} \sum_n (\alpha + \beta X_n + \epsilon_n) \,\right|\, X \right] - \beta \bar{X} \\
+&= \frac{1}{N} \sum_n E[\alpha + \beta X_n + \epsilon_n \,|\, X] - \beta \bar{X} \\
+&= \frac{1}{N} \sum_n \alpha + \frac{\beta}{N} \sum_n X_n + \frac{1}{N} \sum_n E[\epsilon_n \,|\, X] - \beta \bar{X} \\
+&= \alpha + \beta \bar{X} - \beta \bar{X} \\
+&= \alpha.
+\end{aligned}
+\] As with the slope, this conditional expectation gives us the
+unconditional expectation we want: \[
+E[\hat{\alpha}_{\text{OLS}}(X, Y)] = \alpha.
+\]
+
+To sum up: as long as the crucial condition
+\(E[\epsilon_n \,|\, X_1, \ldots, X_N] = 0\) holds, then OLS is an
+unbiased estimator of the parameters of the linear model.
+
+Another important property of OLS is that it is \emph{consistent}.
+Informally, this means that in sufficiently large samples, the OLS
+estimates \((\hat{\alpha}_{\text{OLS}}, \hat{\beta}_{\text{OLS}})\) are
+very likely to be close to the true parameter values
+\((\alpha, \beta)\). Another way to think of consistency is that, as
+\(N \to \infty\), the bias and variance of the OLS estimator both go to
+zero.\footnote{What I am describing here is \emph{mean square
+  consistency}, which is stronger than the broadest definitions of
+  consistency in statistical theory.}
+
+Of course the bias ``goes to'' zero, since OLS is unbiased. The real
+trick to proving consistency is to show that the variance goes to zero.
+If you wanted to do that for the slope estimate, you'd derive an
+expression for \[
+V[\hat{\beta}_{\text{OLS}}]
+=
+E[(\hat{\beta}_{\text{OLS}} - E[\hat{\beta}_{\text{OLS}}])^2]
+=
+E[(\hat{\beta}_{\text{OLS}} - \beta)^2]
+\] and show that \[
+\lim_{N \to \infty} V[\hat{\beta}_{\text{OLS}}] = 0.
+\] This takes more algebra than we have time for, so I leave it as an
+exercise for the reader.
+
+\section{Appendix: Regression in R}\label{appendix-regression-in-r}
+
+We will be using the \textbf{tidyverse} package as always, the
+\textbf{car} package for the \texttt{Prestige} data, and the
+\textbf{broom} package for its convenient post-analysis functions.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(}\StringTok{"tidyverse"}\NormalTok{)}
+\KeywordTok{library}\NormalTok{(}\StringTok{"car"}\NormalTok{)}
+\KeywordTok{library}\NormalTok{(}\StringTok{"broom"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Let's take a look at \texttt{Prestige}, which records basic information
+(including perceived prestige) for a variety of occupations.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{head}\NormalTok{(Prestige)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                     education income women prestige census type
+## gov.administrators      13.11  12351 11.16     68.8   1113 prof
+## general.managers        12.26  25879  4.02     69.1   1130 prof
+## accountants             12.77   9271 15.70     63.4   1171 prof
+## purchasing.officers     11.42   8865  9.11     56.8   1175 prof
+## chemists                14.62   8403 11.68     73.5   2111 prof
+## physicists              15.64  11030  5.13     77.6   2113 prof
+\end{verbatim}
+
+Suppose we want to run a regression of prestige on education. We will
+use the \texttt{lm()} function, which stands for \emph{linear model}.
+This will employ the ``formula'' syntax that you previously saw when
+faceting in ggplot. The basic syntax of a formula is
+\texttt{response\ \textasciitilde{}\ covariate}, where \texttt{response}
+and \texttt{covariate} are the names of the variables in question. In
+this case, with \texttt{prestige} (note that the variable is lowercase,
+while the dataset is capitalized) as the response and education as the
+covariate:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{lm}\NormalTok{(prestige ~}\StringTok{ }\NormalTok{education, }\DataTypeTok{data =} \NormalTok{Prestige)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = prestige ~ education, data = Prestige)
+## 
+## Coefficients:
+## (Intercept)    education  
+##      -10.73         5.36
+\end{verbatim}
+
+You'll notice that didn't give us very much. If you've previously used
+statistical programs like Stata, you might expect a ton of output at
+this point. It's all there in R too, but R has a different philosophy
+about models. R sees the fitted model as an object in its own
+right---like a data frame, a function, or anything else you load or
+create in R. Therefore, to analyze regression results in R, you will
+typically save the regression results to a variable.
+
+Like any other variable, you'll want to give your regression results
+meaningful names. I typically call them \texttt{fit\_} to indicate a
+fitted model, followed by some memorable description.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit_educ <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(prestige ~}\StringTok{ }\NormalTok{education, }\DataTypeTok{data =} \NormalTok{Prestige)}
+\end{Highlighting}
+\end{Shaded}
+
+When you do this, the output doesn't get printed. To see the default
+output, just run the variable name, just like you would to see the
+content of a data frame:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit_educ}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = prestige ~ education, data = Prestige)
+## 
+## Coefficients:
+## (Intercept)    education  
+##      -10.73         5.36
+\end{verbatim}
+
+For a more detailed readout, use the \texttt{summary()} method:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(fit_educ)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = prestige ~ education, data = Prestige)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -26.040  -6.523   0.661   6.743  18.164 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)
+## (Intercept)  -10.732      3.677   -2.92   0.0043
+## education      5.361      0.332   16.15   <2e-16
+## 
+## Residual standard error: 9.1 on 100 degrees of freedom
+## Multiple R-squared:  0.723,  Adjusted R-squared:  0.72 
+## F-statistic:  261 on 1 and 100 DF,  p-value: <2e-16
+\end{verbatim}
+
+This prints out a whole boatload of information, including inferential
+statistics that we're going to wait until later in the course to discuss
+how to interpret:
+
+\begin{itemize}
+\tightlist
+\item
+  The model you ran
+\item
+  Basic statistics about the distribution of the residuals
+\item
+  For each coefficient:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Parameter estimate
+  \item
+    Standard error estimate
+  \item
+    Test statistic for a hypothesis test of equality with zero
+  \item
+    \(p\)-value associated with the test statistic
+  \end{itemize}
+\item
+  \(\hat{\sigma}\) (called the ``residual standard error'', a term
+  seemingly unique to R)
+\item
+  \(R^2\) and an ``adjusted'' variant that accounts for the number of
+  variables in the model
+\item
+  \(F\) statistic, degrees of freedom, and associated \(p\)-value for a
+  hypothesis test that every coefficient besides the intercept equals
+  zero
+\end{itemize}
+
+Strangely, \texttt{summary()} doesn't give you the sample size. For that
+you must use \texttt{nobs()}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{nobs}\NormalTok{(fit_educ)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 102
+\end{verbatim}
+
+You can use a fitted model object to make predictions for new data. For
+example, let's make a basic data frame of education levels.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my_data <-}\StringTok{ }\KeywordTok{data_frame}\NormalTok{(}\DataTypeTok{education =} \DecValTok{8}\NormalTok{:}\DecValTok{16}\NormalTok{)}
+\NormalTok{my_data}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 9 × 1
+##   education
+##       <int>
+## 1         8
+## 2         9
+## 3        10
+## 4        11
+## 5        12
+## 6        13
+## 7        14
+## 8        15
+## 9        16
+\end{verbatim}
+
+To calculate the predicted level of prestige for each education level,
+use \texttt{predict()}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{predict}\NormalTok{(fit_educ, }\DataTypeTok{newdata =} \NormalTok{my_data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      1      2      3      4      5      6      7      8      9 
+## 32.155 37.516 42.877 48.238 53.599 58.959 64.320 69.681 75.042
+\end{verbatim}
+
+When using \texttt{predict()}, it is crucial that the \texttt{newdata}
+have the same column names as in the data used to fit the model.
+
+You can also extract a confidence interval for each prediction:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{predict}\NormalTok{(fit_educ,}
+        \DataTypeTok{newdata =} \NormalTok{my_data,}
+        \DataTypeTok{interval =} \StringTok{"confidence"}\NormalTok{,}
+        \DataTypeTok{level =} \FloatTok{0.95}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      fit    lwr    upr
+## 1 32.155 29.615 34.695
+## 2 37.516 35.393 39.639
+## 3 42.877 41.024 44.730
+## 4 48.238 46.441 50.034
+## 5 53.599 51.627 55.571
+## 6 58.959 56.632 61.287
+## 7 64.320 61.525 67.116
+## 8 69.681 66.353 73.010
+## 9 75.042 71.142 78.942
+\end{verbatim}
+
+One of the problems with \texttt{summary()} and \texttt{predict()} is
+that they return inconveniently shaped output. The output of
+\texttt{summary()} is particularly hard to deal with. The \textbf{broom}
+package provides three utilities to help get model output into shape.
+The first is \texttt{tidy()}, which makes a tidy data frame out of the
+regression coefficients and the associated inferential statistics:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tidy}\NormalTok{(fit_educ)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##          term estimate std.error statistic    p.value
+## 1 (Intercept) -10.7320   3.67709   -2.9186 4.3434e-03
+## 2   education   5.3609   0.33199   16.1478 1.2863e-29
+\end{verbatim}
+
+The second is \texttt{glance()}, which provides a one-row data frame
+containing overall model characteristics (e.g., \(R^2\) and
+\(\hat{\sigma}\)):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{glance}\NormalTok{(fit_educ)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   r.squared adj.r.squared  sigma statistic    p.value df logLik    AIC
+## 1    0.7228       0.72003 9.1033    260.75 1.2863e-29  2   -369 744.01
+##      BIC deviance df.residual
+## 1 751.88     8287         100
+\end{verbatim}
+
+The third is \texttt{augment()}, which ``augments'' the original
+data---or new data you supply, as in \texttt{predict()}---with
+information from the model, such as predicted values.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Lots of output, so only printing first 10 rows}
+\KeywordTok{head}\NormalTok{(}\KeywordTok{augment}\NormalTok{(fit_educ), }\DecValTok{10}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##              .rownames prestige education .fitted .se.fit  .resid     .hat
+## 1   gov.administrators     68.8     13.11  59.549 1.19689  9.2509 0.017287
+## 2     general.managers     69.1     12.26  54.992 1.03332 14.1076 0.012885
+## 3          accountants     63.4     12.77  57.726 1.12584  5.6736 0.015295
+## 4  purchasing.officers     56.8     11.42  50.489 0.92936  6.3108 0.010422
+## 5             chemists     73.5     14.62  67.644 1.57269  5.8559 0.029846
+## 6           physicists     77.6     15.64  73.112 1.86034  4.4879 0.041763
+## 7           biologists     72.6     15.09  70.164 1.70291  2.4363 0.034993
+## 8           architects     78.1     15.44  72.040 1.80254  6.0600 0.039208
+## 9      civil.engineers     73.1     14.52  67.108 1.54561  5.9920 0.028827
+## 10    mining.engineers     68.8     14.64  67.751 1.57814  1.0487 0.030053
+##    .sigma    .cooksd .std.resid
+## 1  9.1010 0.00924267    1.02511
+## 2  9.0372 0.01587881    1.55981
+## 3  9.1311 0.00306360    0.62807
+## 4  9.1269 0.00255745    0.69688
+## 5  9.1296 0.00656112    0.65310
+## 6  9.1375 0.00552702    0.50362
+## 7  9.1458 0.00134578    0.27244
+## 8  9.1280 0.00941104    0.67914
+## 9  9.1287 0.00662109    0.66793
+## 10 9.1485 0.00021198    0.11697
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{augment}\NormalTok{(fit_educ,}
+        \DataTypeTok{newdata =} \NormalTok{my_data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   education .fitted .se.fit
+## 1         8  32.155 1.28013
+## 2         9  37.516 1.07023
+## 3        10  42.877 0.93407
+## 4        11  48.238 0.90555
+## 5        12  53.599 0.99397
+## 6        13  58.959 1.17319
+## 7        14  64.320 1.40897
+## 8        15  69.681 1.67763
+## 9        16  75.042 1.96574
+\end{verbatim}
+
+Notice that you get back more information for the data used to fit the
+model than for newly supplied data. The most important is
+\texttt{.fitted}, the predicted value. See \texttt{?augment.lm} for what
+all the various output represents.
+
+One last note on plotting regression lines with ggplot. Use
+\texttt{geom\_smooth(method\ =\ "lm")}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggplot}\NormalTok{(Prestige, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{education, }\DataTypeTok{y =} \NormalTok{prestige)) +}
+\StringTok{  }\KeywordTok{geom_point}\NormalTok{() +}
+\StringTok{  }\KeywordTok{geom_smooth}\NormalTok{(}\DataTypeTok{method =} \StringTok{"lm"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{pdaps_files/figure-latex/ggplot-lm-1.pdf}
+
+To get rid of the confidence interval:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggplot}\NormalTok{(Prestige, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{education, }\DataTypeTok{y =} \NormalTok{prestige)) +}
+\StringTok{  }\KeywordTok{geom_point}\NormalTok{() +}
+\StringTok{  }\KeywordTok{geom_smooth}\NormalTok{(}\DataTypeTok{method =} \StringTok{"lm"}\NormalTok{, }\DataTypeTok{se =} \OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{pdaps_files/figure-latex/ggplot-lm-no-se-1.pdf}
+
+\bibliography{packages.bib,book.bib,psci-8357.bib}
 
 
 \end{document}
