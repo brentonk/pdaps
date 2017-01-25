@@ -8,7 +8,7 @@
   <title>Practical Data Analysis for Political Scientists</title>
   <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
   <meta name="description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right.">
-  <meta name="generator" content="bookdown 0.3 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown 0.3.2 and GitBook 2.6.7">
 
   <meta property="og:title" content="Practical Data Analysis for Political Scientists" />
   <meta property="og:type" content="book" />
@@ -26,7 +26,7 @@
 <meta name="author" content="Brenton Kenkel">
 
 
-<meta name="date" content="2017-01-21">
+<meta name="date" content="2017-01-24">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -205,9 +205,9 @@ output &lt;-<span class="st"> </span><span class="kw">sqrt</span>(errors)</code>
 </ul>
 <p>We’re going to look at the most basic ways to get the computer to repeat structured tasks—functions and control flow statements. To illustrate these, we will use a result you discussed in Stat I: the central limit theorem.</p>
 The central limit theorem concerns the <em>sampling distribution</em> of the sample mean,
-<span class="math display">\[\begin{equation*}
+\begin{equation*}
 \bar{X} = \frac{1}{N} \sum_{n = 1}^{N} X_n,
-\end{equation*}\]</span>
+\end{equation*}
 <p>where each <span class="math inline">\(X_n\)</span> is independent and identically distributed with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span>. Loosely speaking, the CLT says that as <span class="math inline">\(N\)</span> grows large, the sampling distribution of <span class="math inline">\(\bar{X}\)</span> becomes approximately normal with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2 / N\)</span>.</p>
 <p>Here’s what we would need to do to see the CLT in practice. We’d want to take a bunch of samples, each of size <span class="math inline">\(N\)</span>, and calculate the sample mean of each. Then we’d have a sample of sample means, and we could check to verify that they are approximately normally distributed with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2 / N\)</span>. This is a structured, repetitive task—exactly the kind of thing that should be programmed. We’ll try it out with a random variable from a Poisson distribution with <span class="math inline">\(\lambda = 3\)</span>, which has mean <span class="math inline">\(\mu = 3\)</span> and variance <span class="math inline">\(\sigma^2 = 3\)</span>.</p>
 <p>First things first. We can use the <code>rpois</code> function to draw a random sample of <span class="math inline">\(N\)</span> numbers from the Poisson distribution.</p>
