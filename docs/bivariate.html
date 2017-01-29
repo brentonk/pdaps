@@ -8,7 +8,7 @@
   <title>Practical Data Analysis for Political Scientists</title>
   <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
   <meta name="description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right.">
-  <meta name="generator" content="bookdown 0.3.2 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown 0.3 and GitBook 2.6.7">
 
   <meta property="og:title" content="Practical Data Analysis for Political Scientists" />
   <meta property="og:type" content="book" />
@@ -26,7 +26,7 @@
 <meta name="author" content="Brenton Kenkel">
 
 
-<meta name="date" content="2017-01-24">
+<meta name="date" content="2017-01-29">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -34,7 +34,7 @@
   
   
 <link rel="prev" href="visualization.html">
-<link rel="next" href="references.html">
+<link rel="next" href="matrix.html">
 
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -130,6 +130,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="5.4" data-path="bivariate.html"><a href="bivariate.html#properties"><i class="fa fa-check"></i><b>5.4</b> Properties</a></li>
 <li class="chapter" data-level="5.5" data-path="bivariate.html"><a href="bivariate.html#appendix-regression-in-r"><i class="fa fa-check"></i><b>5.5</b> Appendix: Regression in R</a></li>
 </ul></li>
+<li class="chapter" data-level="6" data-path="matrix.html"><a href="matrix.html"><i class="fa fa-check"></i><b>6</b> Matrix Algebra: A Crash Course</a><ul>
+<li class="chapter" data-level="6.1" data-path="matrix.html"><a href="matrix.html#vector-operations"><i class="fa fa-check"></i><b>6.1</b> Vector Operations</a></li>
+<li class="chapter" data-level="6.2" data-path="matrix.html"><a href="matrix.html#matrix-operations"><i class="fa fa-check"></i><b>6.2</b> Matrix Operations</a></li>
+<li class="chapter" data-level="6.3" data-path="matrix.html"><a href="matrix.html#matrix-inversion"><i class="fa fa-check"></i><b>6.3</b> Matrix Inversion</a></li>
+<li class="chapter" data-level="6.4" data-path="matrix.html"><a href="matrix.html#solving-linear-systems"><i class="fa fa-check"></i><b>6.4</b> Solving Linear Systems</a></li>
+<li class="chapter" data-level="6.5" data-path="matrix.html"><a href="matrix.html#appendix-matrix-operations-in-r"><i class="fa fa-check"></i><b>6.5</b> Appendix: Matrix Operations in R</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -158,64 +165,64 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="probability-refresher" class="section level2">
 <h2><span class="header-section-number">5.1</span> Probability Refresher</h2>
 Let <span class="math inline">\(Y\)</span> be a random variable that takes values in the finite set <span class="math inline">\(\mathcal{Y}\)</span> according to the probability mass function <span class="math inline">\(f_Y : \mathcal{Y} \to [0, 1]\)</span>. The <em>expected value</em> (aka <em>expectation</em>) of <span class="math inline">\(Y\)</span> is the weighted average of each value in <span class="math inline">\(\mathcal{Y}\)</span>, where the weights are the corresponding probabilities:
-\begin{equation}
+<span class="math display">\[\begin{equation}
 E[Y] = \sum_{y \in \mathcal{Y}} y \: f_Y(y);
-\end{equation}
+\end{equation}\]</span>
 For a continuous random variable <span class="math inline">\(Y\)</span> on <span class="math inline">\(\mathbb{R}\)</span> with probability density function <span class="math inline">\(f_Y\)</span>, the expected value is the analogous integral:
-\begin{equation}
+<span class="math display">\[\begin{equation}
 E[Y] = \int y \: f_Y(y) \, dy.
-\end{equation}
+\end{equation}\]</span>
 Now suppose <span class="math inline">\((X, Y)\)</span> is a pair of discrete random variables drawn according to the joint mass function <span class="math inline">\(f_{XY}\)</span> on <span class="math inline">\(\mathcal{X} \times \mathcal{Y}\)</span>, with respective marginal mass functions <span class="math inline">\(f_X\)</span> and <span class="math inline">\(f_Y\)</span>.<a href="#fn12" class="footnoteRef" id="fnref12"><sup>12</sup></a> Recall the formula for conditional probability,
-\begin{equation}
+<span class="math display">\[\begin{equation}
 \Pr(Y = y \,|\, X = x)
 = \frac{\Pr(X = x, Y = y)}{\Pr(X = x)}
 = \frac{f_{XY}(x, y)}{f_X(x)}.
-\end{equation}
+\end{equation}\]</span>
 For each <span class="math inline">\(x \in \mathcal{X}\)</span>, we have the <em>conditional mass function</em>
-\begin{equation}
+<span class="math display">\[\begin{equation}
 f_{Y|X}(y \,|\, x) = \frac{f_{XY}(x, y)}{f_X(x)}
-\end{equation}
+\end{equation}\]</span>
 and corresponding <em>conditional expectation</em>
-\begin{equation}
+<span class="math display">\[\begin{equation}
 E[Y | X = x]
 = \sum_{y \in \mathcal{Y}} y \: f_{Y|X}(y \,|\, x).
-\end{equation}
+\end{equation}\]</span>
 For continuous random variables, the conditional expectation is
-\begin{equation}
+<span class="math display">\[\begin{equation}
 E[Y | X = x]
 = \int y \: f_{Y|X} (y \,|\, x) \, dy,
-\end{equation}
+\end{equation}\]</span>
 <p>where <span class="math inline">\(f_{Y|X}\)</span> is the conditional density function.</p>
 The <em>variance</em> of a random variable <span class="math inline">\(Y\)</span> is
-\begin{equation}
+<span class="math display">\[\begin{equation}
 V[Y] = E[(Y - E[Y])^2].
-\end{equation}
+\end{equation}\]</span>
 Given a sample <span class="math inline">\(Y_1, \ldots, Y_N\)</span> of observations of <span class="math inline">\(Y\)</span>, we usually estimate <span class="math inline">\(V[Y]\)</span> with the <em>sample variance</em>
-\begin{equation}
+<span class="math display">\[\begin{equation}
 S_Y^2 = \frac{1}{N-1} \sum_n (Y_n - \bar{Y})^2,
-\end{equation}
+\end{equation}\]</span>
 <p>where <span class="math inline">\(\bar{Y}\)</span> is the sample mean and <span class="math inline">\(\sum_n\)</span> denotes summation from <span class="math inline">\(n = 1\)</span> to <span class="math inline">\(N\)</span>.</p>
 Similarly (in fact a generalization of the above), the <em>covariance</em> between random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> is <span class="math display">\[
 {\mathop{\rm Cov}\nolimits}[X, Y] = E[(X - E[X]) (Y - E[Y])],
 \]</span> which we estimate with the <em>sample covariance</em>
-\begin{equation}
+<span class="math display">\[\begin{equation}
 S_{XY} = \frac{1}{N-1} \sum_n (X_n - \bar{X}) (Y_n - \bar{Y}).
-\end{equation}
+\end{equation}\]</span>
 A fun fact about the sample covariance is that
-\begin{align}
+<span class="math display">\[\begin{align}
 S_{XY}
 &amp;= \frac{1}{N-1} \sum_n (X_n - \bar{X}) (Y_n - \bar{Y}) \\
 &amp;= \frac{1}{N-1} \left[ \sum_n X_n (Y_n - \bar{Y}) + \sum_n \bar{X} (Y_n - \bar{Y}) \right] \\
 &amp;= \frac{1}{N-1} \left[ \sum_n X_n (Y_n - \bar{Y}) + \bar{X} \sum_n (Y_n - \bar{Y}) \right] \\
 &amp;= \frac{1}{N-1} \sum_n X_n (Y_n - \bar{Y}).
-\end{align}
+\end{align}\]</span>
 <p>If we had split up the second term instead of the first, we would see that <span class="math display">\[
 S_{XY} = \frac{1}{N-1} \sum_n Y_n (X_n - \bar{X})
 \]</span> as well.</p>
 Since the (sample) variance is a special case of the (sample) covariance, by the same token we have
-\begin{equation}
+<span class="math display">\[\begin{equation}
 S_Y^2 = \frac{1}{N-1} \sum_n Y_n (Y_n - \bar{Y}).
-\end{equation}
+\end{equation}\]</span>
 </div>
 <div id="the-linear-model" class="section level2">
 <h2><span class="header-section-number">5.2</span> The Linear Model</h2>
@@ -234,19 +241,19 @@ S_Y^2 = \frac{1}{N-1} \sum_n Y_n (Y_n - \bar{Y}).
 <p>In spite of these caveats, conditional expectation is a really useful tool for summarizing the relationship between variables.</p>
 <p>If <span class="math inline">\(X\)</span> takes on sufficiently few values (and we have enough data), we don’t need to model the conditional expectation function. We can just directly estimate <span class="math inline">\(E[Y | X = x]\)</span> for each <span class="math inline">\(x \in \mathcal{X}\)</span>. The graph above, where there are just two values of <span class="math inline">\(X\)</span>, is one example.</p>
 But if <span class="math inline">\(X\)</span> is continuous, or even if it is discrete with many values, estimating <span class="math inline">\(E[Y | X]\)</span> for each distinct value is infeasible. In this case, we need to <em>model</em> the relationship. The very simplest choice—and thus the default for social scientists—is to model the conditional expectation of <span class="math inline">\(Y\)</span> as a linear function of <span class="math inline">\(X\)</span>:
-\begin{equation}
+<span class="math display">\[\begin{equation}
 E[Y \,|\, X] = \alpha + \beta X.
-\end{equation}
+\end{equation}\]</span>
 <p>In this formulation, <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> are the parameters to be estimated from sample data. We call <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> “coefficients,” with <span class="math inline">\(\alpha\)</span> the “intercept” and <span class="math inline">\(\beta\)</span> the “slope.” Regardless of how many different values <span class="math inline">\(X\)</span> might take on, we only need to estimate two parameters of the linear model.</p>
 <p>Exercise your judgment before using a linear model. Ask yourself, is a linear conditional expectation function at least minimally plausible? Not perfect—just a reasonable approximation. If <span class="math inline">\(X\)</span> is years of education and <span class="math inline">\(Y\)</span> is annual income, the answer is probably yes (depending on the population!). But if <span class="math inline">\(X\)</span> is hour of the day (0–24) and <span class="math inline">\(Y\)</span> is the amount of traffic on I-65, probably not.</p>
 To obtain the linear conditional expectation, we usually assume the following model of the response variable:
-\begin{equation}
+<span class="math display">\[\begin{equation}
 Y_n = \alpha + \beta X_n + \epsilon_n,
-\end{equation}
+\end{equation}\]</span>
 where <span class="math inline">\(\epsilon_n\)</span> is “white noise” error with the property
-\begin{equation}
+<span class="math display">\[\begin{equation}
 E[\epsilon_n \,|\, X_1, \ldots X_N] = 0.
-\end{equation}
+\end{equation}\]</span>
 <p>You can think of <span class="math inline">\(\epsilon_n\)</span> as the summation of everything besides the covariate <span class="math inline">\(X_n\)</span> that affects the response <span class="math inline">\(Y_n\)</span>. The assumption that <span class="math inline">\(E[\epsilon_n \,|\, X_1, \ldots, X_N] = 0\)</span> implies that these external factors are uncorrelated with the covariate. This is not a trivial technical condition that you can ignore—it is a substantive statement about the variables in your model. It requires justification, and it is difficult to justify.</p>
 <p>For now we will proceed assuming that our data satisfy the above conditions. Later in the course, we will talk about how to proceed when <span class="math inline">\(E[\epsilon_n \,|\, X_1, \ldots, X_N] \neq 0\)</span>, and you will learn much more about such strategies in Stat III.</p>
 </div>
@@ -254,9 +261,9 @@ E[\epsilon_n \,|\, X_1, \ldots X_N] = 0.
 <h2><span class="header-section-number">5.3</span> Least Squares</h2>
 <p>To estimate the parameters of the linear model, we will rely on a mathematically convenient method called <em>least squares</em>. We will see that this method not only is convenient, but also has nice statistical properties.</p>
 Given a parameter estimate <span class="math inline">\((\hat{\alpha}, \hat{\beta})\)</span>, define the <em>residual</em> of the <span class="math inline">\(n\)</span>’th observation as the difference between the true and predicted values:
-\begin{equation}
+<span class="math display">\[\begin{equation}
 e_n(\hat{\alpha}, \hat{\beta}) = Y_n - \hat{\alpha} - \hat{\beta} X_n.
-\end{equation}
+\end{equation}\]</span>
 <p>The residual is directional. The residual is positive when the regression line falls below the observation, and vice versa when it is negative.</p>
 <p>We would like the regression line to lie close to the data—i.e., for the residuals to be small in magnitude. “Close” can mean many things, so we need to be a bit more specific to derive an estimator. The usual one, <em>ordinary least squares</em>, is chosen to minimize the sum of squared errors, <span class="math display">\[
 {\mathop{\rm SSE}\nolimits}(\hat{\alpha}, \hat{\beta}) = \sum_n e_n(\hat{\alpha}, \hat{\beta})^2.
@@ -535,7 +542,7 @@ my_data</code></pre></div>
         </div>
       </div>
 <a href="visualization.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="references.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+<a href="matrix.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
 
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
