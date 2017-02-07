@@ -124,7 +124,7 @@
   \postauthor{\par}
   \predate{\centering\large\emph}
   \postdate{\par}
-  \date{2017-01-29}
+  \date{2017-02-06}
 
 \usepackage{booktabs}
 
@@ -3368,16 +3368,513 @@ Some important properties of matrix multiplication:
 
 \section{Matrix Inversion}\label{matrix-inversion}
 
-Coming soon!
+We've covered matrix addition, subtraction, and multiplication. What
+about division?
+
+Let's think about division of real numbers for a second. We know that
+any division problem can be rewritten as a multiplication problem, \[
+\frac{a}{b} = a \times b^{-1},
+\] where \(b^{-1}\) is the unique real number such that \[
+b \times b^{-1} = 1.
+\]
+
+Similarly, in matrix algebra, we say that the \(n \times n\) matrix
+\(\mathbf{C}\) is an \emph{inverse} of the \(n \times n\) matrix
+\(\mathbf{A}\) if
+\(\mathbf{A} \mathbf{C} = \mathbf{C} \mathbf{A} = \mathbf{I}_n\).
+
+Some basic properties of matrix inverses:
+
+\begin{itemize}
+\item
+  If \(\mathbf{C}\) is an inverse of \(\mathbf{A}\), then \(\mathbf{A}\)
+  is an inverse of \(\mathbf{C}\). This is immediate from the
+  definition.
+\item
+  If \(\mathbf{C}\) and \(\mathbf{D}\) are both inverses of
+  \(\mathbf{A}\), then \(\mathbf{C} = \mathbf{D}\). Proof: If
+  \(\mathbf{C}\) and \(\mathbf{D}\) are inverses of \(\mathbf{A}\), then
+  we have \[
+  \begin{aligned}
+  \mathbf{A} \mathbf{C} = \mathbf{I}
+  &\Leftrightarrow \mathbf{D} (\mathbf{A} \mathbf{C}) = \mathbf{D} \mathbf{I} \\
+  &\Leftrightarrow (\mathbf{D} \mathbf{A}) \mathbf{C} = \mathbf{D} \\
+  &\Leftrightarrow \mathbf{I} \mathbf{C} = \mathbf{D} \\
+  &\Leftrightarrow \mathbf{C} = \mathbf{D}.
+  \end{aligned}
+  \]
+
+  As a consequence of this property, we write the inverse of
+  \(\mathbf{A}\), when it exists, as \(\mathbf{A}^{-1}\).
+\item
+  The inverse of the inverse of \(\mathbf{A}\) is \(\mathbf{A}\):
+  \((\mathbf{A}^{-1})^{-1} = \mathbf{A}\).
+\item
+  If the inverse of \(\mathbf{A}\) exists, then the inverse of its
+  transpose is the transpose of the inverse:
+  \((\mathbf{A}^\top)^{-1} = (\mathbf{A}^{-1})^\top\).
+\item
+  Matrix inversion inverts scalar multiplication: if \(c \neq 0\), then
+  \((c \mathbf{A})^{-1} = (1/c) \mathbf{A}^{-1}\).
+\item
+  The identity matrix is its own inverse:
+  \(\mathbf{I}_n^{-1} = \mathbf{I}_n\).
+\end{itemize}
+
+Some matrices are not \emph{invertible}; i.e., their inverse does not
+exist. As a simple example, think of \[
+\mathbf{A} = \begin{bmatrix}
+0 & 0 \\ 0 & 0
+\end{bmatrix}.
+\] It's easy to see that, for any \(2 \times 2\) matrix \(\mathbf{B}\),
+we have \[
+\mathbf{A} \mathbf{B} = \begin{bmatrix} 0 & 0 \\ 0 & 0 \end{bmatrix} \neq \mathbf{I}_2.
+\] Therefore, \(\mathbf{A}\) does not have an inverse.
+
+Remember that matrix inversion is kind of like division for scalar
+numbers. In that light, the previous example is a generalization of the
+principle that you can't divide by zero. But matrices full of zeroes are
+not the only ones that aren't invertible. For instance, it may not be
+obvious at first glance, but the following matrix is not invertible: \[
+\mathbf{A} = \begin{bmatrix}
+1 & 2 \\
+2 & 4
+\end{bmatrix}.
+\] We know that because of the following theorem: \emph{A matrix is
+invertible if and only if its columns are linearly independent.} In the
+above example, the second column is 2 times the first column, so the
+columns are not linearly independent, so the matrix is not invertible.
+
+Consider the general \(2 \times 2\) matrix \[
+\mathbf{A} = \begin{bmatrix}
+a & b \\
+c & d
+\end{bmatrix}.
+\] We have a simple criterion for linear independence here. In
+particular, the columns of \(\mathbf{A}\) are linearly independent if
+and only if \(ad \neq bc\), or \(ad - bc \neq 0\). We call this the
+\emph{determinant} of the matrix, since it determines whether the matrix
+is invertible.\footnote{On the determinants of \(3 \times 3\) and larger
+  matrices, see your friendly local linear algebra textbook. Calculating
+  the determinant becomes exponentially more complicated with the size
+  of the matrix.} Moreover, if \(ad - bc \neq 0\) we have \[
+\mathbf{A}^{-1} = \frac{1}{ad - bc} \begin{bmatrix}
+d & -b \\
+-c & a
+\end{bmatrix}.
+\]
+
+I'll leave it to you to convince yourself that's true. For now, let's
+try a couple of examples.
+
+\[
+\begin{gathered}
+\mathbf{A} = \begin{bmatrix}
+1 & 1 \\
+0 & 1
+\end{bmatrix},
+\mathbf{A}^{-1} = \begin{bmatrix}
+1 & -1 \\
+0 & 1
+\end{bmatrix}, \\
+\mathbf{A} = \begin{bmatrix}
+4 & 6 \\
+2 & 4
+\end{bmatrix},
+\mathbf{A}^{-1} = \begin{bmatrix}
+1 & -1.5 \\
+-0.5 & 1
+\end{bmatrix}, \\
+\mathbf{A} = \begin{bmatrix}
+10 & 25 \\
+4 & 10
+\end{bmatrix},
+\text{$\mathbf{A}^{-1}$ does not exist}.
+\end{gathered}
+\]
 
 \section{Solving Linear Systems}\label{solving-linear-systems}
 
-Coming soon!
+You may remember from high school being asked to solve for \(x_1\) and
+\(x_2\) in systems of equations like the following one: \[
+\begin{aligned}
+2 x_1 + x_2 &= 10, \\
+2 x_1 - x_2 &= -10.
+\end{aligned}
+\] Matrix algebra lets us write this whole system as a single equation,
+\(\mathbf{A} \mathbf{x} = \mathbf{b}\), where \[
+\begin{aligned}
+\mathbf{A} &= \begin{bmatrix}
+2 & 1 \\
+2 & -1
+\end{bmatrix}, \\
+\mathbf{x} &= \begin{bmatrix} x_1 \\ x_2 \end{bmatrix}, \\
+\mathbf{b} &= \begin{bmatrix} 10 \\ -10 \end{bmatrix}.
+\end{aligned}
+\]
 
-\section{Appendix: Matrix Operations in
-R}\label{appendix-matrix-operations-in-r}
+This suggests a natural way to solve for \(\mathbf{x}\):
+\[\mathbf{x} = \mathbf{A}^{-1} \mathbf{b}.\] In fact, the linear system
+of equations \(\mathbf{A} \mathbf{x} = \mathbf{b}\) has a unique
+solution if and only if \(\mathbf{A}\) is invertible. Otherwise, it has
+either zero solutions or infinitely many solutions.
 
-Coming soon!
+Example with zero solutions: \[
+\begin{aligned}
+x_1 + x_2 &= 1, \\
+2 x_1 + 2 x_2 &= 10.
+\end{aligned}
+\]
+
+Example with infinitely many solutions: \[
+\begin{aligned}
+x_1 + x_2 &= 1, \\
+2 x_1 + 2 x_2 &= 2.
+\end{aligned}
+\]
+
+\section{Appendix: Matrices in R}\label{appendix-matrices-in-r}
+
+We use the \texttt{matrix()} command to create matrices.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{A <-}\StringTok{ }\KeywordTok{matrix}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{4}\NormalTok{),}
+            \DataTypeTok{nrow =} \DecValTok{2}\NormalTok{,}
+            \DataTypeTok{ncol =} \DecValTok{2}\NormalTok{)}
+\NormalTok{A}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      [,1] [,2]
+## [1,]    2    3
+## [2,]    1    4
+\end{verbatim}
+
+Notice that it fills ``down'' by column. To fill ``across'' instead, use
+the \texttt{byrow} argument:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{B <-}\StringTok{ }\KeywordTok{matrix}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{4}\NormalTok{),}
+            \DataTypeTok{nrow =} \DecValTok{2}\NormalTok{,}
+            \DataTypeTok{ncol =} \DecValTok{2}\NormalTok{,}
+            \DataTypeTok{byrow =} \DecValTok{2}\NormalTok{)}
+\NormalTok{B}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      [,1] [,2]
+## [1,]    2    1
+## [2,]    3    4
+\end{verbatim}
+
+There are a few utilities for checking the dimension of a matrix.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{nrow}\NormalTok{(A)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ncol}\NormalTok{(A)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{dim}\NormalTok{(A)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2 2
+\end{verbatim}
+
+To extract the \(i\)'th row, \(j\)'th column, or \(ij\)'th element, use
+square brackets.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{A[}\DecValTok{1}\NormalTok{, ]   }\CommentTok{# 1st row}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2 3
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{A[, }\DecValTok{2}\NormalTok{]   }\CommentTok{# 2nd column}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 3 4
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{A[}\DecValTok{2}\NormalTok{, }\DecValTok{1}\NormalTok{]  }\CommentTok{# entry in 2nd row, 1st column}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1
+\end{verbatim}
+
+Notice that when you extract a row or column, R turns it into a
+vector---the result has only a single dimension. If you dislike this
+behavior (i.e., you want an extracted column to be a 1-column matrix),
+use the \texttt{drop\ =\ FALSE} option in the square brackets.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{A[, }\DecValTok{2}\NormalTok{, drop =}\StringTok{ }\OtherTok{FALSE}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      [,1]
+## [1,]    3
+## [2,]    4
+\end{verbatim}
+
+Adding and subtracting matrices works as you'd expect.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{A +}\StringTok{ }\NormalTok{B}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      [,1] [,2]
+## [1,]    4    4
+## [2,]    4    8
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{A -}\StringTok{ }\NormalTok{B}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      [,1] [,2]
+## [1,]    0    2
+## [2,]   -2    0
+\end{verbatim}
+
+As does scalar multiplication.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{5} \NormalTok{*}\StringTok{ }\NormalTok{A}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      [,1] [,2]
+## [1,]   10   15
+## [2,]    5   20
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{-}\DecValTok{1} \NormalTok{*}\StringTok{ }\NormalTok{B}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      [,1] [,2]
+## [1,]   -2   -1
+## [2,]   -3   -4
+\end{verbatim}
+
+However, the \texttt{*} operator performs \emph{element-by-element}
+multiplication, not matrix multiplication.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{A *}\StringTok{ }\NormalTok{B}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      [,1] [,2]
+## [1,]    4    3
+## [2,]    3   16
+\end{verbatim}
+
+To perform matrix multiplication, use the \texttt{\%*\%} operator.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{A %*%}\StringTok{ }\NormalTok{B}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      [,1] [,2]
+## [1,]   13   14
+## [2,]   14   17
+\end{verbatim}
+
+To invert a matrix or solve a linear system, use the \texttt{solve()}
+function.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Invert A}
+\KeywordTok{solve}\NormalTok{(A)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      [,1] [,2]
+## [1,]  0.8 -0.6
+## [2,] -0.2  0.4
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Solve for x in Ax = (3, 2)}
+\KeywordTok{solve}\NormalTok{(A, }\KeywordTok{c}\NormalTok{(}\DecValTok{3}\NormalTok{, }\DecValTok{2}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1.2 0.2
+\end{verbatim}
+
+Here is a not-so-fun fact about matrix inversion in R: it's not entirely
+exact. To see this, let's invert a matrix with some decimal elements.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{X <-}\StringTok{ }\KeywordTok{matrix}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\FloatTok{1.123}\NormalTok{, }\FloatTok{2.345}\NormalTok{, }\FloatTok{3.456}\NormalTok{, }\FloatTok{4.567}\NormalTok{), }\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{)}
+\NormalTok{Y <-}\StringTok{ }\KeywordTok{solve}\NormalTok{(X)}
+\NormalTok{Y}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##          [,1]     [,2]
+## [1,] -1.53483  1.16145
+## [2,]  0.78808 -0.37741
+\end{verbatim}
+
+Now let's see what we get when we multiply \texttt{X} and \texttt{Y}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{X %*%}\StringTok{ }\NormalTok{Y}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##          [,1]       [,2]
+## [1,] 1.00e+00 1.4798e-16
+## [2,] 8.21e-17 1.0000e+00
+\end{verbatim}
+
+That's not an identity matrix! The issue here is \emph{floating point
+error}, the fact that decimal numbers are not stored exactly on
+computers. Notice that the off-diagonal elements here, which are
+supposed to be exactly zero, are instead very very tiny numbers, on the
+order of \(10^{-16}\), or 0.0000000000000001.
+
+Let's check that our result is \emph{numerically} equal to what we
+expected. By numerically equal, I mean, loosely speaking, that any
+differences are less than the amount of error you would expect due to
+floating point error. First we'll use \texttt{diag()} to generate a
+\(2 \times 2\) identity matrix, then we'll compare numerical equality
+using \texttt{all.equal()}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{I <-}\StringTok{ }\KeywordTok{diag}\NormalTok{(}\DecValTok{2}\NormalTok{)}
+\KeywordTok{all.equal}\NormalTok{(X %*%}\StringTok{ }\NormalTok{Y, I)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] TRUE
+\end{verbatim}
+
+Whereas the traditional \texttt{==} operator is stricter, checking for
+exact equality.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{X %*%}\StringTok{ }\NormalTok{Y ==}\StringTok{ }\NormalTok{I}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       [,1]  [,2]
+## [1,]  TRUE FALSE
+## [2,] FALSE FALSE
+\end{verbatim}
+
+Moral of the story: when comparing decimal numbers, use
+\texttt{all.equal()} rather than \texttt{==}. When \texttt{all.equal()}
+is not \texttt{TRUE}, it returns a message indicating how far apart the
+numbers are. This is annoying if you want to use \texttt{all.equal()}
+in, say, an \texttt{if}/\texttt{else} statement. To get around that, we
+have the \texttt{isTRUE()} function.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{all.equal}\NormalTok{(}\FloatTok{1.0}\NormalTok{, }\FloatTok{1.5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Mean relative difference: 0.5"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{isTRUE}\NormalTok{(}\KeywordTok{all.equal}\NormalTok{(}\FloatTok{1.0}\NormalTok{, }\FloatTok{1.5}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] FALSE
+\end{verbatim}
+
+One last thing. If \texttt{solve()} throws an error that says
+``reciprocal condition number\ldots{}'' or ``system is exactly
+singular'', that means you tried to invert a matrix that is not
+invertible.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Z <-}\StringTok{ }\KeywordTok{matrix}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{), }\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{)}
+\KeywordTok{solve}\NormalTok{(Z)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Error in solve.default(Z): Lapack routine dgesv: system is exactly singular: U[2,2] = 0
+\end{verbatim}
+
+Sad!
 
 \bibliography{packages.bib,book.bib,psci-8357.bib}
 
