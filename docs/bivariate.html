@@ -26,7 +26,7 @@
 <meta name="author" content="Brenton Kenkel">
 
 
-<meta name="date" content="2017-02-06">
+<meta name="date" content="2017-02-10">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -136,6 +136,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="6.3" data-path="matrix.html"><a href="matrix.html#matrix-inversion"><i class="fa fa-check"></i><b>6.3</b> Matrix Inversion</a></li>
 <li class="chapter" data-level="6.4" data-path="matrix.html"><a href="matrix.html#solving-linear-systems"><i class="fa fa-check"></i><b>6.4</b> Solving Linear Systems</a></li>
 <li class="chapter" data-level="6.5" data-path="matrix.html"><a href="matrix.html#appendix-matrices-in-r"><i class="fa fa-check"></i><b>6.5</b> Appendix: Matrices in R</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="ols-matrix.html"><a href="ols-matrix.html"><i class="fa fa-check"></i><b>7</b> Reintroduction to the Linear Model</a><ul>
+<li class="chapter" data-level="7.1" data-path="ols-matrix.html"><a href="ols-matrix.html#the-linear-model-in-matrix-form"><i class="fa fa-check"></i><b>7.1</b> The Linear Model in Matrix Form</a></li>
+<li class="chapter" data-level="7.2" data-path="ols-matrix.html"><a href="ols-matrix.html#the-ols-estimator"><i class="fa fa-check"></i><b>7.2</b> The OLS Estimator</a></li>
+<li class="chapter" data-level="7.3" data-path="ols-matrix.html"><a href="ols-matrix.html#vector-valued-random-variables"><i class="fa fa-check"></i><b>7.3</b> Vector-Valued Random Variables</a></li>
+<li class="chapter" data-level="7.4" data-path="ols-matrix.html"><a href="ols-matrix.html#properties-of-ols"><i class="fa fa-check"></i><b>7.4</b> Properties of OLS</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -372,7 +378,7 @@ E[(\hat{\beta}_{\text{OLS}} - \beta)^2]
 ## chemists                14.62   8403 11.68     73.5   2111 prof
 ## physicists              15.64  11030  5.13     77.6   2113 prof</code></pre>
 <p>Suppose we want to run a regression of prestige on education. We will use the <code>lm()</code> function, which stands for <em>linear model</em>. This will employ the “formula” syntax that you previously saw when faceting in ggplot. The basic syntax of a formula is <code>response ~ covariate</code>, where <code>response</code> and <code>covariate</code> are the names of the variables in question. In this case, with <code>prestige</code> (note that the variable is lowercase, while the dataset is capitalized) as the response and education as the covariate:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lm</span>(prestige ~<span class="st"> </span>education, <span class="dt">data =</span> Prestige)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lm</span>(prestige <span class="op">~</span><span class="st"> </span>education, <span class="dt">data =</span> Prestige)</code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = prestige ~ education, data = Prestige)
@@ -382,7 +388,7 @@ E[(\hat{\beta}_{\text{OLS}} - \beta)^2]
 ##      -10.73         5.36</code></pre>
 <p>You’ll notice that didn’t give us very much. If you’ve previously used statistical programs like Stata, you might expect a ton of output at this point. It’s all there in R too, but R has a different philosophy about models. R sees the fitted model as an object in its own right—like a data frame, a function, or anything else you load or create in R. Therefore, to analyze regression results in R, you will typically save the regression results to a variable.</p>
 <p>Like any other variable, you’ll want to give your regression results meaningful names. I typically call them <code>fit_</code> to indicate a fitted model, followed by some memorable description.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_educ &lt;-<span class="st"> </span><span class="kw">lm</span>(prestige ~<span class="st"> </span>education, <span class="dt">data =</span> Prestige)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_educ &lt;-<span class="st"> </span><span class="kw">lm</span>(prestige <span class="op">~</span><span class="st"> </span>education, <span class="dt">data =</span> Prestige)</code></pre></div>
 <p>When you do this, the output doesn’t get printed. To see the default output, just run the variable name, just like you would to see the content of a data frame:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_educ</code></pre></div>
 <pre><code>## 
@@ -429,7 +435,7 @@ E[(\hat{\beta}_{\text{OLS}} - \beta)^2]
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">nobs</span>(fit_educ)</code></pre></div>
 <pre><code>## [1] 102</code></pre>
 <p>You can use a fitted model object to make predictions for new data. For example, let’s make a basic data frame of education levels.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_data &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">education =</span> <span class="dv">8</span>:<span class="dv">16</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_data &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">education =</span> <span class="dv">8</span><span class="op">:</span><span class="dv">16</span>)
 my_data</code></pre></div>
 <pre><code>## # A tibble: 9 × 1
 ##   education
@@ -513,13 +519,13 @@ my_data</code></pre></div>
 ## 9        16  75.042 1.96574</code></pre>
 <p>Notice that you get back more information for the data used to fit the model than for newly supplied data. The most important is <code>.fitted</code>, the predicted value. See <code>?augment.lm</code> for what all the various output represents.</p>
 <p>One last note on plotting regression lines with ggplot. Use <code>geom_smooth(method = &quot;lm&quot;)</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(Prestige, <span class="kw">aes</span>(<span class="dt">x =</span> education, <span class="dt">y =</span> prestige)) +
-<span class="st">  </span><span class="kw">geom_point</span>() +
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(Prestige, <span class="kw">aes</span>(<span class="dt">x =</span> education, <span class="dt">y =</span> prestige)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>)</code></pre></div>
 <p><img src="pdaps_files/figure-html/ggplot-lm-1.png" width="672" /></p>
 <p>To get rid of the confidence interval:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(Prestige, <span class="kw">aes</span>(<span class="dt">x =</span> education, <span class="dt">y =</span> prestige)) +
-<span class="st">  </span><span class="kw">geom_point</span>() +
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(Prestige, <span class="kw">aes</span>(<span class="dt">x =</span> education, <span class="dt">y =</span> prestige)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">se =</span> <span class="ot">FALSE</span>)</code></pre></div>
 <p><img src="pdaps_files/figure-html/ggplot-lm-no-se-1.png" width="672" /></p>
 

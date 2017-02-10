@@ -26,7 +26,7 @@
 <meta name="author" content="Brenton Kenkel">
 
 
-<meta name="date" content="2017-02-06">
+<meta name="date" content="2017-02-10">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -137,6 +137,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="6.4" data-path="matrix.html"><a href="matrix.html#solving-linear-systems"><i class="fa fa-check"></i><b>6.4</b> Solving Linear Systems</a></li>
 <li class="chapter" data-level="6.5" data-path="matrix.html"><a href="matrix.html#appendix-matrices-in-r"><i class="fa fa-check"></i><b>6.5</b> Appendix: Matrices in R</a></li>
 </ul></li>
+<li class="chapter" data-level="7" data-path="ols-matrix.html"><a href="ols-matrix.html"><i class="fa fa-check"></i><b>7</b> Reintroduction to the Linear Model</a><ul>
+<li class="chapter" data-level="7.1" data-path="ols-matrix.html"><a href="ols-matrix.html#the-linear-model-in-matrix-form"><i class="fa fa-check"></i><b>7.1</b> The Linear Model in Matrix Form</a></li>
+<li class="chapter" data-level="7.2" data-path="ols-matrix.html"><a href="ols-matrix.html#the-ols-estimator"><i class="fa fa-check"></i><b>7.2</b> The OLS Estimator</a></li>
+<li class="chapter" data-level="7.3" data-path="ols-matrix.html"><a href="ols-matrix.html#vector-valued-random-variables"><i class="fa fa-check"></i><b>7.3</b> Vector-Valued Random Variables</a></li>
+<li class="chapter" data-level="7.4" data-path="ols-matrix.html"><a href="ols-matrix.html#properties-of-ols"><i class="fa fa-check"></i><b>7.4</b> Properties of OLS</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -226,7 +232,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">long_data &lt;-<span class="st"> </span><span class="kw">gather</span>(untidy_data,
                     <span class="dt">key =</span> variable,
                     <span class="dt">value =</span> number,
-                    gdp<span class="fl">.2005</span>:unemp<span class="fl">.2008</span>)
+                    gdp.<span class="dv">2005</span><span class="op">:</span>unemp.<span class="dv">2008</span>)
 <span class="kw">head</span>(long_data)</code></pre></div>
 <pre><code>## # A tibble: 6 × 3
 ##   country variable   number
@@ -288,20 +294,20 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ## 2 patrick   100     5</code></pre>
 <p>One more important note on <strong>tidyverse</strong> semantics. It includes a fabulous feature called the <em>pipe</em>, <code>%&gt;%</code>, which makes it easy to string together a truly mind-boggling number of commands.</p>
 <p>In pipe syntax, <code>x %&gt;% f()</code> is equivalent to <code>f(x)</code>. That seems like a wasteful and confusing way to write <code>f(x)</code>, and it is. But if you want to string together a bunch of commands, it’s much easier to comprehend</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x %&gt;%
-<span class="st">  </span><span class="kw">f</span>() %&gt;%
-<span class="st">  </span><span class="kw">g</span>() %&gt;%
-<span class="st">  </span><span class="kw">h</span>() %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">f</span>() <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">g</span>() <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">h</span>() <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">i</span>()</code></pre></div>
 <p>than <code>i(h(g(f(x))))</code>.</p>
 <p>You can pass function arguments using the pipe too. For example, <code>f(x, bear = &quot;moose&quot;)</code> is equivalent to <code>x %&gt;% f(bear = &quot;moose&quot;)</code>.</p>
 <p>The key thing about the <strong>tidyverse</strong> functions is that each of them takes a data frame as its first argument, and returns a data frame as its output. This makes them highly amenable to piping. For example, we can combine all three steps of our tidying above with a single command, thanks to the pipe:<a href="#fn8" class="footnoteRef" id="fnref8"><sup>8</sup></a></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">untidy_data %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">untidy_data <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">gather</span>(<span class="dt">key =</span> variable,
          <span class="dt">value =</span> number,
-         gdp<span class="fl">.2005</span>:unemp<span class="fl">.2008</span>) %&gt;%
+         gdp.<span class="dv">2005</span><span class="op">:</span>unemp.<span class="dv">2008</span>) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">separate</span>(<span class="dt">col =</span> variable,
-           <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;var&quot;</span>, <span class="st">&quot;year&quot;</span>)) %&gt;%
+           <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;var&quot;</span>, <span class="st">&quot;year&quot;</span>)) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">spread</span>(<span class="dt">key =</span> var,
          <span class="dt">value =</span> number)</code></pre></div>
 <pre><code>## # A tibble: 860 × 5
@@ -317,7 +323,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">spread</span>(<span class="kw">separate</span>(<span class="kw">gather</span>(untidy_data,
                        <span class="dt">key =</span> variable,
                        <span class="dt">value =</span> number,
-                       gdp<span class="fl">.2005</span>:unemp<span class="fl">.2008</span>),
+                       gdp.<span class="dv">2005</span><span class="op">:</span>unemp.<span class="dv">2008</span>),
                 <span class="dt">col =</span> variable,
                 <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;var&quot;</span>, <span class="st">&quot;year&quot;</span>)),
        <span class="dt">key =</span> var,
@@ -328,7 +334,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h2><span class="header-section-number">3.3</span> Transforming and Aggregating</h2>
 <p>Tidying the data usually isn’t the end of the process. If you want to perform further calculations on the raw, that’s where the tools in <strong>dplyr</strong> (part of, you guessed it, the <strong>tidyverse</strong>) come in.</p>
 <p>Perhaps the simplest <strong>dplyr</strong> function (or “verb”, as the R hipsters would say) is <code>rename()</code>, which lets you rename columns.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clean_data %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clean_data <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">rename</span>(<span class="dt">gross_domestic_product =</span> gdp)</code></pre></div>
 <pre><code>## # A tibble: 860 × 5
 ##   country  year gross_domestic_product      pop unemp
@@ -351,10 +357,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ## 5      AE  2005 253.9655 4.481976   3.1
 ## # ... with 855 more rows</code></pre>
 <p>If you wanted to make the change stick, you would have to run:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clean_data &lt;-<span class="st"> </span>clean_data %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clean_data &lt;-<span class="st"> </span>clean_data <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">rename</span>(<span class="dt">gross_domestic_product =</span> gdp)</code></pre></div>
 <p><code>select()</code> lets you keep a couple of columns and drop all the others. Or vice versa if you use minus signs.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clean_data %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clean_data <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">select</span>(country, gdp)</code></pre></div>
 <pre><code>## # A tibble: 860 × 2
 ##   country      gdp
@@ -365,8 +371,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ## 4      AD   3.6759
 ## 5      AE 253.9655
 ## # ... with 855 more rows</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clean_data %&gt;%
-<span class="st">  </span><span class="kw">select</span>(-pop)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clean_data <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>pop)</code></pre></div>
 <pre><code>## # A tibble: 860 × 4
 ##   country  year      gdp unemp
 ## *   &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt;
@@ -377,8 +383,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ## 5      AE  2005 253.9655   3.1
 ## # ... with 855 more rows</code></pre>
 <p><code>mutate()</code> lets you create new variables that are transformations of old ones.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clean_data %&gt;%
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">gdppc =</span> gdp /<span class="st"> </span>pop,
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clean_data <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">gdppc =</span> gdp <span class="op">/</span><span class="st"> </span>pop,
          <span class="dt">log_gdppc =</span> <span class="kw">log</span>(gdppc))</code></pre></div>
 <pre><code>## # A tibble: 860 × 7
 ##   country  year      gdp      pop unemp  gdppc log_gdppc
@@ -390,8 +396,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ## 5      AE  2005 253.9655 4.481976   3.1 56.664    4.0371
 ## # ... with 855 more rows</code></pre>
 <p><code>filter()</code> cuts down the data according to the logical condition(s) you specify.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clean_data %&gt;%
-<span class="st">  </span><span class="kw">filter</span>(year ==<span class="st"> </span><span class="dv">2006</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clean_data <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(year <span class="op">==</span><span class="st"> </span><span class="dv">2006</span>)</code></pre></div>
 <pre><code>## # A tibble: 215 × 5
 ##   country  year      gdp       pop unemp
 ##     &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;
@@ -402,15 +408,15 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ## 5      AL  2006   9.7718  2.992547  12.4
 ## # ... with 210 more rows</code></pre>
 <p><code>summarise()</code> calculates summaries of the data. For example, let’s find the maximum unemployment rate.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clean_data %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clean_data <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">summarise</span>(<span class="dt">max_unemp =</span> <span class="kw">max</span>(unemp, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</code></pre></div>
 <pre><code>## # A tibble: 1 × 1
 ##   max_unemp
 ##       &lt;dbl&gt;
 ## 1      37.6</code></pre>
 <p>This seems sort of useless, until you combine it with the <code>group_by()</code> function. If you group the data before <code>summarise</code>-ing it, you’ll calculate a separate summary for each group. For example, let’s calculate the maximum unemployment rate for each year in the data.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clean_data %&gt;%
-<span class="st">  </span><span class="kw">group_by</span>(year) %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clean_data <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(year) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">summarise</span>(<span class="dt">max_unemp =</span> <span class="kw">max</span>(unemp, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</code></pre></div>
 <pre><code>## # A tibble: 4 × 2
 ##    year max_unemp
@@ -420,10 +426,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ## 3  2007      34.9
 ## 4  2008      37.6</code></pre>
 <p><code>summarise()</code> produces a “smaller” data frame than the input—one row per group. If you want to do something similar, but preserving the structure of the original data, use <code>mutate</code> in combination with <code>group_by</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clean_data %&gt;%
-<span class="st">  </span><span class="kw">group_by</span>(year) %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clean_data <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(year) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">mutate</span>(<span class="dt">max_unemp =</span> <span class="kw">max</span>(unemp, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),
-         <span class="dt">unemp_over_max =</span> unemp /<span class="st"> </span>max_unemp) %&gt;%
+         <span class="dt">unemp_over_max =</span> unemp <span class="op">/</span><span class="st"> </span>max_unemp) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">select</span>(country, year, <span class="kw">contains</span>(<span class="st">&quot;unemp&quot;</span>))</code></pre></div>
 <pre><code>## Source: local data frame [860 x 5]
 ## Groups: year [4]
@@ -500,15 +506,15 @@ inflation_data</code></pre></div>
 ## # ... with 855 more rows</code></pre>
 <p>Since <code>latlong_data</code> is country-level, the value is the same for each year. So the merged data contains redundant information. This is one reason to store data observed at different levels in different tables—with redundant observations, it is easier to make errors yet harder to catch them and fix them.</p>
 <p>We can also merge data when the identifier is stored across multiple columns, as in the case of our country-year data. But first, a technical note.<a href="#fn9" class="footnoteRef" id="fnref9"><sup>9</sup></a> You might notice that the <code>year</code> column of <code>clean_data</code> is labeled <code>&lt;chr&gt;</code>, as in character data. Yet the <code>year</code> column of <code>inflation_data</code> is labeled <code>&lt;int&gt;</code>, as in integer data. We can check that by running <code>class()</code> on each respective column.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">class</span>(clean_data$year)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">class</span>(clean_data<span class="op">$</span>year)</code></pre></div>
 <pre><code>## [1] &quot;character&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">class</span>(inflation_data$year)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">class</span>(inflation_data<span class="op">$</span>year)</code></pre></div>
 <pre><code>## [1] &quot;integer&quot;</code></pre>
 <p>From R’s perspective, the character string <code>&quot;1999&quot;</code> is a very different thing than the integer number <code>1999</code>. Therefore, if we try to merge <code>clean_data</code> and <code>inflation_data</code> on the <code>year</code> variable, it will throw an error.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">left_join</span>(clean_data,
           inflation_data,
           <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;country&quot;</span>, <span class="st">&quot;year&quot;</span>))</code></pre></div>
-<pre><code>## Error in eval(substitute(expr), envir, enclos): Can&#39;t join on &#39;year&#39; x &#39;year&#39; because of incompatible types (integer / character)</code></pre>
+<pre><code>## Error in left_join_impl(x, y, by$x, by$y, suffix$x, suffix$y): Can&#39;t join on &#39;year&#39; x &#39;year&#39; because of incompatible types (integer / character)</code></pre>
 <p>To fix this, let’s use <code>mutate()</code> to convert the <code>year</code> column of <code>clean_data</code> to an integer. We probably should have done this in the first place—after all, having the year encoded as a character string would have thrown off plotting functions, statistical functions, or anything else where it would be more natural to treat the year like a number.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clean_data &lt;-<span class="st"> </span><span class="kw">mutate</span>(clean_data,
                      <span class="dt">year =</span> <span class="kw">as.integer</span>(year))
@@ -601,11 +607,11 @@ inflation_data</code></pre></div>
 ## 5    1W      World 2005     5.7703e+13  6513959904         6.1593
 ## 6    1W      World 2006     6.0229e+13  6594722462         5.9000</code></pre>
 <p>I want to get rid of the aggregates, like the “Arab World” and “World” we see here. As a rough tack at that, I’m going to exclude those so-called countries whose ISO codes don’t appear in the <strong>countrycode</strong> package data.<a href="#fn10" class="footnoteRef" id="fnref10"><sup>10</sup></a></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat_countries &lt;-<span class="st"> </span>dat_raw %&gt;%
-<span class="st">  </span><span class="kw">filter</span>(iso2c %in%<span class="st"> </span>countrycode_data$iso2c)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat_countries &lt;-<span class="st"> </span>dat_raw <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(iso2c <span class="op">%in%</span><span class="st"> </span>countrycode_data<span class="op">$</span>iso2c)</code></pre></div>
 <p>Let’s check on which countries are left. (I cut it down to max six characters per country name for printing purposes.)</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat_countries$country %&gt;%
-<span class="st">  </span><span class="kw">unique</span>() %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat_countries<span class="op">$</span>country <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">unique</span>() <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">str_sub</span>(<span class="dt">start =</span> <span class="dv">1</span>, <span class="dt">end =</span> <span class="dv">6</span>)</code></pre></div>
 <pre><code>##   [1] &quot;Andorr&quot; &quot;United&quot; &quot;Afghan&quot; &quot;Antigu&quot; &quot;Albani&quot; &quot;Armeni&quot; &quot;Angola&quot;
 ##   [8] &quot;Argent&quot; &quot;Americ&quot; &quot;Austri&quot; &quot;Austra&quot; &quot;Aruba&quot;  &quot;Azerba&quot; &quot;Bosnia&quot;
@@ -639,14 +645,14 @@ inflation_data</code></pre></div>
 ## [204] &quot;Uzbeki&quot; &quot;St. Vi&quot; &quot;Venezu&quot; &quot;Britis&quot; &quot;Virgin&quot; &quot;Vietna&quot; &quot;Vanuat&quot;
 ## [211] &quot;Samoa&quot;  &quot;Yemen,&quot; &quot;South &quot; &quot;Zambia&quot; &quot;Zimbab&quot;</code></pre>
 <p>With that out of the way, there’s still some cleaning up to do. The magnitudes of GDP and population are too large, and the variable names are impenetrable. Also, the <code>country</code> variable, while helpful, is redundant now that we’re satisfied with the list of countries remaining.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat_countries &lt;-<span class="st"> </span>dat_countries %&gt;%
-<span class="st">  </span><span class="kw">select</span>(-country) %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat_countries &lt;-<span class="st"> </span>dat_countries <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>country) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">rename</span>(<span class="dt">gdp =</span> NY.GDP.MKTP.KD,
          <span class="dt">pop =</span> SP.POP.TOTL,
          <span class="dt">unemp =</span> SL.UEM.TOTL.ZS,
-         <span class="dt">country =</span> iso2c) %&gt;%
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">gdp =</span> gdp /<span class="st"> </span><span class="fl">1e9</span>,
-         <span class="dt">pop =</span> pop /<span class="st"> </span><span class="fl">1e6</span>)
+         <span class="dt">country =</span> iso2c) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">gdp =</span> gdp <span class="op">/</span><span class="st"> </span><span class="fl">1e9</span>,
+         <span class="dt">pop =</span> pop <span class="op">/</span><span class="st"> </span><span class="fl">1e6</span>)
 
 <span class="kw">head</span>(dat_countries)</code></pre></div>
 <pre><code>##   country year      gdp      pop unemp
@@ -657,10 +663,10 @@ inflation_data</code></pre></div>
 ## 5      AE 2005 253.9655 4.481976   3.1
 ## 6      AE 2006 278.9489 5.171255   3.3</code></pre>
 <p>Now I convert the data to “long” format.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat_countries_long &lt;-<span class="st"> </span>dat_countries %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat_countries_long &lt;-<span class="st"> </span>dat_countries <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">gather</span>(<span class="dt">key =</span> variable,
          <span class="dt">value =</span> value,
-         gdp:unemp)
+         gdp<span class="op">:</span>unemp)
 
 <span class="kw">head</span>(dat_countries_long)</code></pre></div>
 <pre><code>##   country year variable    value
@@ -671,9 +677,9 @@ inflation_data</code></pre></div>
 ## 5      AE 2005      gdp 253.9655
 ## 6      AE 2006      gdp 278.9489</code></pre>
 <p>I then smush <code>variable</code> and <code>year</code> into a single column, and drop the individual components.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat_countries_long &lt;-<span class="st"> </span>dat_countries_long %&gt;%
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">var_year =</span> <span class="kw">paste</span>(variable, year, <span class="dt">sep =</span> <span class="st">&quot;.&quot;</span>)) %&gt;%
-<span class="st">  </span><span class="kw">select</span>(-variable, -year)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat_countries_long &lt;-<span class="st"> </span>dat_countries_long <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">var_year =</span> <span class="kw">paste</span>(variable, year, <span class="dt">sep =</span> <span class="st">&quot;.&quot;</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>variable, <span class="op">-</span>year)
 
 <span class="kw">head</span>(dat_countries_long)</code></pre></div>
 <pre><code>##   country    value var_year
@@ -684,7 +690,7 @@ inflation_data</code></pre></div>
 ## 5      AE 253.9655 gdp.2005
 ## 6      AE 278.9489 gdp.2006</code></pre>
 <p>Finally, I “widen” the data, so that each <code>var_year</code> is a column of its own.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat_countries_wide &lt;-<span class="st"> </span>dat_countries_long %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat_countries_wide &lt;-<span class="st"> </span>dat_countries_long <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">spread</span>(<span class="dt">key =</span> var_year, <span class="dt">value =</span> value)
 
 <span class="kw">head</span>(dat_countries_wide)</code></pre></div>
@@ -705,20 +711,20 @@ inflation_data</code></pre></div>
 <p>Now we have some ugly data. I save the output to upload to my website.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">write_csv</span>(dat_countries_wide, <span class="dt">path =</span> <span class="st">&quot;untidy-data.csv&quot;</span>)</code></pre></div>
 <p>And here’s how I made the second country-year dataset used in the merging section. The country dataset with latitudes and longitudes is from <a href="https://developers.google.com/public-data/docs/canonical/countries_csv" class="uri">https://developers.google.com/public-data/docs/canonical/countries_csv</a>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat_2 &lt;-
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat_<span class="dv">2</span> &lt;-
 <span class="st">  </span><span class="kw">WDI</span>(<span class="dt">country =</span> <span class="st">&quot;all&quot;</span>,
       <span class="dt">indicator =</span> <span class="st">&quot;FP.CPI.TOTL.ZG&quot;</span>,
       <span class="dt">start =</span> <span class="dv">2004</span>,
-      <span class="dt">end =</span> <span class="dv">2008</span>) %&gt;%
-<span class="st">  </span><span class="kw">as_data_frame</span>() %&gt;%
+      <span class="dt">end =</span> <span class="dv">2008</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">as_data_frame</span>() <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">select</span>(<span class="dt">country =</span> iso2c,
          year,
-         <span class="dt">inflation =</span> FP.CPI.TOTL.ZG) %&gt;%
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">year =</span> <span class="kw">as.integer</span>(year)) %&gt;%
-<span class="st">  </span><span class="kw">filter</span>(country %in%<span class="st"> </span>clean_data$country) %&gt;%
+         <span class="dt">inflation =</span> FP.CPI.TOTL.ZG) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">year =</span> <span class="kw">as.integer</span>(year)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(country <span class="op">%in%</span><span class="st"> </span>clean_data<span class="op">$</span>country) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">arrange</span>(country, year)
 
-<span class="kw">write_csv</span>(dat_2, <span class="dt">path =</span> <span class="st">&quot;inflation.csv&quot;</span>)</code></pre></div>
+<span class="kw">write_csv</span>(dat_<span class="dv">2</span>, <span class="dt">path =</span> <span class="st">&quot;inflation.csv&quot;</span>)</code></pre></div>
 
 </div>
 </div>

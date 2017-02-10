@@ -1,0 +1,327 @@
+# Reintroduction to the Linear Model {#ols-matrix}
+
+\newcommand{\OLS}{\text{OLS}}
+
+Having learned some matrix algebra, let us now return to the world of statistics.  We are going to take what we learned about regression and ordinary least squares in the bivariate case, then generalize it to a setting with potentially many variables.  To make that task feasible, we will rely on the tools of matrix algebra that we learned last week.
+
+
+## The Linear Model in Matrix Form
+
+We have a sequence of observations indexed by $n \in \{1, \ldots, N\}$.  Each observation consists of a response, $Y_n$, a real number; and a vector of $K$ covariates,
+$$
+\mathbf{x}_n = \begin{pmatrix}
+  x_{n1} \\
+  x_{n2} \\
+  \vdots \\
+  x_{nK}
+\end{pmatrix}.
+$$
+Just like in bivariate regression, our goal is to estimate the conditional expectation of the response given the covariates, $E[Y_n \,|\, \mathbf{x}_n]$.  To make that task feasible, we will assume the relationship is linear,
+$$
+E[Y_n \,|\, \mathbf{x}_n] = \beta \cdot \mathbf{x}_n,
+$$
+where $\beta$ is the $K \times 1$ vector of coefficients,
+$$
+\beta = \begin{pmatrix}
+  \beta_1 \\
+  \beta_2 \\
+  \vdots \\
+  \beta_K
+\end{pmatrix}.
+$$
+Our data model is
+$$
+Y_n = \beta \cdot \mathbf{x}_n + \epsilon_n,
+$$
+where $\epsilon_n$ is "white noise" error that is uncorrelated with the covariates.  (More on this in a second.)
+
+This data model looks a little bit different than our bivariate linear model, which you'll recall was
+$$
+Y_n = \alpha + \beta x_n + \epsilon_n.
+$$
+What happened to $\alpha$, the intercept?  When working with the multivariate linear model, it will make our lives easiest to treat the intercept like any other coefficient.  Specifically, we will assume $x_{n1} = 1$ for all $n$, and we will treat $\beta_1$ as the intercept.  With $K = 2$, our multivariate model becomes
+$$
+\begin{aligned}
+Y_n &= \beta \cdot \mathbf{x}_n + \epsilon_n \\
+&= \begin{pmatrix} \beta_1 \\ \beta_2 \end{pmatrix} \cdot \begin{pmatrix} 1 \\ x_{n2} \end{pmatrix} + \epsilon_n \\
+&= \beta_1 + \beta_2 x_{n2} + \epsilon_n,
+\end{aligned}
+$$
+which is the same as our bivariate regression model, replacing the intercept $\alpha$ with $\beta_1$, the slope $\beta$ with $\beta_2$, and the covariate $x_n$ with $x_{n2}$.
+
+If we were to stack up all of our data, we would have $N$ equations,
+$$
+\begin{aligned}
+Y_1 &= \beta \cdot \mathbf{x}_1 + \epsilon_1, \\
+Y_2 &= \beta \cdot \mathbf{x}_2 + \epsilon_2, \\
+&\vdots \\
+Y_N &= \beta \cdot \mathbf{x}_N + \epsilon_N.
+\end{aligned}
+$$
+Like any system of linear equations, we can write this one more easily in matrix form.  Let $\mathbf{Y}$ be the $N \times 1$ vector that collects the response,
+$$
+\mathbf{Y} = \begin{pmatrix} Y_1 \\ Y_2 \\ \vdots \\ Y_N \end{pmatrix}.
+$$
+Let $\mathbf{X}$ be the $N \times K$ matrix that collects the covariates,
+$$
+\mathbf{X} =
+\begin{bmatrix}
+  x_{11} & x_{12} & \cdots & x_{1K} \\
+  x_{21} & x_{22} & \cdots & x_{2K} \\
+  \vdots & \vdots & \ddots & \vdots \\
+  x_{N1} & x_{N2} & \cdots & x_{NK}
+\end{bmatrix}
+=
+\begin{bmatrix}
+  1 & x_{12} & \cdots & x_{1K} \\
+  1 & x_{22} & \cdots & x_{2K} \\
+  \vdots & \vdots & \ddots & \vdots \\
+  1 & x_{N2} & \cdots & x_{NK}
+\end{bmatrix}.
+$$
+The $n$'th row of $\mathbf{X}$, which we will write $\mathbf{x}_n$ (lowercase), contains the covariates for the $n$'th observation.  The $k$'th column of $\mathbf{X}$, which we will write $\mathbf{X}_k$ (uppercase), contains the value of the $k$'th covariate for every observation.  Finally, we will collect the error terms in an $N \times 1$ vector,
+$$
+\epsilon = \begin{pmatrix} \epsilon_1 \\ \epsilon_2 \\ \vdots \\ \epsilon_N \end{pmatrix}.
+$$
+We can now write a model of the full data,
+$$
+\mathbf{Y} = \mathbf{X} \beta + \epsilon.
+$$
+
+It is worth pausing to clarify what is known and unknown here.
+
+* The covariate matrix $\mathbf{X}$ and the response vector $\mathbf{Y}$ are known.  They are our data.
+
+* The regression parameters $\beta$ are unknown.  They are what we are trying to learn from the data.
+
+* The error term $\epsilon$ is also unknown.  We can think of each observation of $Y_n$ as being a combination of "signal", $\mathbf{x}_n \cdot \beta$, and "noise", $\epsilon_n$.  The fundamental problem is that we don't know exactly what the signal is and what the noise is.
+
+
+## The OLS Estimator
+
+Consider the linear model with three covariates,
+$$
+Y_n = \beta_1 x_{n1} + \beta_2 x_{n2} + \beta_3 x_{n3} + \epsilon_n.
+$$
+Let's do like we did with bivariate regression, and imagine estimating the parameters of the model by least squares.  Let $(b_1, b_2, b_3)$ denote an estimate of the parameters.[^no-hats]  We will set up the sum of squared errors as a function of the parameters,
+$$
+\SSE(b_1, b_2, b_3)
+= \sum_n (Y_n - b_1 x_{n1} - b_2 x_{n2} - b_3 x_{n3})^2.
+$$
+
+[^no-hats]: I'm using $b_k$ instead of $\hat{\beta}_k$ simply because it's exhausting to type all those `\hat{}`s.
+
+Just as we did to derive the bivariate OLS estimator, let's begin by taking the partial derivative of the SSE with respect to the first regression coefficient, then equalizing it to zero.
+$$
+\frac{\partial \SSE}{\partial b_1}
+= -2 \sum_n x_{n1} (Y_n - b_1 x_{n1} - b_2 x_{n2} - b_3 x_{n3})
+= 0.
+$$
+Dividing each side by $-2$ and rearranging terms gives us
+$$
+\sum_n x_{n1} (b_1 x_{n1} + b_2 x_{n2} + b_3 x_{n3}) = \sum_n x_{n1} Y_n.
+$$
+If we break up the left-hand sum into three individual sums, we get
+$$
+\left( \sum_n x_{n1}^2 \right) b_1 + \left( \sum_n x_{n1} x_{n2} \right) b_2 + \left( \sum_n x_{n1} x_{n3} \right) b_3 = \sum_n x_{n1} Y_n,
+$$
+which is a linear condition on $(b_1, b_2, b_3)$.  If we go through the same steps with $\partial \SSE/ \partial b_2$ and $\partial \SSE / \partial b_3$, we obtain the linear system
+$$
+\begin{aligned}
+\left( \sum_n x_{n1}^2 \right) b_1 + \left( \sum_n x_{n1} x_{n2} \right) b_2 + \left( \sum_n x_{n1} x_{n3} \right) b_3 &= \sum_n x_{n1} Y_n, \\
+\left( \sum_n x_{n2} x_{n1} \right) b_1 + \left( \sum_n x_{n2}^2 \right) b_2 + \left( \sum_n x_{n2} x_{n3} \right) b_3 &= \sum_n x_{n2} Y_n, \\
+\left( \sum_n x_{n3} x_{n1} \right) b_1 + \left( \sum_n x_{n3} x_{n2} \right) b_2 + \left( \sum_n x_{n3}^2 \right) b_3 &= \sum_n x_{n3} Y_n.
+\end{aligned}
+$$
+This is a linear system of three equations in three unknowns, namely $(b_1, b_2, b_3)$.  We can write it as $\mathbf{A} \mathbf{b} = \mathbf{c}$, where $\mathbf{b}$ is the $3 \times 1$ column vector we are trying to solve for.  You'll remember from last week that we use matrix algebra to solve linear systems like this one.
+
+Let's take a closer look at the coefficient matrix we have here,
+$$
+\mathbf{A} =
+\begin{bmatrix}
+\sum_n x_{n1}^2 & \sum_n x_{n1} x_{n2} & \sum_n x_{n1} x_{n3} \\
+\sum_n x_{n2} x_{n1} & \sum_n x_{n2}^2 & \sum_n x_{n2} x_{n3} \\
+\sum_n x_{n3} x_{n1} & \sum_n x_{n3} x_{n2} & \sum_n x_{n3}^2
+\end{bmatrix}
+$$
+Notice that each $ij$'th element is
+$$
+a_{ij} = \sum_n x_{ni} x_{nj} = \mathbf{X}_i \cdot \mathbf{X}_j,
+$$
+the dot product of the $i$'th and $j$'th columns of our $\mathbf{X}$ matrix.  Of course, the $i$'th column of $\mathbf{X}$ is the $i$'th row of $\mathbf{X}^\top$.  If the $ij$'th entry of $\mathbf{A}$ is the dot product of the $i$'th row of $\mathbf{X}^\top$ and the $j$'th column of $\mathbf{X}$, that means
+$$
+\mathbf{A} = \mathbf{X}^\top \mathbf{X}.
+$$
+
+Similarly, let's take a look at our right-hand side,
+$$
+\mathbf{c} = \begin{bmatrix}
+\sum_n x_{n1} Y_n \\
+\sum_n x_{n2} Y_n \\
+\sum_n x_{n3} Y_n
+\end{bmatrix}.
+$$
+Each $i$'th entry of $\mathbf{c}$ is
+$$
+c_i = \sum_n x_{ni} Y_n = \mathbf{X}_i \cdot \mathbf{Y}.
+$$
+the dot product of the $i$'th column of $\mathbf{X}$ (i.e., the $i$'th column of $\mathbf{X}^\top$) and the vector $\mathbf{Y}$.  Therefore, we have
+$$
+\mathbf{c} = \mathbf{X}^\top \mathbf{Y}.
+$$
+
+Our linear system of equations, $\mathbf{A} \mathbf{b} = \mathbf{c}$, is equivalent to
+$$
+(\mathbf{X}^\top \mathbf{X}) \mathbf{b} = \mathbf{X}^\top \mathbf{Y}.
+$$
+Consequently, the solution to the system is
+$$
+\mathbf{b} = (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top \mathbf{Y}.
+$$
+
+Although we got here via the $3 \times 3$ case, this formula works for any number of covariates.  The *OLS estimator* of the linear model coefficients from covariate matrix $\mathbf{X}$ and response vector $\mathbf{Y}$ is
+$$
+\hat{\beta}_{\OLS}(\mathbf{X}, \mathbf{Y})
+= (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top \mathbf{Y}.
+$$
+
+When you see this formula, your hackles should be raised.  *Wait a minute*, you ought to be saying.  *How do we know the inverse of $\mathbf{X}^\top \mathbf{X}$ exists?*  That's an excellent question!  Luckily, there's a simple condition: $\mathbf{X}^\top \mathbf{X}$ is invertible if and only if the columns of $\mathbf{X}$ are linearly independent.
+
+The linear independence condition isn't just a technical thing that we need to satisfy.  It goes to the heart of what we're doing in linear regression.  If the columns of $\mathbf{X}$ aren't linearly independent, then the question you're asking of OLS---to learn something about the coefficients from the data---is ill-defined.
+
+Imagine you have a linear dependency between two variables, so one is just a scalar multiple of the other.  For example, a regression of a person's weight on their height in inches and height in centimeters.  Or a regression of whether it rains on temperature Fahrenheit and temperature Celsius.  It is absurd to think that the relationship between temperature and rain might be different depending on how you measure it.  But that's exactly what you're asking for when you run this regression---separate estimates for the effect of degrees Fahrenheit and the effect of degrees Celsius.
+
+
+## Vector-Valued Random Variables
+
+Before we can talk about the properties of OLS in the multivariate case, we need to refresh ourselves on how basic statistical operations (expected value and variance) translate when we're dealing with vectors of random variables.
+
+Let $A$ and $B$ be random variables with means $\mu_A = E[A]$ and $\mu_B = E[B]$ respectively.  Let $C$ be the column vector whose first value is $A$ and whose second value is $B$:
+$$
+C = \begin{pmatrix} A \\ B \end{pmatrix}.
+$$
+As a function of random variables, $C$ is itself a random variable.  Unlike those we've encountered before, though, it is a *vector-valued* random variable.
+
+Assume $A$ and $B$ take values in the finite sets $\mathcal{A}$ and $\mathcal{B}$ respectively.  The expected value of $C$ is
+$$
+\begin{aligned}
+E[C]
+&= \sum_{a \in \mathcal{A}} \sum_{b \in \mathcal{B}} \begin{pmatrix} a \\ b \end{pmatrix} \Pr(A = a, B = b) \\
+&= \begin{pmatrix} \mu_A \\ \mu_B \end{pmatrix}.
+\end{aligned}
+$$
+I encourage you to prove this on your own---the proof just relies on simple facts about vector addition and joint probability that we've already covered in this class.  It is easiest to prove in the finite case, but it remains true that $E[C] = (\mu_A, \mu_B)$ in the more general case.
+
+You might expect the variance of $C$ to be a vector too.  You would be wrong---it's a $2 \times 2$ matrix.
+$$
+\begin{aligned}
+V[C]
+&= E\left[(C - E[C]) (C - E[C])^\top \right] \\
+&= E \left[
+  \begin{pmatrix} A - \mu_A \\ B - \mu_B \end{pmatrix}
+  \begin{pmatrix} A - \mu_A & B - \mu_B \end{pmatrix}
+\right] \\
+&= E \left[
+  \begin{bmatrix}
+  (A - \mu_A)^2 & (A - \mu_A) (B - \mu_B) \\
+  (A - \mu_A) (B - \mu_B) & (B - \mu_B)^2
+  \end{bmatrix}
+\right] \\
+&= \begin{bmatrix}
+  E[(A - \mu_A)^2] & E[(A - \mu_A) (B - \mu_B)] \\
+  E[(A - \mu_A) (B - \mu_B)] & E[(B - \mu_B)^2]
+\end{bmatrix} \\
+&= \begin{bmatrix}
+  V[A] & \Cov[A, B] \\
+  \Cov[A, B] & V[B]
+\end{bmatrix}.
+\end{aligned}
+$$
+This is what we call the *variance* matrix, or *variance-covariance matrix*, of a vector-valued random variable.  The $i$'th element along the main diagonal gives us the variance of the $i$'th element of the vector.  The $ij$'th off-diagonal element gives us the covariance of the $i$ and $j$'th elements.  Consequently, since $\Cov[A, B] = \Cov[B, A]$, the variance matrix is always symmetric.
+
+
+## Properties of OLS
+
+Just like in the bivariate case, the "good" properties of OLS depend on whether the process that generated our data satisfies particular assumptions.  The key assumption, which we call *strict exogeneity*, is
+$$
+E[\epsilon \,|\, \mathbf{X}] = \mathbf{0}.
+$$
+In other words, the error term must be uncorrelated with the covariates.  Remember that the error for the $n$'th observation, $\epsilon_n$, collects everything that affects $Y_n$ but is not included in $\mathbf{x}_n$.  So what we're saying when we impose this condition is either that there's nothing else out there that affects $\mathbf{Y}$ besides $\mathbf{X}$ (unlikely!), or that anything else that affects $\mathbf{Y}$ is uncorrelated with $\mathbf{X}$ (also unlikely, but slightly less so!).
+
+In the '90s and '00s, as more data became available and computing power increased, political scientists labored under the delusion that the way to make strict exogeneity hold was to throw every covariate you could imagine into each regression.  This approach was statistically illiterate [@clarke2005phantom] and scholars have since begun to favor *design-based* approaches.  The basic idea is to collect data with relatively little unobservable heterogeneity, whether through experiments or through careful observational work, rather than to try to eliminate it through endless controls.  We'll talk more about design when we get to causal inference, and it will be a major source of discussion in Stat III.
+
+For now, let us proceed imagining that strict exogeneity holds.  Then, just as in the bivariate case, OLS is unbiased.  In fact, it's even easier to prove now.  First, notice that under strict exogeneity, we have
+$$
+\begin{aligned}
+E[\mathbf{Y} \,|\, \mathbf{X}]
+&= E[\mathbf{X} \beta + \epsilon \,|\, \mathbf{X}] \\
+&= \mathbf{X} \beta + E[\epsilon \,|\, \mathbf{X}] \\
+&= \mathbf{X} \beta.
+\end{aligned}
+$$
+It follows that
+$$
+\begin{aligned}
+E[\hat{\beta}_{\OLS}(\mathbf{X}, \mathbf{Y}) \,|\, \mathbf{X}]
+&= E[(\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top \mathbf{Y} \,|\, \mathbf{X}] \\
+&= (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top E[\mathbf{Y} \,|\, \mathbf{X}] \\
+&= (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top (\mathbf{X} \beta) \\
+&= (\mathbf{X}^\top \mathbf{X})^{-1} (\mathbf{X}^\top \mathbf{X}) \beta \\
+&= \beta,
+\end{aligned}
+$$
+which is the definition of unbiasedness.
+
+Unbiasedness is a small-sample property.  No matter the sample size, if strict exogeneity holds, the OLS estimator is unbiased.  OLS also has some asymptotic (or large-sample) properties under strict exogeneity that we won't prove, but are worth mentioning:
+
+*   OLS is *consistent*.  Informally, what this means is that as $N$ grows larger, the distribution of the OLS estimator becomes tighter around the population parameter $\beta$.  In other words, with a sufficiently large sample, it becomes highly unlikely that you will draw a sample $(\mathbf{X}, \mathbf{Y})$ such that $\hat{\beta}_{\OLS}(\mathbf{X}, \mathbf{Y})$ is far from the true value.
+
+    Of course, you can't know that the OLS estimate from any particular sample is close to the truth.  But you're much more likely to get an estimate close to the truth if $N = 100{,}000$ than if $N = 10$.
+    
+*   OLS is *asymptotically normal*.  Informally, what this is means is that if $N$ is large enough, the sampling distribution of $\hat{\beta}_{\OLS}$ (i.e., its distribution across different possible samples) is roughly normal.  This makes the computation of inferential statistics fairly simple in large samples.  More on this in two weeks.
+
+Unbiasedness and consistency are nice, but frankly they're kind of dime-a-dozen.  Lots of estimators are unbiased and consistent.  Why is OLS so ubiquitous?  The reason is that it is *efficient*, at least under a particular condition on the error term.  Unlike unbiasedness and consistency, efficiency is defined with reference to other estimators.  Given some class or collection of estimators, one is efficient if it has the lowest standard errors---i.e., it is the least sensitive to sampling variation, and thereby the most likely to come close to the true parameter value.
+
+The condition we need to hold is that we have *spherical errors*:
+$$
+V[\epsilon \,|\, \mathbf{X}] = \sigma^2 \mathbf{I}_N
+= \begin{bmatrix}
+  \sigma^2 & 0 & \cdots & 0 \\
+  0 & \sigma^2 & \cdots & 0 \\
+  \vdots & \vdots & \ddots & \vdots \\
+  0 & 0 & \cdots & \sigma^2
+\end{bmatrix}.
+$$
+Spherical errors summarizes two important conditions:
+
+*   The variance of each $\epsilon_n$---i.e., the expected "spread" of the points around the regression line---is the same for every observation.  This is also known as *homoskedasticity*.
+
+*   For $n \neq m$, there is no correlation between $\epsilon_n$ and $\epsilon_m$.  In other words, the fact that $Y_n$ lies above the regression line doesn't tell us anything about whether $Y_m$ lies above or below the regression line.  This is also known as *no autocorrelation*.
+
+Spherical errors holds if each $\epsilon_n$ is independent and identically distributed, though it is possible for non-i.i.d. errors to satisfy the condition.  The illustration below compares spherical and non-spherical errors.
+
+```{r spherical-errors, message=FALSE, echo=FALSE}
+library("tidyverse")
+set.seed(17)
+n_obs <- 500
+data_sphere <- data_frame(
+  x = runif(n_obs),
+  type = rbinom(n_obs, 1, 0.5),
+  y = 1 + x + rnorm(n_obs,
+                    sd = ifelse(type == 0, 0.125, 0.25 * abs(x)))
+)
+ggplot(data_sphere, aes(x = x, y = y)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  facet_wrap(~ factor(type, levels = 0:1, labels = c("spherical", "non-spherical")))
+```
+
+Notice that in the right-hand graph, the distribution of errors around the regression line is uneven---the spread is much greater at greater values of the covariate.
+
+According to the Gauss-Markov theorem, if the errors are spherical, then OLS is the *best linear unbiased estimator (BLUE)* of the linear model parameters $\beta$.  By "best," we mean that it is efficient---any other linear unbiased estimator has larger standard errors.  In other words, under the spherical error condition, any estimator $\hat{\beta}$ with a smaller standard errors than OLS must either be:
+
+*   Biased: $E[\hat{\beta}] \neq \beta$.
+
+*   Nonlinear: $\hat{\beta}$ cannot be written as a linear function of $Y$.
+
+Much later in the course, we will encounter ridge regression, a linear estimator that has lower standard errors than OLS.  The Gauss-Markov theorem tells us that we're making a tradeoff when we use ridge regression---that we're taking on some bias in exchange for the reduction in variance.

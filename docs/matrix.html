@@ -26,7 +26,7 @@
 <meta name="author" content="Brenton Kenkel">
 
 
-<meta name="date" content="2017-02-06">
+<meta name="date" content="2017-02-10">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -34,7 +34,7 @@
   
   
 <link rel="prev" href="bivariate.html">
-<link rel="next" href="references.html">
+<link rel="next" href="ols-matrix.html">
 
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -136,6 +136,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="6.3" data-path="matrix.html"><a href="matrix.html#matrix-inversion"><i class="fa fa-check"></i><b>6.3</b> Matrix Inversion</a></li>
 <li class="chapter" data-level="6.4" data-path="matrix.html"><a href="matrix.html#solving-linear-systems"><i class="fa fa-check"></i><b>6.4</b> Solving Linear Systems</a></li>
 <li class="chapter" data-level="6.5" data-path="matrix.html"><a href="matrix.html#appendix-matrices-in-r"><i class="fa fa-check"></i><b>6.5</b> Appendix: Matrices in R</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="ols-matrix.html"><a href="ols-matrix.html"><i class="fa fa-check"></i><b>7</b> Reintroduction to the Linear Model</a><ul>
+<li class="chapter" data-level="7.1" data-path="ols-matrix.html"><a href="ols-matrix.html#the-linear-model-in-matrix-form"><i class="fa fa-check"></i><b>7.1</b> The Linear Model in Matrix Form</a></li>
+<li class="chapter" data-level="7.2" data-path="ols-matrix.html"><a href="ols-matrix.html#the-ols-estimator"><i class="fa fa-check"></i><b>7.2</b> The OLS Estimator</a></li>
+<li class="chapter" data-level="7.3" data-path="ols-matrix.html"><a href="ols-matrix.html#vector-valued-random-variables"><i class="fa fa-check"></i><b>7.3</b> Vector-Valued Random Variables</a></li>
+<li class="chapter" data-level="7.4" data-path="ols-matrix.html"><a href="ols-matrix.html#properties-of-ols"><i class="fa fa-check"></i><b>7.4</b> Properties of OLS</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -518,30 +524,30 @@ B</code></pre></div>
 ## [1,]    3
 ## [2,]    4</code></pre>
 <p>Adding and subtracting matrices works as you’d expect.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">A +<span class="st"> </span>B</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">A <span class="op">+</span><span class="st"> </span>B</code></pre></div>
 <pre><code>##      [,1] [,2]
 ## [1,]    4    4
 ## [2,]    4    8</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">A -<span class="st"> </span>B</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">A <span class="op">-</span><span class="st"> </span>B</code></pre></div>
 <pre><code>##      [,1] [,2]
 ## [1,]    0    2
 ## [2,]   -2    0</code></pre>
 <p>As does scalar multiplication.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">5</span> *<span class="st"> </span>A</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">5</span> <span class="op">*</span><span class="st"> </span>A</code></pre></div>
 <pre><code>##      [,1] [,2]
 ## [1,]   10   15
 ## [2,]    5   20</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">-<span class="dv">1</span> *<span class="st"> </span>B</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="op">-</span><span class="dv">1</span> <span class="op">*</span><span class="st"> </span>B</code></pre></div>
 <pre><code>##      [,1] [,2]
 ## [1,]   -2   -1
 ## [2,]   -3   -4</code></pre>
 <p>However, the <code>*</code> operator performs <em>element-by-element</em> multiplication, not matrix multiplication.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">A *<span class="st"> </span>B</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">A <span class="op">*</span><span class="st"> </span>B</code></pre></div>
 <pre><code>##      [,1] [,2]
 ## [1,]    4    3
 ## [2,]    3   16</code></pre>
 <p>To perform matrix multiplication, use the <code>%*%</code> operator.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">A %*%<span class="st"> </span>B</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">A <span class="op">%*%</span><span class="st"> </span>B</code></pre></div>
 <pre><code>##      [,1] [,2]
 ## [1,]   13   14
 ## [2,]   14   17</code></pre>
@@ -562,17 +568,17 @@ Y</code></pre></div>
 ## [1,] -1.53483  1.16145
 ## [2,]  0.78808 -0.37741</code></pre>
 <p>Now let’s see what we get when we multiply <code>X</code> and <code>Y</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">X %*%<span class="st"> </span>Y</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">X <span class="op">%*%</span><span class="st"> </span>Y</code></pre></div>
 <pre><code>##          [,1]       [,2]
 ## [1,] 1.00e+00 1.4798e-16
 ## [2,] 8.21e-17 1.0000e+00</code></pre>
 <p>That’s not an identity matrix! The issue here is <em>floating point error</em>, the fact that decimal numbers are not stored exactly on computers. Notice that the off-diagonal elements here, which are supposed to be exactly zero, are instead very very tiny numbers, on the order of <span class="math inline">\(10^{-16}\)</span>, or 0.0000000000000001.</p>
 <p>Let’s check that our result is <em>numerically</em> equal to what we expected. By numerically equal, I mean, loosely speaking, that any differences are less than the amount of error you would expect due to floating point error. First we’ll use <code>diag()</code> to generate a <span class="math inline">\(2 \times 2\)</span> identity matrix, then we’ll compare numerical equality using <code>all.equal()</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">I &lt;-<span class="st"> </span><span class="kw">diag</span>(<span class="dv">2</span>)
-<span class="kw">all.equal</span>(X %*%<span class="st"> </span>Y, I)</code></pre></div>
+<span class="kw">all.equal</span>(X <span class="op">%*%</span><span class="st"> </span>Y, I)</code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 <p>Whereas the traditional <code>==</code> operator is stricter, checking for exact equality.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">X %*%<span class="st"> </span>Y ==<span class="st"> </span>I</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">X <span class="op">%*%</span><span class="st"> </span>Y <span class="op">==</span><span class="st"> </span>I</code></pre></div>
 <pre><code>##       [,1]  [,2]
 ## [1,]  TRUE FALSE
 ## [2,] FALSE FALSE</code></pre>
@@ -602,7 +608,7 @@ Y</code></pre></div>
         </div>
       </div>
 <a href="bivariate.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="references.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+<a href="ols-matrix.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
 
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
