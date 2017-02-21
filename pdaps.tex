@@ -124,7 +124,7 @@
   \postauthor{\par}
   \predate{\centering\large\emph}
   \postdate{\par}
-  \date{2017-02-10}
+  \date{2017-02-20}
 
 \usepackage{booktabs}
 
@@ -4302,6 +4302,465 @@ estimator that has lower standard errors than OLS. The Gauss-Markov
 theorem tells us that we're making a tradeoff when we use ridge
 regression---that we're taking on some bias in exchange for the
 reduction in variance.
+
+\chapter{Specification Issues}\label{specification}
+
+\providecommand{\pderiv}{}
+\renewcommand{\pderiv}[2]{\frac{\partial #1}{\partial #2}}
+
+I lied to you about the linear model last week. Like the grade-school
+teachers who told you everyone thought the world was flat before
+Columbus proved them wrong, I had good intentions---but it was a lie
+nonetheless.
+
+I claimed that the linear model assumed that the conditional expectation
+of the response was a linear function of the covariates. That is false.
+A data model is a linear model, can be estimated consistently and
+without bias by OLS, and all that good stuff, as long as it is linear in
+the \emph{parameters}.
+
+For example, the following is a linear model. \[
+Y_n = \beta_1 + \beta_2 x_n + \beta_3 x_n^2 + \beta_4 x_n^7 + \epsilon_n.
+\] The conditional expectation of \(Y_n\) is a nonlinear function of
+\(x_n\) (holding \(\beta\) fixed) but a linear function of \(\beta\)
+(holding \(x_n\) fixed). Therefore, assuming strict exogeneity holds,
+OLS is an unbiased, consistent, asymptotically normal estimator of
+\(\beta\).
+
+The following is not a linear model. \[
+Y_n = 2^{\beta_1} + 2^{\beta_2} x_n + \epsilon_n.
+\] Holding \(\beta\) fixed, this is a linear function of the covariate
+\(x_n\). But, holding \(x_n\) fixed, this is not a linear function of
+\(\beta\). OLS is not an appropriate estimator for the parameters of
+this model.
+
+This week, we will talk about linear models with non-standard covariate
+specifications---those that aren't just a linear function of continuous
+variables.
+
+\section{Categorical Variables}\label{categorical-variables}
+
+Using the linear model, we write the conditional expectation for the
+\(n\)'th response as \[
+E[Y_n \,|\, \mathbf{x}_n] = \mathbf{x}_n \cdot \beta + \epsilon_n,
+\] where \(\mathbf{x}_n\) is the vector of \(K\) covariates (including
+the intercept) and \(\beta\) is the vector of \(K\) coefficients we wish
+to estimate.
+
+This makes sense with numerical variables, but not so much with
+categorical variables. For example, think of the relationship between
+party identification and one's vote in the 2016 presidential election.
+Suppose our response variable is one's vote (1 for Trump, 0 for
+non-Trump), and our party ID variable records whether the respondent is
+a Republican, Democrat, or independent. The resulting linear model
+equation, \[
+\text{Trump}_n = \beta_1 + \beta_2 \text{Party ID}_n + \epsilon_n,
+\] doesn't really make sense, because party ID isn't a number.\footnote{Oldish-school
+  political scientists, by which I mean just about anyone who got their
+  PhD between 1990 and 2010, would now be clutching their pearls at the
+  mere thought of using a linear model for vote choice. But so-called
+  ``binary dependent variable'' models like logistic regression are at
+  best overrated, as you read in \emph{Mostly Harmless Econometrics}.}
+
+To incorporate a categorical variable into the linear model, we break
+each category into its own binary variable. For example, with our party
+ID variable, we go from \[
+\text{Party ID} = \begin{pmatrix}
+\text{R} \\
+\text{R} \\
+\text{I} \\
+\text{I} \\
+\text{D} \\
+\text{D}
+\end{pmatrix}
+\] to \[
+\text{Republican} = \begin{pmatrix} 1 \\ 1 \\ 0 \\ 0 \\ 0 \\ 0 \end{pmatrix},
+\text{Independent} = \begin{pmatrix} 0 \\ 0 \\ 1 \\ 1 \\ 0 \\ 0 \end{pmatrix},
+\text{Democratic} = \begin{pmatrix} 0 \\ 0 \\ 0 \\ 0 \\ 1 \\ 1 \end{pmatrix}.
+\] These are called \emph{dummy variables} or, preferably,
+\emph{indicator variables}.
+
+Having turned our categorical variable into a set of indicators, you may
+be tempted to rewrite the model as \[
+\text{Trump}_n = \beta_1 + \beta_2 \text{Republican}_n + \beta_3 \text{Independent}_n + \beta_4 \text{Democratic}_n + \epsilon_n.
+\] But take a look at the matrix of covariates, or \emph{design matrix},
+that would result if we set up the model this way: \[
+\mathbf{X} = \begin{bmatrix}
+  1 & 1 & 0 & 0 \\
+  1 & 1 & 0 & 0 \\
+  1 & 0 & 1 & 0 \\
+  1 & 0 & 1 & 0 \\
+  1 & 0 & 0 & 1 \\
+  1 & 0 & 0 & 1
+\end{bmatrix}
+\] The columns of the design matrix are linearly dependent: the constant
+term is equal to the sum of three party ID indicators. (A useful
+exercise is to calculate \(\mathbf{X}^\top \mathbf{X}\) and confirm that
+its columns are linearly dependent too.) This means we can't include all
+three when estimating \(\beta\) via OLS---we have to drop one category.
+
+In one sense, which category we drop is immaterial---our regression will
+make the same predictions either way. However, in order to interpret the
+results of a regression on categorical variables, it is important that
+we know what the categories are, and which one has been dropped.
+
+For example, imagine we drop the Republican category, so we have the
+following linear model: \[
+\text{Trump}_n = \beta_1 + \beta_2 \text{Independent}_n + \beta_3 \text{Democratic}_n + \epsilon_n.
+\] For a Republican voter, the Independent and Democratic variables will
+both equal zero, so we will have \[
+E[\text{Trump}_n \,|\, \text{Party ID}_n = \text{R}] = \beta_1.
+\] In other words, the intercept will be the predicted probability that
+a Republican votes for Trump. For an Independent voter, we will have \[
+E[\text{Trump}_n \,|\, \text{Party ID}_n = \text{I}] = \beta_1 + \beta_2.
+\] So the coefficient on the Independent indicator is not the predicted
+probability that an Independent votes for Trump. Instead, it is the
+\emph{difference} in probability of a Trump vote between Independents
+and the baseline category (in this case, Republicans).
+
+\begin{itemize}
+\item
+  If Independents are less likely than Republicans to vote for Trump,
+  the coefficient on Independent will be negative.
+\item
+  If Independents are more likely than Republicans to vote for Trump,
+  the coefficient on Independent will be positive.
+\item
+  If Independents are equally likely as Republicans to vote for Trump,
+  the coefficient on Independent will be zero.
+\end{itemize}
+
+Similarly, for a Democratic voter, we have \[
+E[\text{Trump}_n \,|\, \text{Party ID}_n = \text{D}] = \beta_1 + \beta_3.
+\] The interpretation of the coefficient on Democratic is the same as
+for the coefficient on Independent.
+
+Take a look at the following results of a hypothetical regression.
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Coefficient & Estimate\tabularnewline
+\midrule
+\endhead
+(Intercept) & 0.9\tabularnewline
+Independent & -0.4\tabularnewline
+Democratic & -0.75\tabularnewline
+\bottomrule
+\end{longtable}
+
+\begin{itemize}
+\item
+  Republicans have a 90\% chance of voting for Trump. We see that by
+  looking at the intercept, since Republicans are the omitted category.
+\item
+  We see from the coefficient on Independent that an Independent's
+  chance of voting for Trump is 40\% lower than a Republican's. This
+  means that an Independent has a 50\% chance of voting for Trump.
+\item
+  Similarly, we see from the coefficient on Democratic that a Democrat's
+  chance of voting for Trump is 75\% lower than a Republican's, for a
+  15\% chance overall.
+\end{itemize}
+
+Had we instead omitted Independent, we would get different coefficients,
+but the same predictions.
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Coefficient & Estimate\tabularnewline
+\midrule
+\endhead
+(Intercept) & 0.5\tabularnewline
+Republican & 0.4\tabularnewline
+Democratic & -0.35\tabularnewline
+\bottomrule
+\end{longtable}
+
+Same story, different numbers, had we omitted Democratic.
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Coefficient & Estimate\tabularnewline
+\midrule
+\endhead
+(Intercept) & 0.15\tabularnewline
+Republican & 0.75\tabularnewline
+Independent & 0.35\tabularnewline
+\bottomrule
+\end{longtable}
+
+Given that the results are substantively the same no matter what, does
+it matter which category we choose to drop? Yes, for the purpose of
+communicating your results. The omitted category should serve as a
+meaningful baseline. For this example, all of our three categories are
+substantively meaningful, so any choice will do. But imagine replacing
+our part ID variable with a race variable that has the following
+categories:
+
+\begin{itemize}
+\tightlist
+\item
+  White
+\item
+  Black
+\item
+  Hispanic
+\item
+  Asian
+\item
+  Other
+\end{itemize}
+
+You may be tempted to make ``Other'' the excluded category, so that you
+obtain a coefficient for each of the specific racial groups. But that's
+actually the worst choice possible. The coefficient on the White
+variable would then represent the difference in probability of voting
+for Trump between a white voter and a voter in the ``other''
+category---which is hard to interpret. Whereas if we instead omitted the
+Black category, the coefficient on the White variable would represent
+the difference between white and black voters.
+
+When in doubt, I recommend omitting whichever category is largest in the
+data.
+
+Now let's introduce covariates into the mix. Consider a regression of
+Trump vote on party ID (Republican as omitted category) and age,
+producing the following results.
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Coefficient & Estimate\tabularnewline
+\midrule
+\endhead
+(Intercept) & 0.8\tabularnewline
+Independent & -0.4\tabularnewline
+Democratic & -0.75\tabularnewline
+Age & 0.002\tabularnewline
+\bottomrule
+\end{longtable}
+
+Remember what the coefficient of 0.002 on Age means: if we compared one
+voter to another who was otherwise identical (in this case, same Party
+ID) except five years older, we would expect the latter voter to have a
+1\% greater chance of voting for Trump.
+
+More specifically, we have three different regression lines---one for
+each group: \[
+\begin{aligned}
+  E[\text{Trump}_n \,|\, \text{Party ID}_n = \text{R}, \text{Age}_n] &= 0.8 + 0.002 \text{Age}_n, \\
+  E[\text{Trump}_n \,|\, \text{Party ID}_n = \text{I}, \text{Age}_n] &= 0.4 + 0.002 \text{Age}_n, \\
+  E[\text{Trump}_n \,|\, \text{Party ID}_n = \text{D}, \text{Age}_n] &= 0.05 + 0.002 \text{Age}_n.
+\end{aligned}
+\] Notice that the slope is the same in each regression line. Only the
+intercept varies across groups. When we include a categorical variable
+in a regression model, it's like allowing the intercept to differ across
+categories.
+
+\section{Interaction Terms}\label{interaction-terms}
+
+When political scientists or economists describe their regression
+results, they will often talk about the marginal effects of different
+variables. Formally, the \emph{marginal effect} of the \(k\)'th
+covariate, \(x_{nk}\), is \[
+\pderiv{E[Y_n \,|\, \mathbf{x}_n]}{x_{nk}},
+\] the partial derivative of the conditional expectation with respect to
+the \(k\)'th covariate.
+
+The marginal effect answers the following question: Suppose we have two
+observations that differ in the \(k\)'th covariate by one unit, but are
+otherwise identical. How much greater, or less, would we expect the
+response to be for the observation with the one-unit-greater value of
+\(x_{nk}\)?
+
+If we were sure the relationship we were modeling were causal, we could
+phrase the above question more succinctly. We could ask: Given a
+one-unit change in the \(k\)'th covariate, holding all else fixed, what
+change in the response should we expect? But we haven't yet gotten to
+the point where we can make our claims causal. Hence I will often refer
+to \emph{so-called marginal effects}, since I don't want the ``effect''
+terminology to deceive us into thinking we're drawing causal inferences.
+So-called marginal effects are just a nice way to summarize the
+relationship between individual covariates and the conditional
+expectation.
+
+The bare-bones linear model has the (sometimes appealing, sometimes not)
+feature that it assumes constant marginal effects. For each covariate
+\(x_{nk}\), we have \[
+\pderiv{E[Y_n \,|\, \mathbf{x}_n]}{x_{nk}} = \beta_k,
+\] the coefficient on that covariate. This encodes two critical
+assumptions:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  The marginal effect of the \(k\)'th covariate does not depend on the
+  value of any other covariates.
+\item
+  The marginal effect of the \(k\)'th covariate does not depend on its
+  own value.
+\end{enumerate}
+
+It is easy to think of scenarios where each of these might be
+questionable.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Imagine a study of individual voters' choices in U.S. House races,
+  where we model voting for the incumbent as a function of how often the
+  voter goes to church. The marginal effect of religiosity is probably
+  different if the incumbent is a Republican than if the incumbent is a
+  Democrat.
+\item
+  Imagine a study of individual voters' turnout decisions, where we
+  model turnout as a function of the voter's ideology. Suppose ideology
+  is measured on a 7-point scale, where 1 is most liberal and 7 is most
+  conservative. We know the most ideologically extreme voters are the
+  most likely to turn out. So, all else equal, we'd expect moving from 1
+  to 2 (very liberal to pretty liberal) to decrease one's probability of
+  voting, but we'd expect moving from 6 to 7 (pretty conservative to
+  very conservative) to increase one's probability of voting.
+\end{enumerate}
+
+Let's start with the first case, where the (so-called) marginal effect
+of one variable depends on the value of another variable. To allow for
+this in our models, we include the product of the two covariates in our
+model.
+
+For example, suppose we are interested in whether the relationship
+between education and voting for Trump is different between whites and
+non-whites. We would include three terms in the model (plus an
+intercept): education, an indicator for white, and their product. \[
+\text{Trump}_n = \beta_1 + \beta_2 \text{Education}_n + \beta_3 \text{White}_n + \beta_4 (\text{Education}_n \times \text{White}_n) + \epsilon_n.
+\] The so-called marginal effect of education is now \[
+\pderiv{E[\text{Trump}_n \,|\, \mathbf{x}_n]}{\text{Education}_n}
+= \beta_2 + \beta_4 \text{White}_n.
+\] This equation tells us three things.
+
+\begin{itemize}
+\item
+  \(\beta_2\) is the marginal effect of education for non-white voters.
+\item
+  \(\beta_4\) is the difference between the marginal effect of education
+  for white voters and the effect for non-white voters.
+\item
+  \(\beta_2 + \beta_4\) is the marginal effect of education for white
+  voters.
+\end{itemize}
+
+Another way to think of it is that we have two regression lines: \[
+\begin{aligned}
+  E[\text{Trump}_n \,|\, \text{White}_n = 0, \text{Education}_n] &= \beta_1 + \beta_2 \text{Education}_n, \\
+  E[\text{Trump}_n \,|\, \text{White}_n = 1, \text{Education}_n] &= (\beta_1 + \beta_3) + (\beta_2 + \beta_4) \text{Education}_n.
+\end{aligned}
+\] We saw before that including a categorical variable is like allowing
+a different intercept for each category. Including an interaction with a
+categorical variable is like allowing a different slope for each
+category.
+
+At this point, you might ask, why not just run two separate regressions?
+I can think of at least two reasons not to.
+
+\begin{itemize}
+\item
+  You might want to include other covariates whose effects you don't
+  think are dependent on race (e.g., age). If you ran separate
+  regressions, you would estimate race-dependent effects for every
+  covariate, at a potential loss of efficiency.
+\item
+  You might want to formally test the hypothesis that the effect of
+  education is equal for whites and non-whites. This is easiest to do if
+  you have a single model. Next week we will talk about the tools you
+  would need to undertake this sort of test.
+\end{itemize}
+
+One frequent source of confusion with interaction terms is whether you
+need to include lower-order terms in the model. For example, if we are
+only interested in how the effect of education differs with race, why
+can't we just include education and its product with race in the
+specification? The equations above give you the answer. Leaving the
+white indicator out of the model is like fixing \(\beta_3 = 0\). This
+means you're forcing the regression lines for whites and non-whites to
+have the same intercept, which there's no good reason to do.
+
+If you're not yet persuaded on the necessity of including constitutive
+terms of interactions in your regressions, see
+\citet{braumoeller2004hypothesis}.
+
+For an example of interaction terms, imagine the following example.
+Suppose education is measured in years of schooling.
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Coefficient & Estimate\tabularnewline
+\midrule
+\endhead
+(Intercept) & 0.3\tabularnewline
+Education & 0.01\tabularnewline
+White & 0.4\tabularnewline
+Education * White & -0.03\tabularnewline
+\bottomrule
+\end{longtable}
+
+We would interpret these in the following way.
+
+\begin{itemize}
+\item
+  A hypothetical non-white voter with zero years of education has a 30\%
+  chance of voting for Trump. For each additional year of education, the
+  probability of voting for Trump goes up by 1\%.
+\item
+  A hypothetical white voter with zero years of education has a 70\%
+  (0.3 + 0.4) chance of voting for Trump. For each additional year of
+  education, the probability of voting for Trump goes down by 2\% (0.01
+  - 0.03).
+\end{itemize}
+
+What about an interaction between two continuous variables? For example,
+imagine an interaction between age and education in our model of voting
+for Trump.
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Coefficient & Estimate\tabularnewline
+\midrule
+\endhead
+(Intercept) & 0.4\tabularnewline
+Education & -0.02\tabularnewline
+Age & 0.002\tabularnewline
+Education * Age & 0.0002\tabularnewline
+\bottomrule
+\end{longtable}
+
+One simple way to interpret the effect of each variable is to hold the
+other one fixed at various values. For example, for a 20-year-old, we
+have \[
+\begin{aligned}
+E[\text{Trump}_n \,|\, \text{Age}_n = 20, \text{Education}_n] &= 0.44 - 0.16 \text{Education}_n,
+\end{aligned}
+\] whereas for an 80-year-old, we have \[
+\begin{aligned}
+E[\text{Trump}_n \,|\, \text{Age}_n = 80, \text{Education}_n] &= 0.56 - 0.04 \text{Education}_n.
+\end{aligned}
+\] These results would seem to imply that (1) older people have a higher
+baseline probability of voting for Trump, and (2) the magnitude of the
+negative relationship between education and voting for Trump is weaker
+for older voters.
+
+Always remember: when in doubt, take the partial derivative of \(Y_n\)
+(or, more precisely, its conditional expectation) with respect to the
+variable you're interested in. For example, here we have \[
+\pderiv{E[\text{Trump}_n \,|\, \mathbf{x}_n]}{\text{Education}_n} = -0.02 + 0.0002 \text{Age}_n.
+\]
+
+\section{Higher-Order Terms}\label{higher-order-terms}
+
+Coming soon!
+
+\section{Appendix: Categorical and Higher-Order Specifications in
+R}\label{appendix-categorical-and-higher-order-specifications-in-r}
+
+Coming soon!
 
 \bibliography{packages.bib,book.bib,psci-8357.bib}
 
