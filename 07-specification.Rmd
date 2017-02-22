@@ -276,11 +276,218 @@ $$
 $$
 
 
-## Higher-Order Terms
+## Quadratic and Logarithmic Terms
 
-Coming soon!
+We use interaction terms when the marginal effect of one variable depends on the value of another variable.  But sometimes the marginal effect of a variable depends on its *own* value.  The most stark example is a "U-shaped" relationship, such as we expect between ideology and voter turnout.
+
+```{r u-shaped, echo=FALSE, message=FALSE}
+library("tidyverse")
+data_u_shaped <- data_frame(
+    x = seq(1, 7, length.out = 100),
+    y = (1/3) + (1 / 15) * (x - 4)^2
+)
+ggplot(data_u_shaped, aes(x = x, y = y)) +
+    geom_line() +
+    scale_x_continuous("Ideology") +
+    scale_y_continuous("Turnout probability", limits = c(0, 1))
+```
+
+We call this kind of relationship *non-monotonic*, since it is neither increasing everywhere nor decreasing everywhere.  However, even with a monotonic relationship, the marginal effect might depend on the value of the variable.  (In other words, while every linear function is monotonic, not every monotonic function is linear.)  For example, think of a hockey-stick shaped relationship.
+
+```{r hockey-stick, echo=FALSE, message=FALSE}
+data_hockey_stick <- data_frame(
+    x = seq(8, 24, length.out = 100),
+    y = (1/4) + (1/2)^9 * (x - 24)^2
+)
+ggplot(data_hockey_stick, aes(x = x, y = y)) +
+    geom_line() +
+    scale_x_continuous("Years of education") +
+    scale_y_continuous("Trump vote probability", limits = c(0, 1))
+```
+
+If we model the relationship between years of education and voting for Trump as linear, then we impose the assumption that the difference between voters with 16 years of education and 12 years of education (college versus high-school graduates) is the same as between those with 24 and 20 years of education (got the PhD slowly versus got the PhD quickly).  Depending on our sample and the goal of our study, that may not be a reasonable assumption (or approximation).
+
+We typically use quadratic models for non-monotonic relationships.  In the example above, this would entail a regression model like
+$$
+\text{Turnout}_n = \beta_1 + \beta_2 \text{Ideology}_n + \beta_3 \text{Ideology}_n^2 + \epsilon_n.
+$$
+Under this model, the marginal effect of Ideology is
+$$
+\pderiv{E[\text{Turnout}_n \,|\, \text{Ideology}_n]}{\text{Ideology}_n}
+= \beta_2 + 2 \beta_3 \text{Ideology}_n.
+$$
+
+* If $\beta_3$ is positive, that means the effect of Ideology increases with the value of Ideology, representing a U-shaped relationship.
+
+* If $\beta_3$ is negative, that means the effect of Ideology decreases with the value of Ideology, representing an inverse-U-shaped relationship.
+
+* If $beta_3$ is zero, that means the effect of Ideology is constant.
+
+The other main way to model a nonlinear relationship in a single variable is with a logarithmic model.  Remember that, in the standard bivariate linear model,
+$$
+Y_n = \beta_1 + \beta_2 x_n + \epsilon_n,
+$$
+we say that a 1-unit difference in $x_n$ is associated with a $\beta_2$-unit difference in $Y_n$.  If we were to instead model the natural logarithm of the response,
+$$
+\log Y_n = \beta_1 + \beta_2 x_n + \epsilon_n,
+$$
+then we would say that a 1-unit difference in $x_n$ is associated with a $\beta_2$-*percent* difference in $Y_n$.  So, for example, if $x_n$ and $Y_n$ are exactly proportional to each other (tripling $x_n$ leads to a tripling of $Y_n$, for example), we would have $\beta_2 = 1$.  Conversely, if we were to model the response as a function of the natural logarithm of the covariate,
+$$
+Y_n = \beta_1 + \beta_2 \log x_n + \epsilon_n,
+$$
+then we would say a 1-percent difference in $x_n$ is associated with a $\beta_2$-unit difference in $Y_n$.  Finally, in a full log-log model,
+$$
+\log Y_n = \beta_1 + \beta_2 \log x_n + \epsilon_n,
+$$
+we would say that a 1-percent difference in $x_n$ is associated with a $\beta_2$-percent difference in $Y_n$.
+
+How do you decide which logarithmic model, if any, to use?
+
+* You may let theory be your guide---develop expectations, on the basis of your substantive knowledge, about whether the relevant changes in conditional expectation will be in terms of levels or proportions.
+
+* Or you may be inductive---make scatterplots of all four possibilities, and choose the specification under which the relationship is closest to linear.
+
+A final note on logarithmic models.  The logarithm of a number $c \leq 0$ does not exist.  Therefore, a logarithmic model is only appropriate for a strictly positive response/covariate.  For non-negative variables that include zeroes, some people try to "fix" this by doing $\log(Y_n + 1)$, but in this situation it is generally better to follow the procedure advocated by @burbidge1988alternative.
 
 
-## Appendix: Categorical and Higher-Order Specifications in R
+## Appendix: Nonstandard Specifications in R
 
-Coming soon!
+We will use the following packages:
+
+```{r, message=FALSE}
+library("tidyverse")
+library("broom")
+library("forcats")
+library("interplot")
+```
+
+**forcats** contains convenience functions for *factors*, which are R's way of representing categorical variables.  **interplot** is for plotting marginal effects from interactive models.
+
+Once again, we will work with the occupational prestige data from the **car** package.  We will also convert it to a tibble, so that it will more closely resemble the kind of data frame we would get had we read it in with `read_csv()`.
+
+```{r}
+library("car")
+data(Prestige)
+Prestige <- as_tibble(Prestige)
+
+Prestige
+```
+
+### Categorical Variables
+
+You will notice that the `type` column of the prestige data is listed as a `<fctr>`, which stands for factor.  A factor is R's representation of a categorical variable.  Let's take a closer look.
+
+```{r factor}
+Prestige$type
+```
+
+This looks kind of like---but isn't quite---a character variable.  The most noticeable difference is that R tells us its *levels*: the set of categories available.  We can extract these directly with the `levels()` function.
+
+```{r levels}
+levels(Prestige$type)
+```
+
+This brings us to an important difference between `read.csv()` (with a dot, the built-in R function) and `read_csv()` (with an underscore, the tidyverse version).  The old way, `read.csv()`, by default treats any column of character strings as a factor.  The tidyverse way, `read_csv()`, never creates factors by default---you must make them explicitly.
+
+To create a factor variable, you can use the `factor()` function:
+
+```{r make-factor}
+example_vector <- c(4, 1, 3, 3, 1)
+
+factor(example_vector,  # vector to convert to factor
+       levels = 1:4,    # possible values of the vector
+       labels = c("ONE",
+                  "two",
+                  "Three",
+                  "FOUR!"))  # label corresponding to each value
+```
+
+Returning to the prestige data, let's run a regression of occupational prestige on occupational category.
+
+```{r fit-type}
+fit_type <- lm(prestige ~ type, data = Prestige)
+fit_type
+```
+
+`lm()` automatically converts the factor into a set of indicators, and automatically omits one category from the design matrix.  In particular, it omits whichever level is listed first (which may not be the first level to appear in the data!).  If you want to have a different category omitted, you need to reorder the levels, placing the category you want to omit first.  You can do that with `fct_relevel()` from the **forcats** package.  Let's make white-collar (`wc`) the omitted category.
+
+```{r fct-relevel}
+Prestige$type <- fct_relevel(Prestige$type, "wc")
+levels(Prestige$type)
+fit_type_relevel <- lm(prestige ~ type, data = Prestige)
+```
+
+We can confirm by checking out the model fit statistics that which category we omit makes no difference to the overall fit of the model, or the predicted values.
+
+```{r check-same}
+glance(fit_type)
+glance(fit_type_relevel)  # Should be the same
+
+# fitted() extracts the fitted value for each observation
+all.equal(fitted(fit_type), fitted(fit_type_relevel))
+```
+
+One more thing---it's rare you should need to do this, but you can use `model.matrix()` to extract the design matrix for a fitted regression model.
+
+```{r model-matrix}
+X <- model.matrix(fit_type)
+dim(X)
+head(X)
+```
+
+### Interaction Terms
+
+The syntax for an interactive model is pretty intuitive.  Let's look at the joint effect of education and income on occupational prestige.
+
+```{r interactive-model}
+fit_interactive <- lm(prestige ~ education * income, data = Prestige)
+fit_interactive
+```
+
+Notice that `lm()` automatically included the lower-order terms for us, so we didn't have to remember which terms to put in.  This is particularly useful when you are interacting with a categorical variable that has many categories, or when you are including higher-order interactions.
+
+If you want to plot the (so-called) marginal effect of education as a function of income, you can use the handy function from the **interplot** package.
+
+```{r interplot}
+interplot(fit_interactive, var1 = "education", var2 = "income")
+```
+
+We see that the marginal effect of education on prestige is high for low-income occupations, but almost nil for an occupation that earns around $25,000/year.  (The bars represent a confidence interval---of course, we haven't done any inferential statistics yet.)
+
+
+### Quadratic and Logarithmic Models
+
+The syntax for a quadratic model is a bit weird.  You would think you could use a formula like `y ~ x + x^2`, but that won't work.  Instead, you have to write `y ~ x + I(x^2)`, as in the following example.
+
+```{r quadratic}
+fit_quad <- lm(prestige ~ education + I(education^2) + income, data = Prestige)
+fit_quad
+```
+
+The easiest way to visualize the results of a quadratic model is to create a synthetic dataset, where you vary the relevant variable across its range while holding all the other variables fixed at the same value.  Then plug the synthetic dataset into the model to get predicted values.
+
+```{r plot-quadratic}
+synthetic_data <- data_frame(
+    education = seq(min(Prestige$education),
+                    max(Prestige$education),
+                    length.out = 100),
+    income = mean(Prestige$income)
+)
+
+synthetic_data <- augment(fit_quad, newdata = synthetic_data)
+head(synthetic_data)
+
+ggplot(synthetic_data, aes(x = education, y = .fitted)) +
+    geom_line()
+```
+
+In this case, within the range spanned by the sample data, the estimated quadratic relationship is only barely nonlinear.
+
+Finally, to run a logarithmic model, just put `log()` around the variables you want to log.
+
+```{r logarithmic}
+fit_log <- lm(log(prestige) ~ log(income) + education, data = Prestige)
+fit_log
+```
+
+To visualize the resulting relationship, you can use the same technique as for quadratic models.

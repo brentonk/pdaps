@@ -124,7 +124,7 @@
   \postauthor{\par}
   \predate{\centering\large\emph}
   \postdate{\par}
-  \date{2017-02-20}
+  \date{2017-02-22}
 
 \usepackage{booktabs}
 
@@ -4753,14 +4753,463 @@ variable you're interested in. For example, here we have \[
 \pderiv{E[\text{Trump}_n \,|\, \mathbf{x}_n]}{\text{Education}_n} = -0.02 + 0.0002 \text{Age}_n.
 \]
 
-\section{Higher-Order Terms}\label{higher-order-terms}
+\section{Quadratic and Logarithmic
+Terms}\label{quadratic-and-logarithmic-terms}
 
-Coming soon!
+We use interaction terms when the marginal effect of one variable
+depends on the value of another variable. But sometimes the marginal
+effect of a variable depends on its \emph{own} value. The most stark
+example is a ``U-shaped'' relationship, such as we expect between
+ideology and voter turnout.
 
-\section{Appendix: Categorical and Higher-Order Specifications in
-R}\label{appendix-categorical-and-higher-order-specifications-in-r}
+\includegraphics{pdaps_files/figure-latex/u-shaped-1.pdf}
 
-Coming soon!
+We call this kind of relationship \emph{non-monotonic}, since it is
+neither increasing everywhere nor decreasing everywhere. However, even
+with a monotonic relationship, the marginal effect might depend on the
+value of the variable. (In other words, while every linear function is
+monotonic, not every monotonic function is linear.) For example, think
+of a hockey-stick shaped relationship.
+
+\includegraphics{pdaps_files/figure-latex/hockey-stick-1.pdf}
+
+If we model the relationship between years of education and voting for
+Trump as linear, then we impose the assumption that the difference
+between voters with 16 years of education and 12 years of education
+(college versus high-school graduates) is the same as between those with
+24 and 20 years of education (got the PhD slowly versus got the PhD
+quickly). Depending on our sample and the goal of our study, that may
+not be a reasonable assumption (or approximation).
+
+We typically use quadratic models for non-monotonic relationships. In
+the example above, this would entail a regression model like \[
+\text{Turnout}_n = \beta_1 + \beta_2 \text{Ideology}_n + \beta_3 \text{Ideology}_n^2 + \epsilon_n.
+\] Under this model, the marginal effect of Ideology is \[
+\pderiv{E[\text{Turnout}_n \,|\, \text{Ideology}_n]}{\text{Ideology}_n}
+= \beta_2 + 2 \beta_3 \text{Ideology}_n.
+\]
+
+\begin{itemize}
+\item
+  If \(\beta_3\) is positive, that means the effect of Ideology
+  increases with the value of Ideology, representing a U-shaped
+  relationship.
+\item
+  If \(\beta_3\) is negative, that means the effect of Ideology
+  decreases with the value of Ideology, representing an inverse-U-shaped
+  relationship.
+\item
+  If \(beta_3\) is zero, that means the effect of Ideology is constant.
+\end{itemize}
+
+The other main way to model a nonlinear relationship in a single
+variable is with a logarithmic model. Remember that, in the standard
+bivariate linear model, \[
+Y_n = \beta_1 + \beta_2 x_n + \epsilon_n,
+\] we say that a 1-unit difference in \(x_n\) is associated with a
+\(\beta_2\)-unit difference in \(Y_n\). If we were to instead model the
+natural logarithm of the response, \[
+\log Y_n = \beta_1 + \beta_2 x_n + \epsilon_n,
+\] then we would say that a 1-unit difference in \(x_n\) is associated
+with a \(\beta_2\)-\emph{percent} difference in \(Y_n\). So, for
+example, if \(x_n\) and \(Y_n\) are exactly proportional to each other
+(tripling \(x_n\) leads to a tripling of \(Y_n\), for example), we would
+have \(\beta_2 = 1\). Conversely, if we were to model the response as a
+function of the natural logarithm of the covariate, \[
+Y_n = \beta_1 + \beta_2 \log x_n + \epsilon_n,
+\] then we would say a 1-percent difference in \(x_n\) is associated
+with a \(\beta_2\)-unit difference in \(Y_n\). Finally, in a full
+log-log model, \[
+\log Y_n = \beta_1 + \beta_2 \log x_n + \epsilon_n,
+\] we would say that a 1-percent difference in \(x_n\) is associated
+with a \(\beta_2\)-percent difference in \(Y_n\).
+
+How do you decide which logarithmic model, if any, to use?
+
+\begin{itemize}
+\item
+  You may let theory be your guide---develop expectations, on the basis
+  of your substantive knowledge, about whether the relevant changes in
+  conditional expectation will be in terms of levels or proportions.
+\item
+  Or you may be inductive---make scatterplots of all four possibilities,
+  and choose the specification under which the relationship is closest
+  to linear.
+\end{itemize}
+
+A final note on logarithmic models. The logarithm of a number
+\(c \leq 0\) does not exist. Therefore, a logarithmic model is only
+appropriate for a strictly positive response/covariate. For non-negative
+variables that include zeroes, some people try to ``fix'' this by doing
+\(\log(Y_n + 1)\), but in this situation it is generally better to
+follow the procedure advocated by \citet{burbidge1988alternative}.
+
+\section{Appendix: Nonstandard Specifications in
+R}\label{appendix-nonstandard-specifications-in-r}
+
+We will use the following packages:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(}\StringTok{"tidyverse"}\NormalTok{)}
+\KeywordTok{library}\NormalTok{(}\StringTok{"broom"}\NormalTok{)}
+\KeywordTok{library}\NormalTok{(}\StringTok{"forcats"}\NormalTok{)}
+\KeywordTok{library}\NormalTok{(}\StringTok{"interplot"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{forcats} contains convenience functions for \emph{factors},
+which are R's way of representing categorical variables.
+\textbf{interplot} is for plotting marginal effects from interactive
+models.
+
+Once again, we will work with the occupational prestige data from the
+\textbf{car} package. We will also convert it to a tibble, so that it
+will more closely resemble the kind of data frame we would get had we
+read it in with \texttt{read\_csv()}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(}\StringTok{"car"}\NormalTok{)}
+\KeywordTok{data}\NormalTok{(Prestige)}
+\NormalTok{Prestige <-}\StringTok{ }\KeywordTok{as_tibble}\NormalTok{(Prestige)}
+
+\NormalTok{Prestige}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 102 × 6
+##   education income women prestige census   type
+## *     <dbl>  <int> <dbl>    <dbl>  <int> <fctr>
+## 1     13.11  12351 11.16     68.8   1113   prof
+## 2     12.26  25879  4.02     69.1   1130   prof
+## 3     12.77   9271 15.70     63.4   1171   prof
+## 4     11.42   8865  9.11     56.8   1175   prof
+## 5     14.62   8403 11.68     73.5   2111   prof
+## # ... with 97 more rows
+\end{verbatim}
+
+\subsection{Categorical Variables}\label{categorical-variables-1}
+
+You will notice that the \texttt{type} column of the prestige data is
+listed as a \texttt{\textless{}fctr\textgreater{}}, which stands for
+factor. A factor is R's representation of a categorical variable. Let's
+take a closer look.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Prestige}\OperatorTok{$}\NormalTok{type}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   [1] prof prof prof prof prof prof prof prof prof prof prof prof prof prof
+##  [15] prof prof prof prof prof prof prof prof prof prof prof prof prof bc  
+##  [29] prof prof wc   prof wc   <NA> wc   wc   wc   wc   wc   wc   wc   wc  
+##  [43] wc   wc   wc   wc   wc   wc   wc   wc   wc   wc   <NA> bc   wc   wc  
+##  [57] wc   bc   bc   bc   bc   bc   <NA> bc   bc   bc   <NA> bc   bc   bc  
+##  [71] bc   bc   bc   bc   bc   bc   bc   bc   bc   bc   bc   bc   bc   bc  
+##  [85] bc   bc   bc   bc   bc   bc   bc   bc   bc   bc   bc   prof bc   bc  
+##  [99] bc   bc   bc   bc  
+## Levels: bc prof wc
+\end{verbatim}
+
+This looks kind of like---but isn't quite---a character variable. The
+most noticeable difference is that R tells us its \emph{levels}: the set
+of categories available. We can extract these directly with the
+\texttt{levels()} function.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{levels}\NormalTok{(Prestige}\OperatorTok{$}\NormalTok{type)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "bc"   "prof" "wc"
+\end{verbatim}
+
+This brings us to an important difference between \texttt{read.csv()}
+(with a dot, the built-in R function) and \texttt{read\_csv()} (with an
+underscore, the tidyverse version). The old way, \texttt{read.csv()}, by
+default treats any column of character strings as a factor. The
+tidyverse way, \texttt{read\_csv()}, never creates factors by
+default---you must make them explicitly.
+
+To create a factor variable, you can use the \texttt{factor()} function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{example_vector <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{4}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+
+\KeywordTok{factor}\NormalTok{(example_vector,  }\CommentTok{# vector to convert to factor}
+       \DataTypeTok{levels =} \DecValTok{1}\OperatorTok{:}\DecValTok{4}\NormalTok{,    }\CommentTok{# possible values of the vector}
+       \DataTypeTok{labels =} \KeywordTok{c}\NormalTok{(}\StringTok{"ONE"}\NormalTok{,}
+                  \StringTok{"two"}\NormalTok{,}
+                  \StringTok{"Three"}\NormalTok{,}
+                  \StringTok{"FOUR!"}\NormalTok{))  }\CommentTok{# label corresponding to each value}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] FOUR! ONE   Three Three ONE  
+## Levels: ONE two Three FOUR!
+\end{verbatim}
+
+Returning to the prestige data, let's run a regression of occupational
+prestige on occupational category.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit_type <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(prestige }\OperatorTok{~}\StringTok{ }\NormalTok{type, }\DataTypeTok{data =}\NormalTok{ Prestige)}
+\NormalTok{fit_type}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = prestige ~ type, data = Prestige)
+## 
+## Coefficients:
+## (Intercept)     typeprof       typewc  
+##       35.53        32.32         6.72
+\end{verbatim}
+
+\texttt{lm()} automatically converts the factor into a set of
+indicators, and automatically omits one category from the design matrix.
+In particular, it omits whichever level is listed first (which may not
+be the first level to appear in the data!). If you want to have a
+different category omitted, you need to reorder the levels, placing the
+category you want to omit first. You can do that with
+\texttt{fct\_relevel()} from the \textbf{forcats} package. Let's make
+white-collar (\texttt{wc}) the omitted category.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Prestige}\OperatorTok{$}\NormalTok{type <-}\StringTok{ }\KeywordTok{fct_relevel}\NormalTok{(Prestige}\OperatorTok{$}\NormalTok{type, }\StringTok{"wc"}\NormalTok{)}
+\KeywordTok{levels}\NormalTok{(Prestige}\OperatorTok{$}\NormalTok{type)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "wc"   "bc"   "prof"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit_type_relevel <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(prestige }\OperatorTok{~}\StringTok{ }\NormalTok{type, }\DataTypeTok{data =}\NormalTok{ Prestige)}
+\end{Highlighting}
+\end{Shaded}
+
+We can confirm by checking out the model fit statistics that which
+category we omit makes no difference to the overall fit of the model, or
+the predicted values.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{glance}\NormalTok{(fit_type)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   r.squared adj.r.squared  sigma statistic    p.value df  logLik    AIC
+## 1   0.69763       0.69126 9.4986    109.59 2.1168e-25  3 -358.15 724.29
+##      BIC deviance df.residual
+## 1 734.63   8571.3          95
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{glance}\NormalTok{(fit_type_relevel)  }\CommentTok{# Should be the same}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   r.squared adj.r.squared  sigma statistic    p.value df  logLik    AIC
+## 1   0.69763       0.69126 9.4986    109.59 2.1168e-25  3 -358.15 724.29
+##      BIC deviance df.residual
+## 1 734.63   8571.3          95
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# fitted() extracts the fitted value for each observation}
+\KeywordTok{all.equal}\NormalTok{(}\KeywordTok{fitted}\NormalTok{(fit_type), }\KeywordTok{fitted}\NormalTok{(fit_type_relevel))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] TRUE
+\end{verbatim}
+
+One more thing---it's rare you should need to do this, but you can use
+\texttt{model.matrix()} to extract the design matrix for a fitted
+regression model.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{X <-}\StringTok{ }\KeywordTok{model.matrix}\NormalTok{(fit_type)}
+\KeywordTok{dim}\NormalTok{(X)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 98  3
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{head}\NormalTok{(X)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                     (Intercept) typeprof typewc
+## gov.administrators            1        1      0
+## general.managers              1        1      0
+## accountants                   1        1      0
+## purchasing.officers           1        1      0
+## chemists                      1        1      0
+## physicists                    1        1      0
+\end{verbatim}
+
+\subsection{Interaction Terms}\label{interaction-terms-1}
+
+The syntax for an interactive model is pretty intuitive. Let's look at
+the joint effect of education and income on occupational prestige.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit_interactive <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(prestige }\OperatorTok{~}\StringTok{ }\NormalTok{education }\OperatorTok{*}\StringTok{ }\NormalTok{income, }\DataTypeTok{data =}\NormalTok{ Prestige)}
+\NormalTok{fit_interactive}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = prestige ~ education * income, data = Prestige)
+## 
+## Coefficients:
+##      (Intercept)         education            income  education:income  
+##        -2.21e+01          5.37e+00          3.94e-03         -1.96e-04
+\end{verbatim}
+
+Notice that \texttt{lm()} automatically included the lower-order terms
+for us, so we didn't have to remember which terms to put in. This is
+particularly useful when you are interacting with a categorical variable
+that has many categories, or when you are including higher-order
+interactions.
+
+If you want to plot the (so-called) marginal effect of education as a
+function of income, you can use the handy function from the
+\textbf{interplot} package.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{interplot}\NormalTok{(fit_interactive, }\DataTypeTok{var1 =} \StringTok{"education"}\NormalTok{, }\DataTypeTok{var2 =} \StringTok{"income"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{pdaps_files/figure-latex/interplot-1.pdf}
+
+We see that the marginal effect of education on prestige is high for
+low-income occupations, but almost nil for an occupation that earns
+around \$25,000/year. (The bars represent a confidence interval---of
+course, we haven't done any inferential statistics yet.)
+
+\subsection{Quadratic and Logarithmic
+Models}\label{quadratic-and-logarithmic-models}
+
+The syntax for a quadratic model is a bit weird. You would think you
+could use a formula like \texttt{y\ \textasciitilde{}\ x\ +\ x\^{}2},
+but that won't work. Instead, you have to write
+\texttt{y\ \textasciitilde{}\ x\ +\ I(x\^{}2)}, as in the following
+example.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit_quad <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(prestige }\OperatorTok{~}\StringTok{ }\NormalTok{education }\OperatorTok{+}\StringTok{ }\KeywordTok{I}\NormalTok{(education}\OperatorTok{^}\DecValTok{2}\NormalTok{) }\OperatorTok{+}\StringTok{ }\NormalTok{income, }\DataTypeTok{data =}\NormalTok{ Prestige)}
+\NormalTok{fit_quad}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = prestige ~ education + I(education^2) + income, 
+##     data = Prestige)
+## 
+## Coefficients:
+##    (Intercept)       education  I(education^2)          income  
+##       10.97951         0.77477         0.15373         0.00128
+\end{verbatim}
+
+The easiest way to visualize the results of a quadratic model is to
+create a synthetic dataset, where you vary the relevant variable across
+its range while holding all the other variables fixed at the same value.
+Then plug the synthetic dataset into the model to get predicted values.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{synthetic_data <-}\StringTok{ }\KeywordTok{data_frame}\NormalTok{(}
+    \DataTypeTok{education =} \KeywordTok{seq}\NormalTok{(}\KeywordTok{min}\NormalTok{(Prestige}\OperatorTok{$}\NormalTok{education),}
+                    \KeywordTok{max}\NormalTok{(Prestige}\OperatorTok{$}\NormalTok{education),}
+                    \DataTypeTok{length.out =} \DecValTok{100}\NormalTok{),}
+    \DataTypeTok{income =} \KeywordTok{mean}\NormalTok{(Prestige}\OperatorTok{$}\NormalTok{income)}
+\NormalTok{)}
+
+\NormalTok{synthetic_data <-}\StringTok{ }\KeywordTok{augment}\NormalTok{(fit_quad, }\DataTypeTok{newdata =}\NormalTok{ synthetic_data)}
+\KeywordTok{head}\NormalTok{(synthetic_data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   education income .fitted .se.fit
+## 1    6.3800 6797.9  30.855  2.2842
+## 2    6.4769 6797.9  31.122  2.1959
+## 3    6.5737 6797.9  31.391  2.1104
+## 4    6.6706 6797.9  31.663  2.0280
+## 5    6.7675 6797.9  31.939  1.9486
+## 6    6.8643 6797.9  32.217  1.8723
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggplot}\NormalTok{(synthetic_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ education, }\DataTypeTok{y =}\NormalTok{ .fitted)) }\OperatorTok{+}
+\StringTok{    }\KeywordTok{geom_line}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{pdaps_files/figure-latex/plot-quadratic-1.pdf}
+
+In this case, within the range spanned by the sample data, the estimated
+quadratic relationship is only barely nonlinear.
+
+Finally, to run a logarithmic model, just put \texttt{log()} around the
+variables you want to log.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit_log <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(}\KeywordTok{log}\NormalTok{(prestige) }\OperatorTok{~}\StringTok{ }\KeywordTok{log}\NormalTok{(income) }\OperatorTok{+}\StringTok{ }\NormalTok{education, }\DataTypeTok{data =}\NormalTok{ Prestige)}
+\NormalTok{fit_log}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = log(prestige) ~ log(income) + education, data = Prestige)
+## 
+## Coefficients:
+## (Intercept)  log(income)    education  
+##      0.3373       0.2991       0.0789
+\end{verbatim}
+
+To visualize the resulting relationship, you can use the same technique
+as for quadratic models.
 
 \bibliography{packages.bib,book.bib,psci-8357.bib}
 
