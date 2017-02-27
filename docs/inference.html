@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Practical Data Analysis for Political Scientists</title>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+  <meta name="description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right.">
+  <meta name="generator" content="bookdown 0.3 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Practical Data Analysis for Political Scientists" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right." />
+  <meta name="github-repo" content="brentonk/pdaps" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Practical Data Analysis for Political Scientists" />
+  
+  <meta name="twitter:description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right." />
+  
+
+<meta name="author" content="Brenton Kenkel">
+
+
+<meta name="date" content="2017-02-26">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="specification.html">
+<link rel="next" href="references.html">
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Practical Data Analysis for Political Scientists</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> About This Book</a></li>
+<li class="chapter" data-level="2" data-path="programming.html"><a href="programming.html"><i class="fa fa-check"></i><b>2</b> Principles of Programming</a><ul>
+<li class="chapter" data-level="2.1" data-path="programming.html"><a href="programming.html#write-programs-for-people-not-computers"><i class="fa fa-check"></i><b>2.1</b> Write Programs for People, Not Computers</a></li>
+<li class="chapter" data-level="2.2" data-path="programming.html"><a href="programming.html#let-the-computer-do-the-work"><i class="fa fa-check"></i><b>2.2</b> Let the Computer Do the Work</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>3</b> Working with Data</a><ul>
+<li class="chapter" data-level="3.1" data-path="data.html"><a href="data.html#loading"><i class="fa fa-check"></i><b>3.1</b> Loading</a></li>
+<li class="chapter" data-level="3.2" data-path="data.html"><a href="data.html#tidying"><i class="fa fa-check"></i><b>3.2</b> Tidying</a></li>
+<li class="chapter" data-level="3.3" data-path="data.html"><a href="data.html#transforming-and-aggregating"><i class="fa fa-check"></i><b>3.3</b> Transforming and Aggregating</a></li>
+<li class="chapter" data-level="3.4" data-path="data.html"><a href="data.html#merging"><i class="fa fa-check"></i><b>3.4</b> Merging</a></li>
+<li class="chapter" data-level="3.5" data-path="data.html"><a href="data.html#appendix-creating-the-example-data"><i class="fa fa-check"></i><b>3.5</b> Appendix: Creating the Example Data</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="visualization.html"><a href="visualization.html"><i class="fa fa-check"></i><b>4</b> Data Visualization</a><ul>
+<li class="chapter" data-level="4.1" data-path="visualization.html"><a href="visualization.html#basic-plots"><i class="fa fa-check"></i><b>4.1</b> Basic Plots</a></li>
+<li class="chapter" data-level="4.2" data-path="visualization.html"><a href="visualization.html#saving-plots"><i class="fa fa-check"></i><b>4.2</b> Saving Plots</a></li>
+<li class="chapter" data-level="4.3" data-path="visualization.html"><a href="visualization.html#faceting"><i class="fa fa-check"></i><b>4.3</b> Faceting</a></li>
+<li class="chapter" data-level="4.4" data-path="visualization.html"><a href="visualization.html#aesthetics"><i class="fa fa-check"></i><b>4.4</b> Aesthetics</a></li>
+<li class="chapter" data-level="4.5" data-path="visualization.html"><a href="visualization.html#appendix-creating-the-example-data-1"><i class="fa fa-check"></i><b>4.5</b> Appendix: Creating the Example Data</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="bivariate.html"><a href="bivariate.html"><i class="fa fa-check"></i><b>5</b> Bivariate Regression</a><ul>
+<li class="chapter" data-level="5.1" data-path="bivariate.html"><a href="bivariate.html#probability-refresher"><i class="fa fa-check"></i><b>5.1</b> Probability Refresher</a></li>
+<li class="chapter" data-level="5.2" data-path="bivariate.html"><a href="bivariate.html#the-linear-model"><i class="fa fa-check"></i><b>5.2</b> The Linear Model</a></li>
+<li class="chapter" data-level="5.3" data-path="bivariate.html"><a href="bivariate.html#least-squares"><i class="fa fa-check"></i><b>5.3</b> Least Squares</a></li>
+<li class="chapter" data-level="5.4" data-path="bivariate.html"><a href="bivariate.html#properties"><i class="fa fa-check"></i><b>5.4</b> Properties</a></li>
+<li class="chapter" data-level="5.5" data-path="bivariate.html"><a href="bivariate.html#appendix-regression-in-r"><i class="fa fa-check"></i><b>5.5</b> Appendix: Regression in R</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="matrix.html"><a href="matrix.html"><i class="fa fa-check"></i><b>6</b> Matrix Algebra: A Crash Course</a><ul>
+<li class="chapter" data-level="6.1" data-path="matrix.html"><a href="matrix.html#vector-operations"><i class="fa fa-check"></i><b>6.1</b> Vector Operations</a></li>
+<li class="chapter" data-level="6.2" data-path="matrix.html"><a href="matrix.html#matrix-operations"><i class="fa fa-check"></i><b>6.2</b> Matrix Operations</a></li>
+<li class="chapter" data-level="6.3" data-path="matrix.html"><a href="matrix.html#matrix-inversion"><i class="fa fa-check"></i><b>6.3</b> Matrix Inversion</a></li>
+<li class="chapter" data-level="6.4" data-path="matrix.html"><a href="matrix.html#solving-linear-systems"><i class="fa fa-check"></i><b>6.4</b> Solving Linear Systems</a></li>
+<li class="chapter" data-level="6.5" data-path="matrix.html"><a href="matrix.html#appendix-matrices-in-r"><i class="fa fa-check"></i><b>6.5</b> Appendix: Matrices in R</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="ols-matrix.html"><a href="ols-matrix.html"><i class="fa fa-check"></i><b>7</b> Reintroduction to the Linear Model</a><ul>
+<li class="chapter" data-level="7.1" data-path="ols-matrix.html"><a href="ols-matrix.html#the-linear-model-in-matrix-form"><i class="fa fa-check"></i><b>7.1</b> The Linear Model in Matrix Form</a></li>
+<li class="chapter" data-level="7.2" data-path="ols-matrix.html"><a href="ols-matrix.html#the-ols-estimator"><i class="fa fa-check"></i><b>7.2</b> The OLS Estimator</a></li>
+<li class="chapter" data-level="7.3" data-path="ols-matrix.html"><a href="ols-matrix.html#vector-valued-random-variables"><i class="fa fa-check"></i><b>7.3</b> Vector-Valued Random Variables</a></li>
+<li class="chapter" data-level="7.4" data-path="ols-matrix.html"><a href="ols-matrix.html#properties-of-ols"><i class="fa fa-check"></i><b>7.4</b> Properties of OLS</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="specification.html"><a href="specification.html"><i class="fa fa-check"></i><b>8</b> Specification Issues</a><ul>
+<li class="chapter" data-level="8.1" data-path="specification.html"><a href="specification.html#categorical-variables"><i class="fa fa-check"></i><b>8.1</b> Categorical Variables</a></li>
+<li class="chapter" data-level="8.2" data-path="specification.html"><a href="specification.html#interaction-terms"><i class="fa fa-check"></i><b>8.2</b> Interaction Terms</a></li>
+<li class="chapter" data-level="8.3" data-path="specification.html"><a href="specification.html#quadratic-and-logarithmic-terms"><i class="fa fa-check"></i><b>8.3</b> Quadratic and Logarithmic Terms</a></li>
+<li class="chapter" data-level="8.4" data-path="specification.html"><a href="specification.html#appendix-nonstandard-specifications-in-r"><i class="fa fa-check"></i><b>8.4</b> Appendix: Nonstandard Specifications in R</a><ul>
+<li class="chapter" data-level="8.4.1" data-path="specification.html"><a href="specification.html#categorical-variables-1"><i class="fa fa-check"></i><b>8.4.1</b> Categorical Variables</a></li>
+<li class="chapter" data-level="8.4.2" data-path="specification.html"><a href="specification.html#interaction-terms-1"><i class="fa fa-check"></i><b>8.4.2</b> Interaction Terms</a></li>
+<li class="chapter" data-level="8.4.3" data-path="specification.html"><a href="specification.html#quadratic-and-logarithmic-models"><i class="fa fa-check"></i><b>8.4.3</b> Quadratic and Logarithmic Models</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="inference.html"><a href="inference.html"><i class="fa fa-check"></i><b>9</b> Drawing Inferences</a><ul>
+<li class="chapter" data-level="9.1" data-path="inference.html"><a href="inference.html#the-basics-of-hypothesis-testing"><i class="fa fa-check"></i><b>9.1</b> The Basics of Hypothesis Testing</a></li>
+<li class="chapter" data-level="9.2" data-path="inference.html"><a href="inference.html#variance-of-ols"><i class="fa fa-check"></i><b>9.2</b> Variance of OLS</a></li>
+<li class="chapter" data-level="9.3" data-path="inference.html"><a href="inference.html#single-variable-hypotheses"><i class="fa fa-check"></i><b>9.3</b> Single Variable Hypotheses</a></li>
+<li class="chapter" data-level="9.4" data-path="inference.html"><a href="inference.html#multiple-variable-hypotheses"><i class="fa fa-check"></i><b>9.4</b> Multiple Variable Hypotheses</a></li>
+<li class="chapter" data-level="9.5" data-path="inference.html"><a href="inference.html#appendix-full-derivation-of-ols-variance"><i class="fa fa-check"></i><b>9.5</b> Appendix: Full Derivation of OLS Variance</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Practical Data Analysis for Political Scientists</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="inference" class="section level1">
+<h1><span class="header-section-number">9</span> Drawing Inferences</h1>
+<p>You can think of regression as a descriptive statistic or data reduction method—a simple way to summarize trends and relationships in multivariate data. But for better or worse, most social scientists view regression as a tool for hypothesis testing. This week, we will learn what it is that we’re going when we gaze at the “stars” that accompany our regression output.</p>
+<div id="the-basics-of-hypothesis-testing" class="section level2">
+<h2><span class="header-section-number">9.1</span> The Basics of Hypothesis Testing</h2>
+<p>Remember the general procedure for testing against a null hypothesis.</p>
+<ol style="list-style-type: decimal">
+<li><p>Choose a test statistic and significance level.</p></li>
+<li><p>Derive the sampling distribution of the test statistic under the null hypothesis.</p></li>
+<li><p>Calculate the value of the test statistic for our sample.</p></li>
+<li><p>Compare the sample test statistic to the sampling distribution under the null hypothesis. If the probability of obtaining a result as least as extreme as ours is at or below the significance level, reject the null hypothesis.</p></li>
+</ol>
+<p>Imagine the null hypothesis is true. Given that, imagine 100 labs run independent tests of the null hypothesis, each using a significance level of 0.05. If they follow the procedure above, on average 5 of the labs will reject the null hypothesis, and 95 will fail to reject the null hypothesis.</p>
+<p>What if the null hypothesis is false? What percentage of the labs will falsely reject it? That’s the <em>power</em> of the test, and it depends on a number of factors: how far off the null hypothesis is, what size sample each lab is drawing, and the significance level.</p>
+<p>Before we get into hypothesis tests for regression, let’s refresh ourselves on how we draw inferences from a random sample about the population mean.</p>
+<p>Suppose we have a sequence of <span class="math inline">\(N\)</span> i.i.d. draws of the random variable <span class="math inline">\(X\)</span>, which we will denote <span class="math inline">\(X_1, \ldots, X_N\)</span>, and we are interested in testing the null hypothesis <span class="math display">\[
+H_0 : E[X] = \mu_0.
+\]</span> Let <span class="math inline">\(\bar{X}\)</span> denote the sample mean and <span class="math inline">\(S_X\)</span> denote the sample standard deviation. Define the <span class="math inline">\(t\)</span> statistic as <span class="math display">\[
+t = \frac{\bar{X} - \mu_0}{S_X / \sqrt{N}}.
+\]</span> The denominator of the <span class="math inline">\(t\)</span> statistic is the <em>standard error</em>—our estimate of the standard deviation of the sampling distribution under the null hypothesis. The greater the standard error, the more the statistic varies across samples, and thus the less reliable it is in any given sample. Naturally enough, our standard errors decrease with our sample size; the more data we have, the more reliably we can draw inferences.</p>
+<p>If <span class="math inline">\(X\)</span> is known to be normally distributed—an assumption that, in the realms political scientists deal with, is usually implausible—then the sampling distribution of <span class="math inline">\(t\)</span> under the null hypothesis is <span class="math inline">\(t_{N - 1}\)</span>, the Student’s <span class="math inline">\(t\)</span> distribution with <span class="math inline">\(N - 1\)</span> degrees of freedom.</p>
+<p>If <span class="math inline">\(X\)</span> is not known to be normally distributed, but our sample size is “large” (in practice, <span class="math inline">\(N \geq 30\)</span>), we can rely on the Central Limit Theorem. As <span class="math inline">\(N \to \infty\)</span>, the distribution of <span class="math inline">\(t\)</span> under the null hypothesis is approximately <span class="math inline">\(N(0, 1)\)</span>, the normal distribution with mean zero and variance one.</p>
+</div>
+<div id="variance-of-ols" class="section level2">
+<h2><span class="header-section-number">9.2</span> Variance of OLS</h2>
+<p>Now let us return to the world of the linear model, <span class="math display">\[
+\mathbf{Y} = \mathbf{X} \beta + \epsilon,
+\]</span> and the OLS estimator of <span class="math inline">\(\beta\)</span>, <span class="math display">\[
+\hat{\beta}_{\text{OLS}} = (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top \mathbf{Y}.
+\]</span> In order to draw inferences on OLS results, the first thing we need to know is the variance of the OLS estimator. You will remember from Stat 1 that the variance of the sample mean, <span class="math inline">\(\bar{X}\)</span>, is <span class="math display">\[
+V[\bar{X}] = \frac{V[X]}{N},
+\]</span> whose square root ends up in the denominator of the <span class="math inline">\(t\)</span>-test statistic. We will do something similar for OLS.</p>
+<p>Throughout this week, we will maintain the following two assumptions on the error term:</p>
+<ul>
+<li><p>Strict exogeneity: <span class="math inline">\(E[\epsilon \,|\, \mathbf{X}] = \mathbf{0}\)</span>.</p></li>
+<li><p>Spherical errors: <span class="math inline">\(V[\epsilon \,|\, \mathbf{X}] = \sigma^2 \mathbf{I}_N\)</span>, where <span class="math inline">\(\sigma^2 &gt; 0\)</span>.</p></li>
+</ul>
+<p>Without the first assumption, OLS is hopeless to begin with. Without the second assumption, OLS is unbiased and consistent, but not efficient. In a couple of weeks, we will discuss how to draw inferences in the presence of non-spherical errors.</p>
+<p>The OLS estimator is a <span class="math inline">\(K \times 1\)</span> vector, so its variance won’t be a single number—it will be a <span class="math inline">\(K \times K\)</span> matrix, <span class="math display">\[
+V[\hat{\beta}] = \begin{bmatrix}
+  V[\hat{\beta}_1] &amp; {\mathop{\rm Cov}\nolimits}[\hat{\beta}_1, \hat{\beta}_2] &amp; \cdots &amp; {\mathop{\rm Cov}\nolimits}[\hat{\beta}_1, \hat{\beta}_K] \\
+  {\mathop{\rm Cov}\nolimits}[\hat{\beta}_2, \hat{\beta}_1] &amp; V[\hat{\beta}_2] &amp; \cdots &amp; {\mathop{\rm Cov}\nolimits}[\hat{\beta}_2, \hat{\beta}_K] \\
+  \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+  {\mathop{\rm Cov}\nolimits}[\hat{\beta}_K, \hat{\beta}_1] &amp; {\mathop{\rm Cov}\nolimits}[\hat{\beta}_K, \hat{\beta}_2] &amp; \cdots &amp; V[\hat{\beta}_K] \\
+\end{bmatrix}.
+\]</span> Specifically, the variance of the OLS estimator (treating the covariates as fixed) is <span class="math display">\[
+V[\hat{\beta} \,|\, \mathbf{X}] = \sigma^2 (\mathbf{X}^\top \mathbf{X})^{-1}.
+\]</span> See the appendix to this chapter—or any graduate-level econometrics textbook—for how we derive this result.</p>
+<p>If we knew <span class="math inline">\(\sigma^2\)</span>, the variance of the error term, then we could just use the above formula to draw inferences. Realistically, though, we will need to estimate <span class="math inline">\(\sigma^2\)</span>. We will do so using the residual variance, <span class="math display">\[
+\hat{\sigma}^2
+= \frac{\sum_n (Y_n - \mathbf{x}_n \cdot \hat{\beta})^2}{N - K}
+= \frac{\text{SSE}}{N - K}.
+\]</span> Why do we divide by <span class="math inline">\(N - K\)</span>? Remember that when we estimate the variance of a random variable, we divide the squared deviations from the mean by <span class="math inline">\(N - 1\)</span> to correct for the degree of freedom we used to estimate the sample mean. The resulting estimator is unbiased. Similarly, when estimating the residual variance of a linear regression model, we need to correct for the <span class="math inline">\(K\)</span> degrees of freedom we used to estimate the model coefficients. Hence we must divide by <span class="math inline">\(N - K\)</span> in order for <span class="math inline">\(\hat{\sigma}^2\)</span> to be unbiased.</p>
+<p>Under the spherical error assumption, our estimate of the variance of OLS will therefore be the <span class="math inline">\(K \times K\)</span> matrix <span class="math display">\[
+\hat{\Sigma} = \hat{\sigma}^2 (\mathbf{X}^\top \mathbf{X})^{-1}.
+\]</span> A very important note. If the errors are not spherical, this formula produces a <em>biased</em> and <em>inconsistent</em> estimate of the sampling variability of OLS. This is true even though the OLS estimate itself is unbiased and consistent. In other words, if we use OLS in the presence of non-spherical errors:</p>
+<ul>
+<li><p>Our estimates will not be systematically biased away from the population parameter, and the probability of our estimate being any meaningful distance away from the population parameter goes to zero as our sample size increases.</p></li>
+<li><p>Our hypothesis tests will <strong>not</strong> perform as advertised—typically, they will lead us to reject the null hypothesis more often than we should—and this problem does <strong>not</strong> go away as our sample size increases.</p></li>
+</ul>
+<p>For the remainder of this week, we will proceed under the assumption of spherical errors. In a couple of weeks, we will discuss how to draw inferences appropriately when this assumption fails to hold.</p>
+</div>
+<div id="single-variable-hypotheses" class="section level2">
+<h2><span class="header-section-number">9.3</span> Single Variable Hypotheses</h2>
+<p>Consider a null hypothesis about the population value of a single coefficient, of the form <span class="math display">\[
+H_0 : \beta_k = b,
+\]</span> where <span class="math inline">\(b\)</span> is a fixed constant. Usually, though not always, political scientists concern themselves with null hypotheses of the form <span class="math inline">\(\beta_k = 0\)</span>; i.e., the <span class="math inline">\(k\)</span>’th variable has zero (so-called) marginal effect on the response.</p>
+<p>We will test this hypothesis using the familiar <span class="math inline">\(t\)</span>-statistic. The <em>estimated standard error</em> of <span class="math inline">\(\hat{\beta}_k\)</span> is <span class="math display">\[
+{\mathop{\rm SE}\nolimits}(\hat{\beta}_k) = \sqrt{\hat{\Sigma}_{kk}},
+\]</span> where <span class="math inline">\(\hat{\Sigma}_{kk}\)</span> denotes the <span class="math inline">\(k\)</span>’th element of the diagonal of <span class="math inline">\(\hat{\Sigma} = \hat{\sigma}^2 (\mathbf{X}^\top \mathbf{X})^{-1}\)</span>. The “standard errors” that appear alongside your regression output are calculating by taking the square root of the diagonal of this matrix.</p>
+<p>The <span class="math inline">\(t\)</span> statistic for the test of the null hypothesis <span class="math inline">\(H_0\)</span> is in the familiar “estimate divided by standard error” form, <span class="math display">\[
+t = \frac{\hat{\beta}_k - b}{{\mathop{\rm SE}\nolimits}(\hat{\beta}_k)} = \frac{\hat{\beta}_k - b}{\sqrt{\hat{\Sigma}_{kk}}}.
+\]</span> Our mode of inference from there depends on the sample size and on whether we are willing to make a normality assumption.</p>
+<ul>
+<li><p>If <span class="math inline">\(\epsilon\)</span> is normally distributed, then the sampling distribution of our test statistic is <span class="math inline">\(t_{N - K}\)</span>, the <span class="math inline">\(t\)</span> distribution with <span class="math inline">\(N - K\)</span> degrees of freedom.</p></li>
+<li><p>As our sample size grows large, the sampling distribution of our test statistic is approximately <span class="math inline">\(N(0, 1)\)</span>, the normal distribution with mean zero and variance one. This follows from the Central Limit Theorem, and it holds even if <span class="math inline">\(\epsilon\)</span> is <em>not</em> normally distributed.</p></li>
+</ul>
+<p>So if you have a small sample, the validity of the standard hypothesis test depends on a normality assumption that may or may not be palatable, depending on the circumstances. Other techniques exist for this situation, but they are beyond the scope of this course. Of course, if your sample is so small that you need to resort to non-standard hypothesis testing techniques in order to draw appropriate inferences, you should probably go back to the drawing board on your study design.</p>
+<p>Regardless of your sample size, regression software will compare your test statistics to <span class="math inline">\(t_{N - K}\)</span> to calculate <span class="math inline">\(p\)</span>-values and the results of hypothesis tests. This is innocuous even if you don’t assume normality, since if <span class="math inline">\(N\)</span> is large the <span class="math inline">\(t_{N - K}\)</span> distribution is approximately the same as the <span class="math inline">\(N(0, 1)\)</span> distribution (with infinitesimally fatter tails).</p>
+<p>Our method of constructing confidence intervals for a single parameter is also analogous to what we do with the sample mean. Let <span class="math inline">\(z_{\alpha}\)</span> be the critical value of the sampling distribution of our test statistic for our chosen significance level <span class="math inline">\(\alpha\)</span>. For example, the critical value of <span class="math inline">\(N(0, 1)\)</span> for significance <span class="math inline">\(\alpha = 0.05\)</span> is <span class="math inline">\(z_{\alpha} = 1.96\)</span>. Then the <span class="math inline">\((1 - \alpha)\)</span>-confidence interval around <span class="math inline">\(\hat{\beta}_k\)</span> is <span class="math display">\[
+{\mathop{\rm CI}\nolimits}_{1 - \alpha}(\hat{\beta}_k) = [\hat{\beta}_k - z_{\alpha} {\mathop{\rm SE}\nolimits}(\hat{\beta}_k), \hat{\beta}_k + z_{\alpha} {\mathop{\rm SE}\nolimits}(\hat{\beta}_k)].
+\]</span></p>
+</div>
+<div id="multiple-variable-hypotheses" class="section level2">
+<h2><span class="header-section-number">9.4</span> Multiple Variable Hypotheses</h2>
+<p>It is common, especially (though not exclusively) when working with categorical variables or higher-order terms, to have hypotheses involving multiple variables. For example, think of our model from last week, <span class="math display">\[
+\text{Trump}_n = \beta_1 + \beta_2 \text{Independent}_n + \beta_3 \text{Democratic}_n + \beta_4 \text{Age}_n + \epsilon_n.
+\]</span> Remember that <span class="math inline">\(\beta_2\)</span> denotes the expected difference between Independents and Republicans (the omitted category) of the same age in their propensity to vote for Trump, and <span class="math inline">\(\beta_3\)</span> denotes the expected difference between Democrats and Republicans of the same age.</p>
+<p>If our null hypothesis were that Independents and Republicans of the same age had the same chance of voting for Trump, we would state that as <span class="math display">\[
+H_0 : \beta_2 = 0.
+\]</span> But what about the null hypothesis were that Independents and Democrats had the same chance of voting for Trump? We would have to phrase that in terms of multiple coefficients, <span class="math display">\[
+H_0 : \beta_2 = \beta_3,
+\]</span> or equivalently, <span class="math display">\[
+H_0 : \beta_2 - \beta_3 = 0.
+\]</span> Or what if our null hypothesis were that party identification made no difference at all? That would mean Independents and Democrats are both no different than Republicans on average, or in our model notation, <span class="math display">\[
+H_0 : \left\{ \begin{aligned}
+\beta_2 &amp;= 0, \\
+\beta_3 &amp;= 0.
+\end{aligned} \right.
+\]</span></p>
+<p>Each of these, including the simple single-variable hypothesis, is a linear system in <span class="math inline">\(\beta\)</span>. In other words, we can write each of these hypotheses in the form <span class="math display">\[
+H_0 : \mathbf{R} \beta - \mathbf{c} = \mathbf{0},
+\]</span> where <span class="math inline">\(\mathbf{R}\)</span> is a fixed <span class="math inline">\(r \times K\)</span> matrix (where <span class="math inline">\(r\)</span> is the number of restrictions we intend to test) and <span class="math inline">\(\mathbf{c}\)</span> is a fixed <span class="math inline">\(r \times 1\)</span> vector.</p>
+<p>Perhaps the easiest way to test a hypothesis of this form is the <em>Wald test</em>. We form the test statistic <span class="math display">\[
+W = (\mathbf{R} \beta - \mathbf{c})^\top  (\mathbf{R} \hat{\Sigma} \mathbf{R}^\top)^{-1} (\mathbf{R} \beta - \mathbf{c}),
+\]</span> which, despite all the matrices involved, works out to be a scalar. Under <span class="math inline">\(H_0\)</span>, the asymptotic sampling distribution of <span class="math inline">\(W\)</span> is <span class="math inline">\(\chi^2_r\)</span>, the chi-squared distribution with <span class="math inline">\(r\)</span> degrees of freedom.<a href="#fn22" class="footnoteRef" id="fnref22"><sup>22</sup></a></p>
+<p>The Wald test is not just an aggregation of the individual <span class="math inline">\(t\)</span> tests of the coefficients. Two coefficients might each individually be statistically insignificant, yet the Wald test may lead us to reject the null hypothesis that both are zero. Conversely, one of a group of coefficients might be statistically significant, and yet the Wald test may not have us reject the null hypothesis that all are zero.</p>
+<p>We already saw a couple of examples of how to use the Wald test with a model with a categorical variable. Let’s also quickly consider its use in some other models with less-common specifications.</p>
+<p>Imagine an interactive model, <span class="math display">\[
+Y_n = \beta_1 + \beta_2 X_n + \beta_3 Z_n + \beta_4 (X_n \times Z_n) + \epsilon_n.
+\]</span> The interaction term captures how the (so-called) marginal effect of <span class="math inline">\(X_n\)</span> depends on the value of <span class="math inline">\(Z_n\)</span>, and vice versa. If your null hypothesis is that the marginal effect of <span class="math inline">\(X_n\)</span> does not depend on <span class="math inline">\(Z_n\)</span>, you could use perform a <span class="math inline">\(t\)</span> test of <span class="math display">\[
+H_0 : \beta_4 = 0.
+\]</span> But what if your null hypothesis is that the marginal effect of <span class="math inline">\(X_n\)</span> is <em>always</em> zero, regardless of the value of <span class="math inline">\(Z_n\)</span>? Some people make the unfortunate mistake of testing this via the null hypothesis <span class="math display">\[
+H_0 : \beta_2 = 0,
+\]</span> but that only means the marginal effect of <span class="math inline">\(X_n\)</span> is zero <em>when <span class="math inline">\(Z_n = 0\)</span></em>. What you want is the composite null <span class="math display">\[
+H_0 : \left\{ \begin{aligned}
+  \beta_2 &amp;= 0, \\
+  \beta_4 &amp;= 0,
+\end{aligned} \right.
+\]</span> or, in matrix form, <span class="math display">\[
+\begin{bmatrix}
+  0 &amp; 1 &amp; 0 &amp; 0 \\
+  0 &amp; 0 &amp; 0 &amp; 1
+\end{bmatrix}
+\begin{bmatrix}
+  \beta_1 \\ \beta_2 \\ \beta_3 \\ \beta_4
+\end{bmatrix}
+=
+\begin{bmatrix}
+  0 \\ 0
+\end{bmatrix}.
+\]</span></p>
+<p>Similarly, think of the quadratic model, <span class="math display">\[
+Y_n = \beta_1 + \beta_2 X_n + \beta_3 X_n^2 + \epsilon_n.
+\]</span> The null hypothesis that the (so-called) marginal effect of <span class="math inline">\(X_n\)</span> is constant is equivalent to <span class="math display">\[
+H_0 : \beta_3 = 0.
+\]</span> But if we wanted to test against the null hypothesis that the marginal effect of <span class="math inline">\(X_n\)</span> is <em>always</em> zero, we would have to use a composite null, <span class="math display">\[
+H_0 : \left\{ \begin{aligned}
+  \beta_2 &amp;= 0, \\
+  \beta_3 &amp;= 0.
+\end{aligned} \right.
+\]</span></p>
+</div>
+<div id="appendix-full-derivation-of-ols-variance" class="section level2">
+<h2><span class="header-section-number">9.5</span> Appendix: Full Derivation of OLS Variance</h2>
+<p>We will assume strict exogeneity, <span class="math display">\[
+E [\epsilon \,|\, \mathbf{X}] = \mathbf{0},
+\]</span> and spherical errors, <span class="math display">\[
+V [\epsilon \,|\, \mathbf{X}] = E [\epsilon \epsilon^\top \,|\, \mathbf{X}] = \sigma^2 \mathbf{I}.
+\]</span> A useful thing to know is that since <span class="math inline">\(\mathbf{X}^\top \mathbf{X}\)</span> is symmetric, so is its inverse: <span class="math display">\[
+[(\mathbf{X}^\top \mathbf{X})^{-1}]^\top = (\mathbf{X}^\top \mathbf{X})^{-1}.
+\]</span></p>
+<p>Let’s start by deriving the variance from our formula for a vector-valued random variable, <span class="math display">\[
+V[C] = E \left[ (C - E[C]) (C - E[C])^\top \right].
+\]</span> For the OLS estimator <span class="math inline">\(\hat{\beta}\)</span>, we have <span class="math display">\[
+\begin{aligned}
+  V[\hat{\beta} \,|\, \mathbf{X}]
+  &amp;= E \left[ \left(\hat{\beta} - E[\hat{\beta}]\right) \left(\hat{\beta} - E[\hat{\beta}]\right)^\top \,|\, \mathbf{X} \right] \\
+  &amp;= E \left[ \left(\hat{\beta} - \beta\right) \left(\hat{\beta} - \beta\right)^\top \,|\, \mathbf{X} \right] \\
+  &amp;= E \left[ \hat{\beta} \hat{\beta}^\top - 2 \beta \hat{\beta}^\top + \beta \beta^\top \,|\, \mathbf{X} \right] \\
+  &amp;= E \left[ \hat{\beta} \hat{\beta}^\top \,|\, \mathbf{X} \right] - 2 \beta E \left[ \hat{\beta}^\top \,|\, \mathbf{X} \right] + \beta \beta^\top \\
+  &amp;= E \left[ (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top \mathbf{Y} \mathbf{Y}^\top \mathbf{X} (\mathbf{X}^\top \mathbf{X})^{-1} \,|\, \mathbf{X} \right] - \beta \beta^\top \\
+  &amp;= (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top E \left[ \mathbf{Y} \mathbf{Y}^\top \,|\, \mathbf{X} \right] \mathbf{X} (\mathbf{X}^\top \mathbf{X})^{-1} - \beta \beta^\top.
+\end{aligned}
+\]</span> Since <span class="math inline">\(\mathbf{Y} = \mathbf{X} \beta + \epsilon\)</span>, we have <span class="math display">\[
+\begin{aligned}
+  E \left[ \mathbf{Y} \mathbf{Y}^\top \,|\, \mathbf{X} \right]
+  &amp;= E \left[ (\mathbf{X} \beta + \epsilon) (\mathbf{X} \beta + \epsilon)^\top \,|\, \mathbf{X} \right] \\
+  &amp;= E \left[ \mathbf{X} \beta \beta^\top \mathbf{X}^\top + 2 \epsilon \beta^\top \mathbf{X}^\top + \epsilon \epsilon^\top \,|\, \mathbf{X} \right] \\
+  &amp;= \mathbf{X} \beta \beta^\top \mathbf{X}^\top + 2 \underbrace{E[\epsilon \,|\, \mathbf{X}]}_{= \mathbf{0}} \beta^\top \mathbf{X}^\top + E[\epsilon \epsilon^\top \,|\, \mathbf{X}] \\
+  &amp;= \mathbf{X} \beta \beta^\top \mathbf{X}^\top + \sigma^2 \mathbf{I}.
+\end{aligned}
+\]</span> Continuing from above, we have <span class="math display">\[
+\begin{aligned}
+  V[\hat{\beta} \,|\, \mathbf{X}]
+  &amp;= (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top E \left[ \mathbf{Y} \mathbf{Y}^\top \,|\, \mathbf{X} \right] \mathbf{X} (\mathbf{X}^\top \mathbf{X})^{-1} - \beta \beta^\top \\
+  &amp;= (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top ( \mathbf{X} \beta \beta^\top \mathbf{X}^\top + \sigma^2 \mathbf{I} ) \mathbf{X} (\mathbf{X}^\top \mathbf{X})^{-1} - \beta \beta^\top \\
+  &amp;= (\mathbf{X}^\top \mathbf{X})^{-1} (\mathbf{X}^\top \mathbf{X}) \beta \beta^\top (\mathbf{X}^\top \mathbf{X}) (\mathbf{X}^\top \mathbf{X})^{-1} \\ &amp;\quad + \sigma^2 (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top \mathbf{X} (\mathbf{X}^\top \mathbf{X})^{-1} - \beta \beta^\top \\
+  &amp;= \beta \beta^\top + \sigma^2 (\mathbf{X}^\top \mathbf{X})^{-1} - \beta \beta^\top \\
+  &amp;= \sigma^2 (\mathbf{X}^\top \mathbf{X})^{-1}.
+\end{aligned}
+\]</span></p>
+<p>A slightly easier way to get there would be to apply two of the helpful properties of variance. You’ll remember from the study of scalar-valued random variables that, for a random variable <span class="math inline">\(A\)</span> and scalars <span class="math inline">\(c\)</span> and <span class="math inline">\(d\)</span>, <span class="math display">\[
+\begin{aligned}
+  V[c A] &amp;= c^2 V[A], \\
+  V[A + d] &amp;= V[A].
+\end{aligned}
+\]</span> Similarly, for an <span class="math inline">\(m \times 1\)</span> vector random variable <span class="math inline">\(\mathbf{A}\)</span>, a fixed <span class="math inline">\(n \times m\)</span> matrix <span class="math inline">\(\mathbf{C}\)</span>, and a fixed <span class="math inline">\(m \times 1\)</span> vector <span class="math inline">\(\mathbf{d}\)</span>, we have <span class="math display">\[
+\begin{aligned}
+  V[\mathbf{C} \mathbf{A}] &amp;= \mathbf{C} V[\mathbf{A}] \mathbf{C}^\top, \\
+  V[\mathbf{A} + \mathbf{d}] &amp;= V[\mathbf{A}].
+\end{aligned}
+\]</span> Consequently, <span class="math display">\[
+\begin{aligned}
+  V \left[ \hat{\beta} \,|\, \mathbf{X} \right]
+  &amp;= V[ (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top \mathbf{Y} \,|\, \mathbf{X} ] \\
+  &amp;= (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top V [\mathbf{Y} \,|\, \mathbf{X}] \mathbf{X} (\mathbf{X}^\top \mathbf{X})^{-1} \\
+  &amp;= (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top V [\mathbf{X} \beta + \epsilon \,|\, \mathbf{X}] \mathbf{X} (\mathbf{X}^\top \mathbf{X})^{-1} \\
+  &amp;= (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top V [\epsilon \,|\, \mathbf{X}] \mathbf{X} (\mathbf{X}^\top \mathbf{X})^{-1} \\
+  &amp;= (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top (\sigma^2 \mathbf{I}) \mathbf{X} (\mathbf{X}^\top \mathbf{X})^{-1} \\
+  &amp;= \sigma^2 (\mathbf{X}^\top \mathbf{X})^{-1}.
+\end{aligned}
+\]</span></p>
+
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="22">
+<li id="fn22"><p>You will notice that, for a single-variable hypothesis <span class="math inline">\(H_0 : \beta_k = b\)</span>, the Wald statistic reduces to the square of the <span class="math inline">\(t\)</span> statistic. Since the asymptotic distribution of the <span class="math inline">\(t\)</span> statistic is standard normal under the null hypothesis, it follows that the asymptotic distribution of its square is <span class="math inline">\(\chi^2_1\)</span> under the null hypothesis.<a href="inference.html#fnref22">↩</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="specification.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/08-inference.Rmd",
+"text": "Edit"
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    if (location.protocol !== "file:" && /^https?:/.test(script.src))
+      script.src  = script.src.replace(/^https?:/, '');
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

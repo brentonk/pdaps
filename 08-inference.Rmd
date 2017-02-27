@@ -1,0 +1,316 @@
+# Drawing Inferences {#inference}
+
+\providecommand{\Cov}{}
+\renewcommand{\Cov}{\mathop{\rm Cov}\nolimits}
+\providecommand{\SE}{}
+\renewcommand{\SE}{\mathop{\rm SE}\nolimits}
+\providecommand{\CI}{}
+\renewcommand{\CI}{\mathop{\rm CI}\nolimits}
+
+You can think of regression as a descriptive statistic or data reduction method---a simple way to summarize trends and relationships in multivariate data.  But for better or worse, most social scientists view regression as a tool for hypothesis testing.  This week, we will learn what it is that we're going when we gaze at the "stars" that accompany our regression output.
+
+
+## The Basics of Hypothesis Testing
+
+Remember the general procedure for testing against a null hypothesis.
+
+1.  Choose a test statistic and significance level.
+
+2.  Derive the sampling distribution of the test statistic under the null hypothesis.
+
+3.  Calculate the value of the test statistic for our sample.
+
+4.  Compare the sample test statistic to the sampling distribution under the null hypothesis.  If the probability of obtaining a result as least as extreme as ours is at or below the significance level, reject the null hypothesis.
+
+Imagine the null hypothesis is true.  Given that, imagine 100 labs run independent tests of the null hypothesis, each using a significance level of 0.05.  If they follow the procedure above, on average 5 of the labs will reject the null hypothesis, and 95 will fail to reject the null hypothesis.
+
+What if the null hypothesis is false?  What percentage of the labs will falsely reject it?  That's the *power* of the test, and it depends on a number of factors: how far off the null hypothesis is, what size sample each lab is drawing, and the significance level.
+
+Before we get into hypothesis tests for regression, let's refresh ourselves on how we draw inferences from a random sample about the population mean.
+
+Suppose we have a sequence of $N$ i.i.d. draws of the random variable $X$, which we will denote $X_1, \ldots, X_N$, and we are interested in testing the null hypothesis
+$$
+H_0 : E[X] = \mu_0.
+$$
+Let $\bar{X}$ denote the sample mean and $S_X$ denote the sample standard 
+deviation.  Define the $t$ statistic as
+$$
+t = \frac{\bar{X} - \mu_0}{S_X / \sqrt{N}}.
+$$
+The denominator of the $t$ statistic is the *standard error*---our estimate of the standard deviation of the sampling distribution under the null hypothesis.  The greater the standard error, the more the statistic varies across samples, and thus the less reliable it is in any given sample.  Naturally enough, our standard errors decrease with our sample size; the more data we have, the more reliably we can draw inferences.
+
+If $X$ is known to be normally distributed---an assumption that, in the realms political scientists deal with, is usually implausible---then the sampling distribution of $t$ under the null hypothesis is $t_{N - 1}$, the Student's $t$ distribution with $N - 1$ degrees of freedom.
+
+If $X$ is not known to be normally distributed, but our sample size is "large" (in practice, $N \geq 30$), we can rely on the Central Limit Theorem.  As $N \to \infty$, the distribution of $t$ under the null hypothesis is approximately $N(0, 1)$, the normal distribution with mean zero and variance one.
+
+
+## Variance of OLS
+
+Now let us return to the world of the linear model,
+$$
+\mathbf{Y} = \mathbf{X} \beta + \epsilon,
+$$
+and the OLS estimator of $\beta$,
+$$
+\hat{\beta}_{\text{OLS}} = (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top \mathbf{Y}.
+$$
+In order to draw inferences on OLS results, the first thing we need to know is the variance of the OLS estimator.  You will remember from Stat 1 that the variance of the sample mean, $\bar{X}$, is
+$$
+V[\bar{X}] = \frac{V[X]}{N},
+$$
+whose square root ends up in the denominator of the $t$-test statistic.  We will do something similar for OLS.
+
+Throughout this week, we will maintain the following two assumptions on the error term:
+
+*   Strict exogeneity: $E[\epsilon \,|\, \mathbf{X}] = \mathbf{0}$.
+
+*   Spherical errors: $V[\epsilon \,|\, \mathbf{X}] = \sigma^2 \mathbf{I}_N$, where $\sigma^2 > 0$.
+
+Without the first assumption, OLS is hopeless to begin with.  Without the second assumption, OLS is unbiased and consistent, but not efficient.  In a couple of weeks, we will discuss how to draw inferences in the presence of non-spherical errors.
+
+The OLS estimator is a $K \times 1$ vector, so its variance won't be a single number---it will be a $K \times K$ matrix,
+$$
+V[\hat{\beta}] = \begin{bmatrix}
+  V[\hat{\beta}_1] & \Cov[\hat{\beta}_1, \hat{\beta}_2] & \cdots & \Cov[\hat{\beta}_1, \hat{\beta}_K] \\
+  \Cov[\hat{\beta}_2, \hat{\beta}_1] & V[\hat{\beta}_2] & \cdots & \Cov[\hat{\beta}_2, \hat{\beta}_K] \\
+  \vdots & \vdots & \ddots & \vdots \\
+  \Cov[\hat{\beta}_K, \hat{\beta}_1] & \Cov[\hat{\beta}_K, \hat{\beta}_2] & \cdots & V[\hat{\beta}_K] \\
+\end{bmatrix}.
+$$
+Specifically, the variance of the OLS estimator (treating the covariates as fixed) is
+$$
+V[\hat{\beta} \,|\, \mathbf{X}] = \sigma^2 (\mathbf{X}^\top \mathbf{X})^{-1}.
+$$
+See the appendix to this chapter---or any graduate-level econometrics textbook---for how we derive this result.
+
+If we knew $\sigma^2$, the variance of the error term, then we could just use the above formula to draw inferences.  Realistically, though, we will need to estimate $\sigma^2$.  We will do so using the residual variance,
+$$
+\hat{\sigma}^2
+= \frac{\sum_n (Y_n - \mathbf{x}_n \cdot \hat{\beta})^2}{N - K}
+= \frac{\text{SSE}}{N - K}.
+$$
+Why do we divide by $N - K$?  Remember that when we estimate the variance of a random variable, we divide the squared deviations from the mean by $N - 1$ to correct for the degree of freedom we used to estimate the sample mean.  The resulting estimator is unbiased.  Similarly, when estimating the residual variance of a linear regression model, we need to correct for the $K$ degrees of freedom we used to estimate the model coefficients.  Hence we must divide by $N - K$ in order for $\hat{\sigma}^2$ to be unbiased.
+
+Under the spherical error assumption, our estimate of the variance of OLS will therefore be the $K \times K$ matrix
+$$
+\hat{\Sigma} = \hat{\sigma}^2 (\mathbf{X}^\top \mathbf{X})^{-1}.
+$$
+A very important note.  If the errors are not spherical, this formula produces a *biased* and *inconsistent* estimate of the sampling variability of OLS.  This is true even though the OLS estimate itself is unbiased and consistent.  In other words, if we use OLS in the presence of non-spherical errors:
+
+*   Our estimates will not be systematically biased away from the population parameter, and the probability of our estimate being any meaningful distance away from the population parameter goes to zero as our sample size increases.
+
+*   Our hypothesis tests will **not** perform as advertised---typically, they will lead us to reject the null hypothesis more often than we should---and this problem does **not** go away as our sample size increases.
+
+For the remainder of this week, we will proceed under the assumption of spherical errors.  In a couple of weeks, we will discuss how to draw inferences appropriately when this assumption fails to hold.
+
+
+## Single Variable Hypotheses
+
+Consider a null hypothesis about the population value of a single coefficient, of the form
+$$
+H_0 : \beta_k = b,
+$$
+where $b$ is a fixed constant.  Usually, though not always, political scientists concern themselves with null hypotheses of the form $\beta_k = 0$; i.e., the $k$'th variable has zero (so-called) marginal effect on the response.
+
+We will test this hypothesis using the familiar $t$-statistic.  The *estimated standard error* of $\hat{\beta}_k$ is
+$$
+\SE(\hat{\beta}_k) = \sqrt{\hat{\Sigma}_{kk}},
+$$
+where $\hat{\Sigma}_{kk}$ denotes the $k$'th element of the diagonal of $\hat{\Sigma} = \hat{\sigma}^2 (\mathbf{X}^\top \mathbf{X})^{-1}$.  The "standard errors" that appear alongside your regression output are calculating by taking the square root of the diagonal of this matrix.
+
+The $t$ statistic for the test of the null hypothesis $H_0$ is in the familiar "estimate divided by standard error" form,
+$$
+t = \frac{\hat{\beta}_k - b}{\SE(\hat{\beta}_k)} = \frac{\hat{\beta}_k - b}{\sqrt{\hat{\Sigma}_{kk}}}.
+$$
+Our mode of inference from there depends on the sample size and on whether we are willing to make a normality assumption.
+
+*   If $\epsilon$ is normally distributed, then the sampling distribution of our test statistic is $t_{N - K}$, the $t$ distribution with $N - K$ degrees of freedom.
+
+*   As our sample size grows large, the sampling distribution of our test statistic is approximately $N(0, 1)$, the normal distribution with mean zero and variance one.  This follows from the Central Limit Theorem, and it holds even if $\epsilon$ is *not* normally distributed.
+
+So if you have a small sample, the validity of the standard hypothesis test depends on a normality assumption that may or may not be palatable, depending on the circumstances.  Other techniques exist for this situation, but they are beyond the scope of this course.  Of course, if your sample is so small that you need to resort to non-standard hypothesis testing techniques in order to draw appropriate inferences, you should probably go back to the drawing board on your study design.
+
+Regardless of your sample size, regression software will compare your test statistics to $t_{N - K}$ to calculate $p$-values and the results of hypothesis tests.  This is innocuous even if you don't assume normality, since if $N$ is large the $t_{N - K}$ distribution is approximately the same as the $N(0, 1)$ distribution (with infinitesimally fatter tails).
+
+Our method of constructing confidence intervals for a single parameter is also analogous to what we do with the sample mean.  Let $z_{\alpha}$ be the critical value of the sampling distribution of our test statistic for our chosen significance level $\alpha$.  For example, the critical value of $N(0, 1)$ for significance $\alpha = 0.05$ is $z_{\alpha} = 1.96$.  Then the $(1 - \alpha)$-confidence interval around $\hat{\beta}_k$ is
+$$
+\CI_{1 - \alpha}(\hat{\beta}_k) = [\hat{\beta}_k - z_{\alpha} \SE(\hat{\beta}_k), \hat{\beta}_k + z_{\alpha} \SE(\hat{\beta}_k)].
+$$
+
+
+## Multiple Variable Hypotheses
+
+It is common, especially (though not exclusively) when working with categorical variables or higher-order terms, to have hypotheses involving multiple variables.  For example, think of our model from last week,
+$$
+\text{Trump}_n = \beta_1 + \beta_2 \text{Independent}_n + \beta_3 \text{Democratic}_n + \beta_4 \text{Age}_n + \epsilon_n.
+$$
+Remember that $\beta_2$ denotes the expected difference between Independents and Republicans (the omitted category) of the same age in their propensity to vote for Trump, and $\beta_3$ denotes the expected difference between Democrats and Republicans of the same age.
+
+If our null hypothesis were that Independents and Republicans of the same age had the same chance of voting for Trump, we would state that as
+$$
+H_0 : \beta_2 = 0.
+$$
+But what about the null hypothesis were that Independents and Democrats had the same chance of voting for Trump?  We would have to phrase that in terms of multiple coefficients,
+$$
+H_0 : \beta_2 = \beta_3,
+$$
+or equivalently,
+$$
+H_0 : \beta_2 - \beta_3 = 0.
+$$
+Or what if our null hypothesis were that party identification made no difference at all?  That would mean Independents and Democrats are both no different than Republicans on average, or in our model notation,
+$$
+H_0 : \left\{ \begin{aligned}
+\beta_2 &= 0, \\
+\beta_3 &= 0.
+\end{aligned} \right.
+$$
+
+Each of these, including the simple single-variable hypothesis, is a linear system in $\beta$.  In other words, we can write each of these hypotheses in the form
+$$
+H_0 : \mathbf{R} \beta - \mathbf{c} = \mathbf{0},
+$$
+where $\mathbf{R}$ is a fixed $r \times K$ matrix (where $r$ is the number of restrictions we intend to test) and $\mathbf{c}$ is a fixed $r \times 1$ vector.
+
+Perhaps the easiest way to test a hypothesis of this form is the *Wald test*.  We form the test statistic
+$$
+W = (\mathbf{R} \beta - \mathbf{c})^\top  (\mathbf{R} \hat{\Sigma} \mathbf{R}^\top)^{-1} (\mathbf{R} \beta - \mathbf{c}),
+$$
+which, despite all the matrices involved, works out to be a scalar.  Under $H_0$, the asymptotic sampling distribution of $W$ is $\chi^2_r$, the chi-squared distribution with $r$ degrees of freedom.[^wald-equivalence]
+
+[^wald-equivalence]: You will notice that, for a single-variable hypothesis $H_0 : \beta_k = b$, the Wald statistic reduces to the square of the $t$ statistic.  Since the asymptotic distribution of the $t$ statistic is standard normal under the null hypothesis, it follows that the asymptotic distribution of its square is $\chi^2_1$ under the null hypothesis.
+
+The Wald test is not just an aggregation of the individual $t$ tests of the coefficients.  Two coefficients might each individually be statistically insignificant, yet the Wald test may lead us to reject the null hypothesis that both are zero.  Conversely, one of a group of coefficients might be statistically significant, and yet the Wald test may not have us reject the null hypothesis that all are zero.
+
+We already saw a couple of examples of how to use the Wald test with a model with a categorical variable.  Let's also quickly consider its use in some other models with less-common specifications.
+
+Imagine an interactive model,
+$$
+Y_n = \beta_1 + \beta_2 X_n + \beta_3 Z_n + \beta_4 (X_n \times Z_n) + \epsilon_n.
+$$
+The interaction term captures how the (so-called) marginal effect of $X_n$ depends on the value of $Z_n$, and vice versa.  If your null hypothesis is that the marginal effect of $X_n$ does not depend on $Z_n$, you could use perform a $t$ test of
+$$
+H_0 : \beta_4 = 0.
+$$
+But what if your null hypothesis is that the marginal effect of $X_n$ is *always* zero, regardless of the value of $Z_n$?  Some people make the unfortunate mistake of testing this via the null hypothesis
+$$
+H_0 : \beta_2 = 0,
+$$
+but that only means the marginal effect of $X_n$ is zero *when $Z_n = 0$*.  What you want is the composite null
+$$
+H_0 : \left\{ \begin{aligned}
+  \beta_2 &= 0, \\
+  \beta_4 &= 0,
+\end{aligned} \right.
+$$
+or, in matrix form,
+$$
+\begin{bmatrix}
+  0 & 1 & 0 & 0 \\
+  0 & 0 & 0 & 1
+\end{bmatrix}
+\begin{bmatrix}
+  \beta_1 \\ \beta_2 \\ \beta_3 \\ \beta_4
+\end{bmatrix}
+=
+\begin{bmatrix}
+  0 \\ 0
+\end{bmatrix}.
+$$
+
+Similarly, think of the quadratic model,
+$$
+Y_n = \beta_1 + \beta_2 X_n + \beta_3 X_n^2 + \epsilon_n.
+$$
+The null hypothesis that the (so-called) marginal effect of $X_n$ is constant is equivalent to
+$$
+H_0 : \beta_3 = 0.
+$$
+But if we wanted to test against the null hypothesis that the marginal effect of $X_n$ is *always* zero, we would have to use a composite null,
+$$
+H_0 : \left\{ \begin{aligned}
+  \beta_2 &= 0, \\
+  \beta_3 &= 0.
+\end{aligned} \right.
+$$
+
+
+## Appendix: Full Derivation of OLS Variance
+
+We will assume strict exogeneity,
+$$
+E [\epsilon \,|\, \mathbf{X}] = \mathbf{0},
+$$
+and spherical errors,
+$$
+V [\epsilon \,|\, \mathbf{X}] = E [\epsilon \epsilon^\top \,|\, \mathbf{X}] = \sigma^2 \mathbf{I}.
+$$
+A useful thing to know is that since $\mathbf{X}^\top \mathbf{X}$ is symmetric, so is its inverse:
+$$
+[(\mathbf{X}^\top \mathbf{X})^{-1}]^\top = (\mathbf{X}^\top \mathbf{X})^{-1}.
+$$
+
+Let's start by deriving the variance from our formula for a vector-valued random variable,
+$$
+V[C] = E \left[ (C - E[C]) (C - E[C])^\top \right].
+$$
+For the OLS estimator $\hat{\beta}$, we have
+$$
+\begin{aligned}
+  V[\hat{\beta} \,|\, \mathbf{X}]
+  &= E \left[ \left(\hat{\beta} - E[\hat{\beta}]\right) \left(\hat{\beta} - E[\hat{\beta}]\right)^\top \,|\, \mathbf{X} \right] \\
+  &= E \left[ \left(\hat{\beta} - \beta\right) \left(\hat{\beta} - \beta\right)^\top \,|\, \mathbf{X} \right] \\
+  &= E \left[ \hat{\beta} \hat{\beta}^\top - 2 \beta \hat{\beta}^\top + \beta \beta^\top \,|\, \mathbf{X} \right] \\
+  &= E \left[ \hat{\beta} \hat{\beta}^\top \,|\, \mathbf{X} \right] - 2 \beta E \left[ \hat{\beta}^\top \,|\, \mathbf{X} \right] + \beta \beta^\top \\
+  &= E \left[ (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top \mathbf{Y} \mathbf{Y}^\top \mathbf{X} (\mathbf{X}^\top \mathbf{X})^{-1} \,|\, \mathbf{X} \right] - \beta \beta^\top \\
+  &= (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top E \left[ \mathbf{Y} \mathbf{Y}^\top \,|\, \mathbf{X} \right] \mathbf{X} (\mathbf{X}^\top \mathbf{X})^{-1} - \beta \beta^\top.
+\end{aligned}
+$$
+Since $\mathbf{Y} = \mathbf{X} \beta + \epsilon$, we have
+$$
+\begin{aligned}
+  E \left[ \mathbf{Y} \mathbf{Y}^\top \,|\, \mathbf{X} \right]
+  &= E \left[ (\mathbf{X} \beta + \epsilon) (\mathbf{X} \beta + \epsilon)^\top \,|\, \mathbf{X} \right] \\
+  &= E \left[ \mathbf{X} \beta \beta^\top \mathbf{X}^\top + 2 \epsilon \beta^\top \mathbf{X}^\top + \epsilon \epsilon^\top \,|\, \mathbf{X} \right] \\
+  &= \mathbf{X} \beta \beta^\top \mathbf{X}^\top + 2 \underbrace{E[\epsilon \,|\, \mathbf{X}]}_{= \mathbf{0}} \beta^\top \mathbf{X}^\top + E[\epsilon \epsilon^\top \,|\, \mathbf{X}] \\
+  &= \mathbf{X} \beta \beta^\top \mathbf{X}^\top + \sigma^2 \mathbf{I}.
+\end{aligned}
+$$
+Continuing from above, we have
+$$
+\begin{aligned}
+  V[\hat{\beta} \,|\, \mathbf{X}]
+  &= (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top E \left[ \mathbf{Y} \mathbf{Y}^\top \,|\, \mathbf{X} \right] \mathbf{X} (\mathbf{X}^\top \mathbf{X})^{-1} - \beta \beta^\top \\
+  &= (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top ( \mathbf{X} \beta \beta^\top \mathbf{X}^\top + \sigma^2 \mathbf{I} ) \mathbf{X} (\mathbf{X}^\top \mathbf{X})^{-1} - \beta \beta^\top \\
+  &= (\mathbf{X}^\top \mathbf{X})^{-1} (\mathbf{X}^\top \mathbf{X}) \beta \beta^\top (\mathbf{X}^\top \mathbf{X}) (\mathbf{X}^\top \mathbf{X})^{-1} \\ &\quad + \sigma^2 (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top \mathbf{X} (\mathbf{X}^\top \mathbf{X})^{-1} - \beta \beta^\top \\
+  &= \beta \beta^\top + \sigma^2 (\mathbf{X}^\top \mathbf{X})^{-1} - \beta \beta^\top \\
+  &= \sigma^2 (\mathbf{X}^\top \mathbf{X})^{-1}.
+\end{aligned}
+$$
+
+A slightly easier way to get there would be to apply two of the helpful properties of variance.  You'll remember from the study of scalar-valued random variables that, for a random variable $A$ and scalars $c$ and $d$,
+$$
+\begin{aligned}
+  V[c A] &= c^2 V[A], \\
+  V[A + d] &= V[A].
+\end{aligned}
+$$
+Similarly, for an $m \times 1$ vector random variable $\mathbf{A}$, a fixed $n \times m$ matrix $\mathbf{C}$, and a fixed $m \times 1$ vector $\mathbf{d}$, we have
+$$
+\begin{aligned}
+  V[\mathbf{C} \mathbf{A}] &= \mathbf{C} V[\mathbf{A}] \mathbf{C}^\top, \\
+  V[\mathbf{A} + \mathbf{d}] &= V[\mathbf{A}].
+\end{aligned}
+$$
+Consequently,
+$$
+\begin{aligned}
+  V \left[ \hat{\beta} \,|\, \mathbf{X} \right]
+  &= V[ (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top \mathbf{Y} \,|\, \mathbf{X} ] \\
+  &= (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top V [\mathbf{Y} \,|\, \mathbf{X}] \mathbf{X} (\mathbf{X}^\top \mathbf{X})^{-1} \\
+  &= (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top V [\mathbf{X} \beta + \epsilon \,|\, \mathbf{X}] \mathbf{X} (\mathbf{X}^\top \mathbf{X})^{-1} \\
+  &= (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top V [\epsilon \,|\, \mathbf{X}] \mathbf{X} (\mathbf{X}^\top \mathbf{X})^{-1} \\
+  &= (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top (\sigma^2 \mathbf{I}) \mathbf{X} (\mathbf{X}^\top \mathbf{X})^{-1} \\
+  &= \sigma^2 (\mathbf{X}^\top \mathbf{X})^{-1}.
+\end{aligned}
+$$
