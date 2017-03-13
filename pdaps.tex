@@ -124,7 +124,7 @@
   \postauthor{\par}
   \predate{\centering\large\emph}
   \postdate{\par}
-  \date{2017-02-26}
+  \date{2017-03-12}
 
 \usepackage{booktabs}
 
@@ -5490,7 +5490,10 @@ freedom.\footnote{You will notice that, for a single-variable hypothesis
   \(t\) statistic. Since the asymptotic distribution of the \(t\)
   statistic is standard normal under the null hypothesis, it follows
   that the asymptotic distribution of its square is \(\chi^2_1\) under
-  the null hypothesis.}
+  the null hypothesis.} Regression software like R will usually report
+an \(F\) statistic, since the exact (not asymptotic) distribution of
+\(W\) follows an \(F\) distribution in the special case of normal
+residual error.
 
 The Wald test is not just an aggregation of the individual \(t\) tests
 of the coefficients. Two coefficients might each individually be
@@ -5619,6 +5622,342 @@ fixed \(m \times 1\) vector \(\mathbf{d}\), we have \[
   &= \sigma^2 (\mathbf{X}^\top \mathbf{X})^{-1}.
 \end{aligned}
 \]
+
+\section{Appendix: Regression Inference in
+R}\label{appendix-regression-inference-in-r}
+
+As usual, we will rely on the \textbf{tidyverse} and \textbf{broom}
+packages. We will also be using the \textbf{car} package, not only for
+data but also for its hypothesis testing functions.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(}\StringTok{"tidyverse"}\NormalTok{)}
+\KeywordTok{library}\NormalTok{(}\StringTok{"broom"}\NormalTok{)}
+\KeywordTok{library}\NormalTok{(}\StringTok{"car"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Using the \texttt{Prestige} data, let us regress occupational prestige
+on the type of occupation (blue collar, white collar, or professional)
+and its average income and education.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{data}\NormalTok{(}\StringTok{"Prestige"}\NormalTok{, }\DataTypeTok{package =} \StringTok{"car"}\NormalTok{)}
+\NormalTok{fit <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(prestige }\OperatorTok{~}\StringTok{ }\NormalTok{type }\OperatorTok{+}\StringTok{ }\NormalTok{education }\OperatorTok{+}\StringTok{ }\NormalTok{income, }\DataTypeTok{data =}\NormalTok{ Prestige)}
+\end{Highlighting}
+\end{Shaded}
+
+\texttt{summary()} prints the ``regression table'' containing the
+following information:
+
+\begin{itemize}
+\tightlist
+\item
+  Estimate of each coefficient.
+\item
+  Estimated standard error of each coefficient estimate.
+\item
+  \(t\) statistic for each coefficient estimate, for the test against
+  the null hypothesis that the population value of the corresponding
+  coefficient is zero (\(H_0 : \beta_k = 0\)).
+\item
+  \(p\) value (two-tailed)\footnote{One-tailed tests, while
+    unproblematic in theory, in practice are usually a signal that the
+    two-tailed test was insignificant and the author is fudging it.
+    Don't send a bad signal; always use two-tailed tests.} for the
+  aforementioned hypothesis test.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(fit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = prestige ~ type + education + income, data = Prestige)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -14.953  -4.449   0.168   5.057  18.632 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(>|t|)
+## (Intercept) -0.622929   5.227525   -0.12     0.91
+## typeprof     6.038971   3.866855    1.56     0.12
+## typewc      -2.737231   2.513932   -1.09     0.28
+## education    3.673166   0.640502    5.73  1.2e-07
+## income       0.001013   0.000221    4.59  1.4e-05
+## 
+## Residual standard error: 7.09 on 93 degrees of freedom
+##   (4 observations deleted due to missingness)
+## Multiple R-squared:  0.835,  Adjusted R-squared:  0.828 
+## F-statistic:  118 on 4 and 93 DF,  p-value: <2e-16
+\end{verbatim}
+
+This is useful for a quick check on the output, but not so much if you
+want to use the standard errors for further calculations (e.g., making a
+plot). To extract the standard errors, use the \texttt{tidy()} function
+from \textbf{broom}. This returns a data frame whose columns correspond
+to the \texttt{summary()} output.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit_results <-}\StringTok{ }\KeywordTok{tidy}\NormalTok{(fit)}
+\NormalTok{fit_results}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##          term   estimate  std.error statistic    p.value
+## 1 (Intercept) -0.6229292 5.22752549  -0.11916 9.0540e-01
+## 2    typeprof  6.0389707 3.86685510   1.56173 1.2175e-01
+## 3      typewc -2.7372307 2.51393240  -1.08882 2.7904e-01
+## 4   education  3.6731661 0.64050162   5.73483 1.2052e-07
+## 5      income  0.0010132 0.00022092   4.58628 1.4049e-05
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit_results}\OperatorTok{$}\NormalTok{std.error}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 5.22752549 3.86685510 2.51393240 0.64050162 0.00022092
+\end{verbatim}
+
+To extract the full (estimated) variance matrix, use the \texttt{vcov()}
+function.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{vcov}\NormalTok{(fit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##             (Intercept)    typeprof      typewc   education      income
+## (Intercept)  2.7327e+01  1.6637e+01  7.39848733 -3.1965e+00  9.9963e-05
+## typeprof     1.6637e+01  1.4953e+01  6.79707308 -2.1239e+00 -4.9843e-06
+## typewc       7.3985e+00  6.7971e+00  6.31985613 -1.1062e+00  1.3108e-04
+## education   -3.1965e+00 -2.1239e+00 -1.10618421  4.1024e-01 -4.3335e-05
+## income       9.9963e-05 -4.9843e-06  0.00013108 -4.3335e-05  4.8805e-08
+\end{verbatim}
+
+Luckily, you shouldn't often need to extract the individual standard
+errors or the variance matrix. R has convenience functions to perform
+most of the calculations you would care about.
+
+To obtain confidence intervals for the regression coefficients, use the
+\texttt{confint()} function.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{confint}\NormalTok{(fit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                   2.5 %     97.5 %
+## (Intercept) -1.1004e+01  9.7579004
+## typeprof    -1.6398e+00 13.7177785
+## typewc      -7.7294e+00  2.2549408
+## education    2.4013e+00  4.9450753
+## income       5.7449e-04  0.0014519
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{confint}\NormalTok{(fit, }\DataTypeTok{level =} \FloatTok{0.99}\NormalTok{)  }\CommentTok{# Changing the confidence level}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                   0.5 %     99.5 %
+## (Intercept) -1.4370e+01 13.1240626
+## typeprof    -4.1298e+00 16.2077638
+## typewc      -9.3482e+00  3.8737381
+## education    1.9888e+00  5.3575138
+## income       4.3224e-04  0.0015941
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{confint}\NormalTok{(fit, }\StringTok{"education"}\NormalTok{)   }\CommentTok{# Only for one coefficient}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##            2.5 % 97.5 %
+## education 2.4013 4.9451
+\end{verbatim}
+
+You may also be interested in testing against null hypotheses other than
+each individual coefficient being zero. This is where the
+\texttt{linearHypothesis()} function from the car package comes in. For
+example, suppose we wanted to test against the null hypothesis that the
+population coefficient on education is 3.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{linearHypothesis}\NormalTok{(fit, }\StringTok{"education = 3"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Linear hypothesis test
+## 
+## Hypothesis:
+## education = 3
+## 
+## Model 1: restricted model
+## Model 2: prestige ~ type + education + income
+## 
+##   Res.Df  RSS Df Sum of Sq   F Pr(>F)
+## 1     94 4737                        
+## 2     93 4681  1      55.6 1.1    0.3
+\end{verbatim}
+
+We care about the last two columns of the bottom row. \texttt{F} gives
+us the test statistic,\footnote{Why an \(F\) statistic instead of a
+  \(t\) statistic? If the random variable \(Z\) has a \(t\) distribution
+  with \(n\) degrees of freedom, then \(Z^2\) has an \(F\) distribution
+  with \(1,n\) degrees of freedom. The \(F\) statistic generalizes
+  better to the case of multiple hypotheses.} and
+\texttt{Pr(\textgreater{}F)} gives us the associated \(p\)-value. Here
+our \(p\)-value is 0.3, so we wouldn't reject the null hypothesis that
+the population coefficient on education is 3.
+
+Two quick notes on the \texttt{linearHypothesis()} function:
+
+\begin{itemize}
+\item
+  Make sure to place your hypothesis in quotes. (Or if you have multiple
+  hypotheses, that you use a vector of quoted strings.) The function
+  will not work if you run something like
+  \texttt{linearHypothesis(fit,\ education\ =\ 3)}.
+\item
+  Make sure the name of the coefficient(s) you're testing are exactly
+  the same as in the regression output. This requires particular care
+  when you're dealing with factor variables, interactions, or quadratic
+  terms.
+\end{itemize}
+
+Of course, for a univariate hypothesis test like this one, we could have
+just used the confidence interval to figure out the answer. The real
+value of \texttt{linearHypothesis()} comes in simultaneously testing
+hypotheses about multiple coefficients---i.e., the Wald test.
+
+For example, let's test the null hypothesis that the population
+coefficients on white-collar and professional are the same.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{linearHypothesis}\NormalTok{(fit, }\StringTok{"typewc = typeprof"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Linear hypothesis test
+## 
+## Hypothesis:
+## - typeprof  + typewc = 0
+## 
+## Model 1: restricted model
+## Model 2: prestige ~ type + education + income
+## 
+##   Res.Df  RSS Df Sum of Sq  F Pr(>F)
+## 1     94 5186                       
+## 2     93 4681  1       505 10 0.0021
+\end{verbatim}
+
+We would reject this null hypothesis except under particularly stringent
+significance levels (less than 0.002).
+
+What about the composite hypothesis that the population coefficients on
+white-collar and professional both equal zero? To test this, we pass a
+\emph{vector} of hypotheses.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{linearHypothesis}\NormalTok{(fit, }\KeywordTok{c}\NormalTok{(}\StringTok{"typewc = 0"}\NormalTok{, }\StringTok{"typeprof = 0"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Linear hypothesis test
+## 
+## Hypothesis:
+## typewc = 0
+## typeprof = 0
+## 
+## Model 1: restricted model
+## Model 2: prestige ~ type + education + income
+## 
+##   Res.Df  RSS Df Sum of Sq    F Pr(>F)
+## 1     95 5272                         
+## 2     93 4681  2       591 5.87  0.004
+\end{verbatim}
+
+The \(p\)-value corresponding to this hypothesis test is 0.004. This
+illustrates a key feature of composite hypothesis tests. You'll remember
+from the original regression output that neither of the occupational
+indicators were significant on their own.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(fit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = prestige ~ type + education + income, data = Prestige)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -14.953  -4.449   0.168   5.057  18.632 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(>|t|)
+## (Intercept) -0.622929   5.227525   -0.12     0.91
+## typeprof     6.038971   3.866855    1.56     0.12
+## typewc      -2.737231   2.513932   -1.09     0.28
+## education    3.673166   0.640502    5.73  1.2e-07
+## income       0.001013   0.000221    4.59  1.4e-05
+## 
+## Residual standard error: 7.09 on 93 degrees of freedom
+##   (4 observations deleted due to missingness)
+## Multiple R-squared:  0.835,  Adjusted R-squared:  0.828 
+## F-statistic:  118 on 4 and 93 DF,  p-value: <2e-16
+\end{verbatim}
+
+So, operating at conventional significant levels, we would:
+
+\begin{itemize}
+\tightlist
+\item
+  Fail to reject the null that the coefficient on professional is zero
+\item
+  Fail to reject the null that the coefficient on white-collar is zero
+\item
+  Reject the null that the coefficients on both are zero
+\end{itemize}
+
+This seems contradictory, but it just illustrates the limits of drawing
+inferences from a finite sample. What the results of these hypothesis
+tests are telling us is that we have enough information to conclude that
+there are differences in prestige across occupational categories,
+holding average education and income fixed. However, we do not have
+enough information to identify exactly where those differences are
+coming---i.e., exactly which of the two categories it is that differs
+from the omitted baseline.
 
 \bibliography{packages.bib,book.bib,psci-8357.bib}
 

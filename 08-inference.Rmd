@@ -176,7 +176,7 @@ Perhaps the easiest way to test a hypothesis of this form is the *Wald test*.  W
 $$
 W = (\mathbf{R} \beta - \mathbf{c})^\top  (\mathbf{R} \hat{\Sigma} \mathbf{R}^\top)^{-1} (\mathbf{R} \beta - \mathbf{c}),
 $$
-which, despite all the matrices involved, works out to be a scalar.  Under $H_0$, the asymptotic sampling distribution of $W$ is $\chi^2_r$, the chi-squared distribution with $r$ degrees of freedom.[^wald-equivalence]
+which, despite all the matrices involved, works out to be a scalar.  Under $H_0$, the asymptotic sampling distribution of $W$ is $\chi^2_r$, the chi-squared distribution with $r$ degrees of freedom.[^wald-equivalence]  Regression software like R will usually report an $F$ statistic, since the exact (not asymptotic) distribution of $W$ follows an $F$ distribution in the special case of normal residual error.
 
 [^wald-equivalence]: You will notice that, for a single-variable hypothesis $H_0 : \beta_k = b$, the Wald statistic reduces to the square of the $t$ statistic.  Since the asymptotic distribution of the $t$ statistic is standard normal under the null hypothesis, it follows that the asymptotic distribution of its square is $\chi^2_1$ under the null hypothesis.
 
@@ -314,3 +314,104 @@ $$
   &= \sigma^2 (\mathbf{X}^\top \mathbf{X})^{-1}.
 \end{aligned}
 $$
+
+
+## Appendix: Regression Inference in R
+
+As usual, we will rely on the **tidyverse** and **broom** packages.  We will also be using the **car** package, not only for data but also for its hypothesis testing functions.
+
+```{r inference-pkgs, message=FALSE}
+library("tidyverse")
+library("broom")
+library("car")
+```
+
+Using the `Prestige` data, let us regress occupational prestige on the type of occupation (blue collar, white collar, or professional) and its average income and education.
+
+```{r prestige-reg-again}
+data("Prestige", package = "car")
+fit <- lm(prestige ~ type + education + income, data = Prestige)
+```
+
+`summary()` prints the "regression table" containing the following information:
+
+* Estimate of each coefficient.
+* Estimated standard error of each coefficient estimate.
+* $t$ statistic for each coefficient estimate, for the test against the null hypothesis that the population value of the corresponding coefficient is zero ($H_0 : \beta_k = 0$).
+* $p$ value (two-tailed)[^one-tailed] for the aforementioned hypothesis test.
+
+[^one-tailed]: One-tailed tests, while unproblematic in theory, in practice are usually a signal that the two-tailed test was insignificant and the author is fudging it.  Don't send a bad signal; always use two-tailed tests.
+
+```{r summary}
+summary(fit)
+```
+
+This is useful for a quick check on the output, but not so much if you want to use the standard errors for further calculations (e.g., making a plot).  To extract the standard errors, use the `tidy()` function from **broom**.  This returns a data frame whose columns correspond to the `summary()` output.
+
+```{r broom-reprise}
+fit_results <- tidy(fit)
+fit_results
+fit_results$std.error
+```
+
+To extract the full (estimated) variance matrix, use the `vcov()` function.
+
+```{r vcov}
+vcov(fit)
+```
+
+Luckily, you shouldn't often need to extract the individual standard errors or the variance matrix.  R has convenience functions to perform most of the calculations you would care about.
+
+To obtain confidence intervals for the regression coefficients, use the `confint()` function.
+
+```{r confint}
+confint(fit)
+confint(fit, level = 0.99)  # Changing the confidence level
+confint(fit, "education")   # Only for one coefficient
+```
+
+You may also be interested in testing against null hypotheses other than each individual coefficient being zero.  This is where the `linearHypothesis()` function from the car package comes in.  For example, suppose we wanted to test against the null hypothesis that the population coefficient on education is 3.
+
+```{r lh-uni}
+linearHypothesis(fit, "education = 3")
+```
+
+We care about the last two columns of the bottom row.  `F` gives us the test statistic,[^f-dist] and `Pr(>F)` gives us the associated $p$-value.  Here our $p$-value is 0.3, so we wouldn't reject the null hypothesis that the population coefficient on education is 3.
+
+[^f-dist]: Why an $F$ statistic instead of a $t$ statistic?  If the random variable $Z$ has a $t$ distribution with $n$ degrees of freedom, then $Z^2$ has an $F$ distribution with $1,n$ degrees of freedom.  The $F$ statistic generalizes better to the case of multiple hypotheses.
+
+Two quick notes on the `linearHypothesis()` function:
+
+* Make sure to place your hypothesis in quotes.  (Or if you have multiple hypotheses, that you use a vector of quoted strings.)  The function will not work if you run something like `linearHypothesis(fit, education = 3)`.
+
+* Make sure the name of the coefficient(s) you're testing are exactly the same as in the regression output.  This requires particular care when you're dealing with factor variables, interactions, or quadratic terms.
+
+Of course, for a univariate hypothesis test like this one, we could have just used the confidence interval to figure out the answer.  The real value of `linearHypothesis()` comes in simultaneously testing hypotheses about multiple coefficients---i.e., the Wald test.
+
+For example, let's test the null hypothesis that the population coefficients on white-collar and professional are the same.
+
+```{r lh-bi}
+linearHypothesis(fit, "typewc = typeprof")
+```
+
+We would reject this null hypothesis except under particularly stringent significance levels (less than 0.002).
+
+What about the composite hypothesis that the population coefficients on white-collar and professional both equal zero?  To test this, we pass a *vector* of hypotheses.
+
+```{r lh-multi}
+linearHypothesis(fit, c("typewc = 0", "typeprof = 0"))
+```
+
+The $p$-value corresponding to this hypothesis test is 0.004.  This illustrates a key feature of composite hypothesis tests.  You'll remember from the original regression output that neither of the occupational indicators were significant on their own.
+
+```{r summary-again}
+summary(fit)
+```
+
+So, operating at conventional significant levels, we would:
+
+* Fail to reject the null that the coefficient on professional is zero
+* Fail to reject the null that the coefficient on white-collar is zero
+* Reject the null that the coefficients on both are zero
+
+This seems contradictory, but it just illustrates the limits of drawing inferences from a finite sample.  What the results of these hypothesis tests are telling us is that we have enough information to conclude that there are differences in prestige across occupational categories, holding average education and income fixed.  However, we do not have enough information to identify exactly where those differences are coming---i.e., exactly which of the two categories it is that differs from the omitted baseline.

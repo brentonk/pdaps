@@ -26,7 +26,7 @@
 <meta name="author" content="Brenton Kenkel">
 
 
-<meta name="date" content="2017-02-26">
+<meta name="date" content="2017-03-12">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -159,6 +159,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="9.3" data-path="inference.html"><a href="inference.html#single-variable-hypotheses"><i class="fa fa-check"></i><b>9.3</b> Single Variable Hypotheses</a></li>
 <li class="chapter" data-level="9.4" data-path="inference.html"><a href="inference.html#multiple-variable-hypotheses"><i class="fa fa-check"></i><b>9.4</b> Multiple Variable Hypotheses</a></li>
 <li class="chapter" data-level="9.5" data-path="inference.html"><a href="inference.html#appendix-full-derivation-of-ols-variance"><i class="fa fa-check"></i><b>9.5</b> Appendix: Full Derivation of OLS Variance</a></li>
+<li class="chapter" data-level="9.6" data-path="inference.html"><a href="inference.html#appendix-regression-inference-in-r"><i class="fa fa-check"></i><b>9.6</b> Appendix: Regression Inference in R</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -286,7 +287,7 @@ H_0 : \mathbf{R} \beta - \mathbf{c} = \mathbf{0},
 \]</span> where <span class="math inline">\(\mathbf{R}\)</span> is a fixed <span class="math inline">\(r \times K\)</span> matrix (where <span class="math inline">\(r\)</span> is the number of restrictions we intend to test) and <span class="math inline">\(\mathbf{c}\)</span> is a fixed <span class="math inline">\(r \times 1\)</span> vector.</p>
 <p>Perhaps the easiest way to test a hypothesis of this form is the <em>Wald test</em>. We form the test statistic <span class="math display">\[
 W = (\mathbf{R} \beta - \mathbf{c})^\top  (\mathbf{R} \hat{\Sigma} \mathbf{R}^\top)^{-1} (\mathbf{R} \beta - \mathbf{c}),
-\]</span> which, despite all the matrices involved, works out to be a scalar. Under <span class="math inline">\(H_0\)</span>, the asymptotic sampling distribution of <span class="math inline">\(W\)</span> is <span class="math inline">\(\chi^2_r\)</span>, the chi-squared distribution with <span class="math inline">\(r\)</span> degrees of freedom.<a href="#fn22" class="footnoteRef" id="fnref22"><sup>22</sup></a></p>
+\]</span> which, despite all the matrices involved, works out to be a scalar. Under <span class="math inline">\(H_0\)</span>, the asymptotic sampling distribution of <span class="math inline">\(W\)</span> is <span class="math inline">\(\chi^2_r\)</span>, the chi-squared distribution with <span class="math inline">\(r\)</span> degrees of freedom.<a href="#fn22" class="footnoteRef" id="fnref22"><sup>22</sup></a> Regression software like R will usually report an <span class="math inline">\(F\)</span> statistic, since the exact (not asymptotic) distribution of <span class="math inline">\(W\)</span> follows an <span class="math inline">\(F\)</span> distribution in the special case of normal residual error.</p>
 <p>The Wald test is not just an aggregation of the individual <span class="math inline">\(t\)</span> tests of the coefficients. Two coefficients might each individually be statistically insignificant, yet the Wald test may lead us to reject the null hypothesis that both are zero. Conversely, one of a group of coefficients might be statistically significant, and yet the Wald test may not have us reject the null hypothesis that all are zero.</p>
 <p>We already saw a couple of examples of how to use the Wald test with a model with a categorical variable. Let’s also quickly consider its use in some other models with less-common specifications.</p>
 <p>Imagine an interactive model, <span class="math display">\[
@@ -384,6 +385,159 @@ V[C] = E \left[ (C - E[C]) (C - E[C])^\top \right].
   &amp;= \sigma^2 (\mathbf{X}^\top \mathbf{X})^{-1}.
 \end{aligned}
 \]</span></p>
+</div>
+<div id="appendix-regression-inference-in-r" class="section level2">
+<h2><span class="header-section-number">9.6</span> Appendix: Regression Inference in R</h2>
+<p>As usual, we will rely on the <strong>tidyverse</strong> and <strong>broom</strong> packages. We will also be using the <strong>car</strong> package, not only for data but also for its hypothesis testing functions.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)
+<span class="kw">library</span>(<span class="st">&quot;broom&quot;</span>)
+<span class="kw">library</span>(<span class="st">&quot;car&quot;</span>)</code></pre></div>
+<p>Using the <code>Prestige</code> data, let us regress occupational prestige on the type of occupation (blue collar, white collar, or professional) and its average income and education.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(<span class="st">&quot;Prestige&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;car&quot;</span>)
+fit &lt;-<span class="st"> </span><span class="kw">lm</span>(prestige <span class="op">~</span><span class="st"> </span>type <span class="op">+</span><span class="st"> </span>education <span class="op">+</span><span class="st"> </span>income, <span class="dt">data =</span> Prestige)</code></pre></div>
+<p><code>summary()</code> prints the “regression table” containing the following information:</p>
+<ul>
+<li>Estimate of each coefficient.</li>
+<li>Estimated standard error of each coefficient estimate.</li>
+<li><span class="math inline">\(t\)</span> statistic for each coefficient estimate, for the test against the null hypothesis that the population value of the corresponding coefficient is zero (<span class="math inline">\(H_0 : \beta_k = 0\)</span>).</li>
+<li><span class="math inline">\(p\)</span> value (two-tailed)<a href="#fn23" class="footnoteRef" id="fnref23"><sup>23</sup></a> for the aforementioned hypothesis test.</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(fit)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = prestige ~ type + education + income, data = Prestige)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -14.953  -4.449   0.168   5.057  18.632 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept) -0.622929   5.227525   -0.12     0.91
+## typeprof     6.038971   3.866855    1.56     0.12
+## typewc      -2.737231   2.513932   -1.09     0.28
+## education    3.673166   0.640502    5.73  1.2e-07
+## income       0.001013   0.000221    4.59  1.4e-05
+## 
+## Residual standard error: 7.09 on 93 degrees of freedom
+##   (4 observations deleted due to missingness)
+## Multiple R-squared:  0.835,  Adjusted R-squared:  0.828 
+## F-statistic:  118 on 4 and 93 DF,  p-value: &lt;2e-16</code></pre>
+<p>This is useful for a quick check on the output, but not so much if you want to use the standard errors for further calculations (e.g., making a plot). To extract the standard errors, use the <code>tidy()</code> function from <strong>broom</strong>. This returns a data frame whose columns correspond to the <code>summary()</code> output.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_results &lt;-<span class="st"> </span><span class="kw">tidy</span>(fit)
+fit_results</code></pre></div>
+<pre><code>##          term   estimate  std.error statistic    p.value
+## 1 (Intercept) -0.6229292 5.22752549  -0.11916 9.0540e-01
+## 2    typeprof  6.0389707 3.86685510   1.56173 1.2175e-01
+## 3      typewc -2.7372307 2.51393240  -1.08882 2.7904e-01
+## 4   education  3.6731661 0.64050162   5.73483 1.2052e-07
+## 5      income  0.0010132 0.00022092   4.58628 1.4049e-05</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_results<span class="op">$</span>std.error</code></pre></div>
+<pre><code>## [1] 5.22752549 3.86685510 2.51393240 0.64050162 0.00022092</code></pre>
+<p>To extract the full (estimated) variance matrix, use the <code>vcov()</code> function.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">vcov</span>(fit)</code></pre></div>
+<pre><code>##             (Intercept)    typeprof      typewc   education      income
+## (Intercept)  2.7327e+01  1.6637e+01  7.39848733 -3.1965e+00  9.9963e-05
+## typeprof     1.6637e+01  1.4953e+01  6.79707308 -2.1239e+00 -4.9843e-06
+## typewc       7.3985e+00  6.7971e+00  6.31985613 -1.1062e+00  1.3108e-04
+## education   -3.1965e+00 -2.1239e+00 -1.10618421  4.1024e-01 -4.3335e-05
+## income       9.9963e-05 -4.9843e-06  0.00013108 -4.3335e-05  4.8805e-08</code></pre>
+<p>Luckily, you shouldn’t often need to extract the individual standard errors or the variance matrix. R has convenience functions to perform most of the calculations you would care about.</p>
+<p>To obtain confidence intervals for the regression coefficients, use the <code>confint()</code> function.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">confint</span>(fit)</code></pre></div>
+<pre><code>##                   2.5 %     97.5 %
+## (Intercept) -1.1004e+01  9.7579004
+## typeprof    -1.6398e+00 13.7177785
+## typewc      -7.7294e+00  2.2549408
+## education    2.4013e+00  4.9450753
+## income       5.7449e-04  0.0014519</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">confint</span>(fit, <span class="dt">level =</span> <span class="fl">0.99</span>)  <span class="co"># Changing the confidence level</span></code></pre></div>
+<pre><code>##                   0.5 %     99.5 %
+## (Intercept) -1.4370e+01 13.1240626
+## typeprof    -4.1298e+00 16.2077638
+## typewc      -9.3482e+00  3.8737381
+## education    1.9888e+00  5.3575138
+## income       4.3224e-04  0.0015941</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">confint</span>(fit, <span class="st">&quot;education&quot;</span>)   <span class="co"># Only for one coefficient</span></code></pre></div>
+<pre><code>##            2.5 % 97.5 %
+## education 2.4013 4.9451</code></pre>
+<p>You may also be interested in testing against null hypotheses other than each individual coefficient being zero. This is where the <code>linearHypothesis()</code> function from the car package comes in. For example, suppose we wanted to test against the null hypothesis that the population coefficient on education is 3.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">linearHypothesis</span>(fit, <span class="st">&quot;education = 3&quot;</span>)</code></pre></div>
+<pre><code>## Linear hypothesis test
+## 
+## Hypothesis:
+## education = 3
+## 
+## Model 1: restricted model
+## Model 2: prestige ~ type + education + income
+## 
+##   Res.Df  RSS Df Sum of Sq   F Pr(&gt;F)
+## 1     94 4737                        
+## 2     93 4681  1      55.6 1.1    0.3</code></pre>
+<p>We care about the last two columns of the bottom row. <code>F</code> gives us the test statistic,<a href="#fn24" class="footnoteRef" id="fnref24"><sup>24</sup></a> and <code>Pr(&gt;F)</code> gives us the associated <span class="math inline">\(p\)</span>-value. Here our <span class="math inline">\(p\)</span>-value is 0.3, so we wouldn’t reject the null hypothesis that the population coefficient on education is 3.</p>
+<p>Two quick notes on the <code>linearHypothesis()</code> function:</p>
+<ul>
+<li><p>Make sure to place your hypothesis in quotes. (Or if you have multiple hypotheses, that you use a vector of quoted strings.) The function will not work if you run something like <code>linearHypothesis(fit, education = 3)</code>.</p></li>
+<li><p>Make sure the name of the coefficient(s) you’re testing are exactly the same as in the regression output. This requires particular care when you’re dealing with factor variables, interactions, or quadratic terms.</p></li>
+</ul>
+<p>Of course, for a univariate hypothesis test like this one, we could have just used the confidence interval to figure out the answer. The real value of <code>linearHypothesis()</code> comes in simultaneously testing hypotheses about multiple coefficients—i.e., the Wald test.</p>
+<p>For example, let’s test the null hypothesis that the population coefficients on white-collar and professional are the same.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">linearHypothesis</span>(fit, <span class="st">&quot;typewc = typeprof&quot;</span>)</code></pre></div>
+<pre><code>## Linear hypothesis test
+## 
+## Hypothesis:
+## - typeprof  + typewc = 0
+## 
+## Model 1: restricted model
+## Model 2: prestige ~ type + education + income
+## 
+##   Res.Df  RSS Df Sum of Sq  F Pr(&gt;F)
+## 1     94 5186                       
+## 2     93 4681  1       505 10 0.0021</code></pre>
+<p>We would reject this null hypothesis except under particularly stringent significance levels (less than 0.002).</p>
+<p>What about the composite hypothesis that the population coefficients on white-collar and professional both equal zero? To test this, we pass a <em>vector</em> of hypotheses.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">linearHypothesis</span>(fit, <span class="kw">c</span>(<span class="st">&quot;typewc = 0&quot;</span>, <span class="st">&quot;typeprof = 0&quot;</span>))</code></pre></div>
+<pre><code>## Linear hypothesis test
+## 
+## Hypothesis:
+## typewc = 0
+## typeprof = 0
+## 
+## Model 1: restricted model
+## Model 2: prestige ~ type + education + income
+## 
+##   Res.Df  RSS Df Sum of Sq    F Pr(&gt;F)
+## 1     95 5272                         
+## 2     93 4681  2       591 5.87  0.004</code></pre>
+<p>The <span class="math inline">\(p\)</span>-value corresponding to this hypothesis test is 0.004. This illustrates a key feature of composite hypothesis tests. You’ll remember from the original regression output that neither of the occupational indicators were significant on their own.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(fit)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = prestige ~ type + education + income, data = Prestige)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -14.953  -4.449   0.168   5.057  18.632 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept) -0.622929   5.227525   -0.12     0.91
+## typeprof     6.038971   3.866855    1.56     0.12
+## typewc      -2.737231   2.513932   -1.09     0.28
+## education    3.673166   0.640502    5.73  1.2e-07
+## income       0.001013   0.000221    4.59  1.4e-05
+## 
+## Residual standard error: 7.09 on 93 degrees of freedom
+##   (4 observations deleted due to missingness)
+## Multiple R-squared:  0.835,  Adjusted R-squared:  0.828 
+## F-statistic:  118 on 4 and 93 DF,  p-value: &lt;2e-16</code></pre>
+<p>So, operating at conventional significant levels, we would:</p>
+<ul>
+<li>Fail to reject the null that the coefficient on professional is zero</li>
+<li>Fail to reject the null that the coefficient on white-collar is zero</li>
+<li>Reject the null that the coefficients on both are zero</li>
+</ul>
+<p>This seems contradictory, but it just illustrates the limits of drawing inferences from a finite sample. What the results of these hypothesis tests are telling us is that we have enough information to conclude that there are differences in prestige across occupational categories, holding average education and income fixed. However, we do not have enough information to identify exactly where those differences are coming—i.e., exactly which of the two categories it is that differs from the omitted baseline.</p>
 
 </div>
 </div>
@@ -391,6 +545,8 @@ V[C] = E \left[ (C - E[C]) (C - E[C])^\top \right].
 <hr />
 <ol start="22">
 <li id="fn22"><p>You will notice that, for a single-variable hypothesis <span class="math inline">\(H_0 : \beta_k = b\)</span>, the Wald statistic reduces to the square of the <span class="math inline">\(t\)</span> statistic. Since the asymptotic distribution of the <span class="math inline">\(t\)</span> statistic is standard normal under the null hypothesis, it follows that the asymptotic distribution of its square is <span class="math inline">\(\chi^2_1\)</span> under the null hypothesis.<a href="inference.html#fnref22">↩</a></p></li>
+<li id="fn23"><p>One-tailed tests, while unproblematic in theory, in practice are usually a signal that the two-tailed test was insignificant and the author is fudging it. Don’t send a bad signal; always use two-tailed tests.<a href="inference.html#fnref23">↩</a></p></li>
+<li id="fn24"><p>Why an <span class="math inline">\(F\)</span> statistic instead of a <span class="math inline">\(t\)</span> statistic? If the random variable <span class="math inline">\(Z\)</span> has a <span class="math inline">\(t\)</span> distribution with <span class="math inline">\(n\)</span> degrees of freedom, then <span class="math inline">\(Z^2\)</span> has an <span class="math inline">\(F\)</span> distribution with <span class="math inline">\(1,n\)</span> degrees of freedom. The <span class="math inline">\(F\)</span> statistic generalizes better to the case of multiple hypotheses.<a href="inference.html#fnref24">↩</a></p></li>
 </ol>
 </div>
             </section>
