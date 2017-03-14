@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Practical Data Analysis for Political Scientists</title>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+  <meta name="description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right.">
+  <meta name="generator" content="bookdown 0.3 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Practical Data Analysis for Political Scientists" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right." />
+  <meta name="github-repo" content="brentonk/pdaps" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Practical Data Analysis for Political Scientists" />
+  
+  <meta name="twitter:description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right." />
+  
+
+<meta name="author" content="Brenton Kenkel">
+
+
+<meta name="date" content="2017-03-14">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="inference.html">
+<link rel="next" href="references.html">
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Practical Data Analysis for Political Scientists</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> About This Book</a></li>
+<li class="chapter" data-level="2" data-path="programming.html"><a href="programming.html"><i class="fa fa-check"></i><b>2</b> Principles of Programming</a><ul>
+<li class="chapter" data-level="2.1" data-path="programming.html"><a href="programming.html#write-programs-for-people-not-computers"><i class="fa fa-check"></i><b>2.1</b> Write Programs for People, Not Computers</a></li>
+<li class="chapter" data-level="2.2" data-path="programming.html"><a href="programming.html#let-the-computer-do-the-work"><i class="fa fa-check"></i><b>2.2</b> Let the Computer Do the Work</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>3</b> Working with Data</a><ul>
+<li class="chapter" data-level="3.1" data-path="data.html"><a href="data.html#loading"><i class="fa fa-check"></i><b>3.1</b> Loading</a></li>
+<li class="chapter" data-level="3.2" data-path="data.html"><a href="data.html#tidying"><i class="fa fa-check"></i><b>3.2</b> Tidying</a></li>
+<li class="chapter" data-level="3.3" data-path="data.html"><a href="data.html#transforming-and-aggregating"><i class="fa fa-check"></i><b>3.3</b> Transforming and Aggregating</a></li>
+<li class="chapter" data-level="3.4" data-path="data.html"><a href="data.html#merging"><i class="fa fa-check"></i><b>3.4</b> Merging</a></li>
+<li class="chapter" data-level="3.5" data-path="data.html"><a href="data.html#appendix-creating-the-example-data"><i class="fa fa-check"></i><b>3.5</b> Appendix: Creating the Example Data</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="visualization.html"><a href="visualization.html"><i class="fa fa-check"></i><b>4</b> Data Visualization</a><ul>
+<li class="chapter" data-level="4.1" data-path="visualization.html"><a href="visualization.html#basic-plots"><i class="fa fa-check"></i><b>4.1</b> Basic Plots</a></li>
+<li class="chapter" data-level="4.2" data-path="visualization.html"><a href="visualization.html#saving-plots"><i class="fa fa-check"></i><b>4.2</b> Saving Plots</a></li>
+<li class="chapter" data-level="4.3" data-path="visualization.html"><a href="visualization.html#faceting"><i class="fa fa-check"></i><b>4.3</b> Faceting</a></li>
+<li class="chapter" data-level="4.4" data-path="visualization.html"><a href="visualization.html#aesthetics"><i class="fa fa-check"></i><b>4.4</b> Aesthetics</a></li>
+<li class="chapter" data-level="4.5" data-path="visualization.html"><a href="visualization.html#appendix-creating-the-example-data-1"><i class="fa fa-check"></i><b>4.5</b> Appendix: Creating the Example Data</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="bivariate.html"><a href="bivariate.html"><i class="fa fa-check"></i><b>5</b> Bivariate Regression</a><ul>
+<li class="chapter" data-level="5.1" data-path="bivariate.html"><a href="bivariate.html#probability-refresher"><i class="fa fa-check"></i><b>5.1</b> Probability Refresher</a></li>
+<li class="chapter" data-level="5.2" data-path="bivariate.html"><a href="bivariate.html#the-linear-model"><i class="fa fa-check"></i><b>5.2</b> The Linear Model</a></li>
+<li class="chapter" data-level="5.3" data-path="bivariate.html"><a href="bivariate.html#least-squares"><i class="fa fa-check"></i><b>5.3</b> Least Squares</a></li>
+<li class="chapter" data-level="5.4" data-path="bivariate.html"><a href="bivariate.html#properties"><i class="fa fa-check"></i><b>5.4</b> Properties</a></li>
+<li class="chapter" data-level="5.5" data-path="bivariate.html"><a href="bivariate.html#appendix-regression-in-r"><i class="fa fa-check"></i><b>5.5</b> Appendix: Regression in R</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="matrix.html"><a href="matrix.html"><i class="fa fa-check"></i><b>6</b> Matrix Algebra: A Crash Course</a><ul>
+<li class="chapter" data-level="6.1" data-path="matrix.html"><a href="matrix.html#vector-operations"><i class="fa fa-check"></i><b>6.1</b> Vector Operations</a></li>
+<li class="chapter" data-level="6.2" data-path="matrix.html"><a href="matrix.html#matrix-operations"><i class="fa fa-check"></i><b>6.2</b> Matrix Operations</a></li>
+<li class="chapter" data-level="6.3" data-path="matrix.html"><a href="matrix.html#matrix-inversion"><i class="fa fa-check"></i><b>6.3</b> Matrix Inversion</a></li>
+<li class="chapter" data-level="6.4" data-path="matrix.html"><a href="matrix.html#solving-linear-systems"><i class="fa fa-check"></i><b>6.4</b> Solving Linear Systems</a></li>
+<li class="chapter" data-level="6.5" data-path="matrix.html"><a href="matrix.html#appendix-matrices-in-r"><i class="fa fa-check"></i><b>6.5</b> Appendix: Matrices in R</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="ols-matrix.html"><a href="ols-matrix.html"><i class="fa fa-check"></i><b>7</b> Reintroduction to the Linear Model</a><ul>
+<li class="chapter" data-level="7.1" data-path="ols-matrix.html"><a href="ols-matrix.html#the-linear-model-in-matrix-form"><i class="fa fa-check"></i><b>7.1</b> The Linear Model in Matrix Form</a></li>
+<li class="chapter" data-level="7.2" data-path="ols-matrix.html"><a href="ols-matrix.html#the-ols-estimator"><i class="fa fa-check"></i><b>7.2</b> The OLS Estimator</a></li>
+<li class="chapter" data-level="7.3" data-path="ols-matrix.html"><a href="ols-matrix.html#vector-valued-random-variables"><i class="fa fa-check"></i><b>7.3</b> Vector-Valued Random Variables</a></li>
+<li class="chapter" data-level="7.4" data-path="ols-matrix.html"><a href="ols-matrix.html#properties-of-ols"><i class="fa fa-check"></i><b>7.4</b> Properties of OLS</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="specification.html"><a href="specification.html"><i class="fa fa-check"></i><b>8</b> Specification Issues</a><ul>
+<li class="chapter" data-level="8.1" data-path="specification.html"><a href="specification.html#categorical-variables"><i class="fa fa-check"></i><b>8.1</b> Categorical Variables</a></li>
+<li class="chapter" data-level="8.2" data-path="specification.html"><a href="specification.html#interaction-terms"><i class="fa fa-check"></i><b>8.2</b> Interaction Terms</a></li>
+<li class="chapter" data-level="8.3" data-path="specification.html"><a href="specification.html#quadratic-and-logarithmic-terms"><i class="fa fa-check"></i><b>8.3</b> Quadratic and Logarithmic Terms</a></li>
+<li class="chapter" data-level="8.4" data-path="specification.html"><a href="specification.html#appendix-nonstandard-specifications-in-r"><i class="fa fa-check"></i><b>8.4</b> Appendix: Nonstandard Specifications in R</a><ul>
+<li class="chapter" data-level="8.4.1" data-path="specification.html"><a href="specification.html#categorical-variables-1"><i class="fa fa-check"></i><b>8.4.1</b> Categorical Variables</a></li>
+<li class="chapter" data-level="8.4.2" data-path="specification.html"><a href="specification.html#interaction-terms-1"><i class="fa fa-check"></i><b>8.4.2</b> Interaction Terms</a></li>
+<li class="chapter" data-level="8.4.3" data-path="specification.html"><a href="specification.html#quadratic-and-logarithmic-models"><i class="fa fa-check"></i><b>8.4.3</b> Quadratic and Logarithmic Models</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="inference.html"><a href="inference.html"><i class="fa fa-check"></i><b>9</b> Drawing Inferences</a><ul>
+<li class="chapter" data-level="9.1" data-path="inference.html"><a href="inference.html#the-basics-of-hypothesis-testing"><i class="fa fa-check"></i><b>9.1</b> The Basics of Hypothesis Testing</a></li>
+<li class="chapter" data-level="9.2" data-path="inference.html"><a href="inference.html#variance-of-ols"><i class="fa fa-check"></i><b>9.2</b> Variance of OLS</a></li>
+<li class="chapter" data-level="9.3" data-path="inference.html"><a href="inference.html#single-variable-hypotheses"><i class="fa fa-check"></i><b>9.3</b> Single Variable Hypotheses</a></li>
+<li class="chapter" data-level="9.4" data-path="inference.html"><a href="inference.html#multiple-variable-hypotheses"><i class="fa fa-check"></i><b>9.4</b> Multiple Variable Hypotheses</a></li>
+<li class="chapter" data-level="9.5" data-path="inference.html"><a href="inference.html#appendix-full-derivation-of-ols-variance"><i class="fa fa-check"></i><b>9.5</b> Appendix: Full Derivation of OLS Variance</a></li>
+<li class="chapter" data-level="9.6" data-path="inference.html"><a href="inference.html#appendix-regression-inference-in-r"><i class="fa fa-check"></i><b>9.6</b> Appendix: Regression Inference in R</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="crisis.html"><a href="crisis.html"><i class="fa fa-check"></i><b>10</b> The Statistical Crisis in Science</a><ul>
+<li class="chapter" data-level="10.1" data-path="crisis.html"><a href="crisis.html#publication-bias"><i class="fa fa-check"></i><b>10.1</b> Publication Bias</a></li>
+<li class="chapter" data-level="10.2" data-path="crisis.html"><a href="crisis.html#p-hacking"><i class="fa fa-check"></i><b>10.2</b> <span class="math inline">\(p\)</span>-Hacking</a></li>
+<li class="chapter" data-level="10.3" data-path="crisis.html"><a href="crisis.html#what-to-do"><i class="fa fa-check"></i><b>10.3</b> What to Do</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Practical Data Analysis for Political Scientists</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="crisis" class="section level1">
+<h1><span class="header-section-number">10</span> The Statistical Crisis in Science</h1>
+<p>As a general rule, I do not believe the statistical results reported in political science publications. More to the point, absent compelling evidence to the contrary, I assume that:</p>
+<ul>
+<li><p>Reported effect sizes are biased upward in magnitude. The marginal effect of the key variable(s) in the population is likely less dramatic than what is reported.</p></li>
+<li><p>Reported <span class="math inline">\(p\)</span>-values are biased downward. The probability of making a Type I error, in case the null hypothesis were false and one followed the <em>actual</em> procedure that led to the reported results, is greater than what is reported.</p></li>
+</ul>
+<p>My position is not one of blind skepticism. It follows, perhaps ironically, from empirical research showing that far more than 5 percent of studies do not replicate upon re-testing <span class="citation">(Open Science Collaboration <a href="#ref-open2015estimating">2015</a>)</span>. <span class="citation">Ioannidis (<a href="#ref-ioannidis2005most">2005</a>)</span> puts it bluntly: “Most published research findings are false.” Today we’ll discuss why.</p>
+<p>I’ll follow <span class="citation">Young, Ioannidis, and Al-Ubaydli (<a href="#ref-young2008current">2008</a>)</span>’s economic analogy. Consider scientific publication as an economic activity, where researchers “sell” findings to journals in exchange for prestige.<a href="#fn25" class="footnoteRef" id="fnref25"><sup>25</sup></a> The <em>demand-side problem</em> is that journals will only “buy” statistically significant findings. Even absent any effects on author behavior, this practice makes published findings a biased sample of actual findings. But of course there are effects on author behavior. The <em>supply-side problem</em> is that authors try to produce “statistically significant” findings instead of scientifically sound findings.</p>
+<p>There is far more out there on the replication crisis in science than we can cover in a week. Sanjay Srivastava’s faux syllabus, <a href="https://hardsci.wordpress.com/2016/08/11/everything-is-fucked-the-syllabus/">“Everything is fucked”</a>, provides a more comprehensive treatment.</p>
+<div id="publication-bias" class="section level2">
+<h2><span class="header-section-number">10.1</span> Publication Bias</h2>
+<p>If you open up an issue of any empirically oriented political science journal, you will not read many abstracts that conclude “We were unable to reject the null hypothesis of no effect.” You probably won’t see any. The prevailing attitude of reviewers and editors is that only significant results are interesting and only interesting results are worth publishing—so only significant results get published.</p>
+<p>Consequently, published empirical findings are not a representative sample of all empirical findings. <a href="http://andrewgelman.com/2011/09/10/the-statistical-significance-filter/">Andrew Gelman calls this the <em>statistical significance filter</em></a>: the publication process only reveals the findings of some studies, namely those that achieve statistical significance. If you draw your beliefs from scientific journals (particularly prestigious ones, as <span class="citation">Ioannidis (<a href="#ref-ioannidis2008most">2008</a>)</span> notes), you will end up with some false ideas about how the world works.</p>
+<p>Some of these beliefs will be Type I errors: you will reject null hypotheses that are true. Suppose there is a treatment <span class="math inline">\(T\)</span> that has no effect on an outcome <span class="math inline">\(Y\)</span>, and 100 labs run separate experiments of the effect of <span class="math inline">\(T\)</span> on <span class="math inline">\(Y\)</span>. We would expect about 95 of these experiments to (correctly) fail to reject the null hypotheses, and about 5 to (incorrectly) reject it. But if some of the significant findings get published and none of the insignificant ones do, you will end up incorrectly believing the treatment affects the outcome.</p>
+<p>But the statistical significance filter has another, less obvious—and thus more pernicious—effect on our inferences. Assume that the null hypothesis is indeed false: that the treatment <span class="math inline">\(T\)</span> has an effect on the outcome <span class="math inline">\(Y\)</span>. Suppose once again that 100 labs run separate experiments of the effect of <span class="math inline">\(T\)</span> on <span class="math inline">\(Y\)</span>. Depending on the power of the experiments, some proportion of them will (incorrectly) fail to reject the null hypothesis, and the remainder will (correctly) reject it. Because of the statistical significance filter, only the ones that reject the null hypothesis will get published.</p>
+<p>That’s not so bad, right? Only the studies that reject the null hypothesis get published, but the null hypothesis is wrong! The problem comes in when we want to evaluate the size of the effect—what political scientists like to call “substantive significance.”<a href="#fn26" class="footnoteRef" id="fnref26"><sup>26</sup></a> On average, the statistically significant studies will tend to overestimate the magnitude of the effect. Viewing studies through the statistical significance filter, we will correctly infer that there is an effect, but we will systematically overestimate how strong it is.</p>
+<p>Why does the statistical significance filter result in an overestimate of effect magnitudes? Imagine that the population regression coefficient is real but small, say <span class="math inline">\(\beta_k = 0.1\)</span>. Then the sampling distribution of <span class="math inline">\(\hat{\beta}_k\)</span> will look something like the following graph.</p>
+<p><img src="pdaps_files/figure-html/filter-plot-1.png" width="672" /></p>
+<p>Since the population parameter is close to zero, we are rather likely to yield a sample estimate close to zero. With a small sample size, sample estimates close to zero are likely to be statistically insignificant. Under the statistical significance filter, only the results in the “tails” of the distribution will end up being published.</p>
+<p><img src="pdaps_files/figure-html/filter-plot-2-1.png" width="672" /></p>
+<p>The first time I read about this result, on Andrew Gelman’s blog, I didn’t believe it. (I <em>should</em> have believed it, because he’s a professional statistician and I’m not.) So I fired up R and ran a simulation to answer: if we only report our estimate of <span class="math inline">\(\beta_k\)</span> when it’s statistically significant, will we overestimate its magnitude on average? In your R session this week, you will run a version of this same simulation.</p>
+</div>
+<div id="p-hacking" class="section level2">
+<h2><span class="header-section-number">10.2</span> <span class="math inline">\(p\)</span>-Hacking</h2>
+<p>The statistical significance filter is a demand-side problem. The demand (by journals) for “insignificant” findings is too low. This in turn creates supply-side problems. Scientists’ careers depend on their ability to publish their findings. Since there is no demand for insignificant findings, scientists do what they can to conjure up significant results. In the best case scenario, this means devoting effort to projects with a high prior probability of turning up significant, rather than riskier endeavors. In the worst case, it means engaging in vaguely-to-definitely unethical statistical practices in a desperate search for significance.</p>
+<p>One way to <span class="math inline">\(p\)</span>-hack is to just define the significance level <em>post hoc</em>.</p>
+<div class="figure">
+<img src="p_values.png" alt="XKCD #1478." />
+<p class="caption"><a href="https://xkcd.com/1478/">XKCD #1478.</a></p>
+</div>
+<p>Luckily, this is pretty transparent. The convention, for better or worse, is a significance level of 0.05, and it’s easy to notice deviations from the convention. Look for the “daggers” in people’s regression tables, or language like “comes close to statistical significance”. Matthew Hankins’ blog post <a href="https://mchankins.wordpress.com/2013/04/21/still-not-significant-2/">“Still Not Significant”</a> is a comprehensive compendium of the weasel language people use to try to dress up their insignificant findings. See also <span class="citation">Pritschet, Powell, and Horne (<a href="#ref-pritschet2016marginally">2016</a>)</span>.</p>
+<p>The more pernicious form of <span class="math inline">\(p\)</span>-hacking is going fishing for something significant after one’s original hypothesis test “fails.” Let us once again imagine a lab performing an experiment. They are interested in the effect of a treatment <span class="math inline">\(T\)</span> on an outcome <span class="math inline">\(Y\)</span>. To make it concrete, suppose the treatment is reading a particular editorial, and the outcome is where the respondent places himself or herself on a left-right ideological scale ranging between 0 and 1. The lab spends a lot of time and money recruiting subjects, running the experiment, and tabulating the data. They get their spreadsheet together, load their data into R, test for a treatment effect … and fail to reject the null hypothesis.</p>
+<p>Damn. All that effort wasted, for a result that can’t be published. But wait! The op-ed was written by a man, and his picture appeared next to it. It seems plausible that it might only have an effect on men, or only one on women. So just to see, the lab re-runs the test once just for men and once just for women. They get a <span class="math inline">\(p\)</span>-value just below <span class="math inline">\(0.05\)</span> for the male subsample! Hooray! This is at least potentially a publishable finding!</p>
+<p>What’s wrong with this picture? Let’s go back to the formal definition of the significance level.</p>
+<blockquote>
+<p>The significance level of a hypothesis test is the probability of rejecting the null hypothesis when the null hypothesis is true.</p>
+</blockquote>
+<p>If the null hypothesis is true, and 100 labs run the same experiment on it, we should expect about 5 of them to end up incorrectly rejecting the null hypothesis. Similarly, go back to the formal definition of a <span class="math inline">\(p\)</span>-value.</p>
+<blockquote>
+<p>The <span class="math inline">\(p\)</span>-value of a test statistic is the probability of yielding a test statistic at least as extreme when the null hypothesis is true.</p>
+</blockquote>
+<p>If the null hypothesis is true, we should expect only about 10 out of 100 labs to end up with <span class="math inline">\(p \leq 0.10\)</span>, 5 out of 100 to have <span class="math inline">\(p \leq 0.05\)</span>, and so on.</p>
+<p>The problem with this hypothetical procedure—testing <em>post hoc</em> for effects within subgroups after the main test comes back insignificant—is that the stated significance level is not the real significance level. If you run three different tests and reject the null hypothesis if <em>any</em> of them comes back with <span class="math inline">\(p \leq 0.05\)</span>, you will reject the null hypothesis more often than 5% of the time. In our running hypothetical example, the lab’s reported <span class="math inline">\(p\)</span>-value of 0.05 is a lie.</p>
+<div class="figure">
+<img src="significant.png" alt="XKCD #882." />
+<p class="caption"><a href="https://xkcd.com/882/">XKCD #882.</a></p>
+</div>
+<p>There are many ways to <span class="math inline">\(p\)</span>-hack:</p>
+<ul>
+<li>Splitting up data by subgroups <em>post hoc</em></li>
+<li>Changing the set of variables you control for</li>
+<li>Changing the operationalization of the covariate of interest or the response variable</li>
+<li>Changing the time period of the analysis</li>
+<li>Stopping data collection as soon as <span class="math inline">\(p \leq 0.05\)</span></li>
+</ul>
+<p>What all these have in common is that the final test you report depends on the result of some earlier test you ran. All standard hypothesis tests assume that you didn’t do anything like this—that this was the only test you ran, that your initial results didn’t influence your choice of further tests. It is unethical to report the nominal <span class="math inline">\(p\)</span>-value (i.e., the value your computer spits out) from a <span class="math inline">\(p\)</span>-hacked test, because the true probability of getting a result at least as extreme is greater than the nominal value.</p>
+</div>
+<div id="what-to-do" class="section level2">
+<h2><span class="header-section-number">10.3</span> What to Do</h2>
+<p>At a macro level, we should probably:</p>
+<ul>
+<li><p>Assume the magnitudes of published results are exaggerated, and adjust our own beliefs accordingly.</p></li>
+<li><p>Collect new data to replicate published findings, and adjust our beliefs in the direction of the replication results.</p></li>
+<li><p>When reviewing others’ papers, don’t judge on the basis of significance. Try to be “results-blind.” Assess whether the research design is well suited to address the question at hand, not whether it turned up the results the author wanted, or the results you want, or interesting or surprising or counterintuitive results, etc.</p></li>
+<li><p>When writing your own papers, focus on research designs that are clever and novel. Write papers that will be interesting to the political science community regardless of whether the results are statistically significant.</p></li>
+</ul>
+<p>And at a more micro level, to avoid <span class="math inline">\(p\)</span>-hacking in your own research:</p>
+<ul>
+<li><p>Decide exactly which hypothesis you want to test and which test to run before you collect your data, or at least before running any analysis on it.</p></li>
+<li><p>Report every test you perform on the data, and only highlight results that are robust across tests.</p></li>
+<li><p>Randomly split your sample before performing any tests. Go wild with the first half of the sample looking for an interesting hypothesis. Then test that hypothesis on the other half of the sample (and report the results whether they come out in your favor or not). Equivalently, hack your pilot data and then go out and collect new data to try to replicate your hacked initial hypothesis.</p></li>
+<li><p>Apply a correction for multiple testing problems, or use computational methods (e.g., bootstrap) to calculate the distribution of a data-conditional test statistic under the null hypothesis.</p></li>
+</ul>
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-open2015estimating">
+<p>Open Science Collaboration. 2015. “Estimating the Reproducibility of Psychological Science.” <em>Science</em> 349 (6251). American Association for the Advancement of Science: aac4716.</p>
+</div>
+<div id="ref-ioannidis2005most">
+<p>Ioannidis, John PA. 2005. “Why Most Published Research Findings Are False.” <em>PLos Med</em> 2 (8). Public Library of Science: e124.</p>
+</div>
+<div id="ref-young2008current">
+<p>Young, Neal S, John PA Ioannidis, and Omar Al-Ubaydli. 2008. “Why Current Publication Practices May Distort Science.” <em>PLoS Med</em> 5 (10). Public Library of Science: e201.</p>
+</div>
+<div id="ref-ioannidis2008most">
+<p>Ioannidis, John PA. 2008. “Why Most Discovered True Associations Are Inflated.” <em>Epidemiology</em> 19 (5). LWW: 640–48.</p>
+</div>
+<div id="ref-pritschet2016marginally">
+<p>Pritschet, Laura, Derek Powell, and Zachary Horne. 2016. “Marginally Significant Effects as Evidence for Hypotheses: Changing Attitudes over Four Decades.” <em>Psychological Science</em> 27 (7). SAGE Publications Sage CA: Los Angeles, CA: 1036–42.</p>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="25">
+<li id="fn25"><p>Have you ever wondered why academic journal subscriptions cost unholy amounts of money, yet the authors, reviewers, and (usually) editors are unpaid?<a href="crisis.html#fnref25">↩</a></p></li>
+<li id="fn26"><p>Mini rant: In my admittedly short career in political science, I have seen zero talks or papers claim to have found a statistically significant but substantively insignificant result. I have, however, seen talks that claimed a 0.001% increase constituted a substantively significant finding. Without a threshold for substantive significance that is decided on <em>before</em> the results are obtained, any claim about substantive significance is incredible.<a href="crisis.html#fnref26">↩</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="inference.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/09-crisis.Rmd",
+"text": "Edit"
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    if (location.protocol !== "file:" && /^https?:/.test(script.src))
+      script.src  = script.src.replace(/^https?:/, '');
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
