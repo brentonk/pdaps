@@ -124,3 +124,125 @@ And at a more micro level, to avoid $p$-hacking in your own research:
 * Randomly split your sample before performing any tests.  Go wild with the first half of the sample looking for an interesting hypothesis.  Then test that hypothesis on the other half of the sample (and report the results whether they come out in your favor or not).  Equivalently, hack your pilot data and then go out and collect new data to try to replicate your hacked initial hypothesis.
 
 * Apply a correction for multiple testing problems, or use computational methods (e.g., bootstrap) to calculate the distribution of a data-conditional test statistic under the null hypothesis.
+
+
+## Appendix: R Simulation
+
+```{r, echo=FALSE}
+set.seed(233)
+```
+
+Let's run a simulation to see how publication bias affects scientific output.
+
+Imagine a bivariate regression situation where $X$ has a small but real effect on $Y$.  Specifically, let the population model be
+$$
+Y_n = 1 + 0.5 X_n + \epsilon_n,
+$$
+where $X_n$ is uniformly distributed on $[0, 1]$ and $\epsilon_n$ is normally distributed with mean zero and variance one.
+
+We can use the random number generation functions in R to draw a sample from this population model.  Let's draw a sample of $N = 50$ observations.
+
+```{r}
+n_obs <- 50
+x <- runif(n_obs, min = 0, max = 1)
+y <- 1 + 0.5 * x + rnorm(n_obs, mean = 0, sd = 1)
+plot(x, y)
+```
+
+We know the true slope is non-zero, though with such a small effect and such a small sample it's hard to tell from the scatterplot.
+
+We can run a regression of $Y$ on $X$ and extract the estimated slope and its $p$-value (for a test of $H_0 : \beta = 0$).
+
+```{r}
+library("tidyverse")
+library("broom")
+
+fit <- lm(y ~ x)
+tidy(fit)  # Full regression table
+tidy(fit)[2, c("estimate", "p.value")]  # Parts we want
+```
+
+This just gives us one instance of what we would get from this type of sample from this particular model.  What we're really interested in, though, is the *sampling distribution*---the distribution of results we would get across many samples from this model.  More specifically, we want to answer two questions.
+
+1.  If the results of every sample from this model were made public, what would we infer from the full body of evidence?
+
+2.  If only the statistically significant results were made public, what we infer from the published body of evidence?
+
+To make that task a bit simpler, let's write a function that collects everything we just did: generates a sample of size `n_obs`, runs a regression of $Y$ on $X$, and spits back the estimated slope and its $p$-value.
+
+```{r}
+draw_slope_and_p <- function(n_obs) {
+    x <- runif(n_obs, min = 0, max = 1)
+    y <- 1 + 0.5 * x + rnorm(n_obs, mean = 0, sd = 1)
+    fit <- lm(y ~ x)
+    out <- tidy(fit)[2, c("estimate", "p.value")]
+    as.numeric(out)  # Convert data frame to vector
+}
+```
+
+Since this function is drawing random numbers, it will return different results every time we run it.
+
+```{r}
+draw_slope_and_p(50)
+draw_slope_and_p(50)
+```
+
+Now what we want to do is to run this function a whole bunch of times, say 1,000.  That lets us imagine what would happen if 1,000 different labs each took a different sample of size $N = 50$ from the population, estimated the slope of the regression line, and tested against the null hypothesis that the slope is zero.  To do that, we can use the `replicate()` function, which is a convenient way to run the same function repeatedly.
+
+```{r}
+results_50 <- replicate(1000, draw_slope_and_p(50))
+dim(results_50)
+```
+
+This gives us a $2 \times 1000$ matrix.  Each column is a separate run of `draw_slope_and_p()`.  The first row is the estimated slope; the second row is the associated $p$-value.
+
+First let's check how often we rejected the null hypothesis.  The null hypothesis is false, so we would ideally always reject it.  However, we have a small effect size and each individual sample is small, so the effect is hard to detect in any given sample---we will often fail to reject the null hypothesis.  Let's see exactly how often.
+
+```{r}
+# Proportion of p-values at or below 0.05
+sig_50 <- results_50[2, ] <= 0.05
+mean(sig_50)
+```
+
+So the power of our study is not great---most of the time, we're failing to reject the null hypothesis.
+
+Let's see what the average estimated slope is across the full set of samples.
+
+```{r}
+mean(results_50[1, ])
+```
+
+This is pretty close to the true value, reflecting the fact that OLS is unbiased.  If all 1,000 studies were made public, we would ultimately infer---correctly---that the population slope is roughly 0.5.
+
+But what if we only saw the small fraction of studies whose results were statistically significant?
+
+```{r}
+# Restrict to columns where p <= 0.05
+mean(results_50[1, sig_50])
+```
+
+We might be tempted to trust these studies more, since they are the ones that correctly reject the null hypothesis.  But in fact, if we throw away those that are statistically insignificant, we end up with a biased picture of the effect size.  The average effect size in the significant studies is more than double the true effect size.  We can see this if we compare the distribution of all results to that of just the significant results.
+
+```{r}
+hist(results_50[1, ])
+hist(results_50[1, sig_50])
+```
+
+We can also see that this problem stems in large part from low statistical power.  Suppose each lab were taking a sample of $N = 200$ instead of $N = 50$, making their effect estimates more precise and thereby increasing each lab's chance of (correctly) rejecting the null hypothesis.
+
+```{r}
+results_200 <- replicate(1000, draw_slope_and_p(200))
+sig_200 <- results_200[2, ] <= 0.05
+
+# Power
+mean(sig_200)
+
+# Average estimate through the significance filter
+mean(results_200[1, sig_200])
+```
+
+```{r}
+hist(results_200[1, sig_200])
+```
+
+The significance-filtered average is still overinflated, but not nearly as drastically as when we were working with a small sample.

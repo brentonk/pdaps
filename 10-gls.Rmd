@@ -1,0 +1,230 @@
+# Non-Spherical Errors {#nonspherical}
+
+In our consideration so far of the linear model,
+$$
+\mathbf{Y} = \mathbf{X} \beta + \epsilon,
+$$
+we have focused on the ordinary least squares estimator,
+$$
+\hat{\beta}_{\text{OLS}} = (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top \mathbf{Y}.
+$$
+We have seen that OLS is an unbiased and consistent estimator of the linear model parameters as long as we have strict exogeneity,
+$$
+E[\epsilon \,|\, \mathbf{X}] = \mathbf{0}.
+$$
+However, two more important properties of OLS depend on the assumption of spherical errors,
+$$
+V[\epsilon \,|\, \mathbf{X}] = \sigma^2 \mathbf{I} = \begin{bmatrix}
+  \sigma^2 & 0 & \cdots & 0 \\
+  0 & \sigma^2 & \cdots & 0 \\
+  \vdots & \vdots & \ddots & \vdots \\
+  0 & 0 & \cdots & \sigma^2
+\end{bmatrix}.
+$$
+These properties are
+
+1.  That $\hat{\beta}_{\text{OLS}}$ is the minimum-variance unbiased linear estimator of $\beta$; i.e., that OLS is BLUE.
+
+2.  That the variance of OLS is given by the formula
+    $$
+    V[\hat{\beta}_{\text{OLS}} \,|\, \mathbf{X}] = \sigma^2 (\mathbf{X}^\top \mathbf{X})^{-1}.
+    $$
+
+In other words, if the spherical errors assumption fails to hold, there are two problems with OLS.
+
+1.  There is a better estimator available---one that is still unbiased, but is less sensitive to sampling variation (i.e., has lower standard errors).
+
+2.  The formula we use to estimate the standard errors of OLS is invalid.  Our confidence intervals and hypothesis tests will (usually) be overconfident, overstating the precision of our results.
+
+This week, we will talk about two ways to proceed in the face of non-spherical errors.  The first is to use an estimator other than OLS, specifically one called *generalized least squares*, or GLS.  GLS solves both of the problems listed above (inefficiency and invalid standard errors), but its own validity depends on stringent assumptions that are tough to confirm.
+
+The second is to use OLS, but to correct the standard errors.  Then our estimates will still be inefficient, relative to the hypothetical ideal GLS estimator, but we will at least be able to draw valid inferences (from large samples).
+
+Before we dive into these two methods, let's remind ourselves what deviations from the spherical errors assumption look like.  Spherical errors fails when we have either or both of:
+
+* Heteroskedasticity: $V[\epsilon_i] \neq V[\epsilon_j]$.
+
+* Autocorrelation: $\text{Cov}[\epsilon_i, \epsilon_j] \neq 0$ (for some $i \neq j$).
+
+Here's what each of the three cases looks like in bivariate data.
+
+```{r plot-spherical-errors, message=FALSE, echo = FALSE}
+library("tidyverse")
+
+set.seed(41)
+
+## Generate covariate
+n_obs <- 101
+x <- seq(0, 1, length.out = n_obs)
+
+## Generate errors
+e_spher <- rnorm(n_obs, sd = 1)
+e_het <- rnorm(n_obs, sd = 0.25 + 2 * x)
+e_auto <- numeric(n_obs)
+e_auto[1] <- rnorm(1, sd = 1)
+for (i in 2:n_obs) {
+    e_auto[i] <- 0.95 * e_auto[i - 1] + rnorm(1, sd = 1)
+}
+
+## Generate response
+alpha <- 1
+beta <- 5
+ey <- alpha + beta * x
+y_spher <- ey + e_spher
+y_het <- ey + e_het
+y_auto <- ey + e_auto
+
+data_error_types <- data_frame(x, y_spher, y_het, y_auto) %>%
+    gather(key = y_type, value = y, starts_with("y")) %>%
+    mutate(y_type = factor(y_type,
+                           levels = c("y_spher", "y_het", "y_auto"),
+                           labels = c("Spherical errors", "Heteroskedasticity", "Autocorrelation")))
+
+ggplot(data_error_types, aes(x = x, y = y)) +
+    geom_point() +
+    geom_abline(intercept = alpha, slope = beta, colour = "blue") +
+    facet_wrap(~ y_type, ncol = 1)
+```
+
+Autocorrelation usually arises in time series analysis, which is beyond the scope of this course, so we will focus primarily on heteroskedasticity.
+
+
+## Generalized Least Squares
+
+Suppose strict exogeneity holds, but spherical errors fails, with
+$$
+V[\epsilon \,|\, \mathbf{X}]
+= \sigma^2 \Omega
+= \sigma^2 \begin{bmatrix}
+  \omega_{11} & \omega_{12} & \cdots & \omega_{1N} \\
+  \omega_{12} & \omega_{22} & \cdots & \omega_{2N} \\
+  \vdots & \vdots & \ddots & \vdots \\
+  \omega_{1N} & \omega_{2N} & \cdots & \omega_{NN}
+\end{bmatrix},
+$$
+where $\Omega$ is known[^omega-matrix] and $\sigma^2$ is unknown.  In other words, we know the exact structure of heteroskedasticity and autocorrelation, up to a potentially unknown constant.
+
+[^omega-matrix]: Like any variance matrix, $\Omega$ must be symmetric and positive definite.  An $N \times N$ matrix $\mathbf{A}$ is positive definite if, for any $N \times 1$ vector $\mathbf{c} \neq \mathbf{0}$, the scalar $\mathbf{c}^\top \mathbf{A} \mathbf{c} > 0$.  Positive definiteness implies, among other things, that every diagonal entry of $\Omega$ is positive and that $\Omega$ is invertible.
+
+We derived the OLS estimator by finding the $\hat{\beta}$ that minimizes the sum of squared errors,
+$$
+\text{SSE}
+= \sum_n (Y_n - \mathbf{x}_n \cdot \hat{\beta})^2
+= (\mathbf{Y} - \mathbf{X} \hat{\beta})^\top (\mathbf{Y} - \mathbf{X} \hat{\beta}).
+$$
+We derive its close cousin, the *generalized least squares*, or GLS, estimator, by minimizing the *weighted* sum of squared errors,
+$$
+\text{WSSE} = (\mathbf{Y} - \mathbf{X} \hat{\beta})^\top \Omega^{-1} (\mathbf{Y} - \mathbf{X} \hat{\beta}).
+$$
+I'll spare you the matrix calculus that follows, but suffice to say the resulting estimator is
+$$
+\hat{\beta}_{\text{GLS}} = (\mathbf{X}^\top \Omega^{-1} \mathbf{X})^{-1} \mathbf{X}^\top \Omega^{-1} \mathbf{Y}.
+$$
+It is easy to confirm that OLS is the special case of GLS with $\Omega = \mathbf{I}$.  Similar to the formula for OLS, the variance of GLS is
+$$
+V[\hat{\beta}_{\text{GLS}} \,|\, \mathbf{X}] = \sigma^2 (\mathbf{X}^\top \Omega^{-1} \mathbf{X})^{-1}.
+$$
+
+Like OLS, GLS is unbiased and consistent as long as we have strict exogeneity.  Even if we get $\Omega$ wrong---i.e., we misspecify the model of the error variance---GLS will still "work" in the sense of giving us an unbiased and consistent estimate of the coefficients.  This is easy to confirm.
+$$
+\begin{aligned}
+E [ \hat{\beta}_{\text{GLS}} \,|\, \mathbf{X} ]
+&= E [ (\mathbf{X}^\top \Omega^{-1} \mathbf{X})^{-1} \mathbf{X}^\top \Omega^{-1} \mathbf{Y} \,|\, \mathbf{X} ] \\
+&= (\mathbf{X}^\top \Omega^{-1} \mathbf{X})^{-1} \mathbf{X}^\top \Omega^{-1} E [\mathbf{Y} \,|\, \mathbf{X} ] \\
+&= (\mathbf{X}^\top \Omega^{-1} \mathbf{X})^{-1} \mathbf{X}^\top \Omega^{-1} (\mathbf{X} \beta) \\
+&= (\mathbf{X}^\top \Omega^{-1} \mathbf{X})^{-1} (\mathbf{X}^\top \Omega^{-1} \mathbf{X}) \beta \\
+&= \beta.
+\end{aligned}
+$$
+If we get $\Omega$ right, then GLS has two important additional properties.
+
+1.  Our estimate of the variance matrix,
+    $$
+    \hat{\Sigma} = \frac{\text{WSSE}}{N - K} (\mathbf{X}^\top \Omega^{-1} \mathbf{X})^{-1},
+    $$
+    is valid for inference using the same methods we discussed in the OLS case.
+
+2.  GLS is BLUE, per the Gauss-Markov theorem: there is no other unbiased linear estimator with lower standard errors.
+
+The first of these is pretty important; the second is just icing on the cake.  The main problem with non-spherical errors is the threat they pose to inference from OLS.  GLS fixes that---as long as we know $\Omega$.  More on this soon.
+
+An important special case of GLS is when there is heteroskedasticity but no autocorrelation, so that
+$$
+\Omega = \sigma^2 \begin{bmatrix}
+  \omega_{11} & 0 & \cdots & 0 \\
+  0 & \omega_{22} & \cdots & 0 \\
+  \vdots & \vdots & \ddots & \vdots \\
+  0 & 0 & \cdots & \omega_{NN}
+\end{bmatrix}.
+$$
+This special case is called *weighted least squares*, since GLS gives us the same answer as if we ran OLS on the following "weighted" data:
+$$
+\mathbf{X}^* = \begin{bmatrix}
+  x_{11} / \sqrt{\omega_{11}} & x_{12} / \sqrt{\omega_{11}} & \cdots & x_{1K} / \sqrt{\omega_{11}} \\
+  x_{21} / \sqrt{\omega_{22}} & x_{22} / \sqrt{\omega_{22}} & \cdots & x_{2K} / \sqrt{\omega_{22}} \\
+  \vdots & \vdots & \ddots & \vdots \\
+  x_{N1} / \sqrt{\omega_{NN}} & x_{N2} / \sqrt{\omega_{NN}} & \cdots & x_{NK} / \sqrt{\omega_{NN}}
+\end{bmatrix},
+\mathbf{Y}^* = \begin{bmatrix}
+  Y_1 / \sqrt{\omega_{11}} \\
+  Y_2 / \sqrt{\omega_{22}} \\
+  \vdots \\
+  Y_N / \sqrt{\omega_{NN}}
+\end{bmatrix}.
+$$
+
+
+## Detecting Heteroskedasticity
+
+If you don't have prior knowledge of the variance structure of the error term, you may be interested in testing whether the homoskedasticity assumption of OLS is viable.  In a bivariate regression model, you can usually detect heteroskedasticity via the eye test.  Not so much when you have multiple covariates.  In this case, you may want to formally test for heteroskedasticity.
+
+There are a few such tests, but we will just talk about the *Breusch-Pagan test*, which was developed by @breusch1980lagrange and refined by @koenker1982robust.  The null hypothesis of the test is that $V[\epsilon_i \,|\, \mathbf{X}] = \sigma^2$ for all $i = 1, \ldots, N$.  The test procedure is as follows.
+
+1. Calculate the OLS estimate, $\hat{\beta}_{\text{OLS}}$.
+2. Calculate the OLS residuals, $\hat{e} = Y - \mathbf{X} \hat{\beta}_{\text{OLS}}$.  Let $\hat{u}$ be the vector of squared residuals, $\hat{u} = (\hat{e}_1^2, \ldots, \hat{e}_N^2)$.
+3. Run a regression of $\hat{u}$ on $\mathbf{Z}$, an $N \times q$ matrix of covariates.  Let $R_{\hat{u}}^2$ denote the $R^2$ of this regression.
+4. Reject the null hypothesis if $N R_{\hat{u}}^2$ exceeds the critical value for a $\chi_{q - 1}^2$ distribution.
+
+In the canonical version of this test, $\mathbf{Z}$ is equal to $\mathbf{X}$.  A more powerful version is the *White test* [@white1980heteroskedasticity], in which $\mathbf{Z}$ contains each variable in $\mathbf{X}$ as well as all second-order terms (squares and interactions).
+
+## Heteroskedasticity of Unknown Form
+
+Suppose we know there is heteroskedasticity but we don't trust ourselves to properly specify the error variances to run weighted least squares.[^fgls]  Then we do not have an efficient estimator of $\beta$.  We might be all right with that, but we would really like to have a good estimator for the standard errors of the OLS estimator, so that we can test hypotheses about the coefficients.  Happily, we can estimate the variance matrix of the OLS estimator consistently even in the presence of heteroskedasticity.
+
+[^fgls]: There is an in-between solution known as *feasible generalized least squares*, whereby we estimate $\Omega$ from the data.  This requires placing some structure on $\Omega$, and the resulting estimator will be consistent but not unbiased.
+
+*White's heteroskedasticity-consistent estimator* [@white1980heteroskedasticity] of the variance matrix starts by forming a diagonal matrix out of the squared residuals,
+$$
+\hat{\mathbf{U}}
+=
+\begin{bmatrix}
+\hat{u}_1 & 0 & \cdots & 0 \\
+0 & \hat{u}_2 & \cdots & 0 \\
+\vdots & \vdots & \ddots & \vdots \\
+0 & 0 & \cdots & \hat{u}_N
+\end{bmatrix}
+=
+\begin{bmatrix}
+\hat{e}_1^2 & 0 & \cdots & 0 \\
+0 & \hat{e}_2^2 & \cdots & 0 \\
+\vdots & \vdots & \ddots & \vdots \\
+0 & 0 & \cdots & \hat{e}_N^2
+\end{bmatrix}
+$$
+This lets us form the "meat" of the "sandwich" that is White's estimator of the OLS variance matrix:
+$$
+\hat{\Sigma}_{\text{HC}}
+=
+(\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top \hat{\mathbf{U}} \mathbf{X} (\mathbf{X}^\top \mathbf{X})^{-1}.
+$$
+You know I love proofs, but I am not even going to attempt to prove that this consistently estimates the (asymptotic) variance matrix of $\hat{\beta}_{\text{OLS}}$.  See @greene [pp. 198--199] for a sketch of the proof.
+
+White's estimator is consistent but not unbiased, so we may want to apply a sort of bias correction in small samples.  A popular choice is the so-called "HC1" estimator, which corrects for the number of parameters estimated the same way the usual OLS variance estimator does:
+$$
+\hat{\Sigma}_{\text{HC1}} = \frac{N}{N - K} \hat{\Sigma}_{\text{HC}}
+$$
+In this scheme, the standard White estimator is called the "HC" or "HC0" estimator.  There are many other consistent estimators that apply some or other finite-sample correction; see @mackinnon1985some for the gory details.
+
+Because of its association with the `, robust` option in Stata, people sometimes call the White estimator of the standard errors "robust standard errors".  Don't do that.  In your own work, if you estimate and report heteroskedasticity-consistent standard errors, report that you use the @white1980heteroskedasticity estimator of the standard errors, and specify which variant (HC0, HC1, and so on).  Remember that your goal is to give others enough information to replicate your analysis even if they don't have your code---"robust standard errors" has too many interpretations to accomplish that.
+
+Finally, it is important to know that weighted least squares and heteroskedasticity-consistent standard errors are not mutually exclusive approaches.  If you have a suspicion about the error variances that you think can improve the precision of the regression, but you are not totally comfortable with committing to WLS for inference, you can calculate heteroskedasticity-consistent standard errors for a WLS (or GLS) fit.

@@ -33,8 +33,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="nonspherical.html">
-
+<link rel="prev" href="crisis.html">
+<link rel="next" href="references.html">
 
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -193,103 +193,181 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="references" class="section level1 unnumbered">
-<h1>References</h1>
+<div id="nonspherical" class="section level1">
+<h1><span class="header-section-number">11</span> Non-Spherical Errors</h1>
+<p>In our consideration so far of the linear model, <span class="math display">\[
+\mathbf{Y} = \mathbf{X} \beta + \epsilon,
+\]</span> we have focused on the ordinary least squares estimator, <span class="math display">\[
+\hat{\beta}_{\text{OLS}} = (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top \mathbf{Y}.
+\]</span> We have seen that OLS is an unbiased and consistent estimator of the linear model parameters as long as we have strict exogeneity, <span class="math display">\[
+E[\epsilon \,|\, \mathbf{X}] = \mathbf{0}.
+\]</span> However, two more important properties of OLS depend on the assumption of spherical errors, <span class="math display">\[
+V[\epsilon \,|\, \mathbf{X}] = \sigma^2 \mathbf{I} = \begin{bmatrix}
+  \sigma^2 &amp; 0 &amp; \cdots &amp; 0 \\
+  0 &amp; \sigma^2 &amp; \cdots &amp; 0 \\
+  \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+  0 &amp; 0 &amp; \cdots &amp; \sigma^2
+\end{bmatrix}.
+\]</span> These properties are</p>
+<ol style="list-style-type: decimal">
+<li><p>That <span class="math inline">\(\hat{\beta}_{\text{OLS}}\)</span> is the minimum-variance unbiased linear estimator of <span class="math inline">\(\beta\)</span>; i.e., that OLS is BLUE.</p></li>
+<li><p>That the variance of OLS is given by the formula <span class="math display">\[
+V[\hat{\beta}_{\text{OLS}} \,|\, \mathbf{X}] = \sigma^2 (\mathbf{X}^\top \mathbf{X})^{-1}.
+\]</span></p></li>
+</ol>
+<p>In other words, if the spherical errors assumption fails to hold, there are two problems with OLS.</p>
+<ol style="list-style-type: decimal">
+<li><p>There is a better estimator available—one that is still unbiased, but is less sensitive to sampling variation (i.e., has lower standard errors).</p></li>
+<li><p>The formula we use to estimate the standard errors of OLS is invalid. Our confidence intervals and hypothesis tests will (usually) be overconfident, overstating the precision of our results.</p></li>
+</ol>
+<p>This week, we will talk about two ways to proceed in the face of non-spherical errors. The first is to use an estimator other than OLS, specifically one called <em>generalized least squares</em>, or GLS. GLS solves both of the problems listed above (inefficiency and invalid standard errors), but its own validity depends on stringent assumptions that are tough to confirm.</p>
+<p>The second is to use OLS, but to correct the standard errors. Then our estimates will still be inefficient, relative to the hypothetical ideal GLS estimator, but we will at least be able to draw valid inferences (from large samples).</p>
+<p>Before we dive into these two methods, let’s remind ourselves what deviations from the spherical errors assumption look like. Spherical errors fails when we have either or both of:</p>
+<ul>
+<li><p>Heteroskedasticity: <span class="math inline">\(V[\epsilon_i] \neq V[\epsilon_j]\)</span>.</p></li>
+<li><p>Autocorrelation: <span class="math inline">\(\text{Cov}[\epsilon_i, \epsilon_j] \neq 0\)</span> (for some <span class="math inline">\(i \neq j\)</span>).</p></li>
+</ul>
+<p>Here’s what each of the three cases looks like in bivariate data.</p>
+<p><img src="pdaps_files/figure-html/plot-spherical-errors-1.png" width="672" /></p>
+<p>Autocorrelation usually arises in time series analysis, which is beyond the scope of this course, so we will focus primarily on heteroskedasticity.</p>
+<div id="generalized-least-squares" class="section level2">
+<h2><span class="header-section-number">11.1</span> Generalized Least Squares</h2>
+<p>Suppose strict exogeneity holds, but spherical errors fails, with <span class="math display">\[
+V[\epsilon \,|\, \mathbf{X}]
+= \sigma^2 \Omega
+= \sigma^2 \begin{bmatrix}
+  \omega_{11} &amp; \omega_{12} &amp; \cdots &amp; \omega_{1N} \\
+  \omega_{12} &amp; \omega_{22} &amp; \cdots &amp; \omega_{2N} \\
+  \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+  \omega_{1N} &amp; \omega_{2N} &amp; \cdots &amp; \omega_{NN}
+\end{bmatrix},
+\]</span> where <span class="math inline">\(\Omega\)</span> is known<a href="#fn27" class="footnoteRef" id="fnref27"><sup>27</sup></a> and <span class="math inline">\(\sigma^2\)</span> is unknown. In other words, we know the exact structure of heteroskedasticity and autocorrelation, up to a potentially unknown constant.</p>
+<p>We derived the OLS estimator by finding the <span class="math inline">\(\hat{\beta}\)</span> that minimizes the sum of squared errors, <span class="math display">\[
+\text{SSE}
+= \sum_n (Y_n - \mathbf{x}_n \cdot \hat{\beta})^2
+= (\mathbf{Y} - \mathbf{X} \hat{\beta})^\top (\mathbf{Y} - \mathbf{X} \hat{\beta}).
+\]</span> We derive its close cousin, the <em>generalized least squares</em>, or GLS, estimator, by minimizing the <em>weighted</em> sum of squared errors, <span class="math display">\[
+\text{WSSE} = (\mathbf{Y} - \mathbf{X} \hat{\beta})^\top \Omega^{-1} (\mathbf{Y} - \mathbf{X} \hat{\beta}).
+\]</span> I’ll spare you the matrix calculus that follows, but suffice to say the resulting estimator is <span class="math display">\[
+\hat{\beta}_{\text{GLS}} = (\mathbf{X}^\top \Omega^{-1} \mathbf{X})^{-1} \mathbf{X}^\top \Omega^{-1} \mathbf{Y}.
+\]</span> It is easy to confirm that OLS is the special case of GLS with <span class="math inline">\(\Omega = \mathbf{I}\)</span>. Similar to the formula for OLS, the variance of GLS is <span class="math display">\[
+V[\hat{\beta}_{\text{GLS}} \,|\, \mathbf{X}] = \sigma^2 (\mathbf{X}^\top \Omega^{-1} \mathbf{X})^{-1}.
+\]</span></p>
+<p>Like OLS, GLS is unbiased and consistent as long as we have strict exogeneity. Even if we get <span class="math inline">\(\Omega\)</span> wrong—i.e., we misspecify the model of the error variance—GLS will still “work” in the sense of giving us an unbiased and consistent estimate of the coefficients. This is easy to confirm. <span class="math display">\[
+\begin{aligned}
+E [ \hat{\beta}_{\text{GLS}} \,|\, \mathbf{X} ]
+&amp;= E [ (\mathbf{X}^\top \Omega^{-1} \mathbf{X})^{-1} \mathbf{X}^\top \Omega^{-1} \mathbf{Y} \,|\, \mathbf{X} ] \\
+&amp;= (\mathbf{X}^\top \Omega^{-1} \mathbf{X})^{-1} \mathbf{X}^\top \Omega^{-1} E [\mathbf{Y} \,|\, \mathbf{X} ] \\
+&amp;= (\mathbf{X}^\top \Omega^{-1} \mathbf{X})^{-1} \mathbf{X}^\top \Omega^{-1} (\mathbf{X} \beta) \\
+&amp;= (\mathbf{X}^\top \Omega^{-1} \mathbf{X})^{-1} (\mathbf{X}^\top \Omega^{-1} \mathbf{X}) \beta \\
+&amp;= \beta.
+\end{aligned}
+\]</span> If we get <span class="math inline">\(\Omega\)</span> right, then GLS has two important additional properties.</p>
+<ol style="list-style-type: decimal">
+<li><p>Our estimate of the variance matrix, <span class="math display">\[
+\hat{\Sigma} = \frac{\text{WSSE}}{N - K} (\mathbf{X}^\top \Omega^{-1} \mathbf{X})^{-1},
+\]</span> is valid for inference using the same methods we discussed in the OLS case.</p></li>
+<li><p>GLS is BLUE, per the Gauss-Markov theorem: there is no other unbiased linear estimator with lower standard errors.</p></li>
+</ol>
+<p>The first of these is pretty important; the second is just icing on the cake. The main problem with non-spherical errors is the threat they pose to inference from OLS. GLS fixes that—as long as we know <span class="math inline">\(\Omega\)</span>. More on this soon.</p>
+<p>An important special case of GLS is when there is heteroskedasticity but no autocorrelation, so that <span class="math display">\[
+\Omega = \sigma^2 \begin{bmatrix}
+  \omega_{11} &amp; 0 &amp; \cdots &amp; 0 \\
+  0 &amp; \omega_{22} &amp; \cdots &amp; 0 \\
+  \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+  0 &amp; 0 &amp; \cdots &amp; \omega_{NN}
+\end{bmatrix}.
+\]</span> This special case is called <em>weighted least squares</em>, since GLS gives us the same answer as if we ran OLS on the following “weighted” data: <span class="math display">\[
+\mathbf{X}^* = \begin{bmatrix}
+  x_{11} / \sqrt{\omega_{11}} &amp; x_{12} / \sqrt{\omega_{11}} &amp; \cdots &amp; x_{1K} / \sqrt{\omega_{11}} \\
+  x_{21} / \sqrt{\omega_{22}} &amp; x_{22} / \sqrt{\omega_{22}} &amp; \cdots &amp; x_{2K} / \sqrt{\omega_{22}} \\
+  \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+  x_{N1} / \sqrt{\omega_{NN}} &amp; x_{N2} / \sqrt{\omega_{NN}} &amp; \cdots &amp; x_{NK} / \sqrt{\omega_{NN}}
+\end{bmatrix},
+\mathbf{Y}^* = \begin{bmatrix}
+  Y_1 / \sqrt{\omega_{11}} \\
+  Y_2 / \sqrt{\omega_{22}} \\
+  \vdots \\
+  Y_N / \sqrt{\omega_{NN}}
+\end{bmatrix}.
+\]</span></p>
+</div>
+<div id="detecting-heteroskedasticity" class="section level2">
+<h2><span class="header-section-number">11.2</span> Detecting Heteroskedasticity</h2>
+<p>If you don’t have prior knowledge of the variance structure of the error term, you may be interested in testing whether the homoskedasticity assumption of OLS is viable. In a bivariate regression model, you can usually detect heteroskedasticity via the eye test. Not so much when you have multiple covariates. In this case, you may want to formally test for heteroskedasticity.</p>
+<p>There are a few such tests, but we will just talk about the <em>Breusch-Pagan test</em>, which was developed by <span class="citation">Breusch and Pagan (<a href="#ref-breusch1980lagrange">1980</a>)</span> and refined by <span class="citation">Koenker and Bassett Jr (<a href="#ref-koenker1982robust">1982</a>)</span>. The null hypothesis of the test is that <span class="math inline">\(V[\epsilon_i \,|\, \mathbf{X}] = \sigma^2\)</span> for all <span class="math inline">\(i = 1, \ldots, N\)</span>. The test procedure is as follows.</p>
+<ol style="list-style-type: decimal">
+<li>Calculate the OLS estimate, <span class="math inline">\(\hat{\beta}_{\text{OLS}}\)</span>.</li>
+<li>Calculate the OLS residuals, <span class="math inline">\(\hat{e} = Y - \mathbf{X} \hat{\beta}_{\text{OLS}}\)</span>. Let <span class="math inline">\(\hat{u}\)</span> be the vector of squared residuals, <span class="math inline">\(\hat{u} = (\hat{e}_1^2, \ldots, \hat{e}_N^2)\)</span>.</li>
+<li>Run a regression of <span class="math inline">\(\hat{u}\)</span> on <span class="math inline">\(\mathbf{Z}\)</span>, an <span class="math inline">\(N \times q\)</span> matrix of covariates. Let <span class="math inline">\(R_{\hat{u}}^2\)</span> denote the <span class="math inline">\(R^2\)</span> of this regression.</li>
+<li>Reject the null hypothesis if <span class="math inline">\(N R_{\hat{u}}^2\)</span> exceeds the critical value for a <span class="math inline">\(\chi_{q - 1}^2\)</span> distribution.</li>
+</ol>
+<p>In the canonical version of this test, <span class="math inline">\(\mathbf{Z}\)</span> is equal to <span class="math inline">\(\mathbf{X}\)</span>. A more powerful version is the <em>White test</em> <span class="citation">(H. White <a href="#ref-white1980heteroskedasticity">1980</a>)</span>, in which <span class="math inline">\(\mathbf{Z}\)</span> contains each variable in <span class="math inline">\(\mathbf{X}\)</span> as well as all second-order terms (squares and interactions).</p>
+</div>
+<div id="heteroskedasticity-of-unknown-form" class="section level2">
+<h2><span class="header-section-number">11.3</span> Heteroskedasticity of Unknown Form</h2>
+<p>Suppose we know there is heteroskedasticity but we don’t trust ourselves to properly specify the error variances to run weighted least squares.<a href="#fn28" class="footnoteRef" id="fnref28"><sup>28</sup></a> Then we do not have an efficient estimator of <span class="math inline">\(\beta\)</span>. We might be all right with that, but we would really like to have a good estimator for the standard errors of the OLS estimator, so that we can test hypotheses about the coefficients. Happily, we can estimate the variance matrix of the OLS estimator consistently even in the presence of heteroskedasticity.</p>
+<p><em>White’s heteroskedasticity-consistent estimator</em> <span class="citation">(H. White <a href="#ref-white1980heteroskedasticity">1980</a>)</span> of the variance matrix starts by forming a diagonal matrix out of the squared residuals, <span class="math display">\[
+\hat{\mathbf{U}}
+=
+\begin{bmatrix}
+\hat{u}_1 &amp; 0 &amp; \cdots &amp; 0 \\
+0 &amp; \hat{u}_2 &amp; \cdots &amp; 0 \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+0 &amp; 0 &amp; \cdots &amp; \hat{u}_N
+\end{bmatrix}
+=
+\begin{bmatrix}
+\hat{e}_1^2 &amp; 0 &amp; \cdots &amp; 0 \\
+0 &amp; \hat{e}_2^2 &amp; \cdots &amp; 0 \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+0 &amp; 0 &amp; \cdots &amp; \hat{e}_N^2
+\end{bmatrix}
+\]</span> This lets us form the “meat” of the “sandwich” that is White’s estimator of the OLS variance matrix: <span class="math display">\[
+\hat{\Sigma}_{\text{HC}}
+=
+(\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top \hat{\mathbf{U}} \mathbf{X} (\mathbf{X}^\top \mathbf{X})^{-1}.
+\]</span> You know I love proofs, but I am not even going to attempt to prove that this consistently estimates the (asymptotic) variance matrix of <span class="math inline">\(\hat{\beta}_{\text{OLS}}\)</span>. See <span class="citation">Greene (<a href="#ref-greene">2003</a>, 198–99)</span> for a sketch of the proof.</p>
+<p>White’s estimator is consistent but not unbiased, so we may want to apply a sort of bias correction in small samples. A popular choice is the so-called “HC1” estimator, which corrects for the number of parameters estimated the same way the usual OLS variance estimator does: <span class="math display">\[
+\hat{\Sigma}_{\text{HC1}} = \frac{N}{N - K} \hat{\Sigma}_{\text{HC}}
+\]</span> In this scheme, the standard White estimator is called the “HC” or “HC0” estimator. There are many other consistent estimators that apply some or other finite-sample correction; see <span class="citation">MacKinnon and White (<a href="#ref-mackinnon1985some">1985</a>)</span> for the gory details.</p>
+<p>Because of its association with the <code>, robust</code> option in Stata, people sometimes call the White estimator of the standard errors “robust standard errors”. Don’t do that. In your own work, if you estimate and report heteroskedasticity-consistent standard errors, report that you use the <span class="citation">H. White (<a href="#ref-white1980heteroskedasticity">1980</a>)</span> estimator of the standard errors, and specify which variant (HC0, HC1, and so on). Remember that your goal is to give others enough information to replicate your analysis even if they don’t have your code—“robust standard errors” has too many interpretations to accomplish that.</p>
+<p>Finally, it is important to know that weighted least squares and heteroskedasticity-consistent standard errors are not mutually exclusive approaches. If you have a suspicion about the error variances that you think can improve the precision of the regression, but you are not totally comfortable with committing to WLS for inference, you can calculate heteroskedasticity-consistent standard errors for a WLS (or GLS) fit.</p>
 
+</div>
+</div>
+<h3>References</h3>
 <div id="refs" class="references">
-<div>
-<p>Bowers, Jake. 2011. “Six Steps to a Better Relationship with Your Future Self.” <em>The Political Methodologist</em> 18 (2): 2–8.</p>
-</div>
-<div>
-<p>Braumoeller, Bear F. 2004. “Hypothesis Testing and Multiplicative Interaction Terms.” <em>International Organization</em> 58 (04). Cambridge University Press: 807–20.</p>
-</div>
-<div>
+<div id="ref-breusch1980lagrange">
 <p>Breusch, Trevor Stanley, and Adrian Rodney Pagan. 1980. “The Lagrange Multiplier Test and Its Applications to Model Specification in Econometrics.” <em>The Review of Economic Studies</em> 47 (1). JSTOR: 239–53.</p>
 </div>
-<div>
-<p>Burbidge, John B, Lonnie Magee, and A Leslie Robb. 1988. “Alternative Transformations to Handle Extreme Values of the Dependent Variable.” <em>Journal of the American Statistical Association</em> 83 (401). Taylor &amp; Francis: 123–27.</p>
-</div>
-<div>
-<p>Clarke, Kevin A. 2005. “The Phantom Menace: Omitted Variable Bias in Econometric Research.” <em>Conflict Management and Peace Science</em> 22 (4): 341–52.</p>
-</div>
-<div>
-<p>Greene, William H. 2003. <em>Econometric Analysis</em>. 5th ed. Prentice Hall.</p>
-</div>
-<div>
-<p>Ioannidis, John PA. 2005. “Why Most Published Research Findings Are False.” <em>PLos Med</em> 2 (8). Public Library of Science: e124.</p>
-</div>
-<div>
-<p>———. 2008. “Why Most Discovered True Associations Are Inflated.” <em>Epidemiology</em> 19 (5). LWW: 640–48.</p>
-</div>
-<div>
+<div id="ref-koenker1982robust">
 <p>Koenker, Roger, and Gilbert Bassett Jr. 1982. “Robust Tests for Heteroscedasticity Based on Regression Quantiles.” <em>Econometrica: Journal of the Econometric Society</em>. JSTOR, 43–61.</p>
 </div>
-<div>
-<p>Leek, Jeff. 2015. <em>The Elements of Data Analytic Style</em>. Leanpub.</p>
-</div>
-<div>
-<p>MacKinnon, James G, and Halbert White. 1985. “Some Heteroskedasticity-Consistent Covariance Matrix Estimators with Improved Finite Sample Properties.” <em>Journal of Econometrics</em> 29 (3). Elsevier: 305–25.</p>
-</div>
-<div>
-<p>Open Science Collaboration. 2015. “Estimating the Reproducibility of Psychological Science.” <em>Science</em> 349 (6251). American Association for the Advancement of Science: aac4716.</p>
-</div>
-<div>
-<p>Pritschet, Laura, Derek Powell, and Zachary Horne. 2016. “Marginally Significant Effects as Evidence for Hypotheses: Changing Attitudes over Four Decades.” <em>Psychological Science</em> 27 (7). SAGE Publications Sage CA: Los Angeles, CA: 1036–42.</p>
-</div>
-<div>
+<div id="ref-white1980heteroskedasticity">
 <p>White, Halbert. 1980. “A Heteroskedasticity-Consistent Covariance Matrix Estimator and a Direct Test for Heteroskedasticity.” <em>Econometrica: Journal of the Econometric Society</em>. JSTOR, 817–38.</p>
 </div>
-<div>
-<p>Wickham, Hadley. 2014. “Tidy Data.” <em>Journal of Statistical Software</em> 59 (10).</p>
+<div id="ref-greene">
+<p>Greene, William H. 2003. <em>Econometric Analysis</em>. 5th ed. Prentice Hall.</p>
 </div>
-<div>
-<p>Wilson, Greg, D A Aruliah, C Titus Brown, Neil P Chue Hong, Matt Davis, Richard T Guy, Steven H D Haddock, et al. 2014. “Best Practices for Scientific Computing.” <em>PLOS Biology</em> 12 (1): e1001745.</p>
-</div>
-<div>
-<p>Young, Neal S, John PA Ioannidis, and Omar Al-Ubaydli. 2008. “Why Current Publication Practices May Distort Science.” <em>PLoS Med</em> 5 (10). Public Library of Science: e201.</p>
+<div id="ref-mackinnon1985some">
+<p>MacKinnon, James G, and Halbert White. 1985. “Some Heteroskedasticity-Consistent Covariance Matrix Estimators with Improved Finite Sample Properties.” <em>Journal of Econometrics</em> 29 (3). Elsevier: 305–25.</p>
 </div>
 </div>
+<div class="footnotes">
+<hr />
+<ol start="27">
+<li id="fn27"><p>Like any variance matrix, <span class="math inline">\(\Omega\)</span> must be symmetric and positive definite. An <span class="math inline">\(N \times N\)</span> matrix <span class="math inline">\(\mathbf{A}\)</span> is positive definite if, for any <span class="math inline">\(N \times 1\)</span> vector <span class="math inline">\(\mathbf{c} \neq \mathbf{0}\)</span>, the scalar <span class="math inline">\(\mathbf{c}^\top \mathbf{A} \mathbf{c} &gt; 0\)</span>. Positive definiteness implies, among other things, that every diagonal entry of <span class="math inline">\(\Omega\)</span> is positive and that <span class="math inline">\(\Omega\)</span> is invertible.<a href="nonspherical.html#fnref27">↩</a></p></li>
+<li id="fn28"><p>There is an in-between solution known as <em>feasible generalized least squares</em>, whereby we estimate <span class="math inline">\(\Omega\)</span> from the data. This requires placing some structure on <span class="math inline">\(\Omega\)</span>, and the resulting estimator will be consistent but not unbiased.<a href="nonspherical.html#fnref28">↩</a></p></li>
+</ol>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             </section>
 
           </div>
         </div>
       </div>
-<a href="nonspherical.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="crisis.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
 
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
@@ -317,7 +395,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/zz-references.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/10-gls.Rmd",
 "text": "Edit"
 },
 "download": null,
