@@ -8,7 +8,7 @@
   <title>Practical Data Analysis for Political Scientists</title>
   <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
   <meta name="description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right.">
-  <meta name="generator" content="bookdown 0.3.2 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown 0.3 and GitBook 2.6.7">
 
   <meta property="og:title" content="Practical Data Analysis for Political Scientists" />
   <meta property="og:type" content="book" />
@@ -26,7 +26,7 @@
 <meta name="author" content="Brenton Kenkel">
 
 
-<meta name="date" content="2017-03-17">
+<meta name="date" content="2017-03-22">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -171,6 +171,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="11.1" data-path="nonspherical.html"><a href="nonspherical.html#generalized-least-squares"><i class="fa fa-check"></i><b>11.1</b> Generalized Least Squares</a></li>
 <li class="chapter" data-level="11.2" data-path="nonspherical.html"><a href="nonspherical.html#detecting-heteroskedasticity"><i class="fa fa-check"></i><b>11.2</b> Detecting Heteroskedasticity</a></li>
 <li class="chapter" data-level="11.3" data-path="nonspherical.html"><a href="nonspherical.html#heteroskedasticity-of-unknown-form"><i class="fa fa-check"></i><b>11.3</b> Heteroskedasticity of Unknown Form</a></li>
+<li class="chapter" data-level="11.4" data-path="nonspherical.html"><a href="nonspherical.html#appendix-implementation-in-r"><i class="fa fa-check"></i><b>11.4</b> Appendix: Implementation in R</a><ul>
+<li class="chapter" data-level="11.4.1" data-path="nonspherical.html"><a href="nonspherical.html#generalized-least-squares-1"><i class="fa fa-check"></i><b>11.4.1</b> Generalized Least Squares</a></li>
+<li class="chapter" data-level="11.4.2" data-path="nonspherical.html"><a href="nonspherical.html#breusch-pagan-test"><i class="fa fa-check"></i><b>11.4.2</b> Breusch-Pagan Test</a></li>
+<li class="chapter" data-level="11.4.3" data-path="nonspherical.html"><a href="nonspherical.html#heteroskedasticity-consistent-standard-errors"><i class="fa fa-check"></i><b>11.4.3</b> Heteroskedasticity-Consistent Standard Errors</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -215,26 +220,26 @@ state_data</code></pre></div>
 ## # ... with 45 more rows, and 4 more variables: HSGrad &lt;dbl&gt;, Frost &lt;dbl&gt;,
 ## #   Area &lt;dbl&gt;, IncomeGroup &lt;chr&gt;</code></pre>
 <p>When I obtain data, I start by looking at the univariate distribution of each variable via a histogram. The following code creates a histogram in ggplot.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Population)) +
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Population)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_histogram</span>()</code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="pdaps_files/figure-html/histogram-1.png" width="672" /></p>
 <p>Let’s walk through the syntax there. In the first line, we call <code>ggplot()</code>, specifying the data frame to draw from, then in the <code>aes()</code> command (which stands for “aesthetic”) we specify the variable to plot. If this were a bivariate analysis, here we would have also specified a <code>y</code> variable to put on the y-axis. If we had just stopped there, we would have a sad, empty plot. The <code>+</code> symbol indicates that we’ll be adding something to the plot. <code>geom_histogram()</code> is the command to overlay a histogram.</p>
 <p>We’ll only be looking at a few of the ggplot commands today. I recommend taking a look at the online package documentation at <a href="http://docs.ggplot2.org" class="uri">http://docs.ggplot2.org</a> to see all of the many features available.</p>
 <p>When you’re just making graphs for yourself to explore the data, you don’t need to worry about things like axis labels as long as you can comprehend what’s going on. But when you prepare graphs for others to read (including those of us grading your problem sets!) you need to include an informative title and axis labels. To that end, use the <code>xlab()</code>, <code>ylab()</code>, and <code>ggtitle()</code> commands.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Population)) +
-<span class="st">  </span><span class="kw">geom_histogram</span>() +
-<span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Population (thousands)&quot;</span>) +
-<span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Number of states&quot;</span>) +
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Population)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_histogram</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Population (thousands)&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Number of states&quot;</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Some states are big, but most are small&quot;</span>)</code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="pdaps_files/figure-html/axis-labeling-1.png" width="672" /></p>
 <p>The density plot is a close relative of the histogram. It provides a smooth estimate of the probability density function of the data. Accordingly, the area under the density plot integrates to one. Depending on your purposes, this can make the y-axis of a density plot easier or (usually) harder to interpret than the count given by a histogram.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Population)) +
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Population)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_density</span>()</code></pre></div>
 <p><img src="pdaps_files/figure-html/density-1.png" width="672" /></p>
 <p>The box plot is a common way to look at the distribution of a continuous variable across different levels of a categorical variable.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Region, <span class="dt">y =</span> Population)) +
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Region, <span class="dt">y =</span> Population)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_boxplot</span>()</code></pre></div>
 <p><img src="pdaps_files/figure-html/boxplot-1.png" width="672" /></p>
 <p>A box plot consists of the following components:</p>
@@ -247,26 +252,26 @@ state_data</code></pre></div>
 <li>Plotted points: any data lying outside the whiskers</li>
 </ul>
 <p>If you want to skip the summary and plot the full distribution of a variable across categories, you can use a violin plot.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Region, <span class="dt">y =</span> Population)) +
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Region, <span class="dt">y =</span> Population)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_violin</span>()</code></pre></div>
 <p><img src="pdaps_files/figure-html/violin-1.png" width="672" /></p>
 <p>Technically, violin plots convey more information than box plots since they show the full distribution. However, readers aren’t as likely to be familiar with a violin plot. It’s harder to spot immediately where the median is (though you could add that to the plot if you wanted). Plus, violin plots look goofy with outliers—see the “West” column above—whereas box plots handle them easily.</p>
 <p>For visualizing relationships between continuous variables, nothing beats the scatterplot.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Illiteracy, <span class="dt">y =</span> LifeExp)) +
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Illiteracy, <span class="dt">y =</span> LifeExp)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_point</span>()</code></pre></div>
 <p><img src="pdaps_files/figure-html/scatter-1.png" width="672" /></p>
 <p>When you’re plotting states or countries, a hip thing to do is plot abbreviated names instead of points. To do that, you can use <code>geom_text()</code> instead of <code>geom_point()</code>, supplying an additional aesthetic argument telling ggplot where to draw the labels from.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Illiteracy, <span class="dt">y =</span> LifeExp)) +
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Illiteracy, <span class="dt">y =</span> LifeExp)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label =</span> Abbrev))</code></pre></div>
 <p><img src="pdaps_files/figure-html/scatter-text-1.png" width="672" /></p>
 <p>Maybe it’s overwhelming to look at all that raw data and you just want a summary. For example, maybe you want an estimate of expected <code>LifeExp</code> for each value of <code>Illiteracy</code>. This is called the <em>conditional expectation</em> and will be the subject of much of the rest of the course. For now, just now that you can calculate a smoothed conditional expectation via <code>geom_smooth()</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Illiteracy, <span class="dt">y =</span> LifeExp)) +
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Illiteracy, <span class="dt">y =</span> LifeExp)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_smooth</span>()</code></pre></div>
 <pre><code>## `geom_smooth()` using method = &#39;loess&#39;</code></pre>
 <p><img src="pdaps_files/figure-html/smooth-1.png" width="672" /></p>
 <p>And if you’re the kind of overachiever who likes to have the raw data <em>and</em> the summary, you can do it. Just add them both to the <code>ggplot()</code> call.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Illiteracy, <span class="dt">y =</span> LifeExp)) +
-<span class="st">  </span><span class="kw">geom_smooth</span>() +
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Illiteracy, <span class="dt">y =</span> LifeExp)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_smooth</span>() <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_point</span>()</code></pre></div>
 <pre><code>## `geom_smooth()` using method = &#39;loess&#39;</code></pre>
 <p><img src="pdaps_files/figure-html/combine-1.png" width="672" /></p>
@@ -279,7 +284,7 @@ state_data</code></pre></div>
 <li>Assign your <code>ggplot()</code> call to a variable.</li>
 <li>Pass that variable to the <code>ggsave()</code> function.</li>
 </ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pop_hist &lt;-<span class="st"> </span><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Population)) +
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pop_hist &lt;-<span class="st"> </span><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Population)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_histogram</span>()
 
 <span class="kw">ggsave</span>(<span class="dt">filename =</span> <span class="st">&quot;pop-hist.pdf&quot;</span>,
@@ -292,21 +297,21 @@ state_data</code></pre></div>
 <h2><span class="header-section-number">4.3</span> Faceting</h2>
 <p>Suppose you want to split the data into subgroups, as defined by some variable in the data (e.g., the region states are in), and make the same plot for each subgroup. ggplot’s <em>faceting</em> functions, <code>facet_wrap()</code> and <code>facet_grid()</code>, make this easy.</p>
 <p>To split up plots according to a single grouping variable, use <code>facet_wrap()</code>. This uses R’s <em>formula</em> syntax, defined by the tilde <code>~</code>, which you’ll become well acquainted with once we start running regressions.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Population)) +
-<span class="st">  </span><span class="kw">geom_histogram</span>() +
-<span class="st">  </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>Region)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Population)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_histogram</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>Region)</code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="pdaps_files/figure-html/facet-wrap-1.png" width="672" /></p>
 <p>If you don’t like the default arrangement, use the <code>ncol</code> argument.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Population)) +
-<span class="st">  </span><span class="kw">geom_histogram</span>() +
-<span class="st">  </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>Region, <span class="dt">ncol =</span> <span class="dv">1</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Population)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_histogram</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>Region, <span class="dt">ncol =</span> <span class="dv">1</span>)</code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="pdaps_files/figure-html/facet-wrap-ncol-1.png" width="672" /></p>
 <p>For two grouping variables, use <code>facet_grid()</code>, putting variables on both sides of the formula.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Population)) +
-<span class="st">  </span><span class="kw">geom_histogram</span>() +
-<span class="st">  </span><span class="kw">facet_grid</span>(Region ~<span class="st"> </span>IncomeGroup)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Population)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_histogram</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">facet_grid</span>(Region <span class="op">~</span><span class="st"> </span>IncomeGroup)</code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="pdaps_files/figure-html/facet-grid-1.png" width="672" /></p>
 </div>
@@ -314,22 +319,22 @@ state_data</code></pre></div>
 <h2><span class="header-section-number">4.4</span> Aesthetics</h2>
 <p>Faceting is one way to incorporate information about additional variables into what would otherwise be a plot of just one or two variables. Aesthetics—which alter the appearance of particular plot features depending on the value of a variable—provide another way to do that.</p>
 <p>For example, when visualizing the relationship between statewide illiteracy and life expectancy, you might want larger states to get more visual weight. You can set the <code>size</code> aesthetic of the <code>point</code> geometry to vary according to the state’s population.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Illiteracy, <span class="dt">y =</span> LifeExp)) +
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Illiteracy, <span class="dt">y =</span> LifeExp)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">size =</span> Population))</code></pre></div>
 <p><img src="pdaps_files/figure-html/aes-size-1.png" width="672" /></p>
 <p>The <strong>ggplot2</strong> documentation lists the available aesthetics for each function. Another popular one is <code>colour</code>, which is great for on-screen display but not so much for the printed page. (And terrible for the colorblind!)</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Illiteracy, <span class="dt">y =</span> LifeExp)) +
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Illiteracy, <span class="dt">y =</span> LifeExp)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">colour =</span> Region))</code></pre></div>
 <p><img src="pdaps_files/figure-html/aes-colour-1.png" width="672" /></p>
 <p>For line graphs or density plots, you can set the <code>linetype</code> to vary by category.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Population)) +
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Population)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_density</span>(<span class="kw">aes</span>(<span class="dt">linetype =</span> IncomeGroup))</code></pre></div>
 <p><img src="pdaps_files/figure-html/aes-linetype-1.png" width="672" /></p>
 <p>(I always find these incomprehensible with more than two lines, but maybe that’s just me.) You can use multiple aesthetics together, and you can even combine aesthetics with faceting, as in the following example.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Illiteracy, <span class="dt">y =</span> LifeExp)) +
-<span class="st">  </span><span class="kw">geom_smooth</span>() +
-<span class="st">  </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label =</span> Abbrev, <span class="dt">colour =</span> Region, <span class="dt">size =</span> Population)) +
-<span class="st">  </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>IncomeGroup)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Illiteracy, <span class="dt">y =</span> LifeExp)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_smooth</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label =</span> Abbrev, <span class="dt">colour =</span> Region, <span class="dt">size =</span> Population)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>IncomeGroup)</code></pre></div>
 <pre><code>## `geom_smooth()` using method = &#39;loess&#39;</code></pre>
 <p><img src="pdaps_files/figure-html/too-many-things-1.png" width="672" /></p>
 <p>But the fact that you <em>can</em> do something doesn’t mean you <em>should</em>. That plot is so cluttered that it’s hard to extract the relevant information from it. Data visualizations should communicate a clear message to viewers without overwhelming them. To do this well takes practice, patience, and maybe even a bit of taste.</p>
@@ -339,17 +344,17 @@ state_data</code></pre></div>
 <p>The example data comes from data on U.S. states in 1977 that are included with base R. See <code>?state</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)
 
-state_data &lt;-<span class="st"> </span>state.x77 %&gt;%
-<span class="st">  </span><span class="kw">as_tibble</span>() %&gt;%
+state_data &lt;-<span class="st"> </span>state.x77 <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">as_tibble</span>() <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">add_column</span>(<span class="dt">State =</span> <span class="kw">rownames</span>(state.x77),
              <span class="dt">Abbrev =</span> state.abb,
              <span class="dt">Region =</span> state.region,
-             <span class="dt">.before =</span> <span class="dv">1</span>) %&gt;%
+             <span class="dt">.before =</span> <span class="dv">1</span>) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">rename</span>(<span class="dt">LifeExp =</span> <span class="st">`</span><span class="dt">Life Exp</span><span class="st">`</span>,
-         <span class="dt">HSGrad =</span> <span class="st">`</span><span class="dt">HS Grad</span><span class="st">`</span>) %&gt;%
+         <span class="dt">HSGrad =</span> <span class="st">`</span><span class="dt">HS Grad</span><span class="st">`</span>) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">mutate</span>(<span class="dt">IncomeGroup =</span> <span class="kw">cut</span>(Income,
                            <span class="dt">breaks =</span> <span class="kw">quantile</span>(Income,
-                                             <span class="dt">probs =</span> <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">by =</span> <span class="dv">1</span>/<span class="dv">3</span>)),
+                                             <span class="dt">probs =</span> <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">by =</span> <span class="dv">1</span><span class="op">/</span><span class="dv">3</span>)),
                            <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;Low&quot;</span>, <span class="st">&quot;Medium&quot;</span>, <span class="st">&quot;High&quot;</span>),
                            <span class="dt">include.lowest =</span> <span class="ot">TRUE</span>))
 

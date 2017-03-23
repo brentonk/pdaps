@@ -8,7 +8,7 @@
   <title>Practical Data Analysis for Political Scientists</title>
   <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
   <meta name="description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right.">
-  <meta name="generator" content="bookdown 0.3.2 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown 0.3 and GitBook 2.6.7">
 
   <meta property="og:title" content="Practical Data Analysis for Political Scientists" />
   <meta property="og:type" content="book" />
@@ -26,7 +26,7 @@
 <meta name="author" content="Brenton Kenkel">
 
 
-<meta name="date" content="2017-03-17">
+<meta name="date" content="2017-03-22">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -171,6 +171,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="11.1" data-path="nonspherical.html"><a href="nonspherical.html#generalized-least-squares"><i class="fa fa-check"></i><b>11.1</b> Generalized Least Squares</a></li>
 <li class="chapter" data-level="11.2" data-path="nonspherical.html"><a href="nonspherical.html#detecting-heteroskedasticity"><i class="fa fa-check"></i><b>11.2</b> Detecting Heteroskedasticity</a></li>
 <li class="chapter" data-level="11.3" data-path="nonspherical.html"><a href="nonspherical.html#heteroskedasticity-of-unknown-form"><i class="fa fa-check"></i><b>11.3</b> Heteroskedasticity of Unknown Form</a></li>
+<li class="chapter" data-level="11.4" data-path="nonspherical.html"><a href="nonspherical.html#appendix-implementation-in-r"><i class="fa fa-check"></i><b>11.4</b> Appendix: Implementation in R</a><ul>
+<li class="chapter" data-level="11.4.1" data-path="nonspherical.html"><a href="nonspherical.html#generalized-least-squares-1"><i class="fa fa-check"></i><b>11.4.1</b> Generalized Least Squares</a></li>
+<li class="chapter" data-level="11.4.2" data-path="nonspherical.html"><a href="nonspherical.html#breusch-pagan-test"><i class="fa fa-check"></i><b>11.4.2</b> Breusch-Pagan Test</a></li>
+<li class="chapter" data-level="11.4.3" data-path="nonspherical.html"><a href="nonspherical.html#heteroskedasticity-consistent-standard-errors"><i class="fa fa-check"></i><b>11.4.3</b> Heteroskedasticity-Consistent Standard Errors</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -333,7 +338,181 @@ E [ \hat{\beta}_{\text{GLS}} \,|\, \mathbf{X} ]
 \]</span> In this scheme, the standard White estimator is called the “HC” or “HC0” estimator. There are many other consistent estimators that apply some or other finite-sample correction; see <span class="citation">MacKinnon and White (<a href="#ref-mackinnon1985some">1985</a>)</span> for the gory details.</p>
 <p>Because of its association with the <code>, robust</code> option in Stata, people sometimes call the White estimator of the standard errors “robust standard errors”. Don’t do that. In your own work, if you estimate and report heteroskedasticity-consistent standard errors, report that you use the <span class="citation">H. White (<a href="#ref-white1980heteroskedasticity">1980</a>)</span> estimator of the standard errors, and specify which variant (HC0, HC1, and so on). Remember that your goal is to give others enough information to replicate your analysis even if they don’t have your code—“robust standard errors” has too many interpretations to accomplish that.</p>
 <p>Finally, it is important to know that weighted least squares and heteroskedasticity-consistent standard errors are not mutually exclusive approaches. If you have a suspicion about the error variances that you think can improve the precision of the regression, but you are not totally comfortable with committing to WLS for inference, you can calculate heteroskedasticity-consistent standard errors for a WLS (or GLS) fit.</p>
+</div>
+<div id="appendix-implementation-in-r" class="section level2">
+<h2><span class="header-section-number">11.4</span> Appendix: Implementation in R</h2>
+<p>We’ll be using the following packages:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)
+<span class="kw">library</span>(<span class="st">&quot;broom&quot;</span>)
+<span class="kw">library</span>(<span class="st">&quot;car&quot;</span>)
+<span class="kw">library</span>(<span class="st">&quot;lmtest&quot;</span>)
+<span class="kw">library</span>(<span class="st">&quot;sandwich&quot;</span>)</code></pre></div>
+<p>We will use data from the <strong>car</strong> package on professors’ salaries. This is a topic that, ideally, will be of great concern to you in 5ish years.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(Salaries)
+<span class="kw">head</span>(Salaries)</code></pre></div>
+<pre><code>##        rank discipline yrs.since.phd yrs.service  sex salary
+## 1      Prof          B            19          18 Male 139750
+## 2      Prof          B            20          16 Male 173200
+## 3  AsstProf          B             4           3 Male  79750
+## 4      Prof          B            45          39 Male 115000
+## 5      Prof          B            40          41 Male 141500
+## 6 AssocProf          B             6           6 Male  97000</code></pre>
+<div id="generalized-least-squares-1" class="section level3">
+<h3><span class="header-section-number">11.4.1</span> Generalized Least Squares</h3>
+<p>Let us model a professor’s salary as a function of the number of years since she received her PhD. If we glance at the data, we see obvious heteroskedasticity.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(Salaries, <span class="kw">aes</span>(<span class="dt">x =</span> yrs.since.phd, <span class="dt">y =</span> salary)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_point</span>()</code></pre></div>
+<p><img src="pdaps_files/figure-html/salaries-plot-hetero-1.png" width="672" /></p>
+<p>There is much more variation in the salaries of professors 30+ years into their careers than in those who are fresh out of grad school. If we want the most precise model of the relationship between years since PhD and salary, we might want to place more weight on early-career professors and less on late-career professors.</p>
+<p>Remember that weighted least squares is the special case of GLS where the off-diagonal elements of <span class="math inline">\(\Omega\)</span> are zero (i.e., there is heteroskedasticity but no autocorrelation): <span class="math display">\[
+\Omega = \sigma^2 \begin{bmatrix}
+  \omega_{11} &amp; 0 &amp; \cdots &amp; 0 \\
+  0 &amp; \omega_{22} &amp; \cdots &amp; 0 \\
+  \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+  0 &amp; 0 &amp; \cdots &amp; \omega_{NN}
+\end{bmatrix}.
+\]</span> To run weighted least squares in R, we just use the <code>weights</code> argument to the <code>lm()</code> function. As an example, let’s set <span class="math display">\[
+\omega_{nn} = \frac{1}{\text{Years Since PhD}_n}
+\]</span> for each observation <span class="math inline">\(n\)</span>, to place the greatest weight on early-career observations. We will first run a baseline OLS model, then compare to the weighted model.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ols_salaries &lt;-<span class="st"> </span><span class="kw">lm</span>(salary <span class="op">~</span><span class="st"> </span>yrs.since.phd <span class="op">+</span><span class="st"> </span>yrs.service,
+                   <span class="dt">data =</span> Salaries)
+<span class="kw">summary</span>(ols_salaries)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = salary ~ yrs.since.phd + yrs.service, data = Salaries)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -79735 -19823  -2617  15149 106149 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept)      89912       2844   31.62  &lt; 2e-16
+## yrs.since.phd     1563        257    6.09  2.8e-09
+## yrs.service       -629        254   -2.47    0.014
+## 
+## Residual standard error: 27400 on 394 degrees of freedom
+## Multiple R-squared:  0.188,  Adjusted R-squared:  0.184 
+## F-statistic: 45.7 on 2 and 394 DF,  p-value: &lt;2e-16</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wls_salaries &lt;-<span class="st"> </span><span class="kw">lm</span>(salary <span class="op">~</span><span class="st"> </span>yrs.since.phd <span class="op">+</span><span class="st"> </span>yrs.service,
+                   <span class="dt">weights =</span> <span class="dv">1</span> <span class="op">/</span><span class="st"> </span>yrs.since.phd,
+                   <span class="dt">data =</span> Salaries)
+<span class="kw">summary</span>(wls_salaries)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = salary ~ yrs.since.phd + yrs.service, data = Salaries, 
+##     weights = 1/yrs.since.phd)
+## 
+## Weighted Residuals:
+##    Min     1Q Median     3Q    Max 
+## -13520  -4386    -91   4101  16046 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept)      79672       1460   54.56  &lt; 2e-16
+## yrs.since.phd     1753        242    7.25  2.3e-12
+## yrs.service       -289        265   -1.09     0.28
+## 
+## Residual standard error: 5760 on 394 degrees of freedom
+## Multiple R-squared:  0.427,  Adjusted R-squared:  0.425 
+## F-statistic:  147 on 2 and 394 DF,  p-value: &lt;2e-16</code></pre>
+<p>Compared to OLS, our WLS model yields a stronger relationship between years since the PhD and the expected value of a professor’s salary. In addition, we estimate a smaller coefficient on years of service, and would no longer reject the null hypothesis of no relationship there.</p>
+<p>Which model is better, OLS or WLS? It depends on whether our weights correspond to the true relative variance in the error term. In this case, we’ve specified a pretty aggressive weighting scheme—a professor with 1 year of service gets double the weight of a professor with 2 years of service. An alternative weighting scheme would give us different results. The “best” model is the one that best corresponds to the true <span class="math inline">\(\Omega\)</span>, which unfortunately is hard to know in advance. The best we can do is apply theory and judgment in a thoughtful way.</p>
+<p>In the (relatively unlikely) event that you are pre-specifying <span class="math inline">\(\Omega\)</span> with autocorrelations, you can use the <code>lm.gls()</code> function from the <strong>MASS</strong> package. The <code>gls()</code> function from the <strong>nlme</strong> package performs <em>feasible</em> generalized least squares, whereby we write <span class="math inline">\(\Omega\)</span> as a function of a few parameters, estimate those parameters, and run the subsequent GLS model.</p>
+</div>
+<div id="breusch-pagan-test" class="section level3">
+<h3><span class="header-section-number">11.4.2</span> Breusch-Pagan Test</h3>
+<p>We already used the “eye test” to confirm the presence of heteroskedasticity in the relationship we are modeling, but let’s see how we would use the Breusch-Pagan test to confirm our suspicion. For this we use the <code>bptest()</code> function from the <strong>lmtest</strong> package.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">bptest</span>(ols_salaries)</code></pre></div>
+<pre><code>## 
+##  studentized Breusch-Pagan test
+## 
+## data:  ols_salaries
+## BP = 49.9, df = 2, p-value = 1.5e-11</code></pre>
+<p>By default, <code>bptest()</code> uses the same variables as in the original regression in the regression of the squared residuals. To perform the White test, we can use an extra argument to <code>bptest()</code> to specify a different model formula.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">bptest</span>(ols_salaries,
+       <span class="op">~</span><span class="st"> </span>yrs.since.phd <span class="op">*</span><span class="st"> </span>yrs.service <span class="op">+</span><span class="st"> </span><span class="kw">I</span>(yrs.since.phd<span class="op">^</span><span class="dv">2</span>) <span class="op">+</span><span class="st"> </span><span class="kw">I</span>(yrs.service<span class="op">^</span><span class="dv">2</span>),
+       <span class="dt">data =</span> Salaries)</code></pre></div>
+<pre><code>## 
+##  studentized Breusch-Pagan test
+## 
+## data:  ols_salaries
+## BP = 60.5, df = 5, p-value = 9.6e-12</code></pre>
+<p>In this case, regardless of which test we use, we reject the null hypothesis of homoskedasticity.</p>
+</div>
+<div id="heteroskedasticity-consistent-standard-errors" class="section level3">
+<h3><span class="header-section-number">11.4.3</span> Heteroskedasticity-Consistent Standard Errors</h3>
+<p>To calculate the White estimator and its friends in R, we use the <code>vcovHC()</code> function from the <strong>sandwich</strong> package.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vcv0 &lt;-<span class="st"> </span><span class="kw">vcovHC</span>(ols_salaries, <span class="dt">type =</span> <span class="st">&quot;HC0&quot;</span>)
+vcv0</code></pre></div>
+<pre><code>##               (Intercept) yrs.since.phd yrs.service
+## (Intercept)       5809137       -340724      111808
+## yrs.since.phd     -340724         77168      -75508
+## yrs.service        111808        -75508       91091</code></pre>
+<p>To use HC1 (or another one of the finite-sample corrections to the ordinary White estimate), change the <code>type</code> argument to, e.g., <code>type = &quot;HC1&quot;</code>. See <code>?vcovHC</code> for all the options.</p>
+<p>To create a “regression table” using our new “robust” standard errors, we can use the <code>coeftest()</code> function from the <strong>lmtest</strong> package.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">coeftest</span>(ols_salaries)  <span class="co"># Original table</span></code></pre></div>
+<pre><code>## 
+## t test of coefficients:
+## 
+##               Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept)      89912       2844   31.62  &lt; 2e-16
+## yrs.since.phd     1563        257    6.09  2.8e-09
+## yrs.service       -629        254   -2.47    0.014</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">coeftest</span>(ols_salaries, <span class="dt">vcov =</span> vcv0)  <span class="co"># With corrected SEs</span></code></pre></div>
+<pre><code>## 
+## t test of coefficients:
+## 
+##               Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept)      89912       2410   37.30  &lt; 2e-16
+## yrs.since.phd     1563        278    5.63  3.5e-08
+## yrs.service       -629        302   -2.08    0.038</code></pre>
+<p>Just like ordinary regression tables, the ones made by <code>coeftest()</code> can be “swept” into data frames using the tools in <strong>broom</strong>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tidy</span>(<span class="kw">coeftest</span>(ols_salaries, <span class="dt">vcov =</span> vcv0))</code></pre></div>
+<pre><code>##            term estimate std.error statistic     p.value
+## 1   (Intercept)  89912.2   2410.22   37.3046 2.3298e-131
+## 2 yrs.since.phd   1562.9    277.79    5.6261  3.5014e-08
+## 3   yrs.service   -629.1    301.81   -2.0844  3.7766e-02</code></pre>
+<p>You may also want to use the White-estimated standard errors to conduct Wald tests of linear hypotheses. You can do that by supplying the relevant estimated variance matrix to the <code>vcov</code> argument of <code>linearHypothesis()</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">linearHypothesis</span>(ols_salaries,
+                 <span class="kw">c</span>(<span class="st">&quot;yrs.since.phd = 1500&quot;</span>, <span class="st">&quot;yrs.service = -500&quot;</span>),
+                 <span class="dt">vcov =</span> vcv0,
+                 <span class="dt">test =</span> <span class="st">&quot;Chisq&quot;</span>)</code></pre></div>
+<pre><code>## Linear hypothesis test
+## 
+## Hypothesis:
+## yrs.since.phd = 1500
+## yrs.service = - 500
+## 
+## Model 1: restricted model
+## Model 2: salary ~ yrs.since.phd + yrs.service
+## 
+## Note: Coefficient covariance matrix supplied.
+## 
+##   Res.Df Df Chisq Pr(&gt;Chisq)
+## 1    396                    
+## 2    394  2  0.32       0.85</code></pre>
+<p>Finally, remember how earlier we talked about how the WLS estimates are only as good as the weights you choose. If they’re not the true weights, then WLS is not efficient and the standard error estimator is inconsistent. We can’t fix the first problem, but we can fix the second. To wit, you can estimate heteroskedasticity-consistent standard errors for WLS models too.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vcv0_wls &lt;-<span class="st"> </span><span class="kw">vcovHC</span>(wls_salaries, <span class="dt">type =</span> <span class="st">&quot;HC0&quot;</span>)
+<span class="kw">coeftest</span>(wls_salaries)  <span class="co"># Original</span></code></pre></div>
+<pre><code>## 
+## t test of coefficients:
+## 
+##               Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept)      79672       1460   54.56  &lt; 2e-16
+## yrs.since.phd     1753        242    7.25  2.3e-12
+## yrs.service       -289        265   -1.09     0.28</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">coeftest</span>(wls_salaries, <span class="dt">vcov =</span> vcv0_wls)  <span class="co"># Corrected</span></code></pre></div>
+<pre><code>## 
+## t test of coefficients:
+## 
+##               Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept)      79672       1474   54.06  &lt; 2e-16
+## yrs.since.phd     1753        245    7.16  3.9e-12
+## yrs.service       -289        272   -1.06     0.29</code></pre>
+<p>So if you have a good idea about the residual variances but aren’t sure you’ve nailed it down, you can have the best of both worlds—at least in terms of large-sample hypothesis testing.</p>
 
+</div>
 </div>
 </div>
 <h3>References</h3>

@@ -228,3 +228,129 @@ In this scheme, the standard White estimator is called the "HC" or "HC0" estimat
 Because of its association with the `, robust` option in Stata, people sometimes call the White estimator of the standard errors "robust standard errors".  Don't do that.  In your own work, if you estimate and report heteroskedasticity-consistent standard errors, report that you use the @white1980heteroskedasticity estimator of the standard errors, and specify which variant (HC0, HC1, and so on).  Remember that your goal is to give others enough information to replicate your analysis even if they don't have your code---"robust standard errors" has too many interpretations to accomplish that.
 
 Finally, it is important to know that weighted least squares and heteroskedasticity-consistent standard errors are not mutually exclusive approaches.  If you have a suspicion about the error variances that you think can improve the precision of the regression, but you are not totally comfortable with committing to WLS for inference, you can calculate heteroskedasticity-consistent standard errors for a WLS (or GLS) fit.
+
+
+## Appendix: Implementation in R
+
+We'll be using the following packages:
+
+```{r gls-pkgs, message=FALSE}
+library("tidyverse")
+library("broom")
+library("car")
+library("lmtest")
+library("sandwich")
+```
+
+We will use data from the **car** package on professors' salaries.  This is a topic that, ideally, will be of great concern to you in 5ish years.
+
+```{r salaries}
+data(Salaries)
+head(Salaries)
+```
+
+### Generalized Least Squares
+
+Let us model a professor's salary as a function of the number of years since she received her PhD.  If we glance at the data, we see obvious heteroskedasticity.
+
+```{r salaries-plot-hetero}
+ggplot(Salaries, aes(x = yrs.since.phd, y = salary)) +
+    geom_point()
+```
+
+There is much more variation in the salaries of professors 30+ years into their careers than in those who are fresh out of grad school.  If we want the most precise model of the relationship between years since PhD and salary, we might want to place more weight on early-career professors and less on late-career professors.
+
+Remember that weighted least squares is the special case of GLS where the off-diagonal elements of $\Omega$ are zero (i.e., there is heteroskedasticity but no autocorrelation):
+$$
+\Omega = \sigma^2 \begin{bmatrix}
+  \omega_{11} & 0 & \cdots & 0 \\
+  0 & \omega_{22} & \cdots & 0 \\
+  \vdots & \vdots & \ddots & \vdots \\
+  0 & 0 & \cdots & \omega_{NN}
+\end{bmatrix}.
+$$
+To run weighted least squares in R, we just use the `weights` argument to the `lm()` function.  As an example, let's set
+$$
+\omega_{nn} = \frac{1}{\text{Years Since PhD}_n}
+$$
+for each observation $n$, to place the greatest weight on early-career observations.  We will first run a baseline OLS model, then compare to the weighted model.
+
+```{r salary-models}
+ols_salaries <- lm(salary ~ yrs.since.phd + yrs.service,
+                   data = Salaries)
+summary(ols_salaries)
+
+wls_salaries <- lm(salary ~ yrs.since.phd + yrs.service,
+                   weights = 1 / yrs.since.phd,
+                   data = Salaries)
+summary(wls_salaries)
+```
+
+Compared to OLS, our WLS model yields a stronger relationship between years since the PhD and the expected value of a professor's salary.  In addition, we estimate a smaller coefficient on years of service, and would no longer reject the null hypothesis of no relationship there.
+
+Which model is better, OLS or WLS?  It depends on whether our weights correspond to the true relative variance in the error term.  In this case, we've specified a pretty aggressive weighting scheme---a professor with 1 year of service gets double the weight of a professor with 2 years of service.  An alternative weighting scheme would give us different results.  The "best" model is the one that best corresponds to the true $\Omega$, which unfortunately is hard to know in advance.  The best we can do is apply theory and judgment in a thoughtful way.
+
+In the (relatively unlikely) event that you are pre-specifying $\Omega$ with autocorrelations, you can use the `lm.gls()` function from the **MASS** package.  The `gls()` function from the **nlme** package performs *feasible* generalized least squares, whereby we write $\Omega$ as a function of a few parameters, estimate those parameters, and run the subsequent GLS model.
+
+
+### Breusch-Pagan Test
+
+We already used the "eye test" to confirm the presence of heteroskedasticity in the relationship we are modeling, but let's see how we would use the Breusch-Pagan test to confirm our suspicion.  For this we use the `bptest()` function from the **lmtest** package.
+
+```{r bp-test, message=FALSE}
+bptest(ols_salaries)
+```
+
+By default, `bptest()` uses the same variables as in the original regression in the regression of the squared residuals.  To perform the White test, we can use an extra argument to `bptest()` to specify a different model formula.
+
+```{r white-test}
+bptest(ols_salaries,
+       ~ yrs.since.phd * yrs.service + I(yrs.since.phd^2) + I(yrs.service^2),
+       data = Salaries)
+```
+
+In this case, regardless of which test we use, we reject the null hypothesis of homoskedasticity.
+
+
+### Heteroskedasticity-Consistent Standard Errors
+
+To calculate the White estimator and its friends in R, we use the `vcovHC()` function from the **sandwich** package.
+
+```{r hccm}
+vcv0 <- vcovHC(ols_salaries, type = "HC0")
+vcv0
+```
+
+To use HC1 (or another one of the finite-sample corrections to the ordinary White estimate), change the `type` argument to, e.g., `type = "HC1"`.  See `?vcovHC` for all the options.
+
+To create a "regression table" using our new "robust" standard errors, we can use the `coeftest()` function from the **lmtest** package.
+
+```{r hccm-coeftest}
+coeftest(ols_salaries)  # Original table
+coeftest(ols_salaries, vcov = vcv0)  # With corrected SEs
+```
+
+Just like ordinary regression tables, the ones made by `coeftest()` can be "swept" into data frames using the tools in **broom**:
+
+```{r hccm-broom}
+tidy(coeftest(ols_salaries, vcov = vcv0))
+```
+
+You may also want to use the White-estimated standard errors to conduct Wald tests of linear hypotheses.  You can do that by supplying the relevant estimated variance matrix to the `vcov` argument of `linearHypothesis()`:
+
+```{r hccm-linearHypothesis}
+linearHypothesis(ols_salaries,
+                 c("yrs.since.phd = 1500", "yrs.service = -500"),
+                 vcov = vcv0,
+                 test = "Chisq")
+```
+
+Finally, remember how earlier we talked about how the WLS estimates are only as good as the weights you choose.  If they're not the true weights, then WLS is not efficient and the standard error estimator is inconsistent.  We can't fix the first problem, but we can fix the second.  To wit, you can estimate heteroskedasticity-consistent standard errors for WLS models too.
+
+```{r hccm-wls}
+vcv0_wls <- vcovHC(wls_salaries, type = "HC0")
+coeftest(wls_salaries)  # Original
+coeftest(wls_salaries, vcov = vcv0_wls)  # Corrected
+```
+
+So if you have a good idea about the residual variances but aren't sure you've nailed it down, you can have the best of both worlds---at least in terms of large-sample hypothesis testing.

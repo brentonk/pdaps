@@ -8,7 +8,7 @@
   <title>Practical Data Analysis for Political Scientists</title>
   <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
   <meta name="description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right.">
-  <meta name="generator" content="bookdown 0.3.2 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown 0.3 and GitBook 2.6.7">
 
   <meta property="og:title" content="Practical Data Analysis for Political Scientists" />
   <meta property="og:type" content="book" />
@@ -26,7 +26,7 @@
 <meta name="author" content="Brenton Kenkel">
 
 
-<meta name="date" content="2017-03-17">
+<meta name="date" content="2017-03-22">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -171,6 +171,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="11.1" data-path="nonspherical.html"><a href="nonspherical.html#generalized-least-squares"><i class="fa fa-check"></i><b>11.1</b> Generalized Least Squares</a></li>
 <li class="chapter" data-level="11.2" data-path="nonspherical.html"><a href="nonspherical.html#detecting-heteroskedasticity"><i class="fa fa-check"></i><b>11.2</b> Detecting Heteroskedasticity</a></li>
 <li class="chapter" data-level="11.3" data-path="nonspherical.html"><a href="nonspherical.html#heteroskedasticity-of-unknown-form"><i class="fa fa-check"></i><b>11.3</b> Heteroskedasticity of Unknown Form</a></li>
+<li class="chapter" data-level="11.4" data-path="nonspherical.html"><a href="nonspherical.html#appendix-implementation-in-r"><i class="fa fa-check"></i><b>11.4</b> Appendix: Implementation in R</a><ul>
+<li class="chapter" data-level="11.4.1" data-path="nonspherical.html"><a href="nonspherical.html#generalized-least-squares-1"><i class="fa fa-check"></i><b>11.4.1</b> Generalized Least Squares</a></li>
+<li class="chapter" data-level="11.4.2" data-path="nonspherical.html"><a href="nonspherical.html#breusch-pagan-test"><i class="fa fa-check"></i><b>11.4.2</b> Breusch-Pagan Test</a></li>
+<li class="chapter" data-level="11.4.3" data-path="nonspherical.html"><a href="nonspherical.html#heteroskedasticity-consistent-standard-errors"><i class="fa fa-check"></i><b>11.4.3</b> Heteroskedasticity-Consistent Standard Errors</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -277,7 +282,7 @@ Y_n = 1 + 0.5 X_n + \epsilon_n,
 <p>We can use the random number generation functions in R to draw a sample from this population model. Let’s draw a sample of <span class="math inline">\(N = 50\)</span> observations.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">n_obs &lt;-<span class="st"> </span><span class="dv">50</span>
 x &lt;-<span class="st"> </span><span class="kw">runif</span>(n_obs, <span class="dt">min =</span> <span class="dv">0</span>, <span class="dt">max =</span> <span class="dv">1</span>)
-y &lt;-<span class="st"> </span><span class="dv">1</span> +<span class="st"> </span><span class="fl">0.5</span> *<span class="st"> </span>x +<span class="st"> </span><span class="kw">rnorm</span>(n_obs, <span class="dt">mean =</span> <span class="dv">0</span>, <span class="dt">sd =</span> <span class="dv">1</span>)
+y &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span>x <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(n_obs, <span class="dt">mean =</span> <span class="dv">0</span>, <span class="dt">sd =</span> <span class="dv">1</span>)
 <span class="kw">plot</span>(x, y)</code></pre></div>
 <p><img src="pdaps_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 <p>We know the true slope is non-zero, though with such a small effect and such a small sample it’s hard to tell from the scatterplot.</p>
@@ -285,7 +290,7 @@ y &lt;-<span class="st"> </span><span class="dv">1</span> +<span class="st"> </s
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)
 <span class="kw">library</span>(<span class="st">&quot;broom&quot;</span>)
 
-fit &lt;-<span class="st"> </span><span class="kw">lm</span>(y ~<span class="st"> </span>x)
+fit &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x)
 <span class="kw">tidy</span>(fit)  <span class="co"># Full regression table</span></code></pre></div>
 <pre><code>##          term estimate std.error statistic    p.value
 ## 1 (Intercept)  1.21946   0.28893   4.22058 0.00010768
@@ -299,10 +304,10 @@ fit &lt;-<span class="st"> </span><span class="kw">lm</span>(y ~<span class="st"
 <li><p>If only the statistically significant results were made public, what we infer from the published body of evidence?</p></li>
 </ol>
 <p>To make that task a bit simpler, let’s write a function that collects everything we just did: generates a sample of size <code>n_obs</code>, runs a regression of <span class="math inline">\(Y\)</span> on <span class="math inline">\(X\)</span>, and spits back the estimated slope and its <span class="math inline">\(p\)</span>-value.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">draw_slope_and_p &lt;-<span class="st"> </span>function(n_obs) {
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">draw_slope_and_p &lt;-<span class="st"> </span><span class="cf">function</span>(n_obs) {
     x &lt;-<span class="st"> </span><span class="kw">runif</span>(n_obs, <span class="dt">min =</span> <span class="dv">0</span>, <span class="dt">max =</span> <span class="dv">1</span>)
-    y &lt;-<span class="st"> </span><span class="dv">1</span> +<span class="st"> </span><span class="fl">0.5</span> *<span class="st"> </span>x +<span class="st"> </span><span class="kw">rnorm</span>(n_obs, <span class="dt">mean =</span> <span class="dv">0</span>, <span class="dt">sd =</span> <span class="dv">1</span>)
-    fit &lt;-<span class="st"> </span><span class="kw">lm</span>(y ~<span class="st"> </span>x)
+    y &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span>x <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(n_obs, <span class="dt">mean =</span> <span class="dv">0</span>, <span class="dt">sd =</span> <span class="dv">1</span>)
+    fit &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x)
     out &lt;-<span class="st"> </span><span class="kw">tidy</span>(fit)[<span class="dv">2</span>, <span class="kw">c</span>(<span class="st">&quot;estimate&quot;</span>, <span class="st">&quot;p.value&quot;</span>)]
     <span class="kw">as.numeric</span>(out)  <span class="co"># Convert data frame to vector</span>
 }</code></pre></div>
@@ -312,40 +317,40 @@ fit &lt;-<span class="st"> </span><span class="kw">lm</span>(y ~<span class="st"
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">draw_slope_and_p</span>(<span class="dv">50</span>)</code></pre></div>
 <pre><code>## [1] 0.21287 0.67439</code></pre>
 <p>Now what we want to do is to run this function a whole bunch of times, say 1,000. That lets us imagine what would happen if 1,000 different labs each took a different sample of size <span class="math inline">\(N = 50\)</span> from the population, estimated the slope of the regression line, and tested against the null hypothesis that the slope is zero. To do that, we can use the <code>replicate()</code> function, which is a convenient way to run the same function repeatedly.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">results_50 &lt;-<span class="st"> </span><span class="kw">replicate</span>(<span class="dv">1000</span>, <span class="kw">draw_slope_and_p</span>(<span class="dv">50</span>))
-<span class="kw">dim</span>(results_50)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">results_<span class="dv">50</span> &lt;-<span class="st"> </span><span class="kw">replicate</span>(<span class="dv">1000</span>, <span class="kw">draw_slope_and_p</span>(<span class="dv">50</span>))
+<span class="kw">dim</span>(results_<span class="dv">50</span>)</code></pre></div>
 <pre><code>## [1]    2 1000</code></pre>
 <p>This gives us a <span class="math inline">\(2 \times 1000\)</span> matrix. Each column is a separate run of <code>draw_slope_and_p()</code>. The first row is the estimated slope; the second row is the associated <span class="math inline">\(p\)</span>-value.</p>
 <p>First let’s check how often we rejected the null hypothesis. The null hypothesis is false, so we would ideally always reject it. However, we have a small effect size and each individual sample is small, so the effect is hard to detect in any given sample—we will often fail to reject the null hypothesis. Let’s see exactly how often.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Proportion of p-values at or below 0.05</span>
-sig_50 &lt;-<span class="st"> </span>results_50[<span class="dv">2</span>, ] &lt;=<span class="st"> </span><span class="fl">0.05</span>
-<span class="kw">mean</span>(sig_50)</code></pre></div>
+sig_<span class="dv">50</span> &lt;-<span class="st"> </span>results_<span class="dv">50</span>[<span class="dv">2</span>, ] <span class="op">&lt;=</span><span class="st"> </span><span class="fl">0.05</span>
+<span class="kw">mean</span>(sig_<span class="dv">50</span>)</code></pre></div>
 <pre><code>## [1] 0.16</code></pre>
 <p>So the power of our study is not great—most of the time, we’re failing to reject the null hypothesis.</p>
 <p>Let’s see what the average estimated slope is across the full set of samples.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean</span>(results_50[<span class="dv">1</span>, ])</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean</span>(results_<span class="dv">50</span>[<span class="dv">1</span>, ])</code></pre></div>
 <pre><code>## [1] 0.52057</code></pre>
 <p>This is pretty close to the true value, reflecting the fact that OLS is unbiased. If all 1,000 studies were made public, we would ultimately infer—correctly—that the population slope is roughly 0.5.</p>
 <p>But what if we only saw the small fraction of studies whose results were statistically significant?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Restrict to columns where p &lt;= 0.05</span>
-<span class="kw">mean</span>(results_50[<span class="dv">1</span>, sig_50])</code></pre></div>
+<span class="kw">mean</span>(results_<span class="dv">50</span>[<span class="dv">1</span>, sig_<span class="dv">50</span>])</code></pre></div>
 <pre><code>## [1] 1.2106</code></pre>
 <p>We might be tempted to trust these studies more, since they are the ones that correctly reject the null hypothesis. But in fact, if we throw away those that are statistically insignificant, we end up with a biased picture of the effect size. The average effect size in the significant studies is more than double the true effect size. We can see this if we compare the distribution of all results to that of just the significant results.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">hist</span>(results_50[<span class="dv">1</span>, ])</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">hist</span>(results_<span class="dv">50</span>[<span class="dv">1</span>, ])</code></pre></div>
 <p><img src="pdaps_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">hist</span>(results_50[<span class="dv">1</span>, sig_50])</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">hist</span>(results_<span class="dv">50</span>[<span class="dv">1</span>, sig_<span class="dv">50</span>])</code></pre></div>
 <p><img src="pdaps_files/figure-html/unnamed-chunk-17-2.png" width="672" /></p>
 <p>We can also see that this problem stems in large part from low statistical power. Suppose each lab were taking a sample of <span class="math inline">\(N = 200\)</span> instead of <span class="math inline">\(N = 50\)</span>, making their effect estimates more precise and thereby increasing each lab’s chance of (correctly) rejecting the null hypothesis.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">results_200 &lt;-<span class="st"> </span><span class="kw">replicate</span>(<span class="dv">1000</span>, <span class="kw">draw_slope_and_p</span>(<span class="dv">200</span>))
-sig_200 &lt;-<span class="st"> </span>results_200[<span class="dv">2</span>, ] &lt;=<span class="st"> </span><span class="fl">0.05</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">results_<span class="dv">200</span> &lt;-<span class="st"> </span><span class="kw">replicate</span>(<span class="dv">1000</span>, <span class="kw">draw_slope_and_p</span>(<span class="dv">200</span>))
+sig_<span class="dv">200</span> &lt;-<span class="st"> </span>results_<span class="dv">200</span>[<span class="dv">2</span>, ] <span class="op">&lt;=</span><span class="st"> </span><span class="fl">0.05</span>
 
 <span class="co"># Power</span>
-<span class="kw">mean</span>(sig_200)</code></pre></div>
+<span class="kw">mean</span>(sig_<span class="dv">200</span>)</code></pre></div>
 <pre><code>## [1] 0.535</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Average estimate through the significance filter</span>
-<span class="kw">mean</span>(results_200[<span class="dv">1</span>, sig_200])</code></pre></div>
+<span class="kw">mean</span>(results_<span class="dv">200</span>[<span class="dv">1</span>, sig_<span class="dv">200</span>])</code></pre></div>
 <pre><code>## [1] 0.67407</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">hist</span>(results_200[<span class="dv">1</span>, sig_200])</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">hist</span>(results_<span class="dv">200</span>[<span class="dv">1</span>, sig_<span class="dv">200</span>])</code></pre></div>
 <p><img src="pdaps_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
 <p>The significance-filtered average is still overinflated, but not nearly as drastically as when we were working with a small sample.</p>
 
