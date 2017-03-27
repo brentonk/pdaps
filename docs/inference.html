@@ -8,7 +8,7 @@
   <title>Practical Data Analysis for Political Scientists</title>
   <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
   <meta name="description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right.">
-  <meta name="generator" content="bookdown 0.3 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown 0.3.2 and GitBook 2.6.7">
 
   <meta property="og:title" content="Practical Data Analysis for Political Scientists" />
   <meta property="og:type" content="book" />
@@ -26,7 +26,7 @@
 <meta name="author" content="Brenton Kenkel">
 
 
-<meta name="date" content="2017-03-22">
+<meta name="date" content="2017-03-27">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -176,6 +176,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="11.4.2" data-path="nonspherical.html"><a href="nonspherical.html#breusch-pagan-test"><i class="fa fa-check"></i><b>11.4.2</b> Breusch-Pagan Test</a></li>
 <li class="chapter" data-level="11.4.3" data-path="nonspherical.html"><a href="nonspherical.html#heteroskedasticity-consistent-standard-errors"><i class="fa fa-check"></i><b>11.4.3</b> Heteroskedasticity-Consistent Standard Errors</a></li>
 </ul></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="panel.html"><a href="panel.html"><i class="fa fa-check"></i><b>12</b> Clustered and Panel Data</a><ul>
+<li class="chapter" data-level="12.1" data-path="panel.html"><a href="panel.html#the-linear-model-with-grouped-data"><i class="fa fa-check"></i><b>12.1</b> The Linear Model with Grouped Data</a></li>
+<li class="chapter" data-level="12.2" data-path="panel.html"><a href="panel.html#clustered-standard-errors"><i class="fa fa-check"></i><b>12.2</b> Clustered Standard Errors</a></li>
+<li class="chapter" data-level="12.3" data-path="panel.html"><a href="panel.html#random-effects"><i class="fa fa-check"></i><b>12.3</b> Random Effects</a></li>
+<li class="chapter" data-level="12.4" data-path="panel.html"><a href="panel.html#fixed-effects"><i class="fa fa-check"></i><b>12.4</b> Fixed Effects</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -410,7 +416,7 @@ V[C] = E \left[ (C - E[C]) (C - E[C])^\top \right].
 <span class="kw">library</span>(<span class="st">&quot;car&quot;</span>)</code></pre></div>
 <p>Using the <code>Prestige</code> data, let us regress occupational prestige on the type of occupation (blue collar, white collar, or professional) and its average income and education.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(<span class="st">&quot;Prestige&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;car&quot;</span>)
-fit &lt;-<span class="st"> </span><span class="kw">lm</span>(prestige <span class="op">~</span><span class="st"> </span>type <span class="op">+</span><span class="st"> </span>education <span class="op">+</span><span class="st"> </span>income, <span class="dt">data =</span> Prestige)</code></pre></div>
+fit &lt;-<span class="st"> </span><span class="kw">lm</span>(prestige ~<span class="st"> </span>type +<span class="st"> </span>education +<span class="st"> </span>income, <span class="dt">data =</span> Prestige)</code></pre></div>
 <p><code>summary()</code> prints the “regression table” containing the following information:</p>
 <ul>
 <li>Estimate of each coefficient.</li>
@@ -448,7 +454,7 @@ fit_results</code></pre></div>
 ## 3      typewc -2.7372307 2.51393240  -1.08882 2.7904e-01
 ## 4   education  3.6731661 0.64050162   5.73483 1.2052e-07
 ## 5      income  0.0010132 0.00022092   4.58628 1.4049e-05</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_results<span class="op">$</span>std.error</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_results$std.error</code></pre></div>
 <pre><code>## [1] 5.22752549 3.86685510 2.51393240 0.64050162 0.00022092</code></pre>
 <p>To extract the full (estimated) variance matrix, use the <code>vcov()</code> function.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">vcov</span>(fit)</code></pre></div>
