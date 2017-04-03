@@ -8,7 +8,7 @@
   <title>Practical Data Analysis for Political Scientists</title>
   <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
   <meta name="description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right.">
-  <meta name="generator" content="bookdown 0.3.2 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown 0.3 and GitBook 2.6.7">
 
   <meta property="og:title" content="Practical Data Analysis for Political Scientists" />
   <meta property="og:type" content="book" />
@@ -26,7 +26,7 @@
 <meta name="author" content="Brenton Kenkel">
 
 
-<meta name="date" content="2017-03-27">
+<meta name="date" content="2017-04-02">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -182,6 +182,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="12.2" data-path="panel.html"><a href="panel.html#clustered-standard-errors"><i class="fa fa-check"></i><b>12.2</b> Clustered Standard Errors</a></li>
 <li class="chapter" data-level="12.3" data-path="panel.html"><a href="panel.html#random-effects"><i class="fa fa-check"></i><b>12.3</b> Random Effects</a></li>
 <li class="chapter" data-level="12.4" data-path="panel.html"><a href="panel.html#fixed-effects"><i class="fa fa-check"></i><b>12.4</b> Fixed Effects</a></li>
+<li class="chapter" data-level="12.5" data-path="panel.html"><a href="panel.html#appendix-implementation-in-r-1"><i class="fa fa-check"></i><b>12.5</b> Appendix: Implementation in R</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -269,22 +270,22 @@ E[\text{Trump}_n \,|\, \text{Party ID}_n = \text{D}] = \beta_1 + \beta_3.
 <table>
 <thead>
 <tr class="header">
-<th align="left">Coefficient</th>
-<th align="left">Estimate</th>
+<th>Coefficient</th>
+<th>Estimate</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">(Intercept)</td>
-<td align="left">0.9</td>
+<td>(Intercept)</td>
+<td>0.9</td>
 </tr>
 <tr class="even">
-<td align="left">Independent</td>
-<td align="left">-0.4</td>
+<td>Independent</td>
+<td>-0.4</td>
 </tr>
 <tr class="odd">
-<td align="left">Democratic</td>
-<td align="left">-0.75</td>
+<td>Democratic</td>
+<td>-0.75</td>
 </tr>
 </tbody>
 </table>
@@ -297,22 +298,22 @@ E[\text{Trump}_n \,|\, \text{Party ID}_n = \text{D}] = \beta_1 + \beta_3.
 <table>
 <thead>
 <tr class="header">
-<th align="left">Coefficient</th>
-<th align="left">Estimate</th>
+<th>Coefficient</th>
+<th>Estimate</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">(Intercept)</td>
-<td align="left">0.5</td>
+<td>(Intercept)</td>
+<td>0.5</td>
 </tr>
 <tr class="even">
-<td align="left">Republican</td>
-<td align="left">0.4</td>
+<td>Republican</td>
+<td>0.4</td>
 </tr>
 <tr class="odd">
-<td align="left">Democratic</td>
-<td align="left">-0.35</td>
+<td>Democratic</td>
+<td>-0.35</td>
 </tr>
 </tbody>
 </table>
@@ -320,22 +321,22 @@ E[\text{Trump}_n \,|\, \text{Party ID}_n = \text{D}] = \beta_1 + \beta_3.
 <table>
 <thead>
 <tr class="header">
-<th align="left">Coefficient</th>
-<th align="left">Estimate</th>
+<th>Coefficient</th>
+<th>Estimate</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">(Intercept)</td>
-<td align="left">0.15</td>
+<td>(Intercept)</td>
+<td>0.15</td>
 </tr>
 <tr class="even">
-<td align="left">Republican</td>
-<td align="left">0.75</td>
+<td>Republican</td>
+<td>0.75</td>
 </tr>
 <tr class="odd">
-<td align="left">Independent</td>
-<td align="left">0.35</td>
+<td>Independent</td>
+<td>0.35</td>
 </tr>
 </tbody>
 </table>
@@ -353,26 +354,26 @@ E[\text{Trump}_n \,|\, \text{Party ID}_n = \text{D}] = \beta_1 + \beta_3.
 <table>
 <thead>
 <tr class="header">
-<th align="left">Coefficient</th>
-<th align="left">Estimate</th>
+<th>Coefficient</th>
+<th>Estimate</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">(Intercept)</td>
-<td align="left">0.8</td>
+<td>(Intercept)</td>
+<td>0.8</td>
 </tr>
 <tr class="even">
-<td align="left">Independent</td>
-<td align="left">-0.4</td>
+<td>Independent</td>
+<td>-0.4</td>
 </tr>
 <tr class="odd">
-<td align="left">Democratic</td>
-<td align="left">-0.75</td>
+<td>Democratic</td>
+<td>-0.75</td>
 </tr>
 <tr class="even">
-<td align="left">Age</td>
-<td align="left">0.002</td>
+<td>Age</td>
+<td>0.002</td>
 </tr>
 </tbody>
 </table>
@@ -433,26 +434,26 @@ E[\text{Trump}_n \,|\, \text{Party ID}_n = \text{D}] = \beta_1 + \beta_3.
 <table>
 <thead>
 <tr class="header">
-<th align="left">Coefficient</th>
-<th align="left">Estimate</th>
+<th>Coefficient</th>
+<th>Estimate</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">(Intercept)</td>
-<td align="left">0.3</td>
+<td>(Intercept)</td>
+<td>0.3</td>
 </tr>
 <tr class="even">
-<td align="left">Education</td>
-<td align="left">0.01</td>
+<td>Education</td>
+<td>0.01</td>
 </tr>
 <tr class="odd">
-<td align="left">White</td>
-<td align="left">0.4</td>
+<td>White</td>
+<td>0.4</td>
 </tr>
 <tr class="even">
-<td align="left">Education * White</td>
-<td align="left">-0.03</td>
+<td>Education * White</td>
+<td>-0.03</td>
 </tr>
 </tbody>
 </table>
@@ -465,26 +466,26 @@ E[\text{Trump}_n \,|\, \text{Party ID}_n = \text{D}] = \beta_1 + \beta_3.
 <table>
 <thead>
 <tr class="header">
-<th align="left">Coefficient</th>
-<th align="left">Estimate</th>
+<th>Coefficient</th>
+<th>Estimate</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">(Intercept)</td>
-<td align="left">0.4</td>
+<td>(Intercept)</td>
+<td>0.4</td>
 </tr>
 <tr class="even">
-<td align="left">Education</td>
-<td align="left">-0.02</td>
+<td>Education</td>
+<td>-0.02</td>
 </tr>
 <tr class="odd">
-<td align="left">Age</td>
-<td align="left">0.002</td>
+<td>Age</td>
+<td>0.002</td>
 </tr>
 <tr class="even">
-<td align="left">Education * Age</td>
-<td align="left">0.0002</td>
+<td>Education * Age</td>
+<td>0.0002</td>
 </tr>
 </tbody>
 </table>
@@ -561,7 +562,7 @@ Prestige</code></pre></div>
 <div id="categorical-variables-1" class="section level3">
 <h3><span class="header-section-number">8.4.1</span> Categorical Variables</h3>
 <p>You will notice that the <code>type</code> column of the prestige data is listed as a <code>&lt;fctr&gt;</code>, which stands for factor. A factor is R’s representation of a categorical variable. Let’s take a closer look.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Prestige$type</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Prestige<span class="op">$</span>type</code></pre></div>
 <pre><code>##   [1] prof prof prof prof prof prof prof prof prof prof prof prof prof prof
 ##  [15] prof prof prof prof prof prof prof prof prof prof prof prof prof bc  
 ##  [29] prof prof wc   prof wc   &lt;NA&gt; wc   wc   wc   wc   wc   wc   wc   wc  
@@ -572,14 +573,14 @@ Prestige</code></pre></div>
 ##  [99] bc   bc   bc   bc  
 ## Levels: bc prof wc</code></pre>
 <p>This looks kind of like—but isn’t quite—a character variable. The most noticeable difference is that R tells us its <em>levels</em>: the set of categories available. We can extract these directly with the <code>levels()</code> function.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">levels</span>(Prestige$type)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">levels</span>(Prestige<span class="op">$</span>type)</code></pre></div>
 <pre><code>## [1] &quot;bc&quot;   &quot;prof&quot; &quot;wc&quot;</code></pre>
 <p>This brings us to an important difference between <code>read.csv()</code> (with a dot, the built-in R function) and <code>read_csv()</code> (with an underscore, the tidyverse version). The old way, <code>read.csv()</code>, by default treats any column of character strings as a factor. The tidyverse way, <code>read_csv()</code>, never creates factors by default—you must make them explicitly.</p>
 <p>To create a factor variable, you can use the <code>factor()</code> function:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">example_vector &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">1</span>)
 
 <span class="kw">factor</span>(example_vector,  <span class="co"># vector to convert to factor</span>
-       <span class="dt">levels =</span> <span class="dv">1</span>:<span class="dv">4</span>,    <span class="co"># possible values of the vector</span>
+       <span class="dt">levels =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>,    <span class="co"># possible values of the vector</span>
        <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;ONE&quot;</span>,
                   <span class="st">&quot;two&quot;</span>,
                   <span class="st">&quot;Three&quot;</span>,
@@ -587,7 +588,7 @@ Prestige</code></pre></div>
 <pre><code>## [1] FOUR! ONE   Three Three ONE  
 ## Levels: ONE two Three FOUR!</code></pre>
 <p>Returning to the prestige data, let’s run a regression of occupational prestige on occupational category.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_type &lt;-<span class="st"> </span><span class="kw">lm</span>(prestige ~<span class="st"> </span>type, <span class="dt">data =</span> Prestige)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_type &lt;-<span class="st"> </span><span class="kw">lm</span>(prestige <span class="op">~</span><span class="st"> </span>type, <span class="dt">data =</span> Prestige)
 fit_type</code></pre></div>
 <pre><code>## 
 ## Call:
@@ -597,10 +598,10 @@ fit_type</code></pre></div>
 ## (Intercept)     typeprof       typewc  
 ##       35.53        32.32         6.72</code></pre>
 <p><code>lm()</code> automatically converts the factor into a set of indicators, and automatically omits one category from the design matrix. In particular, it omits whichever level is listed first (which may not be the first level to appear in the data!). If you want to have a different category omitted, you need to reorder the levels, placing the category you want to omit first. You can do that with <code>fct_relevel()</code> from the <strong>forcats</strong> package. Let’s make white-collar (<code>wc</code>) the omitted category.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Prestige$type &lt;-<span class="st"> </span><span class="kw">fct_relevel</span>(Prestige$type, <span class="st">&quot;wc&quot;</span>)
-<span class="kw">levels</span>(Prestige$type)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Prestige<span class="op">$</span>type &lt;-<span class="st"> </span><span class="kw">fct_relevel</span>(Prestige<span class="op">$</span>type, <span class="st">&quot;wc&quot;</span>)
+<span class="kw">levels</span>(Prestige<span class="op">$</span>type)</code></pre></div>
 <pre><code>## [1] &quot;wc&quot;   &quot;bc&quot;   &quot;prof&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_type_relevel &lt;-<span class="st"> </span><span class="kw">lm</span>(prestige ~<span class="st"> </span>type, <span class="dt">data =</span> Prestige)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_type_relevel &lt;-<span class="st"> </span><span class="kw">lm</span>(prestige <span class="op">~</span><span class="st"> </span>type, <span class="dt">data =</span> Prestige)</code></pre></div>
 <p>We can confirm by checking out the model fit statistics that which category we omit makes no difference to the overall fit of the model, or the predicted values.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">glance</span>(fit_type)</code></pre></div>
 <pre><code>##   r.squared adj.r.squared  sigma statistic    p.value df  logLik    AIC
@@ -631,7 +632,7 @@ fit_type</code></pre></div>
 <div id="interaction-terms-1" class="section level3">
 <h3><span class="header-section-number">8.4.2</span> Interaction Terms</h3>
 <p>The syntax for an interactive model is pretty intuitive. Let’s look at the joint effect of education and income on occupational prestige.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_interactive &lt;-<span class="st"> </span><span class="kw">lm</span>(prestige ~<span class="st"> </span>education *<span class="st"> </span>income, <span class="dt">data =</span> Prestige)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_interactive &lt;-<span class="st"> </span><span class="kw">lm</span>(prestige <span class="op">~</span><span class="st"> </span>education <span class="op">*</span><span class="st"> </span>income, <span class="dt">data =</span> Prestige)
 fit_interactive</code></pre></div>
 <pre><code>## 
 ## Call:
@@ -649,7 +650,7 @@ fit_interactive</code></pre></div>
 <div id="quadratic-and-logarithmic-models" class="section level3">
 <h3><span class="header-section-number">8.4.3</span> Quadratic and Logarithmic Models</h3>
 <p>The syntax for a quadratic model is a bit weird. You would think you could use a formula like <code>y ~ x + x^2</code>, but that won’t work. Instead, you have to write <code>y ~ x + I(x^2)</code>, as in the following example.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_quad &lt;-<span class="st"> </span><span class="kw">lm</span>(prestige ~<span class="st"> </span>education +<span class="st"> </span><span class="kw">I</span>(education^<span class="dv">2</span>) +<span class="st"> </span>income, <span class="dt">data =</span> Prestige)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_quad &lt;-<span class="st"> </span><span class="kw">lm</span>(prestige <span class="op">~</span><span class="st"> </span>education <span class="op">+</span><span class="st"> </span><span class="kw">I</span>(education<span class="op">^</span><span class="dv">2</span>) <span class="op">+</span><span class="st"> </span>income, <span class="dt">data =</span> Prestige)
 fit_quad</code></pre></div>
 <pre><code>## 
 ## Call:
@@ -661,10 +662,10 @@ fit_quad</code></pre></div>
 ##       10.97951         0.77477         0.15373         0.00128</code></pre>
 <p>The easiest way to visualize the results of a quadratic model is to create a synthetic dataset, where you vary the relevant variable across its range while holding all the other variables fixed at the same value. Then plug the synthetic dataset into the model to get predicted values.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">synthetic_data &lt;-<span class="st"> </span><span class="kw">data_frame</span>(
-    <span class="dt">education =</span> <span class="kw">seq</span>(<span class="kw">min</span>(Prestige$education),
-                    <span class="kw">max</span>(Prestige$education),
+    <span class="dt">education =</span> <span class="kw">seq</span>(<span class="kw">min</span>(Prestige<span class="op">$</span>education),
+                    <span class="kw">max</span>(Prestige<span class="op">$</span>education),
                     <span class="dt">length.out =</span> <span class="dv">100</span>),
-    <span class="dt">income =</span> <span class="kw">mean</span>(Prestige$income)
+    <span class="dt">income =</span> <span class="kw">mean</span>(Prestige<span class="op">$</span>income)
 )
 
 synthetic_data &lt;-<span class="st"> </span><span class="kw">augment</span>(fit_quad, <span class="dt">newdata =</span> synthetic_data)
@@ -676,12 +677,12 @@ synthetic_data &lt;-<span class="st"> </span><span class="kw">augment</span>(fit
 ## 4    6.6706 6797.9  31.663  2.0280
 ## 5    6.7675 6797.9  31.939  1.9486
 ## 6    6.8643 6797.9  32.217  1.8723</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(synthetic_data, <span class="kw">aes</span>(<span class="dt">x =</span> education, <span class="dt">y =</span> .fitted)) +
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(synthetic_data, <span class="kw">aes</span>(<span class="dt">x =</span> education, <span class="dt">y =</span> .fitted)) <span class="op">+</span>
 <span class="st">    </span><span class="kw">geom_line</span>()</code></pre></div>
 <p><img src="pdaps_files/figure-html/plot-quadratic-1.png" width="672" /></p>
 <p>In this case, within the range spanned by the sample data, the estimated quadratic relationship is only barely nonlinear.</p>
 <p>Finally, to run a logarithmic model, just put <code>log()</code> around the variables you want to log.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_log &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="kw">log</span>(prestige) ~<span class="st"> </span><span class="kw">log</span>(income) +<span class="st"> </span>education, <span class="dt">data =</span> Prestige)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_log &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="kw">log</span>(prestige) <span class="op">~</span><span class="st"> </span><span class="kw">log</span>(income) <span class="op">+</span><span class="st"> </span>education, <span class="dt">data =</span> Prestige)
 fit_log</code></pre></div>
 <pre><code>## 
 ## Call:

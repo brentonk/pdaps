@@ -187,3 +187,90 @@ asymptotically has a $\chi^2$ distribution with $K$ degrees of freedom.
 The other main drawback of fixed effects estimation is that you cannot estimate the effects of variables that do not vary within groups.  (Why not?)  See @greene [section 13.5] for estimation strategies with panel data and time-invariant covariates.
 
 One final note: @Arellano:1987jx shows that the cluster-robust variance matrix estimator can be used with fixed effects.  @Cameron:2015ud recommend doing so, at least when the number of groups is large.
+
+
+## Appendix: Implementation in R
+
+The methods introduced here can be implemented via the **plm** package.
+
+```{r packages, message=FALSE, warning=FALSE}
+library("plm")
+```
+
+We will use the `Produc` dataset from **plm**, a riveting collection of economic statistics about the U.S. states from 1970 to 1986.
+
+```{r Produc}
+data(Produc, package = "plm")
+head(Produc)
+```
+
+The functions in **plm** assume that your data are organized like `Produc`, with the grouping variable in the first column and the identification variable (time, in the case of panel data) in the second column.  See the **plm** package vignette on how to get datasets not organized this way into line.
+
+We will treat unemployment (`unemp`) as our response and public capital stock (`pcap`) and private capital stock (`pc`) as our covariates.  As a benchmark, let's use OLS.
+
+```{r lm}
+fit_ols <- lm(unemp ~ pcap + pc,
+              data = Produc)
+summary(fit_ols)
+```
+
+The "pooling" estimator implemented by `plm()` ought to give us the same results.
+
+```{r plm-pooling}
+fit_pooling <- plm(unemp ~ pcap + pc,
+                   data = Produc,
+                   model = "pooling")
+summary(fit_pooling)
+```
+
+We can obtain the cluster-robust variance matrix estimate via `vcovHC()`.  Make sure to specify `method = "arellano"` so as to get the usual estimator.  It is not entirely clear to me which of the various finite-sample adjustments corresponds to the defaults in Stata.
+
+```{r vcovHC}
+crvm_pooling <- vcovHC(fit_pooling,
+                       method = "arellano",
+                       type = "HC1")
+summary(fit_pooling, vcov = crvm_pooling)
+```
+
+Notice that our $t$-statistics are cut in more than half, even though our variables have within-group variation (unlike @Moulton:1990bl's example).
+
+We can also use `plm()` to estimate a random-effects model.
+
+```{r random}
+fit_random <- plm(unemp ~ pcap + pc,
+                  data = Produc,
+                  model = "random")
+summary(fit_random)
+```
+
+And, finally, a fixed-effects model, which `plm()` calls the `"within"` model.
+
+```{r fixed}
+fit_fixed <- plm(unemp ~ pcap + pc,
+                 data = Produc,
+                 model = "within")
+summary(fit_fixed)
+```
+
+We can extract the fixed-effect estimates themselves via `fixef()`.
+
+```{r fixef}
+fixef(fit_fixed)
+```
+
+If we wanted to include time dummies as well, we could specify `effect = "twoways"` in the fitting function.
+
+```{r fixed-twoways}
+fit_fixed_2 <- plm(unemp ~ pcap + pc,
+                   data = Produc,
+                   effect = "twoways",
+                   model = "within")
+summary(fit_fixed_2)
+fixef(fit_fixed_2, effect = "time")
+```
+
+`phtest()` implements the Hausman test.  Remember that the null hypothesis is that both estimators are consistent; if we reject it, then the random effects estimator is inconsistent and we must use fixed effects.
+
+```{r hausman}
+phtest(fit_random, fit_fixed)
+```

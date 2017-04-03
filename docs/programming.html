@@ -8,7 +8,7 @@
   <title>Practical Data Analysis for Political Scientists</title>
   <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
   <meta name="description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right.">
-  <meta name="generator" content="bookdown 0.3.2 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown 0.3 and GitBook 2.6.7">
 
   <meta property="og:title" content="Practical Data Analysis for Political Scientists" />
   <meta property="og:type" content="book" />
@@ -26,7 +26,7 @@
 <meta name="author" content="Brenton Kenkel">
 
 
-<meta name="date" content="2017-03-27">
+<meta name="date" content="2017-04-02">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -182,6 +182,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="12.2" data-path="panel.html"><a href="panel.html#clustered-standard-errors"><i class="fa fa-check"></i><b>12.2</b> Clustered Standard Errors</a></li>
 <li class="chapter" data-level="12.3" data-path="panel.html"><a href="panel.html#random-effects"><i class="fa fa-check"></i><b>12.3</b> Random Effects</a></li>
 <li class="chapter" data-level="12.4" data-path="panel.html"><a href="panel.html#fixed-effects"><i class="fa fa-check"></i><b>12.4</b> Fixed Effects</a></li>
+<li class="chapter" data-level="12.5" data-path="panel.html"><a href="panel.html#appendix-implementation-in-r-1"><i class="fa fa-check"></i><b>12.5</b> Appendix: Implementation in R</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -258,9 +259,9 @@ output &lt;-<span class="st"> </span><span class="kw">sqrt</span>(errors)</code>
 </ul>
 <p>We’re going to look at the most basic ways to get the computer to repeat structured tasks—functions and control flow statements. To illustrate these, we will use a result you discussed in Stat I: the central limit theorem.</p>
 The central limit theorem concerns the <em>sampling distribution</em> of the sample mean,
-\begin{equation*}
+<span class="math display">\[\begin{equation*}
 \bar{X} = \frac{1}{N} \sum_{n = 1}^{N} X_n,
-\end{equation*}
+\end{equation*}\]</span>
 <p>where each <span class="math inline">\(X_n\)</span> is independent and identically distributed with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span>. Loosely speaking, the CLT says that as <span class="math inline">\(N\)</span> grows large, the sampling distribution of <span class="math inline">\(\bar{X}\)</span> becomes approximately normal with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2 / N\)</span>.</p>
 <p>Here’s what we would need to do to see the CLT in practice. We’d want to take a bunch of samples, each of size <span class="math inline">\(N\)</span>, and calculate the sample mean of each. Then we’d have a sample of sample means, and we could check to verify that they are approximately normally distributed with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2 / N\)</span>. This is a structured, repetitive task—exactly the kind of thing that should be programmed. We’ll try it out with a random variable from a Poisson distribution with <span class="math inline">\(\lambda = 3\)</span>, which has mean <span class="math inline">\(\mu = 3\)</span> and variance <span class="math inline">\(\sigma^2 = 3\)</span>.</p>
 <p>First things first. We can use the <code>rpois</code> function to draw a random sample of <span class="math inline">\(N\)</span> numbers from the Poisson distribution.</p>
@@ -271,7 +272,7 @@ samp</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean</span>(samp)</code></pre></div>
 <pre><code>## [1] 3.6</code></pre>
 <p>We are interested in the distribution of the sample mean across many samples like this one. To begin, we will write a <strong>function</strong> that automates our core task—drawing a sample of <span class="math inline">\(N\)</span> observations from Poisson(3) and calculating the sample mean. A function consists of a set of <em>arguments</em> (the inputs) and a <em>body</em> of code specifying which calculations to perform on the inputs to produce the output.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pois_mean &lt;-<span class="st"> </span>function(n_obs) {
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pois_mean &lt;-<span class="st"> </span><span class="cf">function</span>(n_obs) {
   samp &lt;-<span class="st"> </span><span class="kw">rpois</span>(n_obs, <span class="dt">lambda =</span> <span class="dv">3</span>)
   ans &lt;-<span class="st"> </span><span class="kw">mean</span>(samp)
   <span class="kw">return</span>(ans)
@@ -289,7 +290,7 @@ samp</code></pre></div>
 n_replicates &lt;-<span class="st"> </span><span class="dv">1000</span>
 sampling_dist &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>, n_replicates)
 
-for (i in <span class="dv">1</span>:n_replicates) {
+<span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>n_replicates) {
   sampling_dist[i] &lt;-<span class="st"> </span><span class="kw">pois_mean</span>(<span class="dt">n_obs =</span> <span class="dv">30</span>)
 }</code></pre></div>
 <p>Here’s how the for loop works. We specified <code>i</code> as the name of the index variable, with values <code>1:n_replicates</code>. The for loop takes each value in the sequence, assigns it to the variable <code>i</code>, runs the given expression (in this case, assigning the output of <code>pois_mean</code> to the <code>i</code>’th element of <code>sampling_dist</code>), and then moves on to the next value in sequence, until it reaches the end.</p>
@@ -304,22 +305,22 @@ for (i in <span class="dv">1</span>:n_replicates) {
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">input &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">7</span>, <span class="dv">29</span>)
 output &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>, <span class="kw">length</span>(input))
 
-for (i in <span class="dv">1</span>:<span class="kw">length</span>(input)) {
-  output[i] &lt;-<span class="st"> </span>input[i]^<span class="dv">2</span>
+<span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(input)) {
+  output[i] &lt;-<span class="st"> </span>input[i]<span class="op">^</span><span class="dv">2</span>
 }
 
 output</code></pre></div>
 <pre><code>## [1]   1   9  49 841</code></pre>
 <p>… but it’s faster (in terms of computational speed) and easier to just take advantage of vectorization:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">input^<span class="dv">2</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">input<span class="op">^</span><span class="dv">2</span></code></pre></div>
 <pre><code>## [1]   1   9  49 841</code></pre>
 <p>Another useful piece of control flow is <strong>if/else statements</strong>. These check a logical condition—an expression whose value is <code>TRUE</code> or <code>FALSE</code>—and run different code depending on the value of the expression. (You may want to catch up on the comparison operators: <code>==</code>, <code>&gt;</code>, <code>&gt;=</code>, <code>&lt;</code>, <code>&lt;=</code>, etc.)</p>
 <p>Let’s edit the <code>pois_mean</code> function to allow us to calculate the median instead of the mean. We’ll add a second argument to the function, and implement the option using an if/else statement.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pois_mean &lt;-<span class="st"> </span>function(n_obs, <span class="dt">use_median =</span> <span class="ot">FALSE</span>) {
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pois_mean &lt;-<span class="st"> </span><span class="cf">function</span>(n_obs, <span class="dt">use_median =</span> <span class="ot">FALSE</span>) {
   samp &lt;-<span class="st"> </span><span class="kw">rpois</span>(n_obs, <span class="dt">lambda =</span> <span class="dv">3</span>)
-  if (use_median) {
+  <span class="cf">if</span> (use_median) {
     ans &lt;-<span class="st"> </span><span class="kw">median</span>(samp)
-  } else {
+  } <span class="cf">else</span> {
     ans &lt;-<span class="st"> </span><span class="kw">mean</span>(samp)
   }
   <span class="kw">return</span>(ans)
@@ -332,11 +333,11 @@ output</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pois_mean</span>(<span class="dt">n_obs =</span> <span class="dv">9</span>, <span class="dt">use_median =</span> <span class="ot">FALSE</span>)</code></pre></div>
 <pre><code>## [1] 2.6667</code></pre>
 <p>There is a vectorized version of if/else statements called, naturally, the <code>ifelse</code> function. This function takes three arguments, each a vector of the same length: (1) a logical condition, (2) an output value if the condition is <code>TRUE</code>, (3) an output value if the condition is <code>FALSE</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="dv">1</span>:<span class="dv">10</span>
-big_x &lt;-<span class="st"> </span>x *<span class="st"> </span><span class="dv">100</span>
-small_x &lt;-<span class="st"> </span>x *<span class="st"> </span>-<span class="dv">100</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span>
+big_x &lt;-<span class="st"> </span>x <span class="op">*</span><span class="st"> </span><span class="dv">100</span>
+small_x &lt;-<span class="st"> </span>x <span class="op">*</span><span class="st"> </span><span class="op">-</span><span class="dv">100</span>
 
-<span class="kw">ifelse</span>(x &gt;<span class="st"> </span><span class="dv">5</span>, big_x, small_x)</code></pre></div>
+<span class="kw">ifelse</span>(x <span class="op">&gt;</span><span class="st"> </span><span class="dv">5</span>, big_x, small_x)</code></pre></div>
 <pre><code>##  [1] -100 -200 -300 -400 -500  600  700  800  900 1000</code></pre>
 <p>Functions, for loops, and if/else statements are just a few of the useful tools for programming in R.<a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a> But even these simple tools are enough to allow you to do much more at scale than you could with a copy-paste philosophy.</p>
 

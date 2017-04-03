@@ -8,7 +8,7 @@
   <title>Practical Data Analysis for Political Scientists</title>
   <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
   <meta name="description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right.">
-  <meta name="generator" content="bookdown 0.3.2 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown 0.3 and GitBook 2.6.7">
 
   <meta property="og:title" content="Practical Data Analysis for Political Scientists" />
   <meta property="og:type" content="book" />
@@ -26,7 +26,7 @@
 <meta name="author" content="Brenton Kenkel">
 
 
-<meta name="date" content="2017-03-27">
+<meta name="date" content="2017-04-02">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -182,6 +182,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="12.2" data-path="panel.html"><a href="panel.html#clustered-standard-errors"><i class="fa fa-check"></i><b>12.2</b> Clustered Standard Errors</a></li>
 <li class="chapter" data-level="12.3" data-path="panel.html"><a href="panel.html#random-effects"><i class="fa fa-check"></i><b>12.3</b> Random Effects</a></li>
 <li class="chapter" data-level="12.4" data-path="panel.html"><a href="panel.html#fixed-effects"><i class="fa fa-check"></i><b>12.4</b> Fixed Effects</a></li>
+<li class="chapter" data-level="12.5" data-path="panel.html"><a href="panel.html#appendix-implementation-in-r-1"><i class="fa fa-check"></i><b>12.5</b> Appendix: Implementation in R</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -366,7 +367,7 @@ E [ \hat{\beta}_{\text{GLS}} \,|\, \mathbf{X} ]
 <div id="generalized-least-squares-1" class="section level3">
 <h3><span class="header-section-number">11.4.1</span> Generalized Least Squares</h3>
 <p>Let us model a professor’s salary as a function of the number of years since she received her PhD. If we glance at the data, we see obvious heteroskedasticity.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(Salaries, <span class="kw">aes</span>(<span class="dt">x =</span> yrs.since.phd, <span class="dt">y =</span> salary)) +
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(Salaries, <span class="kw">aes</span>(<span class="dt">x =</span> yrs.since.phd, <span class="dt">y =</span> salary)) <span class="op">+</span>
 <span class="st">    </span><span class="kw">geom_point</span>()</code></pre></div>
 <p><img src="pdaps_files/figure-html/salaries-plot-hetero-1.png" width="672" /></p>
 <p>There is much more variation in the salaries of professors 30+ years into their careers than in those who are fresh out of grad school. If we want the most precise model of the relationship between years since PhD and salary, we might want to place more weight on early-career professors and less on late-career professors.</p>
@@ -380,7 +381,7 @@ E [ \hat{\beta}_{\text{GLS}} \,|\, \mathbf{X} ]
 \]</span> To run weighted least squares in R, we just use the <code>weights</code> argument to the <code>lm()</code> function. As an example, let’s set <span class="math display">\[
 \omega_{nn} = \frac{1}{\text{Years Since PhD}_n}
 \]</span> for each observation <span class="math inline">\(n\)</span>, to place the greatest weight on early-career observations. We will first run a baseline OLS model, then compare to the weighted model.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ols_salaries &lt;-<span class="st"> </span><span class="kw">lm</span>(salary ~<span class="st"> </span>yrs.since.phd +<span class="st"> </span>yrs.service,
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ols_salaries &lt;-<span class="st"> </span><span class="kw">lm</span>(salary <span class="op">~</span><span class="st"> </span>yrs.since.phd <span class="op">+</span><span class="st"> </span>yrs.service,
                    <span class="dt">data =</span> Salaries)
 <span class="kw">summary</span>(ols_salaries)</code></pre></div>
 <pre><code>## 
@@ -400,8 +401,8 @@ E [ \hat{\beta}_{\text{GLS}} \,|\, \mathbf{X} ]
 ## Residual standard error: 27400 on 394 degrees of freedom
 ## Multiple R-squared:  0.188,  Adjusted R-squared:  0.184 
 ## F-statistic: 45.7 on 2 and 394 DF,  p-value: &lt;2e-16</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wls_salaries &lt;-<span class="st"> </span><span class="kw">lm</span>(salary ~<span class="st"> </span>yrs.since.phd +<span class="st"> </span>yrs.service,
-                   <span class="dt">weights =</span> <span class="dv">1</span> /<span class="st"> </span>yrs.since.phd,
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wls_salaries &lt;-<span class="st"> </span><span class="kw">lm</span>(salary <span class="op">~</span><span class="st"> </span>yrs.since.phd <span class="op">+</span><span class="st"> </span>yrs.service,
+                   <span class="dt">weights =</span> <span class="dv">1</span> <span class="op">/</span><span class="st"> </span>yrs.since.phd,
                    <span class="dt">data =</span> Salaries)
 <span class="kw">summary</span>(wls_salaries)</code></pre></div>
 <pre><code>## 
@@ -437,7 +438,7 @@ E [ \hat{\beta}_{\text{GLS}} \,|\, \mathbf{X} ]
 ## BP = 49.9, df = 2, p-value = 1.5e-11</code></pre>
 <p>By default, <code>bptest()</code> uses the same variables as in the original regression in the regression of the squared residuals. To perform the White test, we can use an extra argument to <code>bptest()</code> to specify a different model formula.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">bptest</span>(ols_salaries,
-       ~<span class="st"> </span>yrs.since.phd *<span class="st"> </span>yrs.service +<span class="st"> </span><span class="kw">I</span>(yrs.since.phd^<span class="dv">2</span>) +<span class="st"> </span><span class="kw">I</span>(yrs.service^<span class="dv">2</span>),
+       <span class="op">~</span><span class="st"> </span>yrs.since.phd <span class="op">*</span><span class="st"> </span>yrs.service <span class="op">+</span><span class="st"> </span><span class="kw">I</span>(yrs.since.phd<span class="op">^</span><span class="dv">2</span>) <span class="op">+</span><span class="st"> </span><span class="kw">I</span>(yrs.service<span class="op">^</span><span class="dv">2</span>),
        <span class="dt">data =</span> Salaries)</code></pre></div>
 <pre><code>## 
 ##  studentized Breusch-Pagan test
