@@ -1,10 +1,10 @@
 # Bivariate Regression {#bivariate}
 
-\newcommand{\SSE}{\mathop{\rm SSE}\nolimits}
-\newcommand{\RSS}{\mathop{\rm RSS}\nolimits}
-\newcommand{\TSS}{\mathop{\rm TSS}\nolimits}
-\newcommand{\Cov}{\mathop{\rm Cov}\nolimits}
-\newcommand{\pderiv}[2]{\frac{\partial #1}{\partial #2}}
+\providecommand{\SSE}{\mathop{\rm SSE}\nolimits}
+\providecommand{\RSS}{\mathop{\rm RSS}\nolimits}
+\providecommand{\TSS}{\mathop{\rm TSS}\nolimits}
+\providecommand{\Cov}{\mathop{\rm Cov}\nolimits}
+\providecommand{\pderiv}[2]{\frac{\partial{}#1}{\partial{}#2}}
 
 The goal of empirical social science is usually to learn about the relationships between variables in the social world.  Our goals might be descriptive: were college graduates more likely to vote for Clinton in 2016?  Or causal: does receiving more education make a person more liberal on average?  Or predictive: what kinds of voters should Democrats target in 2020 to have the best chance of victory?
 

@@ -1,16 +1,14 @@
 <!DOCTYPE html>
-<html >
-
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
 <head>
 
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Practical Data Analysis for Political Scientists</title>
-  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
-  <meta name="description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right.">
-  <meta name="generator" content="bookdown 0.3 and GitBook 2.6.7">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>2 Principles of Programming | Practical Data Analysis for Political Scientists</title>
+  <meta name="description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right." />
+  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Practical Data Analysis for Political Scientists" />
+  <meta property="og:title" content="2 Principles of Programming | Practical Data Analysis for Political Scientists" />
   <meta property="og:type" content="book" />
   
   
@@ -18,30 +16,33 @@
   <meta name="github-repo" content="brentonk/pdaps" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Practical Data Analysis for Political Scientists" />
+  <meta name="twitter:title" content="2 Principles of Programming | Practical Data Analysis for Political Scientists" />
   
   <meta name="twitter:description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right." />
   
 
-<meta name="author" content="Brenton Kenkel">
+<meta name="author" content="Brenton Kenkel" />
 
 
-<meta name="date" content="2017-04-02">
+<meta name="date" content="2020-01-06" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="index.html">
-<link rel="next" href="data.html">
-
+<link rel="prev" href="index.html"/>
+<link rel="next" href="data.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
 
 
 
@@ -52,47 +53,75 @@
 
 
 <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
 
 <body>
+
 
 
   <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
@@ -211,8 +240,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>First, as a working social scientist, most of the time you spend on data analysis won’t be on the <em>analysis</em> part. It’ll be on obtaining and cleaning the data, to get it in a form that makes sense to analyze. Good programming skills will let you spend less time cleaning data and more time publishing papers.</p>
 <p>Second, even if you don’t want to develop good programming habits, journals are going to force you to. Every reputable political science journal requires that you provide replication scripts, and some of the best (e.g., <em>American Journal of Political Science</em>) have begun auditing the replication materials as a condition of publication. Better to learn The Right Way now when you have lots of time than to be forced to when you’re writing a dissertation or on the market or teaching your own courses.</p>
 <p>Third, while I feel embarrassed to invoke the cliché that is Big Data, that doesn’t mean it’s not a real thing. Political scientists have access to more data and more computing power than ever before. You can’t collect, manage, clean, and analyze large quantities of data without understanding the basic principles of programming.</p>
-<p>As <span class="citation">Bowers (<a href="#ref-Bowers:2011ua">2011</a>)</span> puts it, “Data analysis is computer programming.” By getting a PhD in political science,<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a> by necessity you’re going to become a computer programmer. The choice before you is whether to be a good one or a bad one.</p>
-<p><span class="citation">G. Wilson et al. (<a href="#ref-Wilson:2014ck">2014</a>)</span> list eight “best practices for scientific computing.” The first two encapsulate most of what you need to know:</p>
+<p>As <span class="citation">Bowers (<a href="#ref-Bowers:2011ua">2011</a>)</span> puts it, “Data analysis is computer programming.” By getting a PhD in political science,<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> by necessity you’re going to become a computer programmer. The choice before you is whether to be a good one or a bad one.</p>
+<p><span class="citation">Wilson et al. (<a href="#ref-Wilson:2014ck">2014</a>)</span> list eight “best practices for scientific computing.” The first two encapsulate most of what you need to know:</p>
 <ol style="list-style-type: decimal">
 <li>Write programs for people, not computers.</li>
 <li>Let the computer do the work.</li>
@@ -230,116 +259,116 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul>
 <p>The exact structure varies depending on the nature of the project. Notice that the scripts are numbered in the order they should be run.</p>
 <p>Within each script, write the code to make it as easy as possible for your reader to follow what you’re doing. You should indent your code according to style conventions such as <a href="http://adv-r.had.co.nz/Style.html" class="uri">http://adv-r.had.co.nz/Style.html</a>. Even better, use the <code>Code -&gt; Reindent Lines</code> menu option in R Studio to automatically indent according to a sane style.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Bad</span>
-my_results &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">mean</span>(variable),
-<span class="kw">quantile</span>(variable,
-<span class="dt">probs =</span> <span class="fl">0.25</span>),
-<span class="kw">max</span>(variable))
-
-<span class="co"># Better</span>
-my_results &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">mean</span>(variable),
-                <span class="kw">quantile</span>(variable,
-                         <span class="dt">probs =</span> <span class="fl">0.25</span>),
-                <span class="kw">max</span>(variable))</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># Bad</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">my_results &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">mean</span>(variable),</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">quantile</span>(variable,</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="dt">probs =</span> <span class="fl">0.25</span>),</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw">max</span>(variable))</a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co"># Better</span></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8">my_results &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">mean</span>(variable),</a>
+<a class="sourceLine" id="cb1-9" data-line-number="9">                <span class="kw">quantile</span>(variable,</a>
+<a class="sourceLine" id="cb1-10" data-line-number="10">                         <span class="dt">probs =</span> <span class="fl">0.25</span>),</a>
+<a class="sourceLine" id="cb1-11" data-line-number="11">                <span class="kw">max</span>(variable))</a></code></pre></div>
 <p>Another way to make your code readable—one that, unfortunately, cannot be accomplished quite so algorithmically—is to add explanatory comments. The point of comments is not to document how the language works. The following comment is an extreme example of a useless comment.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Take the square root of the errors and assign them to</span>
-<span class="co"># the output variable</span>
-output &lt;-<span class="st"> </span><span class="kw">sqrt</span>(errors)</code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># Take the square root of the errors and assign them to</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co"># the output variable</span></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">output &lt;-<span class="st"> </span><span class="kw">sqrt</span>(errors)</a></code></pre></div>
 <p>A better use for the comment would be to explain <em>why</em> you’re taking the square root of the errors, at least if your purpose in doing so would be unclear to a hypothetical reader of the code.</p>
 <p>My basic heuristic for code readability is <em>If I got hit by a bus tomorrow, could one of my coauthors figure out what the hell I was doing and finish the paper?</em></p>
 </div>
 <div id="let-the-computer-do-the-work" class="section level2">
 <h2><span class="header-section-number">2.2</span> Let the Computer Do the Work</h2>
 <p>Computers are really good at structured, repetitive tasks. If you ever find yourself entering the same thing into the computer over and over again, you are Doing It Wrong. Your job as the human directing the computer is to figure out the structure that underlies the repeated task and to program the computer to do the repetition.</p>
-<p>For example, imagine you have just run a large experiment and you want to estimate effects by subgroups.<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a> Your respondents differ across four variables—party ID (R or D), gender (male or female), race (white or nonwhite), and education (college degree or not)—giving you 16 subgroups. You <em>could</em> copy and paste your code to estimate the treatment effect 16 times. But this is a bad idea for a few reasons.</p>
+<p>For example, imagine you have just run a large experiment and you want to estimate effects by subgroups.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> Your respondents differ across four variables—party ID (R or D), gender (male or female), race (white or nonwhite), and education (college degree or not)—giving you 16 subgroups. You <em>could</em> copy and paste your code to estimate the treatment effect 16 times. But this is a bad idea for a few reasons.</p>
 <ul>
 <li><p>Copy-paste doesn’t scale. Copy-paste is managable (albeit misguided) for 16 iterations, but probably not for 50 and definitely not for more than 100.</p></li>
 <li><p>Making changes becomes painful. Suppose you decide to change how you calculate the estimate. Now you have to go back and individually edit 16 chunks of code.</p></li>
 <li><p>Copy-paste is error-prone, and insidiously so. If you do the calculation wrong all 16 times, you’ll probably notice. But what if you screwed up for just one or two cases? Are you <em>really</em> going to go through and check that you did everything right in each individual case?</p></li>
 </ul>
 <p>We’re going to look at the most basic ways to get the computer to repeat structured tasks—functions and control flow statements. To illustrate these, we will use a result you discussed in Stat I: the central limit theorem.</p>
-The central limit theorem concerns the <em>sampling distribution</em> of the sample mean,
+<p>The central limit theorem concerns the <em>sampling distribution</em> of the sample mean,
 <span class="math display">\[\begin{equation*}
 \bar{X} = \frac{1}{N} \sum_{n = 1}^{N} X_n,
 \end{equation*}\]</span>
-<p>where each <span class="math inline">\(X_n\)</span> is independent and identically distributed with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span>. Loosely speaking, the CLT says that as <span class="math inline">\(N\)</span> grows large, the sampling distribution of <span class="math inline">\(\bar{X}\)</span> becomes approximately normal with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2 / N\)</span>.</p>
+where each <span class="math inline">\(X_n\)</span> is independent and identically distributed with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span>. Loosely speaking, the CLT says that as <span class="math inline">\(N\)</span> grows large, the sampling distribution of <span class="math inline">\(\bar{X}\)</span> becomes approximately normal with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2 / N\)</span>.</p>
 <p>Here’s what we would need to do to see the CLT in practice. We’d want to take a bunch of samples, each of size <span class="math inline">\(N\)</span>, and calculate the sample mean of each. Then we’d have a sample of sample means, and we could check to verify that they are approximately normally distributed with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2 / N\)</span>. This is a structured, repetitive task—exactly the kind of thing that should be programmed. We’ll try it out with a random variable from a Poisson distribution with <span class="math inline">\(\lambda = 3\)</span>, which has mean <span class="math inline">\(\mu = 3\)</span> and variance <span class="math inline">\(\sigma^2 = 3\)</span>.</p>
 <p>First things first. We can use the <code>rpois</code> function to draw a random sample of <span class="math inline">\(N\)</span> numbers from the Poisson distribution.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">samp &lt;-<span class="st"> </span><span class="kw">rpois</span>(<span class="dv">10</span>, <span class="dt">lambda =</span> <span class="dv">3</span>)
-samp</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">samp &lt;-<span class="st"> </span><span class="kw">rpois</span>(<span class="dv">10</span>, <span class="dt">lambda =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">samp</a></code></pre></div>
 <pre><code>##  [1] 2 3 8 3 5 4 3 4 2 2</code></pre>
 <p>To calculate the sample mean, we simply use the <code>mean</code> function.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean</span>(samp)</code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">mean</span>(samp)</a></code></pre></div>
 <pre><code>## [1] 3.6</code></pre>
 <p>We are interested in the distribution of the sample mean across many samples like this one. To begin, we will write a <strong>function</strong> that automates our core task—drawing a sample of <span class="math inline">\(N\)</span> observations from Poisson(3) and calculating the sample mean. A function consists of a set of <em>arguments</em> (the inputs) and a <em>body</em> of code specifying which calculations to perform on the inputs to produce the output.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pois_mean &lt;-<span class="st"> </span><span class="cf">function</span>(n_obs) {
-  samp &lt;-<span class="st"> </span><span class="kw">rpois</span>(n_obs, <span class="dt">lambda =</span> <span class="dv">3</span>)
-  ans &lt;-<span class="st"> </span><span class="kw">mean</span>(samp)
-  <span class="kw">return</span>(ans)
-}</code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">pois_mean &lt;-<span class="st"> </span><span class="cf">function</span>(n_obs) {</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">  samp &lt;-<span class="st"> </span><span class="kw">rpois</span>(n_obs, <span class="dt">lambda =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3">  ans &lt;-<span class="st"> </span><span class="kw">mean</span>(samp)</a>
+<a class="sourceLine" id="cb7-4" data-line-number="4">  <span class="kw">return</span>(ans)</a>
+<a class="sourceLine" id="cb7-5" data-line-number="5">}</a></code></pre></div>
 <p>This code creates a function called <code>pois_mean</code>. It has a single argument, called <code>n_obs</code>. It generates a random sample of <code>n_obs</code> draws from Poisson(3) and calculates its sample mean. It then <code>return</code>s the sample mean as the output.</p>
 <p>Let’s try calling this function a few times, each with a sample size of <span class="math inline">\(N = 30\)</span>. Your output will differ slightly from what’s printed here, since the function is generating random numbers.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pois_mean</span>(<span class="dt">n_obs =</span> <span class="dv">30</span>)</code></pre></div>
-<pre><code>## [1] 3.0333</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pois_mean</span>(<span class="dt">n_obs =</span> <span class="dv">30</span>)</code></pre></div>
-<pre><code>## [1] 2.4667</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pois_mean</span>(<span class="dt">n_obs =</span> <span class="dv">30</span>)</code></pre></div>
-<pre><code>## [1] 2.9667</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">pois_mean</span>(<span class="dt">n_obs =</span> <span class="dv">30</span>)</a></code></pre></div>
+<pre><code>## [1] 3.033333</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">pois_mean</span>(<span class="dt">n_obs =</span> <span class="dv">30</span>)</a></code></pre></div>
+<pre><code>## [1] 2.466667</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">pois_mean</span>(<span class="dt">n_obs =</span> <span class="dv">30</span>)</a></code></pre></div>
+<pre><code>## [1] 2.966667</code></pre>
 <p>Remember that what we’re interested in is the <em>sampling distribution</em> of the sample mean—the distribution of the sample mean across every possible sample of <span class="math inline">\(N\)</span> observations. We can approximate this distribution by running <code>pois_mean</code> many times (e.g., 1000 or more). This would be infeasible via copy-paste. Instead, we will use a <strong>for loop</strong>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Set up a vector to store the output</span>
-n_replicates &lt;-<span class="st"> </span><span class="dv">1000</span>
-sampling_dist &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>, n_replicates)
-
-<span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>n_replicates) {
-  sampling_dist[i] &lt;-<span class="st"> </span><span class="kw">pois_mean</span>(<span class="dt">n_obs =</span> <span class="dv">30</span>)
-}</code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="co"># Set up a vector to store the output</span></a>
+<a class="sourceLine" id="cb14-2" data-line-number="2">n_replicates &lt;-<span class="st"> </span><span class="dv">1000</span></a>
+<a class="sourceLine" id="cb14-3" data-line-number="3">sampling_dist &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>, n_replicates)</a>
+<a class="sourceLine" id="cb14-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb14-5" data-line-number="5"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>n_replicates) {</a>
+<a class="sourceLine" id="cb14-6" data-line-number="6">  sampling_dist[i] &lt;-<span class="st"> </span><span class="kw">pois_mean</span>(<span class="dt">n_obs =</span> <span class="dv">30</span>)</a>
+<a class="sourceLine" id="cb14-7" data-line-number="7">}</a></code></pre></div>
 <p>Here’s how the for loop works. We specified <code>i</code> as the name of the index variable, with values <code>1:n_replicates</code>. The for loop takes each value in the sequence, assigns it to the variable <code>i</code>, runs the given expression (in this case, assigning the output of <code>pois_mean</code> to the <code>i</code>’th element of <code>sampling_dist</code>), and then moves on to the next value in sequence, until it reaches the end.</p>
 <p>Let’s take a look at the results and compare them to our expectations.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean</span>(sampling_dist)  <span class="co"># Expect 3</span></code></pre></div>
-<pre><code>## [1] 2.9952</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">var</span>(sampling_dist)  <span class="co"># Expect 1/10</span></code></pre></div>
-<pre><code>## [1] 0.096944</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">hist</span>(sampling_dist)  <span class="co"># Expect roughly normal</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw">mean</span>(sampling_dist)  <span class="co"># Expect 3</span></a></code></pre></div>
+<pre><code>## [1] 2.995167</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="kw">var</span>(sampling_dist)  <span class="co"># Expect 1/10</span></a></code></pre></div>
+<pre><code>## [1] 0.09694358</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="kw">hist</span>(sampling_dist)  <span class="co"># Expect roughly normal</span></a></code></pre></div>
 <p><img src="pdaps_files/figure-html/sampling-dist-results-1.png" width="672" /></p>
 <p>For loops are fun, but don’t overuse them. Many simple operations are <strong>vectorized</strong> and don’t require a loop. For example, suppose you want to take the square of a sequence of numbers. You could use a for loop …</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">input &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">7</span>, <span class="dv">29</span>)
-output &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>, <span class="kw">length</span>(input))
-
-<span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(input)) {
-  output[i] &lt;-<span class="st"> </span>input[i]<span class="op">^</span><span class="dv">2</span>
-}
-
-output</code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">input &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">7</span>, <span class="dv">29</span>)</a>
+<a class="sourceLine" id="cb20-2" data-line-number="2">output &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>, <span class="kw">length</span>(input))</a>
+<a class="sourceLine" id="cb20-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb20-4" data-line-number="4"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(input)) {</a>
+<a class="sourceLine" id="cb20-5" data-line-number="5">  output[i] &lt;-<span class="st"> </span>input[i]<span class="op">^</span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb20-6" data-line-number="6">}</a>
+<a class="sourceLine" id="cb20-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb20-8" data-line-number="8">output</a></code></pre></div>
 <pre><code>## [1]   1   9  49 841</code></pre>
 <p>… but it’s faster (in terms of computational speed) and easier to just take advantage of vectorization:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">input<span class="op">^</span><span class="dv">2</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">input<span class="op">^</span><span class="dv">2</span></a></code></pre></div>
 <pre><code>## [1]   1   9  49 841</code></pre>
 <p>Another useful piece of control flow is <strong>if/else statements</strong>. These check a logical condition—an expression whose value is <code>TRUE</code> or <code>FALSE</code>—and run different code depending on the value of the expression. (You may want to catch up on the comparison operators: <code>==</code>, <code>&gt;</code>, <code>&gt;=</code>, <code>&lt;</code>, <code>&lt;=</code>, etc.)</p>
 <p>Let’s edit the <code>pois_mean</code> function to allow us to calculate the median instead of the mean. We’ll add a second argument to the function, and implement the option using an if/else statement.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pois_mean &lt;-<span class="st"> </span><span class="cf">function</span>(n_obs, <span class="dt">use_median =</span> <span class="ot">FALSE</span>) {
-  samp &lt;-<span class="st"> </span><span class="kw">rpois</span>(n_obs, <span class="dt">lambda =</span> <span class="dv">3</span>)
-  <span class="cf">if</span> (use_median) {
-    ans &lt;-<span class="st"> </span><span class="kw">median</span>(samp)
-  } <span class="cf">else</span> {
-    ans &lt;-<span class="st"> </span><span class="kw">mean</span>(samp)
-  }
-  <span class="kw">return</span>(ans)
-}</code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">pois_mean &lt;-<span class="st"> </span><span class="cf">function</span>(n_obs, <span class="dt">use_median =</span> <span class="ot">FALSE</span>) {</a>
+<a class="sourceLine" id="cb24-2" data-line-number="2">  samp &lt;-<span class="st"> </span><span class="kw">rpois</span>(n_obs, <span class="dt">lambda =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb24-3" data-line-number="3">  <span class="cf">if</span> (use_median) {</a>
+<a class="sourceLine" id="cb24-4" data-line-number="4">    ans &lt;-<span class="st"> </span><span class="kw">median</span>(samp)</a>
+<a class="sourceLine" id="cb24-5" data-line-number="5">  } <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb24-6" data-line-number="6">    ans &lt;-<span class="st"> </span><span class="kw">mean</span>(samp)</a>
+<a class="sourceLine" id="cb24-7" data-line-number="7">  }</a>
+<a class="sourceLine" id="cb24-8" data-line-number="8">  <span class="kw">return</span>(ans)</a>
+<a class="sourceLine" id="cb24-9" data-line-number="9">}</a></code></pre></div>
 <p>A couple of things to notice about the structure of the function. We use a comma to separate multiple function arguments. Also, we’ve specified <code>FALSE</code> as the <em>default</em> for the <code>use_median</code> argument. If we call the function without explicitly specifying a value for <code>use_median</code>, the function sets it to <code>FALSE</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pois_mean</span>(<span class="dt">n_obs =</span> <span class="dv">9</span>)</code></pre></div>
-<pre><code>## [1] 3.7778</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pois_mean</span>(<span class="dt">n_obs =</span> <span class="dv">9</span>, <span class="dt">use_median =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="kw">pois_mean</span>(<span class="dt">n_obs =</span> <span class="dv">9</span>)</a></code></pre></div>
+<pre><code>## [1] 3.777778</code></pre>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="kw">pois_mean</span>(<span class="dt">n_obs =</span> <span class="dv">9</span>, <span class="dt">use_median =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>## [1] 2</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pois_mean</span>(<span class="dt">n_obs =</span> <span class="dv">9</span>, <span class="dt">use_median =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<pre><code>## [1] 2.6667</code></pre>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="kw">pois_mean</span>(<span class="dt">n_obs =</span> <span class="dv">9</span>, <span class="dt">use_median =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<pre><code>## [1] 2.666667</code></pre>
 <p>There is a vectorized version of if/else statements called, naturally, the <code>ifelse</code> function. This function takes three arguments, each a vector of the same length: (1) a logical condition, (2) an output value if the condition is <code>TRUE</code>, (3) an output value if the condition is <code>FALSE</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span>
-big_x &lt;-<span class="st"> </span>x <span class="op">*</span><span class="st"> </span><span class="dv">100</span>
-small_x &lt;-<span class="st"> </span>x <span class="op">*</span><span class="st"> </span><span class="op">-</span><span class="dv">100</span>
-
-<span class="kw">ifelse</span>(x <span class="op">&gt;</span><span class="st"> </span><span class="dv">5</span>, big_x, small_x)</code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span></a>
+<a class="sourceLine" id="cb31-2" data-line-number="2">big_x &lt;-<span class="st"> </span>x <span class="op">*</span><span class="st"> </span><span class="dv">100</span></a>
+<a class="sourceLine" id="cb31-3" data-line-number="3">small_x &lt;-<span class="st"> </span>x <span class="op">*</span><span class="st"> </span><span class="dv">-100</span></a>
+<a class="sourceLine" id="cb31-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb31-5" data-line-number="5"><span class="kw">ifelse</span>(x <span class="op">&gt;</span><span class="st"> </span><span class="dv">5</span>, big_x, small_x)</a></code></pre></div>
 <pre><code>##  [1] -100 -200 -300 -400 -500  600  700  800  900 1000</code></pre>
-<p>Functions, for loops, and if/else statements are just a few of the useful tools for programming in R.<a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a> But even these simple tools are enough to allow you to do much more at scale than you could with a copy-paste philosophy.</p>
+<p>Functions, for loops, and if/else statements are just a few of the useful tools for programming in R.<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> But even these simple tools are enough to allow you to do much more at scale than you could with a copy-paste philosophy.</p>
 
 </div>
 </div>
@@ -355,9 +384,9 @@ small_x &lt;-<span class="st"> </span>x <span class="op">*</span><span class="st
 <div class="footnotes">
 <hr />
 <ol start="1">
-<li id="fn1"><p>Or whatever other social science field.<a href="programming.html#fnref1">↩</a></p></li>
-<li id="fn2"><p>There could be statistical problems with this kind of analysis, at least if the subgroups were specified <em>post hoc</em>. See <a href="https://xkcd.com/882/" class="uri">https://xkcd.com/882/</a> (“Significant”). We’re going to leave this issue aside for now, but we’ll return to it later when we discuss the statistical crisis in science.<a href="programming.html#fnref2">↩</a></p></li>
-<li id="fn3"><p>Others include the <code>replicate</code> function, the <code>apply</code> family of functions (<code>sapply</code>, <code>lapply</code>, <code>tapply</code>, <code>mapply</code>, …), the <strong>foreach</strong> package, the <strong>purrr</strong> package, just to name a few of the most useful off the top of my head.<a href="programming.html#fnref3">↩</a></p></li>
+<li id="fn1"><p>Or whatever other social science field.<a href="programming.html#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn2"><p>There could be statistical problems with this kind of analysis, at least if the subgroups were specified <em>post hoc</em>. See <a href="https://xkcd.com/882/" class="uri">https://xkcd.com/882/</a> (“Significant”). We’re going to leave this issue aside for now, but we’ll return to it later when we discuss the statistical crisis in science.<a href="programming.html#fnref2" class="footnote-back">↩</a></p></li>
+<li id="fn3"><p>Others include the <code>replicate</code> function, the <code>apply</code> family of functions (<code>sapply</code>, <code>lapply</code>, <code>tapply</code>, <code>mapply</code>, …), the <strong>foreach</strong> package, the <strong>purrr</strong> package, just to name a few of the most useful off the top of my head.<a href="programming.html#fnref3" class="footnote-back">↩</a></p></li>
 </ol>
 </div>
             </section>
@@ -366,27 +395,30 @@ small_x &lt;-<span class="st"> </span>x <span class="op">*</span><span class="st
         </div>
       </div>
 <a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="data.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
-
+<a href="data.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
 <script>
-require(["gitbook"], function(gitbook) {
+gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
 "sharing": {
 "github": false,
 "facebook": true,
 "twitter": true,
-"google": false,
+"linkedin": false,
 "weibo": false,
-"instapper": false,
+"instapaper": false,
 "vk": false,
-"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
 "theme": "white",
@@ -396,6 +428,14 @@ gitbook.start({
 "edit": {
 "link": "https://github.com/rstudio/bookdown-demo/edit/master/01-programming.Rmd",
 "text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
 },
 "download": null,
 "toc": {
@@ -410,9 +450,12 @@ gitbook.start({
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
-    if (location.protocol !== "file:" && /^https?:/.test(script.src))
-      script.src  = script.src.replace(/^https?:/, '');
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>

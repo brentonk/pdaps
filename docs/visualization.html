@@ -1,16 +1,14 @@
 <!DOCTYPE html>
-<html >
-
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
 <head>
 
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Practical Data Analysis for Political Scientists</title>
-  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
-  <meta name="description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right.">
-  <meta name="generator" content="bookdown 0.3 and GitBook 2.6.7">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>4 Data Visualization | Practical Data Analysis for Political Scientists</title>
+  <meta name="description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right." />
+  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Practical Data Analysis for Political Scientists" />
+  <meta property="og:title" content="4 Data Visualization | Practical Data Analysis for Political Scientists" />
   <meta property="og:type" content="book" />
   
   
@@ -18,30 +16,33 @@
   <meta name="github-repo" content="brentonk/pdaps" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Practical Data Analysis for Political Scientists" />
+  <meta name="twitter:title" content="4 Data Visualization | Practical Data Analysis for Political Scientists" />
   
   <meta name="twitter:description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right." />
   
 
-<meta name="author" content="Brenton Kenkel">
+<meta name="author" content="Brenton Kenkel" />
 
 
-<meta name="date" content="2017-04-02">
+<meta name="date" content="2020-01-06" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="data.html">
-<link rel="next" href="bivariate.html">
-
+<link rel="prev" href="data.html"/>
+<link rel="next" href="bivariate.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
 
 
 
@@ -52,47 +53,75 @@
 
 
 <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
 
 <body>
+
 
 
   <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
@@ -212,42 +241,41 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="basic-plots" class="section level2">
 <h2><span class="header-section-number">4.1</span> Basic Plots</h2>
 <p>We will use the <strong>ggplot2</strong> package, which is part of—I’m as tired of it as you are—the <strong>tidyverse</strong>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</code></pre></div>
-<p>For the examples today, we’ll be using a dataset with statistics about the fifty U.S. states in 1977,<a href="#fn11" class="footnoteRef" id="fnref11"><sup>11</sup></a> which is posted on my website.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">state_data &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;http://bkenkel.com/data/state-data.csv&quot;</span>)
-state_data</code></pre></div>
-<pre><code>## # A tibble: 50 × 12
-##        State Abbrev Region Population Income Illiteracy LifeExp Murder
-##        &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;
-## 1    Alabama     AL  South       3615   3624        2.1   69.05   15.1
-## 2     Alaska     AK   West        365   6315        1.5   69.31   11.3
-## 3    Arizona     AZ   West       2212   4530        1.8   70.55    7.8
-## 4   Arkansas     AR  South       2110   3378        1.9   70.66   10.1
-## 5 California     CA   West      21198   5114        1.1   71.71   10.3
-## # ... with 45 more rows, and 4 more variables: HSGrad &lt;dbl&gt;, Frost &lt;dbl&gt;,
-## #   Area &lt;dbl&gt;, IncomeGroup &lt;chr&gt;</code></pre>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb121-1" data-line-number="1"><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</a></code></pre></div>
+<p>For the examples today, we’ll be using a dataset with statistics about the fifty U.S. states in 1977,<a href="#fn11" class="footnote-ref" id="fnref11"><sup>11</sup></a> which is posted on my website.</p>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb122-1" data-line-number="1">state_data &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;http://bkenkel.com/data/state-data.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb122-2" data-line-number="2">state_data</a></code></pre></div>
+<pre><code>## # A tibble: 50 x 12
+##   State Abbrev Region Population Income Illiteracy LifeExp Murder HSGrad Frost
+##   &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;       &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
+## 1 Alab… AL     South        3615   3624        2.1    69.0   15.1   41.3    20
+## 2 Alas… AK     West          365   6315        1.5    69.3   11.3   66.7   152
+## 3 Ariz… AZ     West         2212   4530        1.8    70.6    7.8   58.1    15
+## 4 Arka… AR     South        2110   3378        1.9    70.7   10.1   39.9    65
+## 5 Cali… CA     West        21198   5114        1.1    71.7   10.3   62.6    20
+## # … with 45 more rows, and 2 more variables: Area &lt;dbl&gt;, IncomeGroup &lt;chr&gt;</code></pre>
 <p>When I obtain data, I start by looking at the univariate distribution of each variable via a histogram. The following code creates a histogram in ggplot.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Population)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_histogram</span>()</code></pre></div>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb124-1" data-line-number="1"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Population)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb124-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_histogram</span>()</a></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="pdaps_files/figure-html/histogram-1.png" width="672" /></p>
 <p>Let’s walk through the syntax there. In the first line, we call <code>ggplot()</code>, specifying the data frame to draw from, then in the <code>aes()</code> command (which stands for “aesthetic”) we specify the variable to plot. If this were a bivariate analysis, here we would have also specified a <code>y</code> variable to put on the y-axis. If we had just stopped there, we would have a sad, empty plot. The <code>+</code> symbol indicates that we’ll be adding something to the plot. <code>geom_histogram()</code> is the command to overlay a histogram.</p>
 <p>We’ll only be looking at a few of the ggplot commands today. I recommend taking a look at the online package documentation at <a href="http://docs.ggplot2.org" class="uri">http://docs.ggplot2.org</a> to see all of the many features available.</p>
 <p>When you’re just making graphs for yourself to explore the data, you don’t need to worry about things like axis labels as long as you can comprehend what’s going on. But when you prepare graphs for others to read (including those of us grading your problem sets!) you need to include an informative title and axis labels. To that end, use the <code>xlab()</code>, <code>ylab()</code>, and <code>ggtitle()</code> commands.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Population)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_histogram</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Population (thousands)&quot;</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Number of states&quot;</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Some states are big, but most are small&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb126-1" data-line-number="1"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Population)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb126-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_histogram</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb126-3" data-line-number="3"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Population (thousands)&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb126-4" data-line-number="4"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Number of states&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb126-5" data-line-number="5"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Some states are big, but most are small&quot;</span>)</a></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="pdaps_files/figure-html/axis-labeling-1.png" width="672" /></p>
 <p>The density plot is a close relative of the histogram. It provides a smooth estimate of the probability density function of the data. Accordingly, the area under the density plot integrates to one. Depending on your purposes, this can make the y-axis of a density plot easier or (usually) harder to interpret than the count given by a histogram.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Population)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_density</span>()</code></pre></div>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb128-1" data-line-number="1"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Population)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb128-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_density</span>()</a></code></pre></div>
 <p><img src="pdaps_files/figure-html/density-1.png" width="672" /></p>
 <p>The box plot is a common way to look at the distribution of a continuous variable across different levels of a categorical variable.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Region, <span class="dt">y =</span> Population)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_boxplot</span>()</code></pre></div>
+<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb129-1" data-line-number="1"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Region, <span class="dt">y =</span> Population)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb129-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_boxplot</span>()</a></code></pre></div>
 <p><img src="pdaps_files/figure-html/boxplot-1.png" width="672" /></p>
 <p>A box plot consists of the following components:</p>
 <ul>
@@ -259,28 +287,28 @@ state_data</code></pre></div>
 <li>Plotted points: any data lying outside the whiskers</li>
 </ul>
 <p>If you want to skip the summary and plot the full distribution of a variable across categories, you can use a violin plot.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Region, <span class="dt">y =</span> Population)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_violin</span>()</code></pre></div>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb130-1" data-line-number="1"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Region, <span class="dt">y =</span> Population)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb130-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_violin</span>()</a></code></pre></div>
 <p><img src="pdaps_files/figure-html/violin-1.png" width="672" /></p>
 <p>Technically, violin plots convey more information than box plots since they show the full distribution. However, readers aren’t as likely to be familiar with a violin plot. It’s harder to spot immediately where the median is (though you could add that to the plot if you wanted). Plus, violin plots look goofy with outliers—see the “West” column above—whereas box plots handle them easily.</p>
 <p>For visualizing relationships between continuous variables, nothing beats the scatterplot.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Illiteracy, <span class="dt">y =</span> LifeExp)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>()</code></pre></div>
+<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb131-1" data-line-number="1"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Illiteracy, <span class="dt">y =</span> LifeExp)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb131-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_point</span>()</a></code></pre></div>
 <p><img src="pdaps_files/figure-html/scatter-1.png" width="672" /></p>
 <p>When you’re plotting states or countries, a hip thing to do is plot abbreviated names instead of points. To do that, you can use <code>geom_text()</code> instead of <code>geom_point()</code>, supplying an additional aesthetic argument telling ggplot where to draw the labels from.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Illiteracy, <span class="dt">y =</span> LifeExp)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label =</span> Abbrev))</code></pre></div>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb132-1" data-line-number="1"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Illiteracy, <span class="dt">y =</span> LifeExp)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb132-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label =</span> Abbrev))</a></code></pre></div>
 <p><img src="pdaps_files/figure-html/scatter-text-1.png" width="672" /></p>
 <p>Maybe it’s overwhelming to look at all that raw data and you just want a summary. For example, maybe you want an estimate of expected <code>LifeExp</code> for each value of <code>Illiteracy</code>. This is called the <em>conditional expectation</em> and will be the subject of much of the rest of the course. For now, just now that you can calculate a smoothed conditional expectation via <code>geom_smooth()</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Illiteracy, <span class="dt">y =</span> LifeExp)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_smooth</span>()</code></pre></div>
-<pre><code>## `geom_smooth()` using method = &#39;loess&#39;</code></pre>
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb133-1" data-line-number="1"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Illiteracy, <span class="dt">y =</span> LifeExp)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb133-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_smooth</span>()</a></code></pre></div>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
 <p><img src="pdaps_files/figure-html/smooth-1.png" width="672" /></p>
 <p>And if you’re the kind of overachiever who likes to have the raw data <em>and</em> the summary, you can do it. Just add them both to the <code>ggplot()</code> call.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Illiteracy, <span class="dt">y =</span> LifeExp)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_smooth</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>()</code></pre></div>
-<pre><code>## `geom_smooth()` using method = &#39;loess&#39;</code></pre>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb135-1" data-line-number="1"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Illiteracy, <span class="dt">y =</span> LifeExp)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb135-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_smooth</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb135-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_point</span>()</a></code></pre></div>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
 <p><img src="pdaps_files/figure-html/combine-1.png" width="672" /></p>
 </div>
 <div id="saving-plots" class="section level2">
@@ -291,34 +319,34 @@ state_data</code></pre></div>
 <li>Assign your <code>ggplot()</code> call to a variable.</li>
 <li>Pass that variable to the <code>ggsave()</code> function.</li>
 </ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pop_hist &lt;-<span class="st"> </span><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Population)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_histogram</span>()
-
-<span class="kw">ggsave</span>(<span class="dt">filename =</span> <span class="st">&quot;pop-hist.pdf&quot;</span>,
-       <span class="dt">plot =</span> pop_hist,
-       <span class="dt">width =</span> <span class="dv">6</span>,
-       <span class="dt">height =</span> <span class="dv">3</span>)</code></pre></div>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb137-1" data-line-number="1">pop_hist &lt;-<span class="st"> </span><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Population)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb137-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_histogram</span>()</a>
+<a class="sourceLine" id="cb137-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb137-4" data-line-number="4"><span class="kw">ggsave</span>(<span class="dt">filename =</span> <span class="st">&quot;pop-hist.pdf&quot;</span>,</a>
+<a class="sourceLine" id="cb137-5" data-line-number="5">       <span class="dt">plot =</span> pop_hist,</a>
+<a class="sourceLine" id="cb137-6" data-line-number="6">       <span class="dt">width =</span> <span class="dv">6</span>,</a>
+<a class="sourceLine" id="cb137-7" data-line-number="7">       <span class="dt">height =</span> <span class="dv">3</span>)</a></code></pre></div>
 <p>If you want plot types other than PDF, just set a different extension. See <code>?ggsave</code> for the possibilities.</p>
 </div>
 <div id="faceting" class="section level2">
 <h2><span class="header-section-number">4.3</span> Faceting</h2>
 <p>Suppose you want to split the data into subgroups, as defined by some variable in the data (e.g., the region states are in), and make the same plot for each subgroup. ggplot’s <em>faceting</em> functions, <code>facet_wrap()</code> and <code>facet_grid()</code>, make this easy.</p>
 <p>To split up plots according to a single grouping variable, use <code>facet_wrap()</code>. This uses R’s <em>formula</em> syntax, defined by the tilde <code>~</code>, which you’ll become well acquainted with once we start running regressions.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Population)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_histogram</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>Region)</code></pre></div>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb138-1" data-line-number="1"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Population)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb138-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_histogram</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb138-3" data-line-number="3"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>Region)</a></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="pdaps_files/figure-html/facet-wrap-1.png" width="672" /></p>
 <p>If you don’t like the default arrangement, use the <code>ncol</code> argument.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Population)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_histogram</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>Region, <span class="dt">ncol =</span> <span class="dv">1</span>)</code></pre></div>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb140-1" data-line-number="1"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Population)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb140-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_histogram</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb140-3" data-line-number="3"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>Region, <span class="dt">ncol =</span> <span class="dv">1</span>)</a></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="pdaps_files/figure-html/facet-wrap-ncol-1.png" width="672" /></p>
 <p>For two grouping variables, use <code>facet_grid()</code>, putting variables on both sides of the formula.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Population)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_histogram</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">facet_grid</span>(Region <span class="op">~</span><span class="st"> </span>IncomeGroup)</code></pre></div>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb142-1" data-line-number="1"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Population)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb142-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_histogram</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb142-3" data-line-number="3"><span class="st">  </span><span class="kw">facet_grid</span>(Region <span class="op">~</span><span class="st"> </span>IncomeGroup)</a></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="pdaps_files/figure-html/facet-grid-1.png" width="672" /></p>
 </div>
@@ -326,53 +354,53 @@ state_data</code></pre></div>
 <h2><span class="header-section-number">4.4</span> Aesthetics</h2>
 <p>Faceting is one way to incorporate information about additional variables into what would otherwise be a plot of just one or two variables. Aesthetics—which alter the appearance of particular plot features depending on the value of a variable—provide another way to do that.</p>
 <p>For example, when visualizing the relationship between statewide illiteracy and life expectancy, you might want larger states to get more visual weight. You can set the <code>size</code> aesthetic of the <code>point</code> geometry to vary according to the state’s population.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Illiteracy, <span class="dt">y =</span> LifeExp)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">size =</span> Population))</code></pre></div>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb144-1" data-line-number="1"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Illiteracy, <span class="dt">y =</span> LifeExp)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb144-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">size =</span> Population))</a></code></pre></div>
 <p><img src="pdaps_files/figure-html/aes-size-1.png" width="672" /></p>
 <p>The <strong>ggplot2</strong> documentation lists the available aesthetics for each function. Another popular one is <code>colour</code>, which is great for on-screen display but not so much for the printed page. (And terrible for the colorblind!)</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Illiteracy, <span class="dt">y =</span> LifeExp)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">colour =</span> Region))</code></pre></div>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb145-1" data-line-number="1"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Illiteracy, <span class="dt">y =</span> LifeExp)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb145-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">colour =</span> Region))</a></code></pre></div>
 <p><img src="pdaps_files/figure-html/aes-colour-1.png" width="672" /></p>
 <p>For line graphs or density plots, you can set the <code>linetype</code> to vary by category.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Population)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_density</span>(<span class="kw">aes</span>(<span class="dt">linetype =</span> IncomeGroup))</code></pre></div>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb146-1" data-line-number="1"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Population)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb146-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_density</span>(<span class="kw">aes</span>(<span class="dt">linetype =</span> IncomeGroup))</a></code></pre></div>
 <p><img src="pdaps_files/figure-html/aes-linetype-1.png" width="672" /></p>
 <p>(I always find these incomprehensible with more than two lines, but maybe that’s just me.) You can use multiple aesthetics together, and you can even combine aesthetics with faceting, as in the following example.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Illiteracy, <span class="dt">y =</span> LifeExp)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_smooth</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label =</span> Abbrev, <span class="dt">colour =</span> Region, <span class="dt">size =</span> Population)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>IncomeGroup)</code></pre></div>
-<pre><code>## `geom_smooth()` using method = &#39;loess&#39;</code></pre>
+<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb147-1" data-line-number="1"><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Illiteracy, <span class="dt">y =</span> LifeExp)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb147-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_smooth</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb147-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label =</span> Abbrev, <span class="dt">colour =</span> Region, <span class="dt">size =</span> Population)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb147-4" data-line-number="4"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>IncomeGroup)</a></code></pre></div>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
 <p><img src="pdaps_files/figure-html/too-many-things-1.png" width="672" /></p>
 <p>But the fact that you <em>can</em> do something doesn’t mean you <em>should</em>. That plot is so cluttered that it’s hard to extract the relevant information from it. Data visualizations should communicate a clear message to viewers without overwhelming them. To do this well takes practice, patience, and maybe even a bit of taste.</p>
 </div>
 <div id="appendix-creating-the-example-data-1" class="section level2">
 <h2><span class="header-section-number">4.5</span> Appendix: Creating the Example Data</h2>
 <p>The example data comes from data on U.S. states in 1977 that are included with base R. See <code>?state</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)
-
-state_data &lt;-<span class="st"> </span>state.x77 <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">as_tibble</span>() <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">add_column</span>(<span class="dt">State =</span> <span class="kw">rownames</span>(state.x77),
-             <span class="dt">Abbrev =</span> state.abb,
-             <span class="dt">Region =</span> state.region,
-             <span class="dt">.before =</span> <span class="dv">1</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">rename</span>(<span class="dt">LifeExp =</span> <span class="st">`</span><span class="dt">Life Exp</span><span class="st">`</span>,
-         <span class="dt">HSGrad =</span> <span class="st">`</span><span class="dt">HS Grad</span><span class="st">`</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">IncomeGroup =</span> <span class="kw">cut</span>(Income,
-                           <span class="dt">breaks =</span> <span class="kw">quantile</span>(Income,
-                                             <span class="dt">probs =</span> <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">by =</span> <span class="dv">1</span><span class="op">/</span><span class="dv">3</span>)),
-                           <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;Low&quot;</span>, <span class="st">&quot;Medium&quot;</span>, <span class="st">&quot;High&quot;</span>),
-                           <span class="dt">include.lowest =</span> <span class="ot">TRUE</span>))
-
-<span class="kw">write_csv</span>(state_data, <span class="dt">path =</span> <span class="st">&quot;state-data.csv&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb149-1" data-line-number="1"><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</a>
+<a class="sourceLine" id="cb149-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb149-3" data-line-number="3">state_data &lt;-<span class="st"> </span>state.x77 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb149-4" data-line-number="4"><span class="st">  </span><span class="kw">as_tibble</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb149-5" data-line-number="5"><span class="st">  </span><span class="kw">add_column</span>(<span class="dt">State =</span> <span class="kw">rownames</span>(state.x77),</a>
+<a class="sourceLine" id="cb149-6" data-line-number="6">             <span class="dt">Abbrev =</span> state.abb,</a>
+<a class="sourceLine" id="cb149-7" data-line-number="7">             <span class="dt">Region =</span> state.region,</a>
+<a class="sourceLine" id="cb149-8" data-line-number="8">             <span class="dt">.before =</span> <span class="dv">1</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb149-9" data-line-number="9"><span class="st">  </span><span class="kw">rename</span>(<span class="dt">LifeExp =</span> <span class="st">`</span><span class="dt">Life Exp</span><span class="st">`</span>,</a>
+<a class="sourceLine" id="cb149-10" data-line-number="10">         <span class="dt">HSGrad =</span> <span class="st">`</span><span class="dt">HS Grad</span><span class="st">`</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb149-11" data-line-number="11"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">IncomeGroup =</span> <span class="kw">cut</span>(Income,</a>
+<a class="sourceLine" id="cb149-12" data-line-number="12">                           <span class="dt">breaks =</span> <span class="kw">quantile</span>(Income,</a>
+<a class="sourceLine" id="cb149-13" data-line-number="13">                                             <span class="dt">probs =</span> <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">by =</span> <span class="dv">1</span><span class="op">/</span><span class="dv">3</span>)),</a>
+<a class="sourceLine" id="cb149-14" data-line-number="14">                           <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;Low&quot;</span>, <span class="st">&quot;Medium&quot;</span>, <span class="st">&quot;High&quot;</span>),</a>
+<a class="sourceLine" id="cb149-15" data-line-number="15">                           <span class="dt">include.lowest =</span> <span class="ot">TRUE</span>))</a>
+<a class="sourceLine" id="cb149-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb149-17" data-line-number="17"><span class="kw">write_csv</span>(state_data, <span class="dt">path =</span> <span class="st">&quot;state-data.csv&quot;</span>)</a></code></pre></div>
 
 </div>
 </div>
 <div class="footnotes">
 <hr />
 <ol start="11">
-<li id="fn11"><p>Why 1977? Because it was easily available. See the appendix to this chapter.<a href="visualization.html#fnref11">↩</a></p></li>
+<li id="fn11"><p>Why 1977? Because it was easily available. See the appendix to this chapter.<a href="visualization.html#fnref11" class="footnote-back">↩</a></p></li>
 </ol>
 </div>
             </section>
@@ -381,27 +409,30 @@ state_data &lt;-<span class="st"> </span>state.x77 <span class="op">%&gt;%</span
         </div>
       </div>
 <a href="data.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="bivariate.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
-
+<a href="bivariate.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
 <script>
-require(["gitbook"], function(gitbook) {
+gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
 "sharing": {
 "github": false,
 "facebook": true,
 "twitter": true,
-"google": false,
+"linkedin": false,
 "weibo": false,
-"instapper": false,
+"instapaper": false,
 "vk": false,
-"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
 "theme": "white",
@@ -411,6 +442,14 @@ gitbook.start({
 "edit": {
 "link": "https://github.com/rstudio/bookdown-demo/edit/master/03-visualization.Rmd",
 "text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
 },
 "download": null,
 "toc": {
@@ -425,9 +464,12 @@ gitbook.start({
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
-    if (location.protocol !== "file:" && /^https?:/.test(script.src))
-      script.src  = script.src.replace(/^https?:/, '');
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>

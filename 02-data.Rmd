@@ -402,7 +402,7 @@ I want to get rid of the aggregates, like the "Arab World" and "World" we see he
 
 ```{r exclude-aggregates}
 dat_countries <- dat_raw %>%
-  filter(iso2c %in% countrycode_data$iso2c)
+  filter(iso2c %in% countrycode::codelist$iso2c)
 ```
 
 Let's check on which countries are left.  (I cut it down to max six characters per country name for printing purposes.)

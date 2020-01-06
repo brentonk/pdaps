@@ -1,16 +1,14 @@
 <!DOCTYPE html>
-<html >
-
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
 <head>
 
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Practical Data Analysis for Political Scientists</title>
-  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
-  <meta name="description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right.">
-  <meta name="generator" content="bookdown 0.3 and GitBook 2.6.7">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>6 Matrix Algebra: A Crash Course | Practical Data Analysis for Political Scientists</title>
+  <meta name="description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right." />
+  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Practical Data Analysis for Political Scientists" />
+  <meta property="og:title" content="6 Matrix Algebra: A Crash Course | Practical Data Analysis for Political Scientists" />
   <meta property="og:type" content="book" />
   
   
@@ -18,30 +16,33 @@
   <meta name="github-repo" content="brentonk/pdaps" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Practical Data Analysis for Political Scientists" />
+  <meta name="twitter:title" content="6 Matrix Algebra: A Crash Course | Practical Data Analysis for Political Scientists" />
   
   <meta name="twitter:description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right." />
   
 
-<meta name="author" content="Brenton Kenkel">
+<meta name="author" content="Brenton Kenkel" />
 
 
-<meta name="date" content="2017-04-02">
+<meta name="date" content="2020-01-06" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="bivariate.html">
-<link rel="next" href="ols-matrix.html">
-
+<link rel="prev" href="bivariate.html"/>
+<link rel="next" href="ols-matrix.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
 
 
 
@@ -52,47 +53,75 @@
 
 
 <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
 
 <body>
+
 
 
   <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
@@ -212,12 +241,17 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>An introductory treatment of matrix algebra is a semester-long college course. We don’t have that long, or even half that long. This chapter gives you the <em>bare minimum</em> you need to understand to get up and running with the matrix algebra we need for OLS with multiple covariates. If you want to use advanced statistical methods in your research and haven’t previously taken a matrix algebra or linear algebra course, I recommend taking some time this summer to catch up. For example, MIT has its undergraduate linear algebra course <a href="https://ocw.mit.edu/courses/mathematics/18-06-linear-algebra-spring-2010/index.htm">available online</a>, including video lectures.</p>
 <div id="vector-operations" class="section level2">
 <h2><span class="header-section-number">6.1</span> Vector Operations</h2>
-<p>A <em>vector</em> is an ordered array. To denote a vector <span class="math inline">\(v\)</span> of <span class="math inline">\(k\)</span> elements, we write <span class="math inline">\(\mathbf{v} = (v_1, v_2, \ldots, v_k)\)</span>, or sometimes <span class="math display">\[
+<p>A <em>vector</em> is an ordered array. To denote a vector <span class="math inline">\(v\)</span> of <span class="math inline">\(k\)</span> elements, we write <span class="math inline">\(\mathbf{v} = (v_1, v_2, \ldots, v_k)\)</span>, or sometimes
+<span class="math display">\[
 \mathbf{v} = \begin{pmatrix} v_1 \\ v_2 \\ \vdots \\ v_k \end{pmatrix}.
-\]</span> Notice the convention of using a lowercase bold letter to denote a vector. We will usually be dealing with vectors of real numbers. To denote the fact that <span class="math inline">\(\mathbf{v}\)</span> is a vector of <span class="math inline">\(k\)</span> real numbers, we write <span class="math inline">\(\mathbf{v} \in \mathbb{R}^k\)</span>.</p>
-<p>A vector can be multiplied by a scalar <span class="math inline">\(c \in \mathbb{R}\)</span>, producing what you would expect: <span class="math display">\[
+\]</span>
+Notice the convention of using a lowercase bold letter to denote a vector. We will usually be dealing with vectors of real numbers. To denote the fact that <span class="math inline">\(\mathbf{v}\)</span> is a vector of <span class="math inline">\(k\)</span> real numbers, we write <span class="math inline">\(\mathbf{v} \in \mathbb{R}^k\)</span>.</p>
+<p>A vector can be multiplied by a scalar <span class="math inline">\(c \in \mathbb{R}\)</span>, producing what you would expect:
+<span class="math display">\[
 c \mathbf{v} = \begin{pmatrix} c v_1 \\ c v_2 \\ \vdots \\ c v_k \end{pmatrix}
-\]</span> You can also add and subtract two vectors of the same length.<a href="#fn18" class="footnoteRef" id="fnref18"><sup>18</sup></a> <span class="math display">\[
+\]</span>
+You can also add and subtract two vectors of the same length.<a href="#fn18" class="footnote-ref" id="fnref18"><sup>18</sup></a>
+<span class="math display">\[
 \begin{aligned}
 \mathbf{u} + \mathbf{v} &amp;= \begin{pmatrix}
   u_1 + v_1 \\ u_2 + v_2 \\ \vdots \\ u_k + v_k
@@ -228,24 +262,30 @@ c \mathbf{v} = \begin{pmatrix} c v_1 \\ c v_2 \\ \vdots \\ c v_k \end{pmatrix}
 \end{aligned}
 \]</span></p>
 <p>A special vector is the <em>zero vector</em>, which contains—you guessed it—all zeroes. We write <span class="math inline">\(\mathbf{0}_k\)</span> to denote the zero vector of length <span class="math inline">\(k\)</span>. When the length of the zero vector is clear from the context, we may just write <span class="math inline">\(\mathbf{0}\)</span>.</p>
-<p>The last important vector operation is the <em>dot product</em>. The dot product of <span class="math inline">\(\mathbf{u}\)</span> and <span class="math inline">\(\mathbf{v}\)</span>, written <span class="math inline">\(\mathbf{u} \cdot \mathbf{v}\)</span>, is the sum of the products of the entries: <span class="math display">\[
+<p>The last important vector operation is the <em>dot product</em>. The dot product of <span class="math inline">\(\mathbf{u}\)</span> and <span class="math inline">\(\mathbf{v}\)</span>, written <span class="math inline">\(\mathbf{u} \cdot \mathbf{v}\)</span>, is the sum of the products of the entries:
+<span class="math display">\[
 \mathbf{u} \cdot \mathbf{v}
 =
 u_1 v_1 + u_2 v_2 + \cdots + u_k v_k
 =
 \sum_{m=1}^k u_m v_m.
 \]</span></p>
-<p>An important concept for regression analysis is the linear independence of a collection of vectors. Let <span class="math inline">\(\mathbf{v}_1, \ldots, \mathbf{v}_J\)</span> be a collection of <span class="math inline">\(J\)</span> vectors, each of length <span class="math inline">\(k\)</span>. We call <span class="math inline">\(\mathbf{u}\)</span> a <em>linear combination</em> of <span class="math inline">\(\mathbf{v}_1, \ldots, \mathbf{v}_J\)</span> if there exist real numbers <span class="math inline">\(c_1, \ldots, c_J\)</span> such that <span class="math display">\[
+<p>An important concept for regression analysis is the linear independence of a collection of vectors. Let <span class="math inline">\(\mathbf{v}_1, \ldots, \mathbf{v}_J\)</span> be a collection of <span class="math inline">\(J\)</span> vectors, each of length <span class="math inline">\(k\)</span>. We call <span class="math inline">\(\mathbf{u}\)</span> a <em>linear combination</em> of <span class="math inline">\(\mathbf{v}_1, \ldots, \mathbf{v}_J\)</span> if there exist real numbers <span class="math inline">\(c_1, \ldots, c_J\)</span> such that
+<span class="math display">\[
 \mathbf{u} = c_1 \mathbf{v}_1 + \cdots + c_J \mathbf{v}_J = \sum_{j=1}^J c_j \mathbf{v}_j.
-\]</span> A collection of vectors is <em>linearly independent</em> if the only solution to <span class="math display">\[
+\]</span>
+A collection of vectors is <em>linearly independent</em> if the only solution to
+<span class="math display">\[
 c_1 \mathbf{v}_1 + \cdots + c_J \mathbf{v}_J = \mathbf{0}
-\]</span> is <span class="math inline">\(c_1 = 0, \ldots, c_J = 0\)</span>. Otherwise, we call the vectors <em>linearly dependent</em>. Some fun facts about linear independence:</p>
+\]</span>
+is <span class="math inline">\(c_1 = 0, \ldots, c_J = 0\)</span>. Otherwise, we call the vectors <em>linearly dependent</em>. Some fun facts about linear independence:</p>
 <ul>
 <li><p>If any vector in <span class="math inline">\(\mathbf{v}_1, \ldots, \mathbf{v}_J\)</span> is a linear combination of the others, then these vectors are linearly dependent.</p></li>
 <li><p>A collection of <span class="math inline">\(J\)</span> vectors of length <span class="math inline">\(k\)</span> cannot be linearly independent if <span class="math inline">\(J &gt; k\)</span>. In other words, given vectors of length <span class="math inline">\(k\)</span>, the most that can be linearly independent of each other is <span class="math inline">\(k\)</span>.</p></li>
 <li><p>If any <span class="math inline">\(\mathbf{v}_j = \mathbf{0}\)</span>, then <span class="math inline">\(\mathbf{v}_1, \ldots, \mathbf{v}_J\)</span> are linearly dependent. (Why?)</p></li>
 </ul>
-<p>Examples: <span class="math display">\[
+<p>Examples:
+<span class="math display">\[
 \begin{gathered}
 \mathbf{v}_1 = \begin{pmatrix} 1 \\ 1 \\ 1 \end{pmatrix},
 \mathbf{v}_2 = \begin{pmatrix} 0 \\ 1 \\ 0 \end{pmatrix},
@@ -261,16 +301,19 @@ c_1 \mathbf{v}_1 + \cdots + c_J \mathbf{v}_J = \mathbf{0}
 </div>
 <div id="matrix-operations" class="section level2">
 <h2><span class="header-section-number">6.2</span> Matrix Operations</h2>
-<p>A matrix is a two-dimensional array of numbers, with entries in rows and columns. We call a matrix with <span class="math inline">\(n\)</span> rows and <span class="math inline">\(m\)</span> columns an <span class="math inline">\(n \times m\)</span> matrix. For example, the following is a <span class="math inline">\(2 \times 3\)</span> matrix: <span class="math display">\[
+<p>A matrix is a two-dimensional array of numbers, with entries in rows and columns. We call a matrix with <span class="math inline">\(n\)</span> rows and <span class="math inline">\(m\)</span> columns an <span class="math inline">\(n \times m\)</span> matrix. For example, the following is a <span class="math inline">\(2 \times 3\)</span> matrix:
+<span class="math display">\[
 \mathbf{A}
 =
 \begin{bmatrix}
   99 &amp; 73 &amp; 2 \\
   13 &amp; 40 &amp; 41
 \end{bmatrix}
-\]</span> Notice the convention of using an uppercase bold letter to denote a matrix. Given a matrix <span class="math inline">\(\mathbf{A}\)</span>, we usually write <span class="math inline">\(a_{ij}\)</span> to denote the entry in the <span class="math inline">\(i\)</span>’th row and <span class="math inline">\(j\)</span>’th column. In the above example, we have <span class="math inline">\(a_{13} = 2\)</span>.</p>
+\]</span>
+Notice the convention of using an uppercase bold letter to denote a matrix. Given a matrix <span class="math inline">\(\mathbf{A}\)</span>, we usually write <span class="math inline">\(a_{ij}\)</span> to denote the entry in the <span class="math inline">\(i\)</span>’th row and <span class="math inline">\(j\)</span>’th column. In the above example, we have <span class="math inline">\(a_{13} = 2\)</span>.</p>
 <p>You can think of a vector <span class="math inline">\(\mathbf{v} \in \mathbb{R}^k\)</span> as a <span class="math inline">\(1 \times k\)</span> <em>row matrix</em> or as a <span class="math inline">\(k \times 1\)</span> <em>column matrix</em>. Throughout this book, I will treat vectors as column matrices unless otherwise noted.</p>
-<p>Like vectors, matrices can be multipled by a scalar <span class="math inline">\(c \in \mathbb{R}\)</span>. <span class="math display">\[
+<p>Like vectors, matrices can be multipled by a scalar <span class="math inline">\(c \in \mathbb{R}\)</span>.
+<span class="math display">\[
 c \mathbf{A} =
 \begin{bmatrix}
   c a_{11} &amp; c a_{12} &amp; \cdots &amp; c a_{1m} \\
@@ -279,7 +322,8 @@ c \mathbf{A} =
   c a_{n1} &amp; c a_{n2} &amp; \cdots &amp; c a_{nm}
 \end{bmatrix}
 \]</span></p>
-<p>Matrices of the same dimension (i.e., both with the same number of rows <span class="math inline">\(n\)</span> and columns <span class="math inline">\(m\)</span>) can be added … <span class="math display">\[
+<p>Matrices of the same dimension (i.e., both with the same number of rows <span class="math inline">\(n\)</span> and columns <span class="math inline">\(m\)</span>) can be added …
+<span class="math display">\[
 \mathbf{A} + \mathbf{B} =
 \begin{bmatrix}
   a_{11} + b_{11} &amp; a_{12} + b_{12} &amp; \cdots &amp; a_{1m} + b_{1m} \\
@@ -287,7 +331,9 @@ c \mathbf{A} =
   \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
   a_{n1} + b_{n1} &amp; a_{n2} + b_{n2} &amp; \cdots &amp; a_{nm} + b_{nm} \\
 \end{bmatrix}
-\]</span> … and subtracted … <span class="math display">\[
+\]</span>
+… and subtracted …
+<span class="math display">\[
 \mathbf{A} - \mathbf{B} =
 \begin{bmatrix}
   a_{11} - b_{11} &amp; a_{12} - b_{12} &amp; \cdots &amp; a_{1m} - b_{1m} \\
@@ -296,7 +342,8 @@ c \mathbf{A} =
   a_{n1} - b_{n1} &amp; a_{n2} - b_{n2} &amp; \cdots &amp; a_{nm} - b_{nm} \\
 \end{bmatrix}
 \]</span></p>
-<p>Sometimes you will want to “rotate” an <span class="math inline">\(n \times m\)</span> matrix into an <span class="math inline">\(m \times n\)</span> one, so that the first row becomes the first column, the second row becomes the second column, and so on. This is called the <em>transpose</em>. I write the transpose of <span class="math inline">\(\mathbf{A}\)</span> as <span class="math inline">\(\mathbf{A}^\top\)</span>, though you will often also see it written <span class="math inline">\(\mathbf{A}&#39;\)</span>. For example: <span class="math display">\[
+<p>Sometimes you will want to “rotate” an <span class="math inline">\(n \times m\)</span> matrix into an <span class="math inline">\(m \times n\)</span> one, so that the first row becomes the first column, the second row becomes the second column, and so on. This is called the <em>transpose</em>. I write the transpose of <span class="math inline">\(\mathbf{A}\)</span> as <span class="math inline">\(\mathbf{A}^\top\)</span>, though you will often also see it written <span class="math inline">\(\mathbf{A}&#39;\)</span>. For example:
+<span class="math display">\[
 \mathbf{A}
 =
 \begin{bmatrix}
@@ -312,7 +359,9 @@ c \mathbf{A} =
   73 &amp; 40 \\
   2 &amp; 41
 \end{bmatrix}
-\]</span> Some of the most commonly invoked properties of the transpose are: <span class="math display">\[
+\]</span>
+Some of the most commonly invoked properties of the transpose are:
+<span class="math display">\[
 \begin{aligned}
 (\mathbf{A}^\top)^\top &amp;= \mathbf{A}, \\
 (c \mathbf{A})^\top &amp;= c \mathbf{A}^\top, \\
@@ -341,9 +390,12 @@ c \mathbf{A} =
   0 &amp; 0 &amp; 1
 \end{bmatrix}\]</span></p></li>
 </ul>
-<p>And last we come to matrix multiplication. Whereas matrix addition and subtraction are pretty intuitive, matrix multiplication is not. Let <span class="math inline">\(\mathbf{A}\)</span> be an <span class="math inline">\(n \times m\)</span> matrix and <span class="math inline">\(\mathbf{B}\)</span> be an <span class="math inline">\(m \times p\)</span> matrix. (Notice that the number of columns of <span class="math inline">\(\mathbf{A}\)</span> must match the number of rows of <span class="math inline">\(\mathbf{B}\)</span>.) Then <span class="math inline">\(\mathbf{C} = \mathbf{A} \mathbf{B}\)</span> is an <span class="math inline">\(n \times p\)</span> matrix whose <span class="math inline">\(ij\)</span>’th element is the dot product of the <span class="math inline">\(i\)</span>’th row of <span class="math inline">\(\mathbf{A}\)</span> and the <span class="math inline">\(j\)</span>’th column of <span class="math inline">\(\mathbf{B}\)</span>: <span class="math display">\[
+<p>And last we come to matrix multiplication. Whereas matrix addition and subtraction are pretty intuitive, matrix multiplication is not. Let <span class="math inline">\(\mathbf{A}\)</span> be an <span class="math inline">\(n \times m\)</span> matrix and <span class="math inline">\(\mathbf{B}\)</span> be an <span class="math inline">\(m \times p\)</span> matrix. (Notice that the number of columns of <span class="math inline">\(\mathbf{A}\)</span> must match the number of rows of <span class="math inline">\(\mathbf{B}\)</span>.) Then <span class="math inline">\(\mathbf{C} = \mathbf{A} \mathbf{B}\)</span> is an <span class="math inline">\(n \times p\)</span> matrix whose <span class="math inline">\(ij\)</span>’th element is the dot product of the <span class="math inline">\(i\)</span>’th row of <span class="math inline">\(\mathbf{A}\)</span> and the <span class="math inline">\(j\)</span>’th column of <span class="math inline">\(\mathbf{B}\)</span>:
+<span class="math display">\[
 c_{ij} = a_{i1} b_{1j} + a_{i2} b_{2j} + \cdots + a_{im} b_{mj}.
-\]</span> Some examples might make this more clear. <span class="math display">\[
+\]</span>
+Some examples might make this more clear.
+<span class="math display">\[
 \begin{gathered}
 \mathbf{A} = \begin{bmatrix}
   2 &amp; 10 \\
@@ -365,7 +417,9 @@ c_{ij} = a_{i1} b_{1j} + a_{i2} b_{2j} + \cdots + a_{im} b_{mj}.
   -6 &amp; 46
 \end{bmatrix}
 \end{gathered}
-\]</span> And here’s one that you’ll start seeing a lot of soon. <span class="math display">\[
+\]</span>
+And here’s one that you’ll start seeing a lot of soon.
+<span class="math display">\[
 \begin{gathered}
 \mathbf{A} = \begin{bmatrix}
   1 &amp; x_{11} &amp; x_{12} \\
@@ -419,16 +473,20 @@ c_{ij} = a_{i1} b_{1j} + a_{i2} b_{2j} + \cdots + a_{im} b_{mj}.
 <div id="matrix-inversion" class="section level2">
 <h2><span class="header-section-number">6.3</span> Matrix Inversion</h2>
 <p>We’ve covered matrix addition, subtraction, and multiplication. What about division?</p>
-<p>Let’s think about division of real numbers for a second. We know that any division problem can be rewritten as a multiplication problem, <span class="math display">\[
+<p>Let’s think about division of real numbers for a second. We know that any division problem can be rewritten as a multiplication problem,
+<span class="math display">\[
 \frac{a}{b} = a \times b^{-1},
-\]</span> where <span class="math inline">\(b^{-1}\)</span> is the unique real number such that <span class="math display">\[
+\]</span>
+where <span class="math inline">\(b^{-1}\)</span> is the unique real number such that
+<span class="math display">\[
 b \times b^{-1} = 1.
 \]</span></p>
 <p>Similarly, in matrix algebra, we say that the <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(\mathbf{C}\)</span> is an <em>inverse</em> of the <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(\mathbf{A}\)</span> if <span class="math inline">\(\mathbf{A} \mathbf{C} = \mathbf{C} \mathbf{A} = \mathbf{I}_n\)</span>.</p>
 <p>Some basic properties of matrix inverses:</p>
 <ul>
 <li><p>If <span class="math inline">\(\mathbf{C}\)</span> is an inverse of <span class="math inline">\(\mathbf{A}\)</span>, then <span class="math inline">\(\mathbf{A}\)</span> is an inverse of <span class="math inline">\(\mathbf{C}\)</span>. This is immediate from the definition.</p></li>
-<li><p>If <span class="math inline">\(\mathbf{C}\)</span> and <span class="math inline">\(\mathbf{D}\)</span> are both inverses of <span class="math inline">\(\mathbf{A}\)</span>, then <span class="math inline">\(\mathbf{C} = \mathbf{D}\)</span>. Proof: If <span class="math inline">\(\mathbf{C}\)</span> and <span class="math inline">\(\mathbf{D}\)</span> are inverses of <span class="math inline">\(\mathbf{A}\)</span>, then we have <span class="math display">\[
+<li><p>If <span class="math inline">\(\mathbf{C}\)</span> and <span class="math inline">\(\mathbf{D}\)</span> are both inverses of <span class="math inline">\(\mathbf{A}\)</span>, then <span class="math inline">\(\mathbf{C} = \mathbf{D}\)</span>. Proof: If <span class="math inline">\(\mathbf{C}\)</span> and <span class="math inline">\(\mathbf{D}\)</span> are inverses of <span class="math inline">\(\mathbf{A}\)</span>, then we have
+<span class="math display">\[
 \begin{aligned}
 \mathbf{A} \mathbf{C} = \mathbf{I}
 &amp;\Leftrightarrow \mathbf{D} (\mathbf{A} \mathbf{C}) = \mathbf{D} \mathbf{I} \\
@@ -443,25 +501,34 @@ b \times b^{-1} = 1.
 <li><p>Matrix inversion inverts scalar multiplication: if <span class="math inline">\(c \neq 0\)</span>, then <span class="math inline">\((c \mathbf{A})^{-1} = (1/c) \mathbf{A}^{-1}\)</span>.</p></li>
 <li><p>The identity matrix is its own inverse: <span class="math inline">\(\mathbf{I}_n^{-1} = \mathbf{I}_n\)</span>.</p></li>
 </ul>
-<p>Some matrices are not <em>invertible</em>; i.e., their inverse does not exist. As a simple example, think of <span class="math display">\[
+<p>Some matrices are not <em>invertible</em>; i.e., their inverse does not exist. As a simple example, think of
+<span class="math display">\[
 \mathbf{A} = \begin{bmatrix}
 0 &amp; 0 \\ 0 &amp; 0
 \end{bmatrix}.
-\]</span> It’s easy to see that, for any <span class="math inline">\(2 \times 2\)</span> matrix <span class="math inline">\(\mathbf{B}\)</span>, we have <span class="math display">\[
+\]</span>
+It’s easy to see that, for any <span class="math inline">\(2 \times 2\)</span> matrix <span class="math inline">\(\mathbf{B}\)</span>, we have
+<span class="math display">\[
 \mathbf{A} \mathbf{B} = \begin{bmatrix} 0 &amp; 0 \\ 0 &amp; 0 \end{bmatrix} \neq \mathbf{I}_2.
-\]</span> Therefore, <span class="math inline">\(\mathbf{A}\)</span> does not have an inverse.</p>
-<p>Remember that matrix inversion is kind of like division for scalar numbers. In that light, the previous example is a generalization of the principle that you can’t divide by zero. But matrices full of zeroes are not the only ones that aren’t invertible. For instance, it may not be obvious at first glance, but the following matrix is not invertible: <span class="math display">\[
+\]</span>
+Therefore, <span class="math inline">\(\mathbf{A}\)</span> does not have an inverse.</p>
+<p>Remember that matrix inversion is kind of like division for scalar numbers. In that light, the previous example is a generalization of the principle that you can’t divide by zero. But matrices full of zeroes are not the only ones that aren’t invertible. For instance, it may not be obvious at first glance, but the following matrix is not invertible:
+<span class="math display">\[
 \mathbf{A} = \begin{bmatrix}
 1 &amp; 2 \\
 2 &amp; 4
 \end{bmatrix}.
-\]</span> We know that because of the following theorem: <em>A matrix is invertible if and only if its columns are linearly independent.</em> In the above example, the second column is 2 times the first column, so the columns are not linearly independent, so the matrix is not invertible.</p>
-<p>Consider the general <span class="math inline">\(2 \times 2\)</span> matrix <span class="math display">\[
+\]</span>
+We know that because of the following theorem: <em>A matrix is invertible if and only if its columns are linearly independent.</em> In the above example, the second column is 2 times the first column, so the columns are not linearly independent, so the matrix is not invertible.</p>
+<p>Consider the general <span class="math inline">\(2 \times 2\)</span> matrix
+<span class="math display">\[
 \mathbf{A} = \begin{bmatrix}
 a &amp; b \\
 c &amp; d
 \end{bmatrix}.
-\]</span> We have a simple criterion for linear independence here. In particular, the columns of <span class="math inline">\(\mathbf{A}\)</span> are linearly independent if and only if <span class="math inline">\(ad \neq bc\)</span>, or <span class="math inline">\(ad - bc \neq 0\)</span>. We call this the <em>determinant</em> of the matrix, since it determines whether the matrix is invertible.<a href="#fn19" class="footnoteRef" id="fnref19"><sup>19</sup></a> Moreover, if <span class="math inline">\(ad - bc \neq 0\)</span> we have <span class="math display">\[
+\]</span>
+We have a simple criterion for linear independence here. In particular, the columns of <span class="math inline">\(\mathbf{A}\)</span> are linearly independent if and only if <span class="math inline">\(ad \neq bc\)</span>, or <span class="math inline">\(ad - bc \neq 0\)</span>. We call this the <em>determinant</em> of the matrix, since it determines whether the matrix is invertible.<a href="#fn19" class="footnote-ref" id="fnref19"><sup>19</sup></a> Moreover, if <span class="math inline">\(ad - bc \neq 0\)</span> we have
+<span class="math display">\[
 \mathbf{A}^{-1} = \frac{1}{ad - bc} \begin{bmatrix}
 d &amp; -b \\
 -c &amp; a
@@ -496,12 +563,15 @@ d &amp; -b \\
 </div>
 <div id="solving-linear-systems" class="section level2">
 <h2><span class="header-section-number">6.4</span> Solving Linear Systems</h2>
-<p>You may remember from high school being asked to solve for <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span> in systems of equations like the following one: <span class="math display">\[
+<p>You may remember from high school being asked to solve for <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span> in systems of equations like the following one:
+<span class="math display">\[
 \begin{aligned}
 2 x_1 + x_2 &amp;= 10, \\
 2 x_1 - x_2 &amp;= -10.
 \end{aligned}
-\]</span> Matrix algebra lets us write this whole system as a single equation, <span class="math inline">\(\mathbf{A} \mathbf{x} = \mathbf{b}\)</span>, where <span class="math display">\[
+\]</span>
+Matrix algebra lets us write this whole system as a single equation, <span class="math inline">\(\mathbf{A} \mathbf{x} = \mathbf{b}\)</span>, where
+<span class="math display">\[
 \begin{aligned}
 \mathbf{A} &amp;= \begin{bmatrix}
 2 &amp; 1 \\
@@ -512,13 +582,15 @@ d &amp; -b \\
 \end{aligned}
 \]</span></p>
 <p>This suggests a natural way to solve for <span class="math inline">\(\mathbf{x}\)</span>: <span class="math display">\[\mathbf{x} = \mathbf{A}^{-1} \mathbf{b}.\]</span> In fact, the linear system of equations <span class="math inline">\(\mathbf{A} \mathbf{x} = \mathbf{b}\)</span> has a unique solution if and only if <span class="math inline">\(\mathbf{A}\)</span> is invertible. Otherwise, it has either zero solutions or infinitely many solutions.</p>
-<p>Example with zero solutions: <span class="math display">\[
+<p>Example with zero solutions:
+<span class="math display">\[
 \begin{aligned}
 x_1 + x_2 &amp;= 1, \\
 2 x_1 + 2 x_2 &amp;= 10.
 \end{aligned}
 \]</span></p>
-<p>Example with infinitely many solutions: <span class="math display">\[
+<p>Example with infinitely many solutions:
+<span class="math display">\[
 \begin{aligned}
 x_1 + x_2 &amp;= 1, \\
 2 x_1 + 2 x_2 &amp;= 2.
@@ -529,108 +601,108 @@ x_1 + x_2 &amp;= 1, \\
 <h2><span class="header-section-number">6.5</span> Appendix: Matrices in R</h2>
 <!-- Making this a separate Rmd file since the math in the other one was driving R Studio insane -->
 <p>We use the <code>matrix()</code> command to create matrices.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">A &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">4</span>),
-            <span class="dt">nrow =</span> <span class="dv">2</span>,
-            <span class="dt">ncol =</span> <span class="dv">2</span>)
-A</code></pre></div>
+<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb179-1" data-line-number="1">A &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">4</span>),</a>
+<a class="sourceLine" id="cb179-2" data-line-number="2">            <span class="dt">nrow =</span> <span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb179-3" data-line-number="3">            <span class="dt">ncol =</span> <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb179-4" data-line-number="4">A</a></code></pre></div>
 <pre><code>##      [,1] [,2]
 ## [1,]    2    3
 ## [2,]    1    4</code></pre>
 <p>Notice that it fills “down” by column. To fill “across” instead, use the <code>byrow</code> argument:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">B &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">4</span>),
-            <span class="dt">nrow =</span> <span class="dv">2</span>,
-            <span class="dt">ncol =</span> <span class="dv">2</span>,
-            <span class="dt">byrow =</span> <span class="dv">2</span>)
-B</code></pre></div>
+<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb181-1" data-line-number="1">B &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">4</span>),</a>
+<a class="sourceLine" id="cb181-2" data-line-number="2">            <span class="dt">nrow =</span> <span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb181-3" data-line-number="3">            <span class="dt">ncol =</span> <span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb181-4" data-line-number="4">            <span class="dt">byrow =</span> <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb181-5" data-line-number="5">B</a></code></pre></div>
 <pre><code>##      [,1] [,2]
 ## [1,]    2    1
 ## [2,]    3    4</code></pre>
 <p>There are a few utilities for checking the dimension of a matrix.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">nrow</span>(A)</code></pre></div>
+<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb183-1" data-line-number="1"><span class="kw">nrow</span>(A)</a></code></pre></div>
 <pre><code>## [1] 2</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ncol</span>(A)</code></pre></div>
+<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb185-1" data-line-number="1"><span class="kw">ncol</span>(A)</a></code></pre></div>
 <pre><code>## [1] 2</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dim</span>(A)</code></pre></div>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb187-1" data-line-number="1"><span class="kw">dim</span>(A)</a></code></pre></div>
 <pre><code>## [1] 2 2</code></pre>
 <p>To extract the <span class="math inline">\(i\)</span>’th row, <span class="math inline">\(j\)</span>’th column, or <span class="math inline">\(ij\)</span>’th element, use square brackets.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">A[<span class="dv">1</span>, ]   <span class="co"># 1st row</span></code></pre></div>
+<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb189-1" data-line-number="1">A[<span class="dv">1</span>, ]   <span class="co"># 1st row</span></a></code></pre></div>
 <pre><code>## [1] 2 3</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">A[, <span class="dv">2</span>]   <span class="co"># 2nd column</span></code></pre></div>
+<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb191-1" data-line-number="1">A[, <span class="dv">2</span>]   <span class="co"># 2nd column</span></a></code></pre></div>
 <pre><code>## [1] 3 4</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">A[<span class="dv">2</span>, <span class="dv">1</span>]  <span class="co"># entry in 2nd row, 1st column</span></code></pre></div>
+<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb193-1" data-line-number="1">A[<span class="dv">2</span>, <span class="dv">1</span>]  <span class="co"># entry in 2nd row, 1st column</span></a></code></pre></div>
 <pre><code>## [1] 1</code></pre>
 <p>Notice that when you extract a row or column, R turns it into a vector—the result has only a single dimension. If you dislike this behavior (i.e., you want an extracted column to be a 1-column matrix), use the <code>drop = FALSE</code> option in the square brackets.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">A[, <span class="dv">2</span>, drop =<span class="st"> </span><span class="ot">FALSE</span>]</code></pre></div>
+<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb195-1" data-line-number="1">A[, <span class="dv">2</span>, drop =<span class="st"> </span><span class="ot">FALSE</span>]</a></code></pre></div>
 <pre><code>##      [,1]
 ## [1,]    3
 ## [2,]    4</code></pre>
 <p>Adding and subtracting matrices works as you’d expect.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">A <span class="op">+</span><span class="st"> </span>B</code></pre></div>
+<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb197-1" data-line-number="1">A <span class="op">+</span><span class="st"> </span>B</a></code></pre></div>
 <pre><code>##      [,1] [,2]
 ## [1,]    4    4
 ## [2,]    4    8</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">A <span class="op">-</span><span class="st"> </span>B</code></pre></div>
+<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb199-1" data-line-number="1">A <span class="op">-</span><span class="st"> </span>B</a></code></pre></div>
 <pre><code>##      [,1] [,2]
 ## [1,]    0    2
 ## [2,]   -2    0</code></pre>
 <p>As does scalar multiplication.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">5</span> <span class="op">*</span><span class="st"> </span>A</code></pre></div>
+<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb201-1" data-line-number="1"><span class="dv">5</span> <span class="op">*</span><span class="st"> </span>A</a></code></pre></div>
 <pre><code>##      [,1] [,2]
 ## [1,]   10   15
 ## [2,]    5   20</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="op">-</span><span class="dv">1</span> <span class="op">*</span><span class="st"> </span>B</code></pre></div>
+<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb203-1" data-line-number="1"><span class="dv">-1</span> <span class="op">*</span><span class="st"> </span>B</a></code></pre></div>
 <pre><code>##      [,1] [,2]
 ## [1,]   -2   -1
 ## [2,]   -3   -4</code></pre>
 <p>However, the <code>*</code> operator performs <em>element-by-element</em> multiplication, not matrix multiplication.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">A <span class="op">*</span><span class="st"> </span>B</code></pre></div>
+<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb205-1" data-line-number="1">A <span class="op">*</span><span class="st"> </span>B</a></code></pre></div>
 <pre><code>##      [,1] [,2]
 ## [1,]    4    3
 ## [2,]    3   16</code></pre>
 <p>To perform matrix multiplication, use the <code>%*%</code> operator.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">A <span class="op">%*%</span><span class="st"> </span>B</code></pre></div>
+<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb207-1" data-line-number="1">A <span class="op">%*%</span><span class="st"> </span>B</a></code></pre></div>
 <pre><code>##      [,1] [,2]
 ## [1,]   13   14
 ## [2,]   14   17</code></pre>
 <p>To invert a matrix or solve a linear system, use the <code>solve()</code> function.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Invert A</span>
-<span class="kw">solve</span>(A)</code></pre></div>
+<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb209-1" data-line-number="1"><span class="co"># Invert A</span></a>
+<a class="sourceLine" id="cb209-2" data-line-number="2"><span class="kw">solve</span>(A)</a></code></pre></div>
 <pre><code>##      [,1] [,2]
 ## [1,]  0.8 -0.6
 ## [2,] -0.2  0.4</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Solve for x in Ax = (3, 2)</span>
-<span class="kw">solve</span>(A, <span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">2</span>))</code></pre></div>
+<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb211-1" data-line-number="1"><span class="co"># Solve for x in Ax = (3, 2)</span></a>
+<a class="sourceLine" id="cb211-2" data-line-number="2"><span class="kw">solve</span>(A, <span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">2</span>))</a></code></pre></div>
 <pre><code>## [1] 1.2 0.2</code></pre>
 <p>Here is a not-so-fun fact about matrix inversion in R: it’s not entirely exact. To see this, let’s invert a matrix with some decimal elements.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">X &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="fl">1.123</span>, <span class="fl">2.345</span>, <span class="fl">3.456</span>, <span class="fl">4.567</span>), <span class="dv">2</span>, <span class="dv">2</span>)
-Y &lt;-<span class="st"> </span><span class="kw">solve</span>(X)
-Y</code></pre></div>
-<pre><code>##          [,1]     [,2]
-## [1,] -1.53483  1.16145
-## [2,]  0.78808 -0.37741</code></pre>
+<div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb213-1" data-line-number="1">X &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="fl">1.123</span>, <span class="fl">2.345</span>, <span class="fl">3.456</span>, <span class="fl">4.567</span>), <span class="dv">2</span>, <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb213-2" data-line-number="2">Y &lt;-<span class="st"> </span><span class="kw">solve</span>(X)</a>
+<a class="sourceLine" id="cb213-3" data-line-number="3">Y</a></code></pre></div>
+<pre><code>##            [,1]       [,2]
+## [1,] -1.5348273  1.1614546
+## [2,]  0.7880819 -0.3774055</code></pre>
 <p>Now let’s see what we get when we multiply <code>X</code> and <code>Y</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">X <span class="op">%*%</span><span class="st"> </span>Y</code></pre></div>
-<pre><code>##          [,1]       [,2]
-## [1,] 1.00e+00 1.4798e-16
-## [2,] 8.21e-17 1.0000e+00</code></pre>
+<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb215-1" data-line-number="1">X <span class="op">%*%</span><span class="st"> </span>Y</a></code></pre></div>
+<pre><code>##      [,1]         [,2]
+## [1,]    1 2.220446e-16
+## [2,]    0 1.000000e+00</code></pre>
 <p>That’s not an identity matrix! The issue here is <em>floating point error</em>, the fact that decimal numbers are not stored exactly on computers. Notice that the off-diagonal elements here, which are supposed to be exactly zero, are instead very very tiny numbers, on the order of <span class="math inline">\(10^{-16}\)</span>, or 0.0000000000000001.</p>
 <p>Let’s check that our result is <em>numerically</em> equal to what we expected. By numerically equal, I mean, loosely speaking, that any differences are less than the amount of error you would expect due to floating point error. First we’ll use <code>diag()</code> to generate a <span class="math inline">\(2 \times 2\)</span> identity matrix, then we’ll compare numerical equality using <code>all.equal()</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">I &lt;-<span class="st"> </span><span class="kw">diag</span>(<span class="dv">2</span>)
-<span class="kw">all.equal</span>(X <span class="op">%*%</span><span class="st"> </span>Y, I)</code></pre></div>
+<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb217-1" data-line-number="1">I &lt;-<span class="st"> </span><span class="kw">diag</span>(<span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb217-2" data-line-number="2"><span class="kw">all.equal</span>(X <span class="op">%*%</span><span class="st"> </span>Y, I)</a></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 <p>Whereas the traditional <code>==</code> operator is stricter, checking for exact equality.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">X <span class="op">%*%</span><span class="st"> </span>Y <span class="op">==</span><span class="st"> </span>I</code></pre></div>
+<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb219-1" data-line-number="1">X <span class="op">%*%</span><span class="st"> </span>Y <span class="op">==</span><span class="st"> </span>I</a></code></pre></div>
 <pre><code>##       [,1]  [,2]
-## [1,]  TRUE FALSE
-## [2,] FALSE FALSE</code></pre>
+## [1,] FALSE FALSE
+## [2,]  TRUE FALSE</code></pre>
 <p>Moral of the story: when comparing decimal numbers, use <code>all.equal()</code> rather than <code>==</code>. When <code>all.equal()</code> is not <code>TRUE</code>, it returns a message indicating how far apart the numbers are. This is annoying if you want to use <code>all.equal()</code> in, say, an <code>if</code>/<code>else</code> statement. To get around that, we have the <code>isTRUE()</code> function.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">all.equal</span>(<span class="fl">1.0</span>, <span class="fl">1.5</span>)</code></pre></div>
+<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb221-1" data-line-number="1"><span class="kw">all.equal</span>(<span class="fl">1.0</span>, <span class="fl">1.5</span>)</a></code></pre></div>
 <pre><code>## [1] &quot;Mean relative difference: 0.5&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">isTRUE</span>(<span class="kw">all.equal</span>(<span class="fl">1.0</span>, <span class="fl">1.5</span>))</code></pre></div>
+<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb223-1" data-line-number="1"><span class="kw">isTRUE</span>(<span class="kw">all.equal</span>(<span class="fl">1.0</span>, <span class="fl">1.5</span>))</a></code></pre></div>
 <pre><code>## [1] FALSE</code></pre>
 <p>One last thing. If <code>solve()</code> throws an error that says “reciprocal condition number…” or “system is exactly singular”, that means you tried to invert a matrix that is not invertible.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Z &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>), <span class="dv">2</span>, <span class="dv">2</span>)
-<span class="kw">solve</span>(Z)</code></pre></div>
+<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb225-1" data-line-number="1">Z &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>), <span class="dv">2</span>, <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb225-2" data-line-number="2"><span class="kw">solve</span>(Z)</a></code></pre></div>
 <pre><code>## Error in solve.default(Z): Lapack routine dgesv: system is exactly singular: U[2,2] = 0</code></pre>
 <p>Sad!</p>
 
@@ -639,8 +711,8 @@ Y</code></pre></div>
 <div class="footnotes">
 <hr />
 <ol start="18">
-<li id="fn18"><p>R will let you add and subtract vectors of different lengths, via a technique called “recycling”. For example <code>c(1, 0) + c(1, 2, 3, 4)</code> will produce <code>c(2, 2, 4, 4)</code>. This is kosher in R, but not in mathematical derivations.<a href="matrix.html#fnref18">↩</a></p></li>
-<li id="fn19"><p>On the determinants of <span class="math inline">\(3 \times 3\)</span> and larger matrices, see your friendly local linear algebra textbook. Calculating the determinant becomes exponentially more complicated with the size of the matrix.<a href="matrix.html#fnref19">↩</a></p></li>
+<li id="fn18"><p>R will let you add and subtract vectors of different lengths, via a technique called “recycling”. For example <code>c(1, 0) + c(1, 2, 3, 4)</code> will produce <code>c(2, 2, 4, 4)</code>. This is kosher in R, but not in mathematical derivations.<a href="matrix.html#fnref18" class="footnote-back">↩</a></p></li>
+<li id="fn19"><p>On the determinants of <span class="math inline">\(3 \times 3\)</span> and larger matrices, see your friendly local linear algebra textbook. Calculating the determinant becomes exponentially more complicated with the size of the matrix.<a href="matrix.html#fnref19" class="footnote-back">↩</a></p></li>
 </ol>
 </div>
             </section>
@@ -649,27 +721,30 @@ Y</code></pre></div>
         </div>
       </div>
 <a href="bivariate.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="ols-matrix.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
-
+<a href="ols-matrix.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
 <script>
-require(["gitbook"], function(gitbook) {
+gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
 "sharing": {
 "github": false,
 "facebook": true,
 "twitter": true,
-"google": false,
+"linkedin": false,
 "weibo": false,
-"instapper": false,
+"instapaper": false,
 "vk": false,
-"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
 "theme": "white",
@@ -679,6 +754,14 @@ gitbook.start({
 "edit": {
 "link": "https://github.com/rstudio/bookdown-demo/edit/master/05-matrix-algebra.Rmd",
 "text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
 },
 "download": null,
 "toc": {
@@ -693,9 +776,12 @@ gitbook.start({
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
-    if (location.protocol !== "file:" && /^https?:/.test(script.src))
-      script.src  = script.src.replace(/^https?:/, '');
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>

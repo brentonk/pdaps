@@ -1,16 +1,14 @@
 <!DOCTYPE html>
-<html >
-
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
 <head>
 
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Practical Data Analysis for Political Scientists</title>
-  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
-  <meta name="description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right.">
-  <meta name="generator" content="bookdown 0.3 and GitBook 2.6.7">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>9 Drawing Inferences | Practical Data Analysis for Political Scientists</title>
+  <meta name="description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right." />
+  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Practical Data Analysis for Political Scientists" />
+  <meta property="og:title" content="9 Drawing Inferences | Practical Data Analysis for Political Scientists" />
   <meta property="og:type" content="book" />
   
   
@@ -18,30 +16,33 @@
   <meta name="github-repo" content="brentonk/pdaps" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Practical Data Analysis for Political Scientists" />
+  <meta name="twitter:title" content="9 Drawing Inferences | Practical Data Analysis for Political Scientists" />
   
   <meta name="twitter:description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right." />
   
 
-<meta name="author" content="Brenton Kenkel">
+<meta name="author" content="Brenton Kenkel" />
 
 
-<meta name="date" content="2017-04-02">
+<meta name="date" content="2020-01-06" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="specification.html">
-<link rel="next" href="crisis.html">
-
+<link rel="prev" href="specification.html"/>
+<link rel="next" href="crisis.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
 
 
 
@@ -52,47 +53,75 @@
 
 
 <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
 
 <body>
+
 
 
   <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
@@ -207,6 +236,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
             <section class="normal" id="section-">
 <div id="inference" class="section level1">
 <h1><span class="header-section-number">9</span> Drawing Inferences</h1>
+\providecommand{}{}
+\renewcommand{}{}
+
+\renewcommand{}{}
+
+<p>\renewcommand{}{}</p>
 <p>You can think of regression as a descriptive statistic or data reduction method—a simple way to summarize trends and relationships in multivariate data. But for better or worse, most social scientists view regression as a tool for hypothesis testing. This week, we will learn what it is that we’re going when we gaze at the “stars” that accompany our regression output.</p>
 <div id="the-basics-of-hypothesis-testing" class="section level2">
 <h2><span class="header-section-number">9.1</span> The Basics of Hypothesis Testing</h2>
@@ -220,47 +255,66 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>Imagine the null hypothesis is true. Given that, imagine 100 labs run independent tests of the null hypothesis, each using a significance level of 0.05. If they follow the procedure above, on average 5 of the labs will reject the null hypothesis, and 95 will fail to reject the null hypothesis.</p>
 <p>What if the null hypothesis is false? What percentage of the labs will falsely reject it? That’s the <em>power</em> of the test, and it depends on a number of factors: how far off the null hypothesis is, what size sample each lab is drawing, and the significance level.</p>
 <p>Before we get into hypothesis tests for regression, let’s refresh ourselves on how we draw inferences from a random sample about the population mean.</p>
-<p>Suppose we have a sequence of <span class="math inline">\(N\)</span> i.i.d. draws of the random variable <span class="math inline">\(X\)</span>, which we will denote <span class="math inline">\(X_1, \ldots, X_N\)</span>, and we are interested in testing the null hypothesis <span class="math display">\[
+<p>Suppose we have a sequence of <span class="math inline">\(N\)</span> i.i.d. draws of the random variable <span class="math inline">\(X\)</span>, which we will denote <span class="math inline">\(X_1, \ldots, X_N\)</span>, and we are interested in testing the null hypothesis
+<span class="math display">\[
 H_0 : E[X] = \mu_0.
-\]</span> Let <span class="math inline">\(\bar{X}\)</span> denote the sample mean and <span class="math inline">\(S_X\)</span> denote the sample standard deviation. Define the <span class="math inline">\(t\)</span> statistic as <span class="math display">\[
+\]</span>
+Let <span class="math inline">\(\bar{X}\)</span> denote the sample mean and <span class="math inline">\(S_X\)</span> denote the sample standard
+deviation. Define the <span class="math inline">\(t\)</span> statistic as
+<span class="math display">\[
 t = \frac{\bar{X} - \mu_0}{S_X / \sqrt{N}}.
-\]</span> The denominator of the <span class="math inline">\(t\)</span> statistic is the <em>standard error</em>—our estimate of the standard deviation of the sampling distribution under the null hypothesis. The greater the standard error, the more the statistic varies across samples, and thus the less reliable it is in any given sample. Naturally enough, our standard errors decrease with our sample size; the more data we have, the more reliably we can draw inferences.</p>
+\]</span>
+The denominator of the <span class="math inline">\(t\)</span> statistic is the <em>standard error</em>—our estimate of the standard deviation of the sampling distribution under the null hypothesis. The greater the standard error, the more the statistic varies across samples, and thus the less reliable it is in any given sample. Naturally enough, our standard errors decrease with our sample size; the more data we have, the more reliably we can draw inferences.</p>
 <p>If <span class="math inline">\(X\)</span> is known to be normally distributed—an assumption that, in the realms political scientists deal with, is usually implausible—then the sampling distribution of <span class="math inline">\(t\)</span> under the null hypothesis is <span class="math inline">\(t_{N - 1}\)</span>, the Student’s <span class="math inline">\(t\)</span> distribution with <span class="math inline">\(N - 1\)</span> degrees of freedom.</p>
 <p>If <span class="math inline">\(X\)</span> is not known to be normally distributed, but our sample size is “large” (in practice, <span class="math inline">\(N \geq 30\)</span>), we can rely on the Central Limit Theorem. As <span class="math inline">\(N \to \infty\)</span>, the distribution of <span class="math inline">\(t\)</span> under the null hypothesis is approximately <span class="math inline">\(N(0, 1)\)</span>, the normal distribution with mean zero and variance one.</p>
 </div>
 <div id="variance-of-ols" class="section level2">
 <h2><span class="header-section-number">9.2</span> Variance of OLS</h2>
-<p>Now let us return to the world of the linear model, <span class="math display">\[
+<p>Now let us return to the world of the linear model,
+<span class="math display">\[
 \mathbf{Y} = \mathbf{X} \beta + \epsilon,
-\]</span> and the OLS estimator of <span class="math inline">\(\beta\)</span>, <span class="math display">\[
+\]</span>
+and the OLS estimator of <span class="math inline">\(\beta\)</span>,
+<span class="math display">\[
 \hat{\beta}_{\text{OLS}} = (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top \mathbf{Y}.
-\]</span> In order to draw inferences on OLS results, the first thing we need to know is the variance of the OLS estimator. You will remember from Stat 1 that the variance of the sample mean, <span class="math inline">\(\bar{X}\)</span>, is <span class="math display">\[
+\]</span>
+In order to draw inferences on OLS results, the first thing we need to know is the variance of the OLS estimator. You will remember from Stat 1 that the variance of the sample mean, <span class="math inline">\(\bar{X}\)</span>, is
+<span class="math display">\[
 V[\bar{X}] = \frac{V[X]}{N},
-\]</span> whose square root ends up in the denominator of the <span class="math inline">\(t\)</span>-test statistic. We will do something similar for OLS.</p>
+\]</span>
+whose square root ends up in the denominator of the <span class="math inline">\(t\)</span>-test statistic. We will do something similar for OLS.</p>
 <p>Throughout this week, we will maintain the following two assumptions on the error term:</p>
 <ul>
 <li><p>Strict exogeneity: <span class="math inline">\(E[\epsilon \,|\, \mathbf{X}] = \mathbf{0}\)</span>.</p></li>
 <li><p>Spherical errors: <span class="math inline">\(V[\epsilon \,|\, \mathbf{X}] = \sigma^2 \mathbf{I}_N\)</span>, where <span class="math inline">\(\sigma^2 &gt; 0\)</span>.</p></li>
 </ul>
 <p>Without the first assumption, OLS is hopeless to begin with. Without the second assumption, OLS is unbiased and consistent, but not efficient. In a couple of weeks, we will discuss how to draw inferences in the presence of non-spherical errors.</p>
-<p>The OLS estimator is a <span class="math inline">\(K \times 1\)</span> vector, so its variance won’t be a single number—it will be a <span class="math inline">\(K \times K\)</span> matrix, <span class="math display">\[
+<p>The OLS estimator is a <span class="math inline">\(K \times 1\)</span> vector, so its variance won’t be a single number—it will be a <span class="math inline">\(K \times K\)</span> matrix,
+<span class="math display">\[
 V[\hat{\beta}] = \begin{bmatrix}
-  V[\hat{\beta}_1] &amp; {\mathop{\rm Cov}\nolimits}[\hat{\beta}_1, \hat{\beta}_2] &amp; \cdots &amp; {\mathop{\rm Cov}\nolimits}[\hat{\beta}_1, \hat{\beta}_K] \\
-  {\mathop{\rm Cov}\nolimits}[\hat{\beta}_2, \hat{\beta}_1] &amp; V[\hat{\beta}_2] &amp; \cdots &amp; {\mathop{\rm Cov}\nolimits}[\hat{\beta}_2, \hat{\beta}_K] \\
+  V[\hat{\beta}_1] &amp; \mathop{\rm Cov}\nolimits[\hat{\beta}_1, \hat{\beta}_2] &amp; \cdots &amp; \mathop{\rm Cov}\nolimits[\hat{\beta}_1, \hat{\beta}_K] \\
+  \mathop{\rm Cov}\nolimits[\hat{\beta}_2, \hat{\beta}_1] &amp; V[\hat{\beta}_2] &amp; \cdots &amp; \mathop{\rm Cov}\nolimits[\hat{\beta}_2, \hat{\beta}_K] \\
   \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
-  {\mathop{\rm Cov}\nolimits}[\hat{\beta}_K, \hat{\beta}_1] &amp; {\mathop{\rm Cov}\nolimits}[\hat{\beta}_K, \hat{\beta}_2] &amp; \cdots &amp; V[\hat{\beta}_K] \\
+  \mathop{\rm Cov}\nolimits[\hat{\beta}_K, \hat{\beta}_1] &amp; \mathop{\rm Cov}\nolimits[\hat{\beta}_K, \hat{\beta}_2] &amp; \cdots &amp; V[\hat{\beta}_K] \\
 \end{bmatrix}.
-\]</span> Specifically, the variance of the OLS estimator (treating the covariates as fixed) is <span class="math display">\[
+\]</span>
+Specifically, the variance of the OLS estimator (treating the covariates as fixed) is
+<span class="math display">\[
 V[\hat{\beta} \,|\, \mathbf{X}] = \sigma^2 (\mathbf{X}^\top \mathbf{X})^{-1}.
-\]</span> See the appendix to this chapter—or any graduate-level econometrics textbook—for how we derive this result.</p>
-<p>If we knew <span class="math inline">\(\sigma^2\)</span>, the variance of the error term, then we could just use the above formula to draw inferences. Realistically, though, we will need to estimate <span class="math inline">\(\sigma^2\)</span>. We will do so using the residual variance, <span class="math display">\[
+\]</span>
+See the appendix to this chapter—or any graduate-level econometrics textbook—for how we derive this result.</p>
+<p>If we knew <span class="math inline">\(\sigma^2\)</span>, the variance of the error term, then we could just use the above formula to draw inferences. Realistically, though, we will need to estimate <span class="math inline">\(\sigma^2\)</span>. We will do so using the residual variance,
+<span class="math display">\[
 \hat{\sigma}^2
 = \frac{\sum_n (Y_n - \mathbf{x}_n \cdot \hat{\beta})^2}{N - K}
 = \frac{\text{SSE}}{N - K}.
-\]</span> Why do we divide by <span class="math inline">\(N - K\)</span>? Remember that when we estimate the variance of a random variable, we divide the squared deviations from the mean by <span class="math inline">\(N - 1\)</span> to correct for the degree of freedom we used to estimate the sample mean. The resulting estimator is unbiased. Similarly, when estimating the residual variance of a linear regression model, we need to correct for the <span class="math inline">\(K\)</span> degrees of freedom we used to estimate the model coefficients. Hence we must divide by <span class="math inline">\(N - K\)</span> in order for <span class="math inline">\(\hat{\sigma}^2\)</span> to be unbiased.</p>
-<p>Under the spherical error assumption, our estimate of the variance of OLS will therefore be the <span class="math inline">\(K \times K\)</span> matrix <span class="math display">\[
+\]</span>
+Why do we divide by <span class="math inline">\(N - K\)</span>? Remember that when we estimate the variance of a random variable, we divide the squared deviations from the mean by <span class="math inline">\(N - 1\)</span> to correct for the degree of freedom we used to estimate the sample mean. The resulting estimator is unbiased. Similarly, when estimating the residual variance of a linear regression model, we need to correct for the <span class="math inline">\(K\)</span> degrees of freedom we used to estimate the model coefficients. Hence we must divide by <span class="math inline">\(N - K\)</span> in order for <span class="math inline">\(\hat{\sigma}^2\)</span> to be unbiased.</p>
+<p>Under the spherical error assumption, our estimate of the variance of OLS will therefore be the <span class="math inline">\(K \times K\)</span> matrix
+<span class="math display">\[
 \hat{\Sigma} = \hat{\sigma}^2 (\mathbf{X}^\top \mathbf{X})^{-1}.
-\]</span> A very important note. If the errors are not spherical, this formula produces a <em>biased</em> and <em>inconsistent</em> estimate of the sampling variability of OLS. This is true even though the OLS estimate itself is unbiased and consistent. In other words, if we use OLS in the presence of non-spherical errors:</p>
+\]</span>
+A very important note. If the errors are not spherical, this formula produces a <em>biased</em> and <em>inconsistent</em> estimate of the sampling variability of OLS. This is true even though the OLS estimate itself is unbiased and consistent. In other words, if we use OLS in the presence of non-spherical errors:</p>
 <ul>
 <li><p>Our estimates will not be systematically biased away from the population parameter, and the probability of our estimate being any meaningful distance away from the population parameter goes to zero as our sample size increases.</p></li>
 <li><p>Our hypothesis tests will <strong>not</strong> perform as advertised—typically, they will lead us to reject the null hypothesis more often than we should—and this problem does <strong>not</strong> go away as our sample size increases.</p></li>
@@ -269,62 +323,91 @@ V[\hat{\beta} \,|\, \mathbf{X}] = \sigma^2 (\mathbf{X}^\top \mathbf{X})^{-1}.
 </div>
 <div id="single-variable-hypotheses" class="section level2">
 <h2><span class="header-section-number">9.3</span> Single Variable Hypotheses</h2>
-<p>Consider a null hypothesis about the population value of a single coefficient, of the form <span class="math display">\[
+<p>Consider a null hypothesis about the population value of a single coefficient, of the form
+<span class="math display">\[
 H_0 : \beta_k = b,
-\]</span> where <span class="math inline">\(b\)</span> is a fixed constant. Usually, though not always, political scientists concern themselves with null hypotheses of the form <span class="math inline">\(\beta_k = 0\)</span>; i.e., the <span class="math inline">\(k\)</span>’th variable has zero (so-called) marginal effect on the response.</p>
-<p>We will test this hypothesis using the familiar <span class="math inline">\(t\)</span>-statistic. The <em>estimated standard error</em> of <span class="math inline">\(\hat{\beta}_k\)</span> is <span class="math display">\[
-{\mathop{\rm SE}\nolimits}(\hat{\beta}_k) = \sqrt{\hat{\Sigma}_{kk}},
-\]</span> where <span class="math inline">\(\hat{\Sigma}_{kk}\)</span> denotes the <span class="math inline">\(k\)</span>’th element of the diagonal of <span class="math inline">\(\hat{\Sigma} = \hat{\sigma}^2 (\mathbf{X}^\top \mathbf{X})^{-1}\)</span>. The “standard errors” that appear alongside your regression output are calculating by taking the square root of the diagonal of this matrix.</p>
-<p>The <span class="math inline">\(t\)</span> statistic for the test of the null hypothesis <span class="math inline">\(H_0\)</span> is in the familiar “estimate divided by standard error” form, <span class="math display">\[
-t = \frac{\hat{\beta}_k - b}{{\mathop{\rm SE}\nolimits}(\hat{\beta}_k)} = \frac{\hat{\beta}_k - b}{\sqrt{\hat{\Sigma}_{kk}}}.
-\]</span> Our mode of inference from there depends on the sample size and on whether we are willing to make a normality assumption.</p>
+\]</span>
+where <span class="math inline">\(b\)</span> is a fixed constant. Usually, though not always, political scientists concern themselves with null hypotheses of the form <span class="math inline">\(\beta_k = 0\)</span>; i.e., the <span class="math inline">\(k\)</span>’th variable has zero (so-called) marginal effect on the response.</p>
+<p>We will test this hypothesis using the familiar <span class="math inline">\(t\)</span>-statistic. The <em>estimated standard error</em> of <span class="math inline">\(\hat{\beta}_k\)</span> is
+<span class="math display">\[
+(\hat{\beta}_k) = \sqrt{\hat{\Sigma}_{kk}},
+\]</span>
+where <span class="math inline">\(\hat{\Sigma}_{kk}\)</span> denotes the <span class="math inline">\(k\)</span>’th element of the diagonal of <span class="math inline">\(\hat{\Sigma} = \hat{\sigma}^2 (\mathbf{X}^\top \mathbf{X})^{-1}\)</span>. The “standard errors” that appear alongside your regression output are calculating by taking the square root of the diagonal of this matrix.</p>
+<p>The <span class="math inline">\(t\)</span> statistic for the test of the null hypothesis <span class="math inline">\(H_0\)</span> is in the familiar “estimate divided by standard error” form,
+<span class="math display">\[
+t = \frac{\hat{\beta}_k - b}{(\hat{\beta}_k)} = \frac{\hat{\beta}_k - b}{\sqrt{\hat{\Sigma}_{kk}}}.
+\]</span>
+Our mode of inference from there depends on the sample size and on whether we are willing to make a normality assumption.</p>
 <ul>
 <li><p>If <span class="math inline">\(\epsilon\)</span> is normally distributed, then the sampling distribution of our test statistic is <span class="math inline">\(t_{N - K}\)</span>, the <span class="math inline">\(t\)</span> distribution with <span class="math inline">\(N - K\)</span> degrees of freedom.</p></li>
 <li><p>As our sample size grows large, the sampling distribution of our test statistic is approximately <span class="math inline">\(N(0, 1)\)</span>, the normal distribution with mean zero and variance one. This follows from the Central Limit Theorem, and it holds even if <span class="math inline">\(\epsilon\)</span> is <em>not</em> normally distributed.</p></li>
 </ul>
 <p>So if you have a small sample, the validity of the standard hypothesis test depends on a normality assumption that may or may not be palatable, depending on the circumstances. Other techniques exist for this situation, but they are beyond the scope of this course. Of course, if your sample is so small that you need to resort to non-standard hypothesis testing techniques in order to draw appropriate inferences, you should probably go back to the drawing board on your study design.</p>
 <p>Regardless of your sample size, regression software will compare your test statistics to <span class="math inline">\(t_{N - K}\)</span> to calculate <span class="math inline">\(p\)</span>-values and the results of hypothesis tests. This is innocuous even if you don’t assume normality, since if <span class="math inline">\(N\)</span> is large the <span class="math inline">\(t_{N - K}\)</span> distribution is approximately the same as the <span class="math inline">\(N(0, 1)\)</span> distribution (with infinitesimally fatter tails).</p>
-<p>Our method of constructing confidence intervals for a single parameter is also analogous to what we do with the sample mean. Let <span class="math inline">\(z_{\alpha}\)</span> be the critical value of the sampling distribution of our test statistic for our chosen significance level <span class="math inline">\(\alpha\)</span>. For example, the critical value of <span class="math inline">\(N(0, 1)\)</span> for significance <span class="math inline">\(\alpha = 0.05\)</span> is <span class="math inline">\(z_{\alpha} = 1.96\)</span>. Then the <span class="math inline">\((1 - \alpha)\)</span>-confidence interval around <span class="math inline">\(\hat{\beta}_k\)</span> is <span class="math display">\[
-{\mathop{\rm CI}\nolimits}_{1 - \alpha}(\hat{\beta}_k) = [\hat{\beta}_k - z_{\alpha} {\mathop{\rm SE}\nolimits}(\hat{\beta}_k), \hat{\beta}_k + z_{\alpha} {\mathop{\rm SE}\nolimits}(\hat{\beta}_k)].
+<p>Our method of constructing confidence intervals for a single parameter is also analogous to what we do with the sample mean. Let <span class="math inline">\(z_{\alpha}\)</span> be the critical value of the sampling distribution of our test statistic for our chosen significance level <span class="math inline">\(\alpha\)</span>. For example, the critical value of <span class="math inline">\(N(0, 1)\)</span> for significance <span class="math inline">\(\alpha = 0.05\)</span> is <span class="math inline">\(z_{\alpha} = 1.96\)</span>. Then the <span class="math inline">\((1 - \alpha)\)</span>-confidence interval around <span class="math inline">\(\hat{\beta}_k\)</span> is
+<span class="math display">\[
+_{1 - \alpha}(\hat{\beta}_k) = [\hat{\beta}_k - z_{\alpha} (\hat{\beta}_k), \hat{\beta}_k + z_{\alpha} (\hat{\beta}_k)].
 \]</span></p>
 </div>
 <div id="multiple-variable-hypotheses" class="section level2">
 <h2><span class="header-section-number">9.4</span> Multiple Variable Hypotheses</h2>
-<p>It is common, especially (though not exclusively) when working with categorical variables or higher-order terms, to have hypotheses involving multiple variables. For example, think of our model from last week, <span class="math display">\[
+<p>It is common, especially (though not exclusively) when working with categorical variables or higher-order terms, to have hypotheses involving multiple variables. For example, think of our model from last week,
+<span class="math display">\[
 \text{Trump}_n = \beta_1 + \beta_2 \text{Independent}_n + \beta_3 \text{Democratic}_n + \beta_4 \text{Age}_n + \epsilon_n.
-\]</span> Remember that <span class="math inline">\(\beta_2\)</span> denotes the expected difference between Independents and Republicans (the omitted category) of the same age in their propensity to vote for Trump, and <span class="math inline">\(\beta_3\)</span> denotes the expected difference between Democrats and Republicans of the same age.</p>
-<p>If our null hypothesis were that Independents and Republicans of the same age had the same chance of voting for Trump, we would state that as <span class="math display">\[
+\]</span>
+Remember that <span class="math inline">\(\beta_2\)</span> denotes the expected difference between Independents and Republicans (the omitted category) of the same age in their propensity to vote for Trump, and <span class="math inline">\(\beta_3\)</span> denotes the expected difference between Democrats and Republicans of the same age.</p>
+<p>If our null hypothesis were that Independents and Republicans of the same age had the same chance of voting for Trump, we would state that as
+<span class="math display">\[
 H_0 : \beta_2 = 0.
-\]</span> But what about the null hypothesis were that Independents and Democrats had the same chance of voting for Trump? We would have to phrase that in terms of multiple coefficients, <span class="math display">\[
+\]</span>
+But what about the null hypothesis were that Independents and Democrats had the same chance of voting for Trump? We would have to phrase that in terms of multiple coefficients,
+<span class="math display">\[
 H_0 : \beta_2 = \beta_3,
-\]</span> or equivalently, <span class="math display">\[
+\]</span>
+or equivalently,
+<span class="math display">\[
 H_0 : \beta_2 - \beta_3 = 0.
-\]</span> Or what if our null hypothesis were that party identification made no difference at all? That would mean Independents and Democrats are both no different than Republicans on average, or in our model notation, <span class="math display">\[
+\]</span>
+Or what if our null hypothesis were that party identification made no difference at all? That would mean Independents and Democrats are both no different than Republicans on average, or in our model notation,
+<span class="math display">\[
 H_0 : \left\{ \begin{aligned}
 \beta_2 &amp;= 0, \\
 \beta_3 &amp;= 0.
 \end{aligned} \right.
 \]</span></p>
-<p>Each of these, including the simple single-variable hypothesis, is a linear system in <span class="math inline">\(\beta\)</span>. In other words, we can write each of these hypotheses in the form <span class="math display">\[
+<p>Each of these, including the simple single-variable hypothesis, is a linear system in <span class="math inline">\(\beta\)</span>. In other words, we can write each of these hypotheses in the form
+<span class="math display">\[
 H_0 : \mathbf{R} \beta - \mathbf{c} = \mathbf{0},
-\]</span> where <span class="math inline">\(\mathbf{R}\)</span> is a fixed <span class="math inline">\(r \times K\)</span> matrix (where <span class="math inline">\(r\)</span> is the number of restrictions we intend to test) and <span class="math inline">\(\mathbf{c}\)</span> is a fixed <span class="math inline">\(r \times 1\)</span> vector.</p>
-<p>Perhaps the easiest way to test a hypothesis of this form is the <em>Wald test</em>. We form the test statistic <span class="math display">\[
+\]</span>
+where <span class="math inline">\(\mathbf{R}\)</span> is a fixed <span class="math inline">\(r \times K\)</span> matrix (where <span class="math inline">\(r\)</span> is the number of restrictions we intend to test) and <span class="math inline">\(\mathbf{c}\)</span> is a fixed <span class="math inline">\(r \times 1\)</span> vector.</p>
+<p>Perhaps the easiest way to test a hypothesis of this form is the <em>Wald test</em>. We form the test statistic
+<span class="math display">\[
 W = (\mathbf{R} \beta - \mathbf{c})^\top  (\mathbf{R} \hat{\Sigma} \mathbf{R}^\top)^{-1} (\mathbf{R} \beta - \mathbf{c}),
-\]</span> which, despite all the matrices involved, works out to be a scalar. Under <span class="math inline">\(H_0\)</span>, the asymptotic sampling distribution of <span class="math inline">\(W\)</span> is <span class="math inline">\(\chi^2_r\)</span>, the chi-squared distribution with <span class="math inline">\(r\)</span> degrees of freedom.<a href="#fn22" class="footnoteRef" id="fnref22"><sup>22</sup></a> Regression software like R will usually report an <span class="math inline">\(F\)</span> statistic, since the exact (not asymptotic) distribution of <span class="math inline">\(W\)</span> follows an <span class="math inline">\(F\)</span> distribution in the special case of normal residual error.</p>
+\]</span>
+which, despite all the matrices involved, works out to be a scalar. Under <span class="math inline">\(H_0\)</span>, the asymptotic sampling distribution of <span class="math inline">\(W\)</span> is <span class="math inline">\(\chi^2_r\)</span>, the chi-squared distribution with <span class="math inline">\(r\)</span> degrees of freedom.<a href="#fn22" class="footnote-ref" id="fnref22"><sup>22</sup></a> Regression software like R will usually report an <span class="math inline">\(F\)</span> statistic, since the exact (not asymptotic) distribution of <span class="math inline">\(W\)</span> follows an <span class="math inline">\(F\)</span> distribution in the special case of normal residual error.</p>
 <p>The Wald test is not just an aggregation of the individual <span class="math inline">\(t\)</span> tests of the coefficients. Two coefficients might each individually be statistically insignificant, yet the Wald test may lead us to reject the null hypothesis that both are zero. Conversely, one of a group of coefficients might be statistically significant, and yet the Wald test may not have us reject the null hypothesis that all are zero.</p>
 <p>We already saw a couple of examples of how to use the Wald test with a model with a categorical variable. Let’s also quickly consider its use in some other models with less-common specifications.</p>
-<p>Imagine an interactive model, <span class="math display">\[
+<p>Imagine an interactive model,
+<span class="math display">\[
 Y_n = \beta_1 + \beta_2 X_n + \beta_3 Z_n + \beta_4 (X_n \times Z_n) + \epsilon_n.
-\]</span> The interaction term captures how the (so-called) marginal effect of <span class="math inline">\(X_n\)</span> depends on the value of <span class="math inline">\(Z_n\)</span>, and vice versa. If your null hypothesis is that the marginal effect of <span class="math inline">\(X_n\)</span> does not depend on <span class="math inline">\(Z_n\)</span>, you could use perform a <span class="math inline">\(t\)</span> test of <span class="math display">\[
+\]</span>
+The interaction term captures how the (so-called) marginal effect of <span class="math inline">\(X_n\)</span> depends on the value of <span class="math inline">\(Z_n\)</span>, and vice versa. If your null hypothesis is that the marginal effect of <span class="math inline">\(X_n\)</span> does not depend on <span class="math inline">\(Z_n\)</span>, you could use perform a <span class="math inline">\(t\)</span> test of
+<span class="math display">\[
 H_0 : \beta_4 = 0.
-\]</span> But what if your null hypothesis is that the marginal effect of <span class="math inline">\(X_n\)</span> is <em>always</em> zero, regardless of the value of <span class="math inline">\(Z_n\)</span>? Some people make the unfortunate mistake of testing this via the null hypothesis <span class="math display">\[
+\]</span>
+But what if your null hypothesis is that the marginal effect of <span class="math inline">\(X_n\)</span> is <em>always</em> zero, regardless of the value of <span class="math inline">\(Z_n\)</span>? Some people make the unfortunate mistake of testing this via the null hypothesis
+<span class="math display">\[
 H_0 : \beta_2 = 0,
-\]</span> but that only means the marginal effect of <span class="math inline">\(X_n\)</span> is zero <em>when <span class="math inline">\(Z_n = 0\)</span></em>. What you want is the composite null <span class="math display">\[
+\]</span>
+but that only means the marginal effect of <span class="math inline">\(X_n\)</span> is zero <em>when <span class="math inline">\(Z_n = 0\)</span></em>. What you want is the composite null
+<span class="math display">\[
 H_0 : \left\{ \begin{aligned}
   \beta_2 &amp;= 0, \\
   \beta_4 &amp;= 0,
 \end{aligned} \right.
-\]</span> or, in matrix form, <span class="math display">\[
+\]</span>
+or, in matrix form,
+<span class="math display">\[
 \begin{bmatrix}
   0 &amp; 1 &amp; 0 &amp; 0 \\
   0 &amp; 0 &amp; 0 &amp; 1
@@ -337,11 +420,16 @@ H_0 : \left\{ \begin{aligned}
   0 \\ 0
 \end{bmatrix}.
 \]</span></p>
-<p>Similarly, think of the quadratic model, <span class="math display">\[
+<p>Similarly, think of the quadratic model,
+<span class="math display">\[
 Y_n = \beta_1 + \beta_2 X_n + \beta_3 X_n^2 + \epsilon_n.
-\]</span> The null hypothesis that the (so-called) marginal effect of <span class="math inline">\(X_n\)</span> is constant is equivalent to <span class="math display">\[
+\]</span>
+The null hypothesis that the (so-called) marginal effect of <span class="math inline">\(X_n\)</span> is constant is equivalent to
+<span class="math display">\[
 H_0 : \beta_3 = 0.
-\]</span> But if we wanted to test against the null hypothesis that the marginal effect of <span class="math inline">\(X_n\)</span> is <em>always</em> zero, we would have to use a composite null, <span class="math display">\[
+\]</span>
+But if we wanted to test against the null hypothesis that the marginal effect of <span class="math inline">\(X_n\)</span> is <em>always</em> zero, we would have to use a composite null,
+<span class="math display">\[
 H_0 : \left\{ \begin{aligned}
   \beta_2 &amp;= 0, \\
   \beta_3 &amp;= 0.
@@ -350,16 +438,24 @@ H_0 : \left\{ \begin{aligned}
 </div>
 <div id="appendix-full-derivation-of-ols-variance" class="section level2">
 <h2><span class="header-section-number">9.5</span> Appendix: Full Derivation of OLS Variance</h2>
-<p>We will assume strict exogeneity, <span class="math display">\[
+<p>We will assume strict exogeneity,
+<span class="math display">\[
 E [\epsilon \,|\, \mathbf{X}] = \mathbf{0},
-\]</span> and spherical errors, <span class="math display">\[
+\]</span>
+and spherical errors,
+<span class="math display">\[
 V [\epsilon \,|\, \mathbf{X}] = E [\epsilon \epsilon^\top \,|\, \mathbf{X}] = \sigma^2 \mathbf{I}.
-\]</span> A useful thing to know is that since <span class="math inline">\(\mathbf{X}^\top \mathbf{X}\)</span> is symmetric, so is its inverse: <span class="math display">\[
+\]</span>
+A useful thing to know is that since <span class="math inline">\(\mathbf{X}^\top \mathbf{X}\)</span> is symmetric, so is its inverse:
+<span class="math display">\[
 [(\mathbf{X}^\top \mathbf{X})^{-1}]^\top = (\mathbf{X}^\top \mathbf{X})^{-1}.
 \]</span></p>
-<p>Let’s start by deriving the variance from our formula for a vector-valued random variable, <span class="math display">\[
+<p>Let’s start by deriving the variance from our formula for a vector-valued random variable,
+<span class="math display">\[
 V[C] = E \left[ (C - E[C]) (C - E[C])^\top \right].
-\]</span> For the OLS estimator <span class="math inline">\(\hat{\beta}\)</span>, we have <span class="math display">\[
+\]</span>
+For the OLS estimator <span class="math inline">\(\hat{\beta}\)</span>, we have
+<span class="math display">\[
 \begin{aligned}
   V[\hat{\beta} \,|\, \mathbf{X}]
   &amp;= E \left[ \left(\hat{\beta} - E[\hat{\beta}]\right) \left(\hat{\beta} - E[\hat{\beta}]\right)^\top \,|\, \mathbf{X} \right] \\
@@ -369,7 +465,9 @@ V[C] = E \left[ (C - E[C]) (C - E[C])^\top \right].
   &amp;= E \left[ (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top \mathbf{Y} \mathbf{Y}^\top \mathbf{X} (\mathbf{X}^\top \mathbf{X})^{-1} \,|\, \mathbf{X} \right] - \beta \beta^\top \\
   &amp;= (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top E \left[ \mathbf{Y} \mathbf{Y}^\top \,|\, \mathbf{X} \right] \mathbf{X} (\mathbf{X}^\top \mathbf{X})^{-1} - \beta \beta^\top.
 \end{aligned}
-\]</span> Since <span class="math inline">\(\mathbf{Y} = \mathbf{X} \beta + \epsilon\)</span>, we have <span class="math display">\[
+\]</span>
+Since <span class="math inline">\(\mathbf{Y} = \mathbf{X} \beta + \epsilon\)</span>, we have
+<span class="math display">\[
 \begin{aligned}
   E \left[ \mathbf{Y} \mathbf{Y}^\top \,|\, \mathbf{X} \right]
   &amp;= E \left[ (\mathbf{X} \beta + \epsilon) (\mathbf{X} \beta + \epsilon)^\top \,|\, \mathbf{X} \right] \\
@@ -377,7 +475,9 @@ V[C] = E \left[ (C - E[C]) (C - E[C])^\top \right].
   &amp;= \mathbf{X} \beta \beta^\top \mathbf{X}^\top + 2 \underbrace{E[\epsilon \,|\, \mathbf{X}]}_{= \mathbf{0}} \beta^\top \mathbf{X}^\top + E[\epsilon \epsilon^\top \,|\, \mathbf{X}] \\
   &amp;= \mathbf{X} \beta \beta^\top \mathbf{X}^\top + \sigma^2 \mathbf{I}.
 \end{aligned}
-\]</span> Continuing from above, we have <span class="math display">\[
+\]</span>
+Continuing from above, we have
+<span class="math display">\[
 \begin{aligned}
   V[\hat{\beta} \,|\, \mathbf{X}]
   &amp;= (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top E \left[ \mathbf{Y} \mathbf{Y}^\top \,|\, \mathbf{X} \right] \mathbf{X} (\mathbf{X}^\top \mathbf{X})^{-1} - \beta \beta^\top \\
@@ -387,17 +487,22 @@ V[C] = E \left[ (C - E[C]) (C - E[C])^\top \right].
   &amp;= \sigma^2 (\mathbf{X}^\top \mathbf{X})^{-1}.
 \end{aligned}
 \]</span></p>
-<p>A slightly easier way to get there would be to apply two of the helpful properties of variance. You’ll remember from the study of scalar-valued random variables that, for a random variable <span class="math inline">\(A\)</span> and scalars <span class="math inline">\(c\)</span> and <span class="math inline">\(d\)</span>, <span class="math display">\[
+<p>A slightly easier way to get there would be to apply two of the helpful properties of variance. You’ll remember from the study of scalar-valued random variables that, for a random variable <span class="math inline">\(A\)</span> and scalars <span class="math inline">\(c\)</span> and <span class="math inline">\(d\)</span>,
+<span class="math display">\[
 \begin{aligned}
   V[c A] &amp;= c^2 V[A], \\
   V[A + d] &amp;= V[A].
 \end{aligned}
-\]</span> Similarly, for an <span class="math inline">\(m \times 1\)</span> vector random variable <span class="math inline">\(\mathbf{A}\)</span>, a fixed <span class="math inline">\(n \times m\)</span> matrix <span class="math inline">\(\mathbf{C}\)</span>, and a fixed <span class="math inline">\(m \times 1\)</span> vector <span class="math inline">\(\mathbf{d}\)</span>, we have <span class="math display">\[
+\]</span>
+Similarly, for an <span class="math inline">\(m \times 1\)</span> vector random variable <span class="math inline">\(\mathbf{A}\)</span>, a fixed <span class="math inline">\(n \times m\)</span> matrix <span class="math inline">\(\mathbf{C}\)</span>, and a fixed <span class="math inline">\(m \times 1\)</span> vector <span class="math inline">\(\mathbf{d}\)</span>, we have
+<span class="math display">\[
 \begin{aligned}
   V[\mathbf{C} \mathbf{A}] &amp;= \mathbf{C} V[\mathbf{A}] \mathbf{C}^\top, \\
   V[\mathbf{A} + \mathbf{d}] &amp;= V[\mathbf{A}].
 \end{aligned}
-\]</span> Consequently, <span class="math display">\[
+\]</span>
+Consequently,
+<span class="math display">\[
 \begin{aligned}
   V \left[ \hat{\beta} \,|\, \mathbf{X} \right]
   &amp;= V[ (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top \mathbf{Y} \,|\, \mathbf{X} ] \\
@@ -412,80 +517,90 @@ V[C] = E \left[ (C - E[C]) (C - E[C])^\top \right].
 <div id="appendix-regression-inference-in-r" class="section level2">
 <h2><span class="header-section-number">9.6</span> Appendix: Regression Inference in R</h2>
 <p>As usual, we will rely on the <strong>tidyverse</strong> and <strong>broom</strong> packages. We will also be using the <strong>car</strong> package, not only for data but also for its hypothesis testing functions.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)
-<span class="kw">library</span>(<span class="st">&quot;broom&quot;</span>)
-<span class="kw">library</span>(<span class="st">&quot;car&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb261"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb261-1" data-line-number="1"><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</a>
+<a class="sourceLine" id="cb261-2" data-line-number="2"><span class="kw">library</span>(<span class="st">&quot;broom&quot;</span>)</a>
+<a class="sourceLine" id="cb261-3" data-line-number="3"><span class="kw">library</span>(<span class="st">&quot;car&quot;</span>)</a></code></pre></div>
 <p>Using the <code>Prestige</code> data, let us regress occupational prestige on the type of occupation (blue collar, white collar, or professional) and its average income and education.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(<span class="st">&quot;Prestige&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;car&quot;</span>)
-fit &lt;-<span class="st"> </span><span class="kw">lm</span>(prestige <span class="op">~</span><span class="st"> </span>type <span class="op">+</span><span class="st"> </span>education <span class="op">+</span><span class="st"> </span>income, <span class="dt">data =</span> Prestige)</code></pre></div>
+<div class="sourceCode" id="cb262"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb262-1" data-line-number="1"><span class="kw">data</span>(<span class="st">&quot;Prestige&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;carData&quot;</span>)</a>
+<a class="sourceLine" id="cb262-2" data-line-number="2">fit &lt;-<span class="st"> </span><span class="kw">lm</span>(prestige <span class="op">~</span><span class="st"> </span>type <span class="op">+</span><span class="st"> </span>education <span class="op">+</span><span class="st"> </span>income, <span class="dt">data =</span> Prestige)</a></code></pre></div>
 <p><code>summary()</code> prints the “regression table” containing the following information:</p>
 <ul>
 <li>Estimate of each coefficient.</li>
 <li>Estimated standard error of each coefficient estimate.</li>
 <li><span class="math inline">\(t\)</span> statistic for each coefficient estimate, for the test against the null hypothesis that the population value of the corresponding coefficient is zero (<span class="math inline">\(H_0 : \beta_k = 0\)</span>).</li>
-<li><span class="math inline">\(p\)</span> value (two-tailed)<a href="#fn23" class="footnoteRef" id="fnref23"><sup>23</sup></a> for the aforementioned hypothesis test.</li>
+<li><span class="math inline">\(p\)</span> value (two-tailed)<a href="#fn23" class="footnote-ref" id="fnref23"><sup>23</sup></a> for the aforementioned hypothesis test.</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(fit)</code></pre></div>
+<div class="sourceCode" id="cb263"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb263-1" data-line-number="1"><span class="kw">summary</span>(fit)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = prestige ~ type + education + income, data = Prestige)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -14.953  -4.449   0.168   5.057  18.632 
+##      Min       1Q   Median       3Q      Max 
+## -14.9529  -4.4486   0.1678   5.0566  18.6320 
 ## 
 ## Coefficients:
-##              Estimate Std. Error t value Pr(&gt;|t|)
-## (Intercept) -0.622929   5.227525   -0.12     0.91
-## typeprof     6.038971   3.866855    1.56     0.12
-## typewc      -2.737231   2.513932   -1.09     0.28
-## education    3.673166   0.640502    5.73  1.2e-07
-## income       0.001013   0.000221    4.59  1.4e-05
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) -0.6229292  5.2275255  -0.119    0.905    
+## typeprof     6.0389707  3.8668551   1.562    0.122    
+## typewc      -2.7372307  2.5139324  -1.089    0.279    
+## education    3.6731661  0.6405016   5.735 1.21e-07 ***
+## income       0.0010132  0.0002209   4.586 1.40e-05 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 7.09 on 93 degrees of freedom
+## Residual standard error: 7.095 on 93 degrees of freedom
 ##   (4 observations deleted due to missingness)
-## Multiple R-squared:  0.835,  Adjusted R-squared:  0.828 
-## F-statistic:  118 on 4 and 93 DF,  p-value: &lt;2e-16</code></pre>
+## Multiple R-squared:  0.8349, Adjusted R-squared:  0.8278 
+## F-statistic: 117.5 on 4 and 93 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>This is useful for a quick check on the output, but not so much if you want to use the standard errors for further calculations (e.g., making a plot). To extract the standard errors, use the <code>tidy()</code> function from <strong>broom</strong>. This returns a data frame whose columns correspond to the <code>summary()</code> output.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_results &lt;-<span class="st"> </span><span class="kw">tidy</span>(fit)
-fit_results</code></pre></div>
-<pre><code>##          term   estimate  std.error statistic    p.value
-## 1 (Intercept) -0.6229292 5.22752549  -0.11916 9.0540e-01
-## 2    typeprof  6.0389707 3.86685510   1.56173 1.2175e-01
-## 3      typewc -2.7372307 2.51393240  -1.08882 2.7904e-01
-## 4   education  3.6731661 0.64050162   5.73483 1.2052e-07
-## 5      income  0.0010132 0.00022092   4.58628 1.4049e-05</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_results<span class="op">$</span>std.error</code></pre></div>
-<pre><code>## [1] 5.22752549 3.86685510 2.51393240 0.64050162 0.00022092</code></pre>
+<div class="sourceCode" id="cb265"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb265-1" data-line-number="1">fit_results &lt;-<span class="st"> </span><span class="kw">tidy</span>(fit)</a>
+<a class="sourceLine" id="cb265-2" data-line-number="2">fit_results</a></code></pre></div>
+<pre><code>## # A tibble: 5 x 5
+##   term        estimate std.error statistic     p.value
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt;
+## 1 (Intercept) -0.623    5.23        -0.119 0.905      
+## 2 typeprof     6.04     3.87         1.56  0.122      
+## 3 typewc      -2.74     2.51        -1.09  0.279      
+## 4 education    3.67     0.641        5.73  0.000000121
+## 5 income       0.00101  0.000221     4.59  0.0000140</code></pre>
+<div class="sourceCode" id="cb267"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb267-1" data-line-number="1">fit_results<span class="op">$</span>std.error</a></code></pre></div>
+<pre><code>## [1] 5.2275254877 3.8668550979 2.5139324035 0.6405016204 0.0002209185</code></pre>
 <p>To extract the full (estimated) variance matrix, use the <code>vcov()</code> function.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">vcov</span>(fit)</code></pre></div>
-<pre><code>##             (Intercept)    typeprof      typewc   education      income
-## (Intercept)  2.7327e+01  1.6637e+01  7.39848733 -3.1965e+00  9.9963e-05
-## typeprof     1.6637e+01  1.4953e+01  6.79707308 -2.1239e+00 -4.9843e-06
-## typewc       7.3985e+00  6.7971e+00  6.31985613 -1.1062e+00  1.3108e-04
-## education   -3.1965e+00 -2.1239e+00 -1.10618421  4.1024e-01 -4.3335e-05
-## income       9.9963e-05 -4.9843e-06  0.00013108 -4.3335e-05  4.8805e-08</code></pre>
+<div class="sourceCode" id="cb269"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb269-1" data-line-number="1"><span class="kw">vcov</span>(fit)</a></code></pre></div>
+<pre><code>##               (Intercept)      typeprof        typewc     education
+## (Intercept)  2.732702e+01  1.663699e+01  7.3984873320 -3.196460e+00
+## typeprof     1.663699e+01  1.495257e+01  6.7970730800 -2.123883e+00
+## typewc       7.398487e+00  6.797073e+00  6.3198561295 -1.106184e+00
+## education   -3.196460e+00 -2.123883e+00 -1.1061842075  4.102423e-01
+## income       9.996273e-05 -4.984256e-06  0.0001310818 -4.333455e-05
+##                    income
+## (Intercept)  9.996273e-05
+## typeprof    -4.984256e-06
+## typewc       1.310818e-04
+## education   -4.333455e-05
+## income       4.880497e-08</code></pre>
 <p>Luckily, you shouldn’t often need to extract the individual standard errors or the variance matrix. R has convenience functions to perform most of the calculations you would care about.</p>
 <p>To obtain confidence intervals for the regression coefficients, use the <code>confint()</code> function.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">confint</span>(fit)</code></pre></div>
-<pre><code>##                   2.5 %     97.5 %
-## (Intercept) -1.1004e+01  9.7579004
-## typeprof    -1.6398e+00 13.7177785
-## typewc      -7.7294e+00  2.2549408
-## education    2.4013e+00  4.9450753
-## income       5.7449e-04  0.0014519</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">confint</span>(fit, <span class="dt">level =</span> <span class="fl">0.99</span>)  <span class="co"># Changing the confidence level</span></code></pre></div>
-<pre><code>##                   0.5 %     99.5 %
-## (Intercept) -1.4370e+01 13.1240626
-## typeprof    -4.1298e+00 16.2077638
-## typewc      -9.3482e+00  3.8737381
-## education    1.9888e+00  5.3575138
-## income       4.3224e-04  0.0015941</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">confint</span>(fit, <span class="st">&quot;education&quot;</span>)   <span class="co"># Only for one coefficient</span></code></pre></div>
-<pre><code>##            2.5 % 97.5 %
-## education 2.4013 4.9451</code></pre>
+<div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb271-1" data-line-number="1"><span class="kw">confint</span>(fit)</a></code></pre></div>
+<pre><code>##                     2.5 %       97.5 %
+## (Intercept) -1.100376e+01  9.757900433
+## typeprof    -1.639837e+00 13.717778520
+## typewc      -7.729402e+00  2.254940810
+## education    2.401257e+00  4.945075332
+## income       5.744929e-04  0.001451893</code></pre>
+<div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb273-1" data-line-number="1"><span class="kw">confint</span>(fit, <span class="dt">level =</span> <span class="fl">0.99</span>)  <span class="co"># Changing the confidence level</span></a></code></pre></div>
+<pre><code>##                     0.5 %      99.5 %
+## (Intercept) -1.436992e+01 13.12406265
+## typeprof    -4.129823e+00 16.20776380
+## typewc      -9.348200e+00  3.87373813
+## education    1.988818e+00  5.35751375
+## income       4.322368e-04  0.00159415</code></pre>
+<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb275-1" data-line-number="1"><span class="kw">confint</span>(fit, <span class="st">&quot;education&quot;</span>)   <span class="co"># Only for one coefficient</span></a></code></pre></div>
+<pre><code>##              2.5 %   97.5 %
+## education 2.401257 4.945075</code></pre>
 <p>You may also be interested in testing against null hypotheses other than each individual coefficient being zero. This is where the <code>linearHypothesis()</code> function from the car package comes in. For example, suppose we wanted to test against the null hypothesis that the population coefficient on education is 3.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">linearHypothesis</span>(fit, <span class="st">&quot;education = 3&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb277-1" data-line-number="1"><span class="kw">linearHypothesis</span>(fit, <span class="st">&quot;education = 3&quot;</span>)</a></code></pre></div>
 <pre><code>## Linear hypothesis test
 ## 
 ## Hypothesis:
@@ -494,10 +609,10 @@ fit_results</code></pre></div>
 ## Model 1: restricted model
 ## Model 2: prestige ~ type + education + income
 ## 
-##   Res.Df  RSS Df Sum of Sq   F Pr(&gt;F)
-## 1     94 4737                        
-## 2     93 4681  1      55.6 1.1    0.3</code></pre>
-<p>We care about the last two columns of the bottom row. <code>F</code> gives us the test statistic,<a href="#fn24" class="footnoteRef" id="fnref24"><sup>24</sup></a> and <code>Pr(&gt;F)</code> gives us the associated <span class="math inline">\(p\)</span>-value. Here our <span class="math inline">\(p\)</span>-value is 0.3, so we wouldn’t reject the null hypothesis that the population coefficient on education is 3.</p>
+##   Res.Df    RSS Df Sum of Sq      F Pr(&gt;F)
+## 1     94 4736.9                           
+## 2     93 4681.3  1    55.601 1.1046  0.296</code></pre>
+<p>We care about the last two columns of the bottom row. <code>F</code> gives us the test statistic,<a href="#fn24" class="footnote-ref" id="fnref24"><sup>24</sup></a> and <code>Pr(&gt;F)</code> gives us the associated <span class="math inline">\(p\)</span>-value. Here our <span class="math inline">\(p\)</span>-value is 0.3, so we wouldn’t reject the null hypothesis that the population coefficient on education is 3.</p>
 <p>Two quick notes on the <code>linearHypothesis()</code> function:</p>
 <ul>
 <li><p>Make sure to place your hypothesis in quotes. (Or if you have multiple hypotheses, that you use a vector of quoted strings.) The function will not work if you run something like <code>linearHypothesis(fit, education = 3)</code>.</p></li>
@@ -505,7 +620,7 @@ fit_results</code></pre></div>
 </ul>
 <p>Of course, for a univariate hypothesis test like this one, we could have just used the confidence interval to figure out the answer. The real value of <code>linearHypothesis()</code> comes in simultaneously testing hypotheses about multiple coefficients—i.e., the Wald test.</p>
 <p>For example, let’s test the null hypothesis that the population coefficients on white-collar and professional are the same.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">linearHypothesis</span>(fit, <span class="st">&quot;typewc = typeprof&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb279-1" data-line-number="1"><span class="kw">linearHypothesis</span>(fit, <span class="st">&quot;typewc = typeprof&quot;</span>)</a></code></pre></div>
 <pre><code>## Linear hypothesis test
 ## 
 ## Hypothesis:
@@ -514,12 +629,14 @@ fit_results</code></pre></div>
 ## Model 1: restricted model
 ## Model 2: prestige ~ type + education + income
 ## 
-##   Res.Df  RSS Df Sum of Sq  F Pr(&gt;F)
-## 1     94 5186                       
-## 2     93 4681  1       505 10 0.0021</code></pre>
+##   Res.Df    RSS Df Sum of Sq      F   Pr(&gt;F)   
+## 1     94 5186.2                                
+## 2     93 4681.3  1    504.93 10.031 0.002082 **
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>We would reject this null hypothesis except under particularly stringent significance levels (less than 0.002).</p>
 <p>What about the composite hypothesis that the population coefficients on white-collar and professional both equal zero? To test this, we pass a <em>vector</em> of hypotheses.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">linearHypothesis</span>(fit, <span class="kw">c</span>(<span class="st">&quot;typewc = 0&quot;</span>, <span class="st">&quot;typeprof = 0&quot;</span>))</code></pre></div>
+<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb281-1" data-line-number="1"><span class="kw">linearHypothesis</span>(fit, <span class="kw">c</span>(<span class="st">&quot;typewc = 0&quot;</span>, <span class="st">&quot;typeprof = 0&quot;</span>))</a></code></pre></div>
 <pre><code>## Linear hypothesis test
 ## 
 ## Hypothesis:
@@ -529,31 +646,35 @@ fit_results</code></pre></div>
 ## Model 1: restricted model
 ## Model 2: prestige ~ type + education + income
 ## 
-##   Res.Df  RSS Df Sum of Sq    F Pr(&gt;F)
-## 1     95 5272                         
-## 2     93 4681  2       591 5.87  0.004</code></pre>
+##   Res.Df    RSS Df Sum of Sq      F   Pr(&gt;F)   
+## 1     95 5272.4                                
+## 2     93 4681.3  2    591.16 5.8721 0.003966 **
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>The <span class="math inline">\(p\)</span>-value corresponding to this hypothesis test is 0.004. This illustrates a key feature of composite hypothesis tests. You’ll remember from the original regression output that neither of the occupational indicators were significant on their own.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(fit)</code></pre></div>
+<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb283-1" data-line-number="1"><span class="kw">summary</span>(fit)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = prestige ~ type + education + income, data = Prestige)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -14.953  -4.449   0.168   5.057  18.632 
+##      Min       1Q   Median       3Q      Max 
+## -14.9529  -4.4486   0.1678   5.0566  18.6320 
 ## 
 ## Coefficients:
-##              Estimate Std. Error t value Pr(&gt;|t|)
-## (Intercept) -0.622929   5.227525   -0.12     0.91
-## typeprof     6.038971   3.866855    1.56     0.12
-## typewc      -2.737231   2.513932   -1.09     0.28
-## education    3.673166   0.640502    5.73  1.2e-07
-## income       0.001013   0.000221    4.59  1.4e-05
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) -0.6229292  5.2275255  -0.119    0.905    
+## typeprof     6.0389707  3.8668551   1.562    0.122    
+## typewc      -2.7372307  2.5139324  -1.089    0.279    
+## education    3.6731661  0.6405016   5.735 1.21e-07 ***
+## income       0.0010132  0.0002209   4.586 1.40e-05 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 7.09 on 93 degrees of freedom
+## Residual standard error: 7.095 on 93 degrees of freedom
 ##   (4 observations deleted due to missingness)
-## Multiple R-squared:  0.835,  Adjusted R-squared:  0.828 
-## F-statistic:  118 on 4 and 93 DF,  p-value: &lt;2e-16</code></pre>
+## Multiple R-squared:  0.8349, Adjusted R-squared:  0.8278 
+## F-statistic: 117.5 on 4 and 93 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>So, operating at conventional significant levels, we would:</p>
 <ul>
 <li>Fail to reject the null that the coefficient on professional is zero</li>
@@ -567,9 +688,9 @@ fit_results</code></pre></div>
 <div class="footnotes">
 <hr />
 <ol start="22">
-<li id="fn22"><p>You will notice that, for a single-variable hypothesis <span class="math inline">\(H_0 : \beta_k = b\)</span>, the Wald statistic reduces to the square of the <span class="math inline">\(t\)</span> statistic. Since the asymptotic distribution of the <span class="math inline">\(t\)</span> statistic is standard normal under the null hypothesis, it follows that the asymptotic distribution of its square is <span class="math inline">\(\chi^2_1\)</span> under the null hypothesis.<a href="inference.html#fnref22">↩</a></p></li>
-<li id="fn23"><p>One-tailed tests, while unproblematic in theory, in practice are usually a signal that the two-tailed test was insignificant and the author is fudging it. Don’t send a bad signal; always use two-tailed tests.<a href="inference.html#fnref23">↩</a></p></li>
-<li id="fn24"><p>Why an <span class="math inline">\(F\)</span> statistic instead of a <span class="math inline">\(t\)</span> statistic? If the random variable <span class="math inline">\(Z\)</span> has a <span class="math inline">\(t\)</span> distribution with <span class="math inline">\(n\)</span> degrees of freedom, then <span class="math inline">\(Z^2\)</span> has an <span class="math inline">\(F\)</span> distribution with <span class="math inline">\(1,n\)</span> degrees of freedom. The <span class="math inline">\(F\)</span> statistic generalizes better to the case of multiple hypotheses.<a href="inference.html#fnref24">↩</a></p></li>
+<li id="fn22"><p>You will notice that, for a single-variable hypothesis <span class="math inline">\(H_0 : \beta_k = b\)</span>, the Wald statistic reduces to the square of the <span class="math inline">\(t\)</span> statistic. Since the asymptotic distribution of the <span class="math inline">\(t\)</span> statistic is standard normal under the null hypothesis, it follows that the asymptotic distribution of its square is <span class="math inline">\(\chi^2_1\)</span> under the null hypothesis.<a href="inference.html#fnref22" class="footnote-back">↩</a></p></li>
+<li id="fn23"><p>One-tailed tests, while unproblematic in theory, in practice are usually a signal that the two-tailed test was insignificant and the author is fudging it. Don’t send a bad signal; always use two-tailed tests.<a href="inference.html#fnref23" class="footnote-back">↩</a></p></li>
+<li id="fn24"><p>Why an <span class="math inline">\(F\)</span> statistic instead of a <span class="math inline">\(t\)</span> statistic? If the random variable <span class="math inline">\(Z\)</span> has a <span class="math inline">\(t\)</span> distribution with <span class="math inline">\(n\)</span> degrees of freedom, then <span class="math inline">\(Z^2\)</span> has an <span class="math inline">\(F\)</span> distribution with <span class="math inline">\(1,n\)</span> degrees of freedom. The <span class="math inline">\(F\)</span> statistic generalizes better to the case of multiple hypotheses.<a href="inference.html#fnref24" class="footnote-back">↩</a></p></li>
 </ol>
 </div>
             </section>
@@ -578,27 +699,30 @@ fit_results</code></pre></div>
         </div>
       </div>
 <a href="specification.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="crisis.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
-
+<a href="crisis.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
 <script>
-require(["gitbook"], function(gitbook) {
+gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
 "sharing": {
 "github": false,
 "facebook": true,
 "twitter": true,
-"google": false,
+"linkedin": false,
 "weibo": false,
-"instapper": false,
+"instapaper": false,
 "vk": false,
-"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
 "theme": "white",
@@ -608,6 +732,14 @@ gitbook.start({
 "edit": {
 "link": "https://github.com/rstudio/bookdown-demo/edit/master/08-inference.Rmd",
 "text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
 },
 "download": null,
 "toc": {
@@ -622,9 +754,12 @@ gitbook.start({
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
-    if (location.protocol !== "file:" && /^https?:/.test(script.src))
-      script.src  = script.src.replace(/^https?:/, '');
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>

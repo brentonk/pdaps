@@ -329,7 +329,7 @@ library("car")
 Using the `Prestige` data, let us regress occupational prestige on the type of occupation (blue collar, white collar, or professional) and its average income and education.
 
 ```{r prestige-reg-again}
-data("Prestige", package = "car")
+data("Prestige", package = "carData")
 fit <- lm(prestige ~ type + education + income, data = Prestige)
 ```
 

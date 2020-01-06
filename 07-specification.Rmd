@@ -1,7 +1,7 @@
 # Specification Issues {#specification}
 
 \providecommand{\pderiv}{}
-\renewcommand{\pderiv}[2]{\frac{\partial #1}{\partial #2}}
+\renewcommand{\pderiv}[2]{\frac{\partial{}#1}{\partial{}#2}}
 
 I lied to you about the linear model last week.  Like the grade-school teachers who told you everyone thought the world was flat before Columbus proved them wrong, I had good intentions---but it was a lie nonetheless.
 

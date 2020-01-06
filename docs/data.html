@@ -1,16 +1,14 @@
 <!DOCTYPE html>
-<html >
-
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
 <head>
 
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Practical Data Analysis for Political Scientists</title>
-  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
-  <meta name="description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right.">
-  <meta name="generator" content="bookdown 0.3 and GitBook 2.6.7">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>3 Working with Data | Practical Data Analysis for Political Scientists</title>
+  <meta name="description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right." />
+  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Practical Data Analysis for Political Scientists" />
+  <meta property="og:title" content="3 Working with Data | Practical Data Analysis for Political Scientists" />
   <meta property="og:type" content="book" />
   
   
@@ -18,30 +16,33 @@
   <meta name="github-repo" content="brentonk/pdaps" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Practical Data Analysis for Political Scientists" />
+  <meta name="twitter:title" content="3 Working with Data | Practical Data Analysis for Political Scientists" />
   
   <meta name="twitter:description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right." />
   
 
-<meta name="author" content="Brenton Kenkel">
+<meta name="author" content="Brenton Kenkel" />
 
 
-<meta name="date" content="2017-04-02">
+<meta name="date" content="2020-01-06" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="programming.html">
-<link rel="next" href="visualization.html">
-
+<link rel="prev" href="programming.html"/>
+<link rel="next" href="visualization.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
 
 
 
@@ -52,47 +53,75 @@
 
 
 <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
 
 <body>
+
 
 
   <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
@@ -210,19 +239,19 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p><em>Some material in this chapter is adapted from notes <a href="http://mdilorenzo.github.io">Matt DiLorenzo</a> wrote for the Spring 2016 session of PSCI 8357.</em></p>
 <p>Let me repeat something I said last week. In your careers as social scientists, starting with your dissertation research—if not earlier—you will probably spend more time collecting, merging, and cleaning data than you will on statistical analysis. So it’s worth taking some time to learn how to do this well.</p>
 <p>Best practices for data management can be summarized in a single sentence: <em>Record and document everything you do to the data.</em></p>
-<p>The first corollary of this principle is that raw data is sacrosanct. You should never edit raw data “in place”. Once you download the raw data file, that file should never change.<a href="#fn4" class="footnoteRef" id="fnref4"><sup>4</sup></a></p>
+<p>The first corollary of this principle is that raw data is sacrosanct. You should never edit raw data “in place”. Once you download the raw data file, that file should never change.<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a></p>
 <p>In almost any non-trivial analysis, the “final” data—the format you plug into your analysis—will differ significantly from the raw data. It may consist of information merged from multiple sources. The variables may have been transformed, aggregated, or otherwise altered. The unit of observation may even differ from the original source. You must document every one of these changes, so that another researcher working from the exact same raw data will end up with the exact same final data.</p>
 <p>The most sensible way to achieve this level of reproducibility is to do all of your data merging and cleaning in a script. In other words, no going into Excel and mucking around manually. Like any other piece of your analysis, your pipeline from raw data to final data should follow the <a href="programming.html#programming">principles of programming</a> that we discussed last week.</p>
-<p>Luckily for you,<a href="#fn5" class="footnoteRef" id="fnref5"><sup>5</sup></a> the <strong>tidyverse</strong> suite of R packages (including <strong>dplyr</strong>, <strong>tidyr</strong>, and others) makes it easy to script your “data pipeline”. We’ll begin by loading the package.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</code></pre></div>
+<p>Luckily for you,<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a> the <strong>tidyverse</strong> suite of R packages (including <strong>dplyr</strong>, <strong>tidyr</strong>, and others) makes it easy to script your “data pipeline”. We’ll begin by loading the package.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</a></code></pre></div>
 <div id="loading" class="section level2">
 <h2><span class="header-section-number">3.1</span> Loading</h2>
 <p>The first step in working with data is to acquire some data. Depending on the nature of your research, you will be getting some or all of your data from sources available online. When you download data from online repositories, you should keep track of where you got it from. The best way to do so is—you guessed it—to script your data acquisition.</p>
 <p>The R function <code>download.file()</code> is the easiest way to download files from URLs from within R. Just specify where you’re getting the file from and where you want it to go. For the examples today, we’ll use an “untidied” version of the World Development Indicators data from the World Bank that I’ve posted to my website.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">download.file</span>(<span class="dt">url =</span> <span class="st">&quot;http://bkenkel.com/data/untidy-data.csv&quot;</span>,
-              <span class="dt">destfile =</span> <span class="st">&quot;my-untidy-data.csv&quot;</span>)</code></pre></div>
-<p>Once you’ve got the file stored locally, use the utilities from the <strong>readr</strong> package (part of <strong>tidyverse</strong>) to read it into R as a data frame.<a href="#fn6" class="footnoteRef" id="fnref6"><sup>6</sup></a> We have a CSV file, so we will use <code>read_csv</code>. See <code>help(package = &quot;readr&quot;)</code> for other possibilities.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">untidy_data &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="dt">file =</span> <span class="st">&quot;my-untidy-data.csv&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="kw">download.file</span>(<span class="dt">url =</span> <span class="st">&quot;http://bkenkel.com/data/untidy-data.csv&quot;</span>,</a>
+<a class="sourceLine" id="cb34-2" data-line-number="2">              <span class="dt">destfile =</span> <span class="st">&quot;my-untidy-data.csv&quot;</span>)</a></code></pre></div>
+<p>Once you’ve got the file stored locally, use the utilities from the <strong>readr</strong> package (part of <strong>tidyverse</strong>) to read it into R as a data frame.<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a> We have a CSV file, so we will use <code>read_csv</code>. See <code>help(package = &quot;readr&quot;)</code> for other possibilities.</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1">untidy_data &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="dt">file =</span> <span class="st">&quot;my-untidy-data.csv&quot;</span>)</a></code></pre></div>
 <pre><code>## Parsed with column specification:
 ## cols(
 ##   country = col_character(),
@@ -241,21 +270,21 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ## )</code></pre>
 <p>Remember that each column of a data frame might be a different type, or more formally <em>class</em>, of object. <code>read_csv</code> and its ilk try to guess the type of data each column contains: character, integer, decimal number (“double” in programming-speak), or something else. The readout above tells you what guesses it made. If it gets something wrong—say, reading a column as numbers that ought to be characters—you can use the <code>col_types</code> argument to set it straight.</p>
 <p>FYI, you could also run <code>read_csv()</code> directly on a URL, as in:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">read_csv</span>(<span class="st">&quot;http://bkenkel.com/data/untidy-data.csv&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="kw">read_csv</span>(<span class="st">&quot;http://bkenkel.com/data/untidy-data.csv&quot;</span>)</a></code></pre></div>
 <p>However, in analyses intended for publication, it’s usually preferable to download and save the raw data. What’s stored at a URL might change or disappear, and you’ll need to have a hard copy of the raw data for replication purposes.</p>
 <p>Now let’s take a look at the data we’ve just loaded in.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(untidy_data)</code></pre></div>
-<pre><code>## # A tibble: 6 × 13
-##   country gdp.2005 gdp.2006 gdp.2007 gdp.2008  pop.2005  pop.2006
-##     &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
-## 1      AD   3.8423   4.0184   4.0216   3.6759  0.081223  0.083373
-## 2      AE 253.9655 278.9489 287.8318 297.0189  4.481976  5.171255
-## 3      AF   9.7630  10.3052  11.7212  12.1445 24.399948 25.183615
-## 4      AG   1.1190   1.2687   1.3892   1.3902  0.082565  0.083467
-## 5      AL   9.2684   9.7718  10.3483  11.1275  3.011487  2.992547
-## 6      AM   7.6678   8.6797   9.8731  10.5544  3.014917  3.002161
-## # ... with 6 more variables: pop.2007 &lt;dbl&gt;, pop.2008 &lt;dbl&gt;,
-## #   unemp.2005 &lt;dbl&gt;, unemp.2006 &lt;dbl&gt;, unemp.2007 &lt;dbl&gt;, unemp.2008 &lt;dbl&gt;</code></pre>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="kw">head</span>(untidy_data)</a></code></pre></div>
+<pre><code>## # A tibble: 6 x 13
+##   country gdp.2005 gdp.2006 gdp.2007 gdp.2008 pop.2005 pop.2006 pop.2007
+##   &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+## 1 AD          3.85     4.03     4.03     3.68   0.0789   0.0810   0.0827
+## 2 AE        257.     283.     292.     301.     4.59     5.30     6.17  
+## 3 AF          9.16     9.66    11.0     11.4   25.7     26.4     27.1   
+## 4 AG          1.15     1.29     1.41     1.41   0.0815   0.0827   0.0840
+## 5 AL          9.22     9.77    10.4     11.1    3.01     2.99     2.97  
+## 6 AM          7.67     8.68     9.87    10.6    2.98     2.96     2.93  
+## # … with 5 more variables: pop.2008 &lt;dbl&gt;, unemp.2005 &lt;dbl&gt;, unemp.2006 &lt;dbl&gt;,
+## #   unemp.2007 &lt;dbl&gt;, unemp.2008 &lt;dbl&gt;</code></pre>
 <p>We have a <code>country</code> variable giving country abbreviations. The other variables are numerical values: the country’s GDP in 2005, 2006, 2007, and 2008; then the same for population and unemployment. Let’s get this into a format we could use for analysis.</p>
 </div>
 <div id="tidying" class="section level2">
@@ -267,222 +296,221 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>Each type of observational unit forms a table.</li>
 </ol>
 <p>For one thing, this means that whether a dataset is tidy or not depends—at least in part (some data collections are messy from any angle)—on the purpose it’s being analyzed for.</p>
-<p>Each row of <code>untidy_data</code> is a country. In observational studies in comparative politics and international relations, more commonly the unit of observation is the country-year.<a href="#fn7" class="footnoteRef" id="fnref7"><sup>7</sup></a> How can we take <code>untidy_data</code> and easily make it into country-year data?</p>
+<p>Each row of <code>untidy_data</code> is a country. In observational studies in comparative politics and international relations, more commonly the unit of observation is the country-year.<a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a> How can we take <code>untidy_data</code> and easily make it into country-year data?</p>
 <p>We’ll use the <strong>tidyr</strong> package (again, part of <strong>tidyverse</strong>) to clean up this data. The biggest problem right now is that each column, besides the country identifier, really encodes two pieces of information: the year of observation and the variable being observed. To deal with this, we’ll have to first transform the data from one untidy format to another. We’re going to use the <code>gather()</code> function to make each row a country-year-variable.</p>
 <p>What <code>gather()</code> does is make a row for each entry from a set of columns. It’s probably easiest to understand it by seeing it in practice:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">long_data &lt;-<span class="st"> </span><span class="kw">gather</span>(untidy_data,
-                    <span class="dt">key =</span> variable,
-                    <span class="dt">value =</span> number,
-                    gdp.<span class="dv">2005</span><span class="op">:</span>unemp.<span class="dv">2008</span>)
-<span class="kw">head</span>(long_data)</code></pre></div>
-<pre><code>## # A tibble: 6 × 3
-##   country variable   number
-##     &lt;chr&gt;    &lt;chr&gt;    &lt;dbl&gt;
-## 1      AD gdp.2005   3.8423
-## 2      AE gdp.2005 253.9655
-## 3      AF gdp.2005   9.7630
-## 4      AG gdp.2005   1.1190
-## 5      AL gdp.2005   9.2684
-## 6      AM gdp.2005   7.6678</code></pre>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1">long_data &lt;-<span class="st"> </span><span class="kw">gather</span>(untidy_data,</a>
+<a class="sourceLine" id="cb40-2" data-line-number="2">                    <span class="dt">key =</span> variable,</a>
+<a class="sourceLine" id="cb40-3" data-line-number="3">                    <span class="dt">value =</span> number,</a>
+<a class="sourceLine" id="cb40-4" data-line-number="4">                    gdp<span class="fl">.2005</span><span class="op">:</span>unemp<span class="fl">.2008</span>)</a>
+<a class="sourceLine" id="cb40-5" data-line-number="5"><span class="kw">head</span>(long_data)</a></code></pre></div>
+<pre><code>## # A tibble: 6 x 3
+##   country variable number
+##   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt;
+## 1 AD      gdp.2005   3.85
+## 2 AE      gdp.2005 257.  
+## 3 AF      gdp.2005   9.16
+## 4 AG      gdp.2005   1.15
+## 5 AL      gdp.2005   9.22
+## 6 AM      gdp.2005   7.67</code></pre>
 <p>With the first argument, we told <code>gather()</code> to use the <code>untidy_data</code> data frame. With the last argument, we told it the set of columns to “gather” together into a single column. The <code>key</code> column specifies the name of the variable to store the “key” (original column name) in, and the <code>value</code> column specifies the name of the variable to store the associated value. For example, the second row of <code>long_data</code> encodes what we previously saw as the <code>gdp.2005</code> column of <code>untidy_data</code>.</p>
 <p>Now we have a new problem, which is that <code>variable</code> encodes two pieces of information: the variable and the year of its observation. <strong>tidyr</strong> provides the <code>separate()</code> function to solve that, splitting a single variable into two.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">long_data &lt;-<span class="st"> </span><span class="kw">separate</span>(long_data,
-                      <span class="dt">col =</span> variable,
-                      <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;var&quot;</span>, <span class="st">&quot;year&quot;</span>))
-<span class="kw">head</span>(long_data)</code></pre></div>
-<pre><code>## # A tibble: 6 × 4
-##   country   var  year   number
-##     &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt;
-## 1      AD   gdp  2005   3.8423
-## 2      AE   gdp  2005 253.9655
-## 3      AF   gdp  2005   9.7630
-## 4      AG   gdp  2005   1.1190
-## 5      AL   gdp  2005   9.2684
-## 6      AM   gdp  2005   7.6678</code></pre>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1">long_data &lt;-<span class="st"> </span><span class="kw">separate</span>(long_data,</a>
+<a class="sourceLine" id="cb42-2" data-line-number="2">                      <span class="dt">col =</span> variable,</a>
+<a class="sourceLine" id="cb42-3" data-line-number="3">                      <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;var&quot;</span>, <span class="st">&quot;year&quot;</span>))</a>
+<a class="sourceLine" id="cb42-4" data-line-number="4"><span class="kw">head</span>(long_data)</a></code></pre></div>
+<pre><code>## # A tibble: 6 x 4
+##   country var   year  number
+##   &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt;
+## 1 AD      gdp   2005    3.85
+## 2 AE      gdp   2005  257.  
+## 3 AF      gdp   2005    9.16
+## 4 AG      gdp   2005    1.15
+## 5 AL      gdp   2005    9.22
+## 6 AM      gdp   2005    7.67</code></pre>
 <p>So now we have country-year-variable data, with the year and variable conveniently stored in different columns. To turn this into country-year data, we can use the <code>spread()</code> function, which is like the inverse of <code>gather()</code>. <code>spread()</code> takes a key column and a value column, and turns each different key into a column of its own.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clean_data &lt;-<span class="st"> </span><span class="kw">spread</span>(long_data,
-                    <span class="dt">key =</span> var,
-                    <span class="dt">value =</span> number)
-<span class="kw">head</span>(clean_data)</code></pre></div>
-<pre><code>## # A tibble: 6 × 5
-##   country  year      gdp      pop unemp
-##     &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
-## 1      AD  2005   3.8423 0.081223    NA
-## 2      AD  2006   4.0184 0.083373    NA
-## 3      AD  2007   4.0216 0.084878    NA
-## 4      AD  2008   3.6759 0.085616    NA
-## 5      AE  2005 253.9655 4.481976   3.1
-## 6      AE  2006 278.9489 5.171255   3.3</code></pre>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1">clean_data &lt;-<span class="st"> </span><span class="kw">spread</span>(long_data,</a>
+<a class="sourceLine" id="cb44-2" data-line-number="2">                    <span class="dt">key =</span> var,</a>
+<a class="sourceLine" id="cb44-3" data-line-number="3">                    <span class="dt">value =</span> number)</a>
+<a class="sourceLine" id="cb44-4" data-line-number="4"><span class="kw">head</span>(clean_data)</a></code></pre></div>
+<pre><code>## # A tibble: 6 x 5
+##   country year     gdp    pop unemp
+##   &lt;chr&gt;   &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
+## 1 AD      2005    3.85 0.0789 NA   
+## 2 AD      2006    4.03 0.0810 NA   
+## 3 AD      2007    4.03 0.0827 NA   
+## 4 AD      2008    3.68 0.0839 NA   
+## 5 AE      2005  257.   4.59    3.12
+## 6 AE      2006  283.   5.30    2.77</code></pre>
 <p>When using <code>spread()</code> on data that you didn’t previously <code>gather()</code>, be sure to set the <code>fill</code> argument to tell it how to fill in empty cells. A simple example:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">test_data</code></pre></div>
-<pre><code>## # A tibble: 3 × 3
-##        id     k     v
-##     &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;
-## 1 brenton     a    10
-## 2 brenton     b    20
-## 3 patrick     b     5</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">spread</span>(test_data, <span class="dt">key =</span> k, <span class="dt">value =</span> v)</code></pre></div>
-<pre><code>## # A tibble: 2 × 3
-##        id     a     b
-## *   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1">test_data</a></code></pre></div>
+<pre><code>## # A tibble: 3 x 3
+##   id      k         v
+##   &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt;
+## 1 brenton a        10
+## 2 brenton b        20
+## 3 patrick b         5</code></pre>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1"><span class="kw">spread</span>(test_data, <span class="dt">key =</span> k, <span class="dt">value =</span> v)</a></code></pre></div>
+<pre><code>## # A tibble: 2 x 3
+##   id          a     b
+##   &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;
 ## 1 brenton    10    20
 ## 2 patrick    NA     5</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">spread</span>(test_data, <span class="dt">key =</span> k, <span class="dt">value =</span> v, <span class="dt">fill =</span> <span class="dv">100</span>)</code></pre></div>
-<pre><code>## # A tibble: 2 × 3
-##        id     a     b
-## *   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1"><span class="kw">spread</span>(test_data, <span class="dt">key =</span> k, <span class="dt">value =</span> v, <span class="dt">fill =</span> <span class="dv">100</span>)</a></code></pre></div>
+<pre><code>## # A tibble: 2 x 3
+##   id          a     b
+##   &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;
 ## 1 brenton    10    20
 ## 2 patrick   100     5</code></pre>
 <p>One more important note on <strong>tidyverse</strong> semantics. It includes a fabulous feature called the <em>pipe</em>, <code>%&gt;%</code>, which makes it easy to string together a truly mind-boggling number of commands.</p>
 <p>In pipe syntax, <code>x %&gt;% f()</code> is equivalent to <code>f(x)</code>. That seems like a wasteful and confusing way to write <code>f(x)</code>, and it is. But if you want to string together a bunch of commands, it’s much easier to comprehend</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">f</span>() <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">g</span>() <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">h</span>() <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">i</span>()</code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" data-line-number="1">x <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb52-2" data-line-number="2"><span class="st">  </span><span class="kw">f</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb52-3" data-line-number="3"><span class="st">  </span><span class="kw">g</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb52-4" data-line-number="4"><span class="st">  </span><span class="kw">h</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb52-5" data-line-number="5"><span class="st">  </span><span class="kw">i</span>()</a></code></pre></div>
 <p>than <code>i(h(g(f(x))))</code>.</p>
 <p>You can pass function arguments using the pipe too. For example, <code>f(x, bear = &quot;moose&quot;)</code> is equivalent to <code>x %&gt;% f(bear = &quot;moose&quot;)</code>.</p>
-<p>The key thing about the <strong>tidyverse</strong> functions is that each of them takes a data frame as its first argument, and returns a data frame as its output. This makes them highly amenable to piping. For example, we can combine all three steps of our tidying above with a single command, thanks to the pipe:<a href="#fn8" class="footnoteRef" id="fnref8"><sup>8</sup></a></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">untidy_data <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">gather</span>(<span class="dt">key =</span> variable,
-         <span class="dt">value =</span> number,
-         gdp.<span class="dv">2005</span><span class="op">:</span>unemp.<span class="dv">2008</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">separate</span>(<span class="dt">col =</span> variable,
-           <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;var&quot;</span>, <span class="st">&quot;year&quot;</span>)) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">spread</span>(<span class="dt">key =</span> var,
-         <span class="dt">value =</span> number)</code></pre></div>
-<pre><code>## # A tibble: 860 × 5
-##   country  year      gdp      pop unemp
-## *   &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
-## 1      AD  2005   3.8423 0.081223    NA
-## 2      AD  2006   4.0184 0.083373    NA
-## 3      AD  2007   4.0216 0.084878    NA
-## 4      AD  2008   3.6759 0.085616    NA
-## 5      AE  2005 253.9655 4.481976   3.1
-## # ... with 855 more rows</code></pre>
+<p>The key thing about the <strong>tidyverse</strong> functions is that each of them takes a data frame as its first argument, and returns a data frame as its output. This makes them highly amenable to piping. For example, we can combine all three steps of our tidying above with a single command, thanks to the pipe:<a href="#fn8" class="footnote-ref" id="fnref8"><sup>8</sup></a></p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1">untidy_data <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb53-2" data-line-number="2"><span class="st">  </span><span class="kw">gather</span>(<span class="dt">key =</span> variable,</a>
+<a class="sourceLine" id="cb53-3" data-line-number="3">         <span class="dt">value =</span> number,</a>
+<a class="sourceLine" id="cb53-4" data-line-number="4">         gdp<span class="fl">.2005</span><span class="op">:</span>unemp<span class="fl">.2008</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb53-5" data-line-number="5"><span class="st">  </span><span class="kw">separate</span>(<span class="dt">col =</span> variable,</a>
+<a class="sourceLine" id="cb53-6" data-line-number="6">           <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;var&quot;</span>, <span class="st">&quot;year&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb53-7" data-line-number="7"><span class="st">  </span><span class="kw">spread</span>(<span class="dt">key =</span> var,</a>
+<a class="sourceLine" id="cb53-8" data-line-number="8">         <span class="dt">value =</span> number)</a></code></pre></div>
+<pre><code>## # A tibble: 860 x 5
+##   country year     gdp    pop unemp
+##   &lt;chr&gt;   &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
+## 1 AD      2005    3.85 0.0789 NA   
+## 2 AD      2006    4.03 0.0810 NA   
+## 3 AD      2007    4.03 0.0827 NA   
+## 4 AD      2008    3.68 0.0839 NA   
+## 5 AE      2005  257.   4.59    3.12
+## # … with 855 more rows</code></pre>
 <p>Without the pipe, if we wanted to run all those commands together, we would have to write:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">spread</span>(<span class="kw">separate</span>(<span class="kw">gather</span>(untidy_data,
-                       <span class="dt">key =</span> variable,
-                       <span class="dt">value =</span> number,
-                       gdp.<span class="dv">2005</span><span class="op">:</span>unemp.<span class="dv">2008</span>),
-                <span class="dt">col =</span> variable,
-                <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;var&quot;</span>, <span class="st">&quot;year&quot;</span>)),
-       <span class="dt">key =</span> var,
-       <span class="dt">value =</span> number)</code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1"><span class="kw">spread</span>(<span class="kw">separate</span>(<span class="kw">gather</span>(untidy_data,</a>
+<a class="sourceLine" id="cb55-2" data-line-number="2">                       <span class="dt">key =</span> variable,</a>
+<a class="sourceLine" id="cb55-3" data-line-number="3">                       <span class="dt">value =</span> number,</a>
+<a class="sourceLine" id="cb55-4" data-line-number="4">                       gdp<span class="fl">.2005</span><span class="op">:</span>unemp<span class="fl">.2008</span>),</a>
+<a class="sourceLine" id="cb55-5" data-line-number="5">                <span class="dt">col =</span> variable,</a>
+<a class="sourceLine" id="cb55-6" data-line-number="6">                <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;var&quot;</span>, <span class="st">&quot;year&quot;</span>)),</a>
+<a class="sourceLine" id="cb55-7" data-line-number="7">       <span class="dt">key =</span> var,</a>
+<a class="sourceLine" id="cb55-8" data-line-number="8">       <span class="dt">value =</span> number)</a></code></pre></div>
 <p>Sad!</p>
 </div>
 <div id="transforming-and-aggregating" class="section level2">
 <h2><span class="header-section-number">3.3</span> Transforming and Aggregating</h2>
 <p>Tidying the data usually isn’t the end of the process. If you want to perform further calculations on the raw, that’s where the tools in <strong>dplyr</strong> (part of, you guessed it, the <strong>tidyverse</strong>) come in.</p>
 <p>Perhaps the simplest <strong>dplyr</strong> function (or “verb”, as the R hipsters would say) is <code>rename()</code>, which lets you rename columns.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clean_data <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">rename</span>(<span class="dt">gross_domestic_product =</span> gdp)</code></pre></div>
-<pre><code>## # A tibble: 860 × 5
-##   country  year gross_domestic_product      pop unemp
-## *   &lt;chr&gt; &lt;chr&gt;                  &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
-## 1      AD  2005                 3.8423 0.081223    NA
-## 2      AD  2006                 4.0184 0.083373    NA
-## 3      AD  2007                 4.0216 0.084878    NA
-## 4      AD  2008                 3.6759 0.085616    NA
-## 5      AE  2005               253.9655 4.481976   3.1
-## # ... with 855 more rows</code></pre>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" data-line-number="1">clean_data <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb56-2" data-line-number="2"><span class="st">  </span><span class="kw">rename</span>(<span class="dt">gross_domestic_product =</span> gdp)</a></code></pre></div>
+<pre><code>## # A tibble: 860 x 5
+##   country year  gross_domestic_product    pop unemp
+##   &lt;chr&gt;   &lt;chr&gt;                  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
+## 1 AD      2005                    3.85 0.0789 NA   
+## 2 AD      2006                    4.03 0.0810 NA   
+## 3 AD      2007                    4.03 0.0827 NA   
+## 4 AD      2008                    3.68 0.0839 NA   
+## 5 AE      2005                  257.   4.59    3.12
+## # … with 855 more rows</code></pre>
 <p>The <strong>dplyr</strong> functions, like the vast majority of R functions, do not modify their inputs. In other words, running <code>rename()</code> on <code>clean_data</code> will return a renamed copy of <code>clean_data</code>, but won’t overwrite the original.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clean_data</code></pre></div>
-<pre><code>## # A tibble: 860 × 5
-##   country  year      gdp      pop unemp
-## *   &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
-## 1      AD  2005   3.8423 0.081223    NA
-## 2      AD  2006   4.0184 0.083373    NA
-## 3      AD  2007   4.0216 0.084878    NA
-## 4      AD  2008   3.6759 0.085616    NA
-## 5      AE  2005 253.9655 4.481976   3.1
-## # ... with 855 more rows</code></pre>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1">clean_data</a></code></pre></div>
+<pre><code>## # A tibble: 860 x 5
+##   country year     gdp    pop unemp
+##   &lt;chr&gt;   &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
+## 1 AD      2005    3.85 0.0789 NA   
+## 2 AD      2006    4.03 0.0810 NA   
+## 3 AD      2007    4.03 0.0827 NA   
+## 4 AD      2008    3.68 0.0839 NA   
+## 5 AE      2005  257.   4.59    3.12
+## # … with 855 more rows</code></pre>
 <p>If you wanted to make the change stick, you would have to run:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clean_data &lt;-<span class="st"> </span>clean_data <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">rename</span>(<span class="dt">gross_domestic_product =</span> gdp)</code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" data-line-number="1">clean_data &lt;-<span class="st"> </span>clean_data <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb60-2" data-line-number="2"><span class="st">  </span><span class="kw">rename</span>(<span class="dt">gross_domestic_product =</span> gdp)</a></code></pre></div>
 <p><code>select()</code> lets you keep a couple of columns and drop all the others. Or vice versa if you use minus signs.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clean_data <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">select</span>(country, gdp)</code></pre></div>
-<pre><code>## # A tibble: 860 × 2
-##   country      gdp
-## *   &lt;chr&gt;    &lt;dbl&gt;
-## 1      AD   3.8423
-## 2      AD   4.0184
-## 3      AD   4.0216
-## 4      AD   3.6759
-## 5      AE 253.9655
-## # ... with 855 more rows</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clean_data <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>pop)</code></pre></div>
-<pre><code>## # A tibble: 860 × 4
-##   country  year      gdp unemp
-## *   &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt;
-## 1      AD  2005   3.8423    NA
-## 2      AD  2006   4.0184    NA
-## 3      AD  2007   4.0216    NA
-## 4      AD  2008   3.6759    NA
-## 5      AE  2005 253.9655   3.1
-## # ... with 855 more rows</code></pre>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" data-line-number="1">clean_data <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb61-2" data-line-number="2"><span class="st">  </span><span class="kw">select</span>(country, gdp)</a></code></pre></div>
+<pre><code>## # A tibble: 860 x 2
+##   country    gdp
+##   &lt;chr&gt;    &lt;dbl&gt;
+## 1 AD        3.85
+## 2 AD        4.03
+## 3 AD        4.03
+## 4 AD        3.68
+## 5 AE      257.  
+## # … with 855 more rows</code></pre>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" data-line-number="1">clean_data <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb63-2" data-line-number="2"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>pop)</a></code></pre></div>
+<pre><code>## # A tibble: 860 x 4
+##   country year     gdp unemp
+##   &lt;chr&gt;   &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt;
+## 1 AD      2005    3.85 NA   
+## 2 AD      2006    4.03 NA   
+## 3 AD      2007    4.03 NA   
+## 4 AD      2008    3.68 NA   
+## 5 AE      2005  257.    3.12
+## # … with 855 more rows</code></pre>
 <p><code>mutate()</code> lets you create new variables that are transformations of old ones.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clean_data <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">gdppc =</span> gdp <span class="op">/</span><span class="st"> </span>pop,
-         <span class="dt">log_gdppc =</span> <span class="kw">log</span>(gdppc))</code></pre></div>
-<pre><code>## # A tibble: 860 × 7
-##   country  year      gdp      pop unemp  gdppc log_gdppc
-##     &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt;
-## 1      AD  2005   3.8423 0.081223    NA 47.305    3.8566
-## 2      AD  2006   4.0184 0.083373    NA 48.198    3.8753
-## 3      AD  2007   4.0216 0.084878    NA 47.381    3.8582
-## 4      AD  2008   3.6759 0.085616    NA 42.935    3.7597
-## 5      AE  2005 253.9655 4.481976   3.1 56.664    4.0371
-## # ... with 855 more rows</code></pre>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb65-1" data-line-number="1">clean_data <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb65-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">gdppc =</span> gdp <span class="op">/</span><span class="st"> </span>pop,</a>
+<a class="sourceLine" id="cb65-3" data-line-number="3">         <span class="dt">log_gdppc =</span> <span class="kw">log</span>(gdppc))</a></code></pre></div>
+<pre><code>## # A tibble: 860 x 7
+##   country year     gdp    pop unemp gdppc log_gdppc
+##   &lt;chr&gt;   &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;
+## 1 AD      2005    3.85 0.0789 NA     48.8      3.89
+## 2 AD      2006    4.03 0.0810 NA     49.7      3.91
+## 3 AD      2007    4.03 0.0827 NA     48.7      3.89
+## 4 AD      2008    3.68 0.0839 NA     43.9      3.78
+## 5 AE      2005  257.   4.59    3.12  56.1      4.03
+## # … with 855 more rows</code></pre>
 <p><code>filter()</code> cuts down the data according to the logical condition(s) you specify.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clean_data <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">filter</span>(year <span class="op">==</span><span class="st"> </span><span class="dv">2006</span>)</code></pre></div>
-<pre><code>## # A tibble: 215 × 5
-##   country  year      gdp       pop unemp
-##     &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;
-## 1      AD  2006   4.0184  0.083373    NA
-## 2      AE  2006 278.9489  5.171255   3.3
-## 3      AF  2006  10.3052 25.183615   8.8
-## 4      AG  2006   1.2687  0.083467    NA
-## 5      AL  2006   9.7718  2.992547  12.4
-## # ... with 210 more rows</code></pre>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb67-1" data-line-number="1">clean_data <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb67-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(year <span class="op">==</span><span class="st"> </span><span class="dv">2006</span>)</a></code></pre></div>
+<pre><code>## # A tibble: 215 x 5
+##   country year     gdp     pop unemp
+##   &lt;chr&gt;   &lt;chr&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;
+## 1 AD      2006    4.03  0.0810 NA   
+## 2 AE      2006  283.    5.30    2.77
+## 3 AF      2006    9.66 26.4     2.83
+## 4 AG      2006    1.29  0.0827 NA   
+## 5 AL      2006    9.77  2.99   16.4 
+## # … with 210 more rows</code></pre>
 <p><code>summarise()</code> calculates summaries of the data. For example, let’s find the maximum unemployment rate.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clean_data <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">max_unemp =</span> <span class="kw">max</span>(unemp, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</code></pre></div>
-<pre><code>## # A tibble: 1 × 1
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb69-1" data-line-number="1">clean_data <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb69-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">max_unemp =</span> <span class="kw">max</span>(unemp, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</a></code></pre></div>
+<pre><code>## # A tibble: 1 x 1
 ##   max_unemp
 ##       &lt;dbl&gt;
-## 1      37.6</code></pre>
+## 1      37.2</code></pre>
 <p>This seems sort of useless, until you combine it with the <code>group_by()</code> function. If you group the data before <code>summarise</code>-ing it, you’ll calculate a separate summary for each group. For example, let’s calculate the maximum unemployment rate for each year in the data.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clean_data <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">group_by</span>(year) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">max_unemp =</span> <span class="kw">max</span>(unemp, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</code></pre></div>
-<pre><code>## # A tibble: 4 × 2
-##    year max_unemp
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb71-1" data-line-number="1">clean_data <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb71-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(year) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb71-3" data-line-number="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">max_unemp =</span> <span class="kw">max</span>(unemp, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</a></code></pre></div>
+<pre><code>## # A tibble: 4 x 2
+##   year  max_unemp
 ##   &lt;chr&gt;     &lt;dbl&gt;
-## 1  2005      37.3
-## 2  2006      36.0
-## 3  2007      34.9
-## 4  2008      37.6</code></pre>
+## 1 2005       37.2
+## 2 2006       36.0
+## 3 2007       34.9
+## 4 2008       33.8</code></pre>
 <p><code>summarise()</code> produces a “smaller” data frame than the input—one row per group. If you want to do something similar, but preserving the structure of the original data, use <code>mutate</code> in combination with <code>group_by</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clean_data <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">group_by</span>(year) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">max_unemp =</span> <span class="kw">max</span>(unemp, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),
-         <span class="dt">unemp_over_max =</span> unemp <span class="op">/</span><span class="st"> </span>max_unemp) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">select</span>(country, year, <span class="kw">contains</span>(<span class="st">&quot;unemp&quot;</span>))</code></pre></div>
-<pre><code>## Source: local data frame [860 x 5]
-## Groups: year [4]
-## 
-##   country  year unemp max_unemp unemp_over_max
-##     &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;     &lt;dbl&gt;          &lt;dbl&gt;
-## 1      AD  2005    NA      37.3             NA
-## 2      AD  2006    NA      36.0             NA
-## 3      AD  2007    NA      34.9             NA
-## 4      AD  2008    NA      37.6             NA
-## 5      AE  2005   3.1      37.3        0.08311
-## # ... with 855 more rows</code></pre>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb73-1" data-line-number="1">clean_data <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb73-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(year) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb73-3" data-line-number="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">max_unemp =</span> <span class="kw">max</span>(unemp, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</a>
+<a class="sourceLine" id="cb73-4" data-line-number="4">         <span class="dt">unemp_over_max =</span> unemp <span class="op">/</span><span class="st"> </span>max_unemp) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb73-5" data-line-number="5"><span class="st">  </span><span class="kw">select</span>(country, year, <span class="kw">contains</span>(<span class="st">&quot;unemp&quot;</span>))</a></code></pre></div>
+<pre><code>## # A tibble: 860 x 5
+## # Groups:   year [4]
+##   country year  unemp max_unemp unemp_over_max
+##   &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt;     &lt;dbl&gt;          &lt;dbl&gt;
+## 1 AD      2005  NA         37.2        NA     
+## 2 AD      2006  NA         36.0        NA     
+## 3 AD      2007  NA         34.9        NA     
+## 4 AD      2008  NA         33.8        NA     
+## 5 AE      2005   3.12      37.2         0.0838
+## # … with 855 more rows</code></pre>
 <p>This gives us back the original data, but with a <code>max_unemp</code> variable recording the highest unemployment level that year. We can then calculate each individual country’s unemployment as a percentage of the maximum. Whether grouped <code>mutate</code> or <code>summarise</code> is better depends, of course, on the purpose and structure of your analysis.</p>
 <p>Notice how I selected all of the unemployment-related columns with <code>contains(&quot;unemp&quot;)</code>. See <code>?select_helpers</code> for a full list of helpful functions like this for <code>select</code>-ing variables.</p>
 </div>
@@ -490,282 +518,280 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h2><span class="header-section-number">3.4</span> Merging</h2>
 <p>Only rarely will you be lucky enough to draw all your data from a single source. More often, you’ll be merging together data from multiple sources.</p>
 <p>The key to merging data from separate tables is to have consistent identifiers across tables. For example, if you run an experiment, you might have demographic data on each subject in one table, and each subject’s response to each treatment in another table. Naturally, you’ll want to have a subject identifier that “links” the records across tables, as in the following hypothetical example.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">subject_data</code></pre></div>
-<pre><code>## # A tibble: 3 × 4
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb75-1" data-line-number="1">subject_data</a></code></pre></div>
+<pre><code>## # A tibble: 3 x 4
 ##      id gender loves_bernie does_yoga
-##   &lt;dbl&gt;  &lt;chr&gt;        &lt;chr&gt;     &lt;chr&gt;
-## 1  1001   male          yes        no
-## 2  1002 female           no       yes
-## 3  1003   male           no        no</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">subject_response_data</code></pre></div>
-<pre><code>## # A tibble: 6 × 3
+##   &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;        &lt;chr&gt;    
+## 1  1001 male   yes          no       
+## 2  1002 female no           yes      
+## 3  1003 male   no           no</code></pre>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb77-1" data-line-number="1">subject_response_data</a></code></pre></div>
+<pre><code>## # A tibble: 6 x 3
 ##      id treatment response
-##   &lt;dbl&gt;     &lt;chr&gt;    &lt;chr&gt;
-## 1  1001 read_book      sad
-## 2  1001  watch_tv      sad
-## 3  1002 read_book    happy
-## 4  1002  watch_tv      sad
-## 5  1003 read_book      sad
-## 6  1003  watch_tv    happy</code></pre>
+##   &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;   
+## 1  1001 read_book sad     
+## 2  1001 watch_tv  sad     
+## 3  1002 read_book happy   
+## 4  1002 watch_tv  sad     
+## 5  1003 read_book sad     
+## 6  1003 watch_tv  happy</code></pre>
 <p>Let’s practice merging data with our cleaned-up country-year data. We’ll take two datasets from my website: a country-level dataset with latitudes and longitudes, and a country-year–level dataset with inflation over time.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">latlong_data &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;http://bkenkel.com/data/latlong.csv&quot;</span>)
-latlong_data</code></pre></div>
-<pre><code>## # A tibble: 245 × 3
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb79-1" data-line-number="1">latlong_data &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;http://bkenkel.com/data/latlong.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb79-2" data-line-number="2">latlong_data</a></code></pre></div>
+<pre><code>## # A tibble: 245 x 3
 ##   country latitude longitude
-##     &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;
-## 1      AD   42.546    1.6016
-## 2      AE   23.424   53.8478
-## 3      AF   33.939   67.7100
-## 4      AG   17.061  -61.7964
-## 5      AI   18.221  -63.0686
-## # ... with 240 more rows</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">inflation_data &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;http://bkenkel.com/data/inflation.csv&quot;</span>)
-inflation_data</code></pre></div>
-<pre><code>## # A tibble: 1,070 × 3
+##   &lt;chr&gt;      &lt;dbl&gt;     &lt;dbl&gt;
+## 1 AD          42.5      1.60
+## 2 AE          23.4     53.8 
+## 3 AF          33.9     67.7 
+## 4 AG          17.1    -61.8 
+## 5 AI          18.2    -63.1 
+## # … with 240 more rows</code></pre>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb81-1" data-line-number="1">inflation_data &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;http://bkenkel.com/data/inflation.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb81-2" data-line-number="2">inflation_data</a></code></pre></div>
+<pre><code>## # A tibble: 1,070 x 3
 ##   country  year inflation
-##     &lt;chr&gt; &lt;int&gt;     &lt;dbl&gt;
-## 1      AD  2004        NA
-## 2      AD  2005        NA
-## 3      AD  2006        NA
-## 4      AD  2007        NA
-## 5      AD  2008        NA
-## # ... with 1,065 more rows</code></pre>
+##   &lt;chr&gt;   &lt;dbl&gt;     &lt;dbl&gt;
+## 1 AD       2004        NA
+## 2 AD       2005        NA
+## 3 AD       2006        NA
+## 4 AD       2007        NA
+## 5 AD       2008        NA
+## # … with 1,065 more rows</code></pre>
 <p>For your convenience, both of these datasets use the same two-letter country naming scheme as the original data. Unfortunately, out in the real world, data from different sources often use incommensurate naming schemes. Converting from one naming scheme to another is part of the data cleaning process, and it requires careful attention.</p>
 <p><strong>dplyr</strong> contains various <code>_join()</code> functions for merging. Each of these take as arguments the two data frames to merge, plus the names of the identifier variables to merge them on. The one I use most often is <code>left_join()</code>, which keeps every row from the first (“left”) data frame and merges in the columns from the second (“right”) data frame.</p>
 <p>For example, let’s merge the latitude and longitude data for each country into <code>clean_data</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">left_join</span>(clean_data,
-          latlong_data,
-          <span class="dt">by =</span> <span class="st">&quot;country&quot;</span>)</code></pre></div>
-<pre><code>## # A tibble: 860 × 7
-##   country  year      gdp      pop unemp latitude longitude
-##     &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
-## 1      AD  2005   3.8423 0.081223    NA   42.546    1.6016
-## 2      AD  2006   4.0184 0.083373    NA   42.546    1.6016
-## 3      AD  2007   4.0216 0.084878    NA   42.546    1.6016
-## 4      AD  2008   3.6759 0.085616    NA   42.546    1.6016
-## 5      AE  2005 253.9655 4.481976   3.1   23.424   53.8478
-## # ... with 855 more rows</code></pre>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb83-1" data-line-number="1"><span class="kw">left_join</span>(clean_data,</a>
+<a class="sourceLine" id="cb83-2" data-line-number="2">          latlong_data,</a>
+<a class="sourceLine" id="cb83-3" data-line-number="3">          <span class="dt">by =</span> <span class="st">&quot;country&quot;</span>)</a></code></pre></div>
+<pre><code>## # A tibble: 860 x 7
+##   country year     gdp    pop unemp latitude longitude
+##   &lt;chr&gt;   &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+## 1 AD      2005    3.85 0.0789 NA        42.5      1.60
+## 2 AD      2006    4.03 0.0810 NA        42.5      1.60
+## 3 AD      2007    4.03 0.0827 NA        42.5      1.60
+## 4 AD      2008    3.68 0.0839 NA        42.5      1.60
+## 5 AE      2005  257.   4.59    3.12     23.4     53.8 
+## # … with 855 more rows</code></pre>
 <p>Since <code>latlong_data</code> is country-level, the value is the same for each year. So the merged data contains redundant information. This is one reason to store data observed at different levels in different tables—with redundant observations, it is easier to make errors yet harder to catch them and fix them.</p>
-<p>We can also merge data when the identifier is stored across multiple columns, as in the case of our country-year data. But first, a technical note.<a href="#fn9" class="footnoteRef" id="fnref9"><sup>9</sup></a> You might notice that the <code>year</code> column of <code>clean_data</code> is labeled <code>&lt;chr&gt;</code>, as in character data. Yet the <code>year</code> column of <code>inflation_data</code> is labeled <code>&lt;int&gt;</code>, as in integer data. We can check that by running <code>class()</code> on each respective column.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">class</span>(clean_data<span class="op">$</span>year)</code></pre></div>
+<p>We can also merge data when the identifier is stored across multiple columns, as in the case of our country-year data. But first, a technical note.<a href="#fn9" class="footnote-ref" id="fnref9"><sup>9</sup></a> You might notice that the <code>year</code> column of <code>clean_data</code> is labeled <code>&lt;chr&gt;</code>, as in character data. Yet the <code>year</code> column of <code>inflation_data</code> is labeled <code>&lt;int&gt;</code>, as in integer data. We can check that by running <code>class()</code> on each respective column.</p>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb85-1" data-line-number="1"><span class="kw">class</span>(clean_data<span class="op">$</span>year)</a></code></pre></div>
 <pre><code>## [1] &quot;character&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">class</span>(inflation_data<span class="op">$</span>year)</code></pre></div>
-<pre><code>## [1] &quot;integer&quot;</code></pre>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb87-1" data-line-number="1"><span class="kw">class</span>(inflation_data<span class="op">$</span>year)</a></code></pre></div>
+<pre><code>## [1] &quot;numeric&quot;</code></pre>
 <p>From R’s perspective, the character string <code>&quot;1999&quot;</code> is a very different thing than the integer number <code>1999</code>. Therefore, if we try to merge <code>clean_data</code> and <code>inflation_data</code> on the <code>year</code> variable, it will throw an error.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">left_join</span>(clean_data,
-          inflation_data,
-          <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;country&quot;</span>, <span class="st">&quot;year&quot;</span>))</code></pre></div>
-<pre><code>## Error in left_join_impl(x, y, by$x, by$y, suffix$x, suffix$y): Can&#39;t join on &#39;year&#39; x &#39;year&#39; because of incompatible types (integer / character)</code></pre>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb89-1" data-line-number="1"><span class="kw">left_join</span>(clean_data,</a>
+<a class="sourceLine" id="cb89-2" data-line-number="2">          inflation_data,</a>
+<a class="sourceLine" id="cb89-3" data-line-number="3">          <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;country&quot;</span>, <span class="st">&quot;year&quot;</span>))</a></code></pre></div>
+<pre><code>## Error: Can&#39;t join on &#39;year&#39; x &#39;year&#39; because of incompatible types (numeric / character)</code></pre>
 <p>To fix this, let’s use <code>mutate()</code> to convert the <code>year</code> column of <code>clean_data</code> to an integer. We probably should have done this in the first place—after all, having the year encoded as a character string would have thrown off plotting functions, statistical functions, or anything else where it would be more natural to treat the year like a number.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clean_data &lt;-<span class="st"> </span><span class="kw">mutate</span>(clean_data,
-                     <span class="dt">year =</span> <span class="kw">as.integer</span>(year))
-clean_data</code></pre></div>
-<pre><code>## # A tibble: 860 × 5
-##   country  year      gdp      pop unemp
-##     &lt;chr&gt; &lt;int&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
-## 1      AD  2005   3.8423 0.081223    NA
-## 2      AD  2006   4.0184 0.083373    NA
-## 3      AD  2007   4.0216 0.084878    NA
-## 4      AD  2008   3.6759 0.085616    NA
-## 5      AE  2005 253.9655 4.481976   3.1
-## # ... with 855 more rows</code></pre>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb91-1" data-line-number="1">clean_data &lt;-<span class="st"> </span><span class="kw">mutate</span>(clean_data,</a>
+<a class="sourceLine" id="cb91-2" data-line-number="2">                     <span class="dt">year =</span> <span class="kw">as.integer</span>(year))</a>
+<a class="sourceLine" id="cb91-3" data-line-number="3">clean_data</a></code></pre></div>
+<pre><code>## # A tibble: 860 x 5
+##   country  year    gdp    pop unemp
+##   &lt;chr&gt;   &lt;int&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
+## 1 AD       2005   3.85 0.0789 NA   
+## 2 AD       2006   4.03 0.0810 NA   
+## 3 AD       2007   4.03 0.0827 NA   
+## 4 AD       2008   3.68 0.0839 NA   
+## 5 AE       2005 257.   4.59    3.12
+## # … with 855 more rows</code></pre>
 <p>Looks the same as before, except with an important difference: <code>year</code> is now labeled <code>&lt;int&gt;</code>.</p>
 <p>Now we can merge the two datasets together without issue. Notice how we use a vector in the <code>by</code> argument to specify multiple columns to merge on.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">left_join</span>(clean_data,
-          inflation_data,
-          <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;country&quot;</span>, <span class="st">&quot;year&quot;</span>))</code></pre></div>
-<pre><code>## # A tibble: 860 × 6
-##   country  year      gdp      pop unemp inflation
-##     &lt;chr&gt; &lt;int&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;
-## 1      AD  2005   3.8423 0.081223    NA        NA
-## 2      AD  2006   4.0184 0.083373    NA        NA
-## 3      AD  2007   4.0216 0.084878    NA        NA
-## 4      AD  2008   3.6759 0.085616    NA        NA
-## 5      AE  2005 253.9655 4.481976   3.1        NA
-## # ... with 855 more rows</code></pre>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb93-1" data-line-number="1"><span class="kw">left_join</span>(clean_data,</a>
+<a class="sourceLine" id="cb93-2" data-line-number="2">          inflation_data,</a>
+<a class="sourceLine" id="cb93-3" data-line-number="3">          <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;country&quot;</span>, <span class="st">&quot;year&quot;</span>))</a></code></pre></div>
+<pre><code>## # A tibble: 860 x 6
+##   country  year    gdp    pop unemp inflation
+##   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;
+## 1 AD       2005   3.85 0.0789 NA           NA
+## 2 AD       2006   4.03 0.0810 NA           NA
+## 3 AD       2007   4.03 0.0827 NA           NA
+## 4 AD       2008   3.68 0.0839 NA           NA
+## 5 AE       2005 257.   4.59    3.12        NA
+## # … with 855 more rows</code></pre>
 <p>You might remember that <code>inflation_data</code> contained some country-years not included in the original data (namely, observations from 2004). If we want the merged data to use the observations from <code>inflation_data</code> rather than <code>clean_data</code>, we can use the <code>right_join()</code> function.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">right_join</span>(clean_data,
-           inflation_data,
-           <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;country&quot;</span>, <span class="st">&quot;year&quot;</span>))</code></pre></div>
-<pre><code>## # A tibble: 1,070 × 6
-##   country  year    gdp      pop unemp inflation
-##     &lt;chr&gt; &lt;int&gt;  &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;
-## 1      AD  2004     NA       NA    NA        NA
-## 2      AD  2005 3.8423 0.081223    NA        NA
-## 3      AD  2006 4.0184 0.083373    NA        NA
-## 4      AD  2007 4.0216 0.084878    NA        NA
-## 5      AD  2008 3.6759 0.085616    NA        NA
-## # ... with 1,065 more rows</code></pre>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb95-1" data-line-number="1"><span class="kw">right_join</span>(clean_data,</a>
+<a class="sourceLine" id="cb95-2" data-line-number="2">           inflation_data,</a>
+<a class="sourceLine" id="cb95-3" data-line-number="3">           <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;country&quot;</span>, <span class="st">&quot;year&quot;</span>))</a></code></pre></div>
+<pre><code>## # A tibble: 1,070 x 6
+##   country  year   gdp     pop unemp inflation
+##   &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;
+## 1 AD       2004 NA    NA         NA        NA
+## 2 AD       2005  3.85  0.0789    NA        NA
+## 3 AD       2006  4.03  0.0810    NA        NA
+## 4 AD       2007  4.03  0.0827    NA        NA
+## 5 AD       2008  3.68  0.0839    NA        NA
+## # … with 1,065 more rows</code></pre>
 <p>One last common issue in merging is that the identifier variables have different names in the two datasets. If it’s inconvenient or infeasible to correct this by renaming the columns in one or the other, you can specify the <code>by</code> argument as in the following example.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">inflation_data &lt;-<span class="st"> </span><span class="kw">rename</span>(inflation_data,
-                         <span class="dt">the_country =</span> country,
-                         <span class="dt">the_year =</span> year)
-inflation_data</code></pre></div>
-<pre><code>## # A tibble: 1,070 × 3
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb97-1" data-line-number="1">inflation_data &lt;-<span class="st"> </span><span class="kw">rename</span>(inflation_data,</a>
+<a class="sourceLine" id="cb97-2" data-line-number="2">                         <span class="dt">the_country =</span> country,</a>
+<a class="sourceLine" id="cb97-3" data-line-number="3">                         <span class="dt">the_year =</span> year)</a>
+<a class="sourceLine" id="cb97-4" data-line-number="4">inflation_data</a></code></pre></div>
+<pre><code>## # A tibble: 1,070 x 3
 ##   the_country the_year inflation
-##         &lt;chr&gt;    &lt;int&gt;     &lt;dbl&gt;
-## 1          AD     2004        NA
-## 2          AD     2005        NA
-## 3          AD     2006        NA
-## 4          AD     2007        NA
-## 5          AD     2008        NA
-## # ... with 1,065 more rows</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">left_join</span>(clean_data,
-          inflation_data,
-          <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;country&quot;</span> =<span class="st"> &quot;the_country&quot;</span>, <span class="st">&quot;year&quot;</span> =<span class="st"> &quot;the_year&quot;</span>))</code></pre></div>
-<pre><code>## # A tibble: 860 × 6
-##   country  year      gdp      pop unemp inflation
-##     &lt;chr&gt; &lt;int&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;
-## 1      AD  2005   3.8423 0.081223    NA        NA
-## 2      AD  2006   4.0184 0.083373    NA        NA
-## 3      AD  2007   4.0216 0.084878    NA        NA
-## 4      AD  2008   3.6759 0.085616    NA        NA
-## 5      AE  2005 253.9655 4.481976   3.1        NA
-## # ... with 855 more rows</code></pre>
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;
+## 1 AD              2004        NA
+## 2 AD              2005        NA
+## 3 AD              2006        NA
+## 4 AD              2007        NA
+## 5 AD              2008        NA
+## # … with 1,065 more rows</code></pre>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb99-1" data-line-number="1"><span class="kw">left_join</span>(clean_data,</a>
+<a class="sourceLine" id="cb99-2" data-line-number="2">          inflation_data,</a>
+<a class="sourceLine" id="cb99-3" data-line-number="3">          <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;country&quot;</span> =<span class="st"> &quot;the_country&quot;</span>, <span class="st">&quot;year&quot;</span> =<span class="st"> &quot;the_year&quot;</span>))</a></code></pre></div>
+<pre><code>## # A tibble: 860 x 6
+##   country  year    gdp    pop unemp inflation
+##   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;
+## 1 AD       2005   3.85 0.0789 NA           NA
+## 2 AD       2006   4.03 0.0810 NA           NA
+## 3 AD       2007   4.03 0.0827 NA           NA
+## 4 AD       2008   3.68 0.0839 NA           NA
+## 5 AE       2005 257.   4.59    3.12        NA
+## # … with 855 more rows</code></pre>
 </div>
 <div id="appendix-creating-the-example-data" class="section level2">
 <h2><span class="header-section-number">3.5</span> Appendix: Creating the Example Data</h2>
 <p>I used the same tools this chapter introduces to create the untidy data. I may as well include the code to do it, in case it helps further illustrate how to use the <strong>tidyverse</strong> tools (and, as a bonus, the <strong>WDI</strong> package for downloading World Development Indicators data).</p>
 <p>First I load the necessary packages.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)
-<span class="kw">library</span>(<span class="st">&quot;WDI&quot;</span>)
-<span class="kw">library</span>(<span class="st">&quot;countrycode&quot;</span>)
-<span class="kw">library</span>(<span class="st">&quot;stringr&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb101-1" data-line-number="1"><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</a>
+<a class="sourceLine" id="cb101-2" data-line-number="2"><span class="kw">library</span>(<span class="st">&quot;WDI&quot;</span>)</a>
+<a class="sourceLine" id="cb101-3" data-line-number="3"><span class="kw">library</span>(<span class="st">&quot;countrycode&quot;</span>)</a>
+<a class="sourceLine" id="cb101-4" data-line-number="4"><span class="kw">library</span>(<span class="st">&quot;stringr&quot;</span>)</a></code></pre></div>
 <p>Next, I download the relevant WDI data. I used the <code>WDIsearch()</code> function to locate the appropriate indicator names.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat_raw &lt;-<span class="st"> </span><span class="kw">WDI</span>(<span class="dt">country =</span> <span class="st">&quot;all&quot;</span>,
-               <span class="dt">indicator =</span> <span class="kw">c</span>(<span class="st">&quot;NY.GDP.MKTP.KD&quot;</span>,  <span class="co"># GDP in 2000 USD</span>
-                             <span class="st">&quot;SP.POP.TOTL&quot;</span>,     <span class="co"># Total population</span>
-                             <span class="st">&quot;SL.UEM.TOTL.ZS&quot;</span>), <span class="co"># Unemployment rate</span>
-               <span class="dt">start =</span> <span class="dv">2005</span>,
-               <span class="dt">end =</span> <span class="dv">2008</span>)
-
-<span class="kw">head</span>(dat_raw)</code></pre></div>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb102-1" data-line-number="1">dat_raw &lt;-<span class="st"> </span><span class="kw">WDI</span>(<span class="dt">country =</span> <span class="st">&quot;all&quot;</span>,</a>
+<a class="sourceLine" id="cb102-2" data-line-number="2">               <span class="dt">indicator =</span> <span class="kw">c</span>(<span class="st">&quot;NY.GDP.MKTP.KD&quot;</span>,  <span class="co"># GDP in 2000 USD</span></a>
+<a class="sourceLine" id="cb102-3" data-line-number="3">                             <span class="st">&quot;SP.POP.TOTL&quot;</span>,     <span class="co"># Total population</span></a>
+<a class="sourceLine" id="cb102-4" data-line-number="4">                             <span class="st">&quot;SL.UEM.TOTL.ZS&quot;</span>), <span class="co"># Unemployment rate</span></a>
+<a class="sourceLine" id="cb102-5" data-line-number="5">               <span class="dt">start =</span> <span class="dv">2005</span>,</a>
+<a class="sourceLine" id="cb102-6" data-line-number="6">               <span class="dt">end =</span> <span class="dv">2008</span>)</a>
+<a class="sourceLine" id="cb102-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb102-8" data-line-number="8"><span class="kw">head</span>(dat_raw)</a></code></pre></div>
 <pre><code>##   iso2c    country year NY.GDP.MKTP.KD SP.POP.TOTL SL.UEM.TOTL.ZS
-## 1    1A Arab World 2005     1.6428e+12   313430911        12.1402
-## 2    1A Arab World 2006     1.7629e+12   320906736        11.3296
-## 3    1A Arab World 2007     1.8625e+12   328766559        10.8961
-## 4    1A Arab World 2008     1.9799e+12   336886468        10.5060
-## 5    1W      World 2005     5.7703e+13  6513959904         6.1593
-## 6    1W      World 2006     6.0229e+13  6594722462         5.9000</code></pre>
-<p>I want to get rid of the aggregates, like the “Arab World” and “World” we see here. As a rough tack at that, I’m going to exclude those so-called countries whose ISO codes don’t appear in the <strong>countrycode</strong> package data.<a href="#fn10" class="footnoteRef" id="fnref10"><sup>10</sup></a></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat_countries &lt;-<span class="st"> </span>dat_raw <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">filter</span>(iso2c <span class="op">%in%</span><span class="st"> </span>countrycode_data<span class="op">$</span>iso2c)</code></pre></div>
+## 1    1A Arab World 2005   1.701829e+12   314965793      11.265624
+## 2    1A Arab World 2006   1.812406e+12   322452754      10.375058
+## 3    1A Arab World 2007   1.895307e+12   330290716       9.846245
+## 4    1A Arab World 2008   2.005661e+12   338395961       9.471168
+## 5    1W      World 2005   5.807794e+13  6512602867       5.603405
+## 6    1W      World 2006   6.062147e+13  6593623202       5.242480</code></pre>
+<p>I want to get rid of the aggregates, like the “Arab World” and “World” we see here. As a rough tack at that, I’m going to exclude those so-called countries whose ISO codes don’t appear in the <strong>countrycode</strong> package data.<a href="#fn10" class="footnote-ref" id="fnref10"><sup>10</sup></a></p>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb104-1" data-line-number="1">dat_countries &lt;-<span class="st"> </span>dat_raw <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb104-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(iso2c <span class="op">%in%</span><span class="st"> </span>countrycode<span class="op">::</span>codelist<span class="op">$</span>iso2c)</a></code></pre></div>
 <p>Let’s check on which countries are left. (I cut it down to max six characters per country name for printing purposes.)</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat_countries<span class="op">$</span>country <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">unique</span>() <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">str_sub</span>(<span class="dt">start =</span> <span class="dv">1</span>, <span class="dt">end =</span> <span class="dv">6</span>)</code></pre></div>
-<pre><code>##   [1] &quot;Andorr&quot; &quot;United&quot; &quot;Afghan&quot; &quot;Antigu&quot; &quot;Albani&quot; &quot;Armeni&quot; &quot;Angola&quot;
-##   [8] &quot;Argent&quot; &quot;Americ&quot; &quot;Austri&quot; &quot;Austra&quot; &quot;Aruba&quot;  &quot;Azerba&quot; &quot;Bosnia&quot;
-##  [15] &quot;Barbad&quot; &quot;Bangla&quot; &quot;Belgiu&quot; &quot;Burkin&quot; &quot;Bulgar&quot; &quot;Bahrai&quot; &quot;Burund&quot;
-##  [22] &quot;Benin&quot;  &quot;Bermud&quot; &quot;Brunei&quot; &quot;Bolivi&quot; &quot;Brazil&quot; &quot;Bahama&quot; &quot;Bhutan&quot;
-##  [29] &quot;Botswa&quot; &quot;Belaru&quot; &quot;Belize&quot; &quot;Canada&quot; &quot;Congo,&quot; &quot;Centra&quot; &quot;Congo,&quot;
-##  [36] &quot;Switze&quot; &quot;Cote d&quot; &quot;Chile&quot;  &quot;Camero&quot; &quot;China&quot;  &quot;Colomb&quot; &quot;Costa &quot;
-##  [43] &quot;Cuba&quot;   &quot;Cabo V&quot; &quot;Curaca&quot; &quot;Cyprus&quot; &quot;Czech &quot; &quot;German&quot; &quot;Djibou&quot;
-##  [50] &quot;Denmar&quot; &quot;Domini&quot; &quot;Domini&quot; &quot;Algeri&quot; &quot;Ecuado&quot; &quot;Estoni&quot; &quot;Egypt,&quot;
-##  [57] &quot;Eritre&quot; &quot;Spain&quot;  &quot;Ethiop&quot; &quot;Finlan&quot; &quot;Fiji&quot;   &quot;Micron&quot; &quot;Faroe &quot;
-##  [64] &quot;France&quot; &quot;Gabon&quot;  &quot;United&quot; &quot;Grenad&quot; &quot;Georgi&quot; &quot;Ghana&quot;  &quot;Gibral&quot;
-##  [71] &quot;Greenl&quot; &quot;Gambia&quot; &quot;Guinea&quot; &quot;Equato&quot; &quot;Greece&quot; &quot;Guatem&quot; &quot;Guam&quot;  
-##  [78] &quot;Guinea&quot; &quot;Guyana&quot; &quot;Hong K&quot; &quot;Hondur&quot; &quot;Croati&quot; &quot;Haiti&quot;  &quot;Hungar&quot;
-##  [85] &quot;Indone&quot; &quot;Irelan&quot; &quot;Israel&quot; &quot;Isle o&quot; &quot;India&quot;  &quot;Iraq&quot;   &quot;Iran, &quot;
-##  [92] &quot;Icelan&quot; &quot;Italy&quot;  &quot;Jamaic&quot; &quot;Jordan&quot; &quot;Japan&quot;  &quot;Kenya&quot;  &quot;Kyrgyz&quot;
-##  [99] &quot;Cambod&quot; &quot;Kiriba&quot; &quot;Comoro&quot; &quot;St. Ki&quot; &quot;Korea,&quot; &quot;Korea,&quot; &quot;Kuwait&quot;
-## [106] &quot;Cayman&quot; &quot;Kazakh&quot; &quot;Lao PD&quot; &quot;Lebano&quot; &quot;St. Lu&quot; &quot;Liecht&quot; &quot;Sri La&quot;
-## [113] &quot;Liberi&quot; &quot;Lesoth&quot; &quot;Lithua&quot; &quot;Luxemb&quot; &quot;Latvia&quot; &quot;Libya&quot;  &quot;Morocc&quot;
-## [120] &quot;Monaco&quot; &quot;Moldov&quot; &quot;Monten&quot; &quot;St. Ma&quot; &quot;Madaga&quot; &quot;Marsha&quot; &quot;Macedo&quot;
-## [127] &quot;Mali&quot;   &quot;Myanma&quot; &quot;Mongol&quot; &quot;Macao &quot; &quot;Northe&quot; &quot;Maurit&quot; &quot;Malta&quot; 
-## [134] &quot;Maurit&quot; &quot;Maldiv&quot; &quot;Malawi&quot; &quot;Mexico&quot; &quot;Malays&quot; &quot;Mozamb&quot; &quot;Namibi&quot;
-## [141] &quot;New Ca&quot; &quot;Niger&quot;  &quot;Nigeri&quot; &quot;Nicara&quot; &quot;Nether&quot; &quot;Norway&quot; &quot;Nepal&quot; 
-## [148] &quot;Nauru&quot;  &quot;New Ze&quot; &quot;Oman&quot;   &quot;Panama&quot; &quot;Peru&quot;   &quot;French&quot; &quot;Papua &quot;
-## [155] &quot;Philip&quot; &quot;Pakist&quot; &quot;Poland&quot; &quot;Puerto&quot; &quot;West B&quot; &quot;Portug&quot; &quot;Palau&quot; 
-## [162] &quot;Paragu&quot; &quot;Qatar&quot;  &quot;Romani&quot; &quot;Serbia&quot; &quot;Russia&quot; &quot;Rwanda&quot; &quot;Saudi &quot;
-## [169] &quot;Solomo&quot; &quot;Seyche&quot; &quot;Sudan&quot;  &quot;Sweden&quot; &quot;Singap&quot; &quot;Sloven&quot; &quot;Slovak&quot;
-## [176] &quot;Sierra&quot; &quot;San Ma&quot; &quot;Senega&quot; &quot;Somali&quot; &quot;Surina&quot; &quot;South &quot; &quot;Sao To&quot;
-## [183] &quot;El Sal&quot; &quot;Sint M&quot; &quot;Syrian&quot; &quot;Swazil&quot; &quot;Turks &quot; &quot;Chad&quot;   &quot;Togo&quot;  
-## [190] &quot;Thaila&quot; &quot;Tajiki&quot; &quot;Timor-&quot; &quot;Turkme&quot; &quot;Tunisi&quot; &quot;Tonga&quot;  &quot;Turkey&quot;
-## [197] &quot;Trinid&quot; &quot;Tuvalu&quot; &quot;Tanzan&quot; &quot;Ukrain&quot; &quot;Uganda&quot; &quot;United&quot; &quot;Urugua&quot;
-## [204] &quot;Uzbeki&quot; &quot;St. Vi&quot; &quot;Venezu&quot; &quot;Britis&quot; &quot;Virgin&quot; &quot;Vietna&quot; &quot;Vanuat&quot;
-## [211] &quot;Samoa&quot;  &quot;Yemen,&quot; &quot;South &quot; &quot;Zambia&quot; &quot;Zimbab&quot;</code></pre>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb105-1" data-line-number="1">dat_countries<span class="op">$</span>country <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb105-2" data-line-number="2"><span class="st">  </span><span class="kw">unique</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb105-3" data-line-number="3"><span class="st">  </span><span class="kw">str_sub</span>(<span class="dt">start =</span> <span class="dv">1</span>, <span class="dt">end =</span> <span class="dv">6</span>)</a></code></pre></div>
+<pre><code>##   [1] &quot;Andorr&quot; &quot;United&quot; &quot;Afghan&quot; &quot;Antigu&quot; &quot;Albani&quot; &quot;Armeni&quot; &quot;Angola&quot; &quot;Argent&quot;
+##   [9] &quot;Americ&quot; &quot;Austri&quot; &quot;Austra&quot; &quot;Aruba&quot;  &quot;Azerba&quot; &quot;Bosnia&quot; &quot;Barbad&quot; &quot;Bangla&quot;
+##  [17] &quot;Belgiu&quot; &quot;Burkin&quot; &quot;Bulgar&quot; &quot;Bahrai&quot; &quot;Burund&quot; &quot;Benin&quot;  &quot;Bermud&quot; &quot;Brunei&quot;
+##  [25] &quot;Bolivi&quot; &quot;Brazil&quot; &quot;Bahama&quot; &quot;Bhutan&quot; &quot;Botswa&quot; &quot;Belaru&quot; &quot;Belize&quot; &quot;Canada&quot;
+##  [33] &quot;Congo,&quot; &quot;Centra&quot; &quot;Congo,&quot; &quot;Switze&quot; &quot;Cote d&quot; &quot;Chile&quot;  &quot;Camero&quot; &quot;China&quot; 
+##  [41] &quot;Colomb&quot; &quot;Costa &quot; &quot;Cuba&quot;   &quot;Cabo V&quot; &quot;Curaca&quot; &quot;Cyprus&quot; &quot;Czech &quot; &quot;German&quot;
+##  [49] &quot;Djibou&quot; &quot;Denmar&quot; &quot;Domini&quot; &quot;Domini&quot; &quot;Algeri&quot; &quot;Ecuado&quot; &quot;Estoni&quot; &quot;Egypt,&quot;
+##  [57] &quot;Eritre&quot; &quot;Spain&quot;  &quot;Ethiop&quot; &quot;Finlan&quot; &quot;Fiji&quot;   &quot;Micron&quot; &quot;Faroe &quot; &quot;France&quot;
+##  [65] &quot;Gabon&quot;  &quot;United&quot; &quot;Grenad&quot; &quot;Georgi&quot; &quot;Ghana&quot;  &quot;Gibral&quot; &quot;Greenl&quot; &quot;Gambia&quot;
+##  [73] &quot;Guinea&quot; &quot;Equato&quot; &quot;Greece&quot; &quot;Guatem&quot; &quot;Guam&quot;   &quot;Guinea&quot; &quot;Guyana&quot; &quot;Hong K&quot;
+##  [81] &quot;Hondur&quot; &quot;Croati&quot; &quot;Haiti&quot;  &quot;Hungar&quot; &quot;Indone&quot; &quot;Irelan&quot; &quot;Israel&quot; &quot;Isle o&quot;
+##  [89] &quot;India&quot;  &quot;Iraq&quot;   &quot;Iran, &quot; &quot;Icelan&quot; &quot;Italy&quot;  &quot;Jamaic&quot; &quot;Jordan&quot; &quot;Japan&quot; 
+##  [97] &quot;Kenya&quot;  &quot;Kyrgyz&quot; &quot;Cambod&quot; &quot;Kiriba&quot; &quot;Comoro&quot; &quot;St. Ki&quot; &quot;Korea,&quot; &quot;Korea,&quot;
+## [105] &quot;Kuwait&quot; &quot;Cayman&quot; &quot;Kazakh&quot; &quot;Lao PD&quot; &quot;Lebano&quot; &quot;St. Lu&quot; &quot;Liecht&quot; &quot;Sri La&quot;
+## [113] &quot;Liberi&quot; &quot;Lesoth&quot; &quot;Lithua&quot; &quot;Luxemb&quot; &quot;Latvia&quot; &quot;Libya&quot;  &quot;Morocc&quot; &quot;Monaco&quot;
+## [121] &quot;Moldov&quot; &quot;Monten&quot; &quot;St. Ma&quot; &quot;Madaga&quot; &quot;Marsha&quot; &quot;North &quot; &quot;Mali&quot;   &quot;Myanma&quot;
+## [129] &quot;Mongol&quot; &quot;Macao &quot; &quot;Northe&quot; &quot;Maurit&quot; &quot;Malta&quot;  &quot;Maurit&quot; &quot;Maldiv&quot; &quot;Malawi&quot;
+## [137] &quot;Mexico&quot; &quot;Malays&quot; &quot;Mozamb&quot; &quot;Namibi&quot; &quot;New Ca&quot; &quot;Niger&quot;  &quot;Nigeri&quot; &quot;Nicara&quot;
+## [145] &quot;Nether&quot; &quot;Norway&quot; &quot;Nepal&quot;  &quot;Nauru&quot;  &quot;New Ze&quot; &quot;Oman&quot;   &quot;Panama&quot; &quot;Peru&quot;  
+## [153] &quot;French&quot; &quot;Papua &quot; &quot;Philip&quot; &quot;Pakist&quot; &quot;Poland&quot; &quot;Puerto&quot; &quot;West B&quot; &quot;Portug&quot;
+## [161] &quot;Palau&quot;  &quot;Paragu&quot; &quot;Qatar&quot;  &quot;Romani&quot; &quot;Serbia&quot; &quot;Russia&quot; &quot;Rwanda&quot; &quot;Saudi &quot;
+## [169] &quot;Solomo&quot; &quot;Seyche&quot; &quot;Sudan&quot;  &quot;Sweden&quot; &quot;Singap&quot; &quot;Sloven&quot; &quot;Slovak&quot; &quot;Sierra&quot;
+## [177] &quot;San Ma&quot; &quot;Senega&quot; &quot;Somali&quot; &quot;Surina&quot; &quot;South &quot; &quot;Sao To&quot; &quot;El Sal&quot; &quot;Sint M&quot;
+## [185] &quot;Syrian&quot; &quot;Eswati&quot; &quot;Turks &quot; &quot;Chad&quot;   &quot;Togo&quot;   &quot;Thaila&quot; &quot;Tajiki&quot; &quot;Timor-&quot;
+## [193] &quot;Turkme&quot; &quot;Tunisi&quot; &quot;Tonga&quot;  &quot;Turkey&quot; &quot;Trinid&quot; &quot;Tuvalu&quot; &quot;Tanzan&quot; &quot;Ukrain&quot;
+## [201] &quot;Uganda&quot; &quot;United&quot; &quot;Urugua&quot; &quot;Uzbeki&quot; &quot;St. Vi&quot; &quot;Venezu&quot; &quot;Britis&quot; &quot;Virgin&quot;
+## [209] &quot;Vietna&quot; &quot;Vanuat&quot; &quot;Samoa&quot;  &quot;Yemen,&quot; &quot;South &quot; &quot;Zambia&quot; &quot;Zimbab&quot;</code></pre>
 <p>With that out of the way, there’s still some cleaning up to do. The magnitudes of GDP and population are too large, and the variable names are impenetrable. Also, the <code>country</code> variable, while helpful, is redundant now that we’re satisfied with the list of countries remaining.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat_countries &lt;-<span class="st"> </span>dat_countries <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>country) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">rename</span>(<span class="dt">gdp =</span> NY.GDP.MKTP.KD,
-         <span class="dt">pop =</span> SP.POP.TOTL,
-         <span class="dt">unemp =</span> SL.UEM.TOTL.ZS,
-         <span class="dt">country =</span> iso2c) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">gdp =</span> gdp <span class="op">/</span><span class="st"> </span><span class="fl">1e9</span>,
-         <span class="dt">pop =</span> pop <span class="op">/</span><span class="st"> </span><span class="fl">1e6</span>)
-
-<span class="kw">head</span>(dat_countries)</code></pre></div>
-<pre><code>##   country year      gdp      pop unemp
-## 1      AD 2005   3.8423 0.081223    NA
-## 2      AD 2006   4.0184 0.083373    NA
-## 3      AD 2007   4.0216 0.084878    NA
-## 4      AD 2008   3.6759 0.085616    NA
-## 5      AE 2005 253.9655 4.481976   3.1
-## 6      AE 2006 278.9489 5.171255   3.3</code></pre>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb107-1" data-line-number="1">dat_countries &lt;-<span class="st"> </span>dat_countries <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb107-2" data-line-number="2"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>country) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb107-3" data-line-number="3"><span class="st">  </span><span class="kw">rename</span>(<span class="dt">gdp =</span> NY.GDP.MKTP.KD,</a>
+<a class="sourceLine" id="cb107-4" data-line-number="4">         <span class="dt">pop =</span> SP.POP.TOTL,</a>
+<a class="sourceLine" id="cb107-5" data-line-number="5">         <span class="dt">unemp =</span> SL.UEM.TOTL.ZS,</a>
+<a class="sourceLine" id="cb107-6" data-line-number="6">         <span class="dt">country =</span> iso2c) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb107-7" data-line-number="7"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">gdp =</span> gdp <span class="op">/</span><span class="st"> </span><span class="fl">1e9</span>,</a>
+<a class="sourceLine" id="cb107-8" data-line-number="8">         <span class="dt">pop =</span> pop <span class="op">/</span><span class="st"> </span><span class="fl">1e6</span>)</a>
+<a class="sourceLine" id="cb107-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb107-10" data-line-number="10"><span class="kw">head</span>(dat_countries)</a></code></pre></div>
+<pre><code>##   country year        gdp      pop unemp
+## 1      AD 2005   3.851228 0.078867    NA
+## 2      AD 2006   4.025933 0.080993    NA
+## 3      AD 2007   4.027544 0.082684    NA
+## 4      AD 2008   3.681578 0.083862    NA
+## 5      AE 2005 257.366939 4.588225 3.120
+## 6      AE 2006 282.684948 5.300174 2.773</code></pre>
 <p>Now I convert the data to “long” format.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat_countries_long &lt;-<span class="st"> </span>dat_countries <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">gather</span>(<span class="dt">key =</span> variable,
-         <span class="dt">value =</span> value,
-         gdp<span class="op">:</span>unemp)
-
-<span class="kw">head</span>(dat_countries_long)</code></pre></div>
-<pre><code>##   country year variable    value
-## 1      AD 2005      gdp   3.8423
-## 2      AD 2006      gdp   4.0184
-## 3      AD 2007      gdp   4.0216
-## 4      AD 2008      gdp   3.6759
-## 5      AE 2005      gdp 253.9655
-## 6      AE 2006      gdp 278.9489</code></pre>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb109-1" data-line-number="1">dat_countries_long &lt;-<span class="st"> </span>dat_countries <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb109-2" data-line-number="2"><span class="st">  </span><span class="kw">gather</span>(<span class="dt">key =</span> variable,</a>
+<a class="sourceLine" id="cb109-3" data-line-number="3">         <span class="dt">value =</span> value,</a>
+<a class="sourceLine" id="cb109-4" data-line-number="4">         gdp<span class="op">:</span>unemp)</a></code></pre></div>
+<pre><code>## Warning: attributes are not identical across measure variables;
+## they will be dropped</code></pre>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb111-1" data-line-number="1"><span class="kw">head</span>(dat_countries_long)</a></code></pre></div>
+<pre><code>##   country year variable      value
+## 1      AD 2005      gdp   3.851228
+## 2      AD 2006      gdp   4.025933
+## 3      AD 2007      gdp   4.027544
+## 4      AD 2008      gdp   3.681578
+## 5      AE 2005      gdp 257.366939
+## 6      AE 2006      gdp 282.684948</code></pre>
 <p>I then smush <code>variable</code> and <code>year</code> into a single column, and drop the individual components.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat_countries_long &lt;-<span class="st"> </span>dat_countries_long <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">var_year =</span> <span class="kw">paste</span>(variable, year, <span class="dt">sep =</span> <span class="st">&quot;.&quot;</span>)) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>variable, <span class="op">-</span>year)
-
-<span class="kw">head</span>(dat_countries_long)</code></pre></div>
-<pre><code>##   country    value var_year
-## 1      AD   3.8423 gdp.2005
-## 2      AD   4.0184 gdp.2006
-## 3      AD   4.0216 gdp.2007
-## 4      AD   3.6759 gdp.2008
-## 5      AE 253.9655 gdp.2005
-## 6      AE 278.9489 gdp.2006</code></pre>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb113-1" data-line-number="1">dat_countries_long &lt;-<span class="st"> </span>dat_countries_long <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb113-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">var_year =</span> <span class="kw">paste</span>(variable, year, <span class="dt">sep =</span> <span class="st">&quot;.&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb113-3" data-line-number="3"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>variable, <span class="op">-</span>year)</a>
+<a class="sourceLine" id="cb113-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb113-5" data-line-number="5"><span class="kw">head</span>(dat_countries_long)</a></code></pre></div>
+<pre><code>##   country      value var_year
+## 1      AD   3.851228 gdp.2005
+## 2      AD   4.025933 gdp.2006
+## 3      AD   4.027544 gdp.2007
+## 4      AD   3.681578 gdp.2008
+## 5      AE 257.366939 gdp.2005
+## 6      AE 282.684948 gdp.2006</code></pre>
 <p>Finally, I “widen” the data, so that each <code>var_year</code> is a column of its own.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat_countries_wide &lt;-<span class="st"> </span>dat_countries_long <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">spread</span>(<span class="dt">key =</span> var_year, <span class="dt">value =</span> value)
-
-<span class="kw">head</span>(dat_countries_wide)</code></pre></div>
-<pre><code>##   country gdp.2005 gdp.2006 gdp.2007 gdp.2008  pop.2005  pop.2006
-## 1      AD   3.8423   4.0184   4.0216   3.6759  0.081223  0.083373
-## 2      AE 253.9655 278.9489 287.8318 297.0189  4.481976  5.171255
-## 3      AF   9.7630  10.3052  11.7212  12.1445 24.399948 25.183615
-## 4      AG   1.1190   1.2687   1.3892   1.3902  0.082565  0.083467
-## 5      AL   9.2684   9.7718  10.3483  11.1275  3.011487  2.992547
-## 6      AM   7.6678   8.6797   9.8731  10.5544  3.014917  3.002161
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb115-1" data-line-number="1">dat_countries_wide &lt;-<span class="st"> </span>dat_countries_long <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb115-2" data-line-number="2"><span class="st">  </span><span class="kw">spread</span>(<span class="dt">key =</span> var_year, <span class="dt">value =</span> value)</a>
+<a class="sourceLine" id="cb115-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb115-4" data-line-number="4"><span class="kw">head</span>(dat_countries_wide)</a></code></pre></div>
+<pre><code>##   country   gdp.2005   gdp.2006   gdp.2007   gdp.2008  pop.2005  pop.2006
+## 1      AD   3.851228   4.025933   4.027544   3.681578  0.078867  0.080993
+## 2      AE 257.366939 282.684948 291.686739 300.996902  4.588225  5.300174
+## 3      AF   9.164598   9.655583  10.990595  11.421974 25.654277 26.433049
+## 4      AG   1.148420   1.294597   1.414469   1.414043  0.081465  0.082704
+## 5      AL   9.223229   9.767407  10.351497  11.127856  3.011487  2.992547
+## 6      AM   7.667756   8.679746   9.873142  10.554389  2.981269  2.958307
 ##    pop.2007  pop.2008 unemp.2005 unemp.2006 unemp.2007 unemp.2008
-## 1  0.084878  0.085616         NA         NA         NA         NA
-## 2  6.010100  6.900142        3.1        3.3        3.4        4.0
-## 3 25.877544 26.528741        8.5        8.8        8.4        8.9
-## 4  0.084397  0.085350         NA         NA         NA         NA
-## 5  2.970017  2.947314       12.5       12.4       13.5       13.0
-## 6  2.988117  2.975029       27.8       28.6       28.4       16.4</code></pre>
+## 1  0.082684  0.083862         NA         NA         NA         NA
+## 2  6.168838  7.089487      3.120      2.773      2.467      2.333
+## 3 27.100536 27.722276      2.942      2.825      2.128      2.494
+## 4  0.084026  0.085397         NA         NA         NA         NA
+## 5  2.970017  2.947314     16.874     16.394     15.966     13.060
+## 6  2.932618  2.907618     10.800     10.281      9.812     16.368</code></pre>
 <p>Now we have some ugly data. I save the output to upload to my website.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">write_csv</span>(dat_countries_wide, <span class="dt">path =</span> <span class="st">&quot;untidy-data.csv&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb117-1" data-line-number="1"><span class="kw">write_csv</span>(dat_countries_wide, <span class="dt">path =</span> <span class="st">&quot;untidy-data.csv&quot;</span>)</a></code></pre></div>
 <p>And here’s how I made the second country-year dataset used in the merging section. The country dataset with latitudes and longitudes is from <a href="https://developers.google.com/public-data/docs/canonical/countries_csv" class="uri">https://developers.google.com/public-data/docs/canonical/countries_csv</a>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat_<span class="dv">2</span> &lt;-
-<span class="st">  </span><span class="kw">WDI</span>(<span class="dt">country =</span> <span class="st">&quot;all&quot;</span>,
-      <span class="dt">indicator =</span> <span class="st">&quot;FP.CPI.TOTL.ZG&quot;</span>,
-      <span class="dt">start =</span> <span class="dv">2004</span>,
-      <span class="dt">end =</span> <span class="dv">2008</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">as_data_frame</span>() <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">select</span>(<span class="dt">country =</span> iso2c,
-         year,
-         <span class="dt">inflation =</span> FP.CPI.TOTL.ZG) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">year =</span> <span class="kw">as.integer</span>(year)) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">filter</span>(country <span class="op">%in%</span><span class="st"> </span>clean_data<span class="op">$</span>country) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">arrange</span>(country, year)
-
-<span class="kw">write_csv</span>(dat_<span class="dv">2</span>, <span class="dt">path =</span> <span class="st">&quot;inflation.csv&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb118-1" data-line-number="1">dat_<span class="dv">2</span> &lt;-</a>
+<a class="sourceLine" id="cb118-2" data-line-number="2"><span class="st">  </span><span class="kw">WDI</span>(<span class="dt">country =</span> <span class="st">&quot;all&quot;</span>,</a>
+<a class="sourceLine" id="cb118-3" data-line-number="3">      <span class="dt">indicator =</span> <span class="st">&quot;FP.CPI.TOTL.ZG&quot;</span>,</a>
+<a class="sourceLine" id="cb118-4" data-line-number="4">      <span class="dt">start =</span> <span class="dv">2004</span>,</a>
+<a class="sourceLine" id="cb118-5" data-line-number="5">      <span class="dt">end =</span> <span class="dv">2008</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb118-6" data-line-number="6"><span class="st">  </span><span class="kw">as_data_frame</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb118-7" data-line-number="7"><span class="st">  </span><span class="kw">select</span>(<span class="dt">country =</span> iso2c,</a>
+<a class="sourceLine" id="cb118-8" data-line-number="8">         year,</a>
+<a class="sourceLine" id="cb118-9" data-line-number="9">         <span class="dt">inflation =</span> FP.CPI.TOTL.ZG) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb118-10" data-line-number="10"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">year =</span> <span class="kw">as.integer</span>(year)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb118-11" data-line-number="11"><span class="st">  </span><span class="kw">filter</span>(country <span class="op">%in%</span><span class="st"> </span>clean_data<span class="op">$</span>country) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb118-12" data-line-number="12"><span class="st">  </span><span class="kw">arrange</span>(country, year)</a></code></pre></div>
+<pre><code>## Warning: `as_data_frame()` is deprecated, use `as_tibble()` (but mind the new semantics).
+## This warning is displayed once per session.</code></pre>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb120-1" data-line-number="1"><span class="kw">write_csv</span>(dat_<span class="dv">2</span>, <span class="dt">path =</span> <span class="st">&quot;inflation.csv&quot;</span>)</a></code></pre></div>
 
 </div>
 </div>
@@ -778,13 +804,13 @@ inflation_data</code></pre></div>
 <div class="footnotes">
 <hr />
 <ol start="4">
-<li id="fn4"><p>Even if it’s data you collected yourself, that data should still have a “canonical” representation that never gets overwritten. See <span class="citation">Leek (<a href="#ref-Leek:2015uw">2015</a>)</span> for more on distributing your own data.<a href="data.html#fnref4">↩</a></p></li>
-<li id="fn5"><p>But not for me, because these tools didn’t exist when I was a PhD student. Also, get off my lawn!<a href="data.html#fnref5">↩</a></p></li>
-<li id="fn6"><p>More precisely, the <strong>readr</strong> functions produce output of class <code>&quot;tbl_df&quot;</code> (pronounced “tibble diff,” I’m told), which are like data frames but better. See <code>help(package = &quot;tibble&quot;)</code> for what can be done with <code>tbl_df</code>s.<a href="data.html#fnref6">↩</a></p></li>
-<li id="fn7"><p>Insert lame joke about how Americanists haven’t heard of other countries. But, seriously, if you’re confused because you haven’t heard of other countries, just think of “state-years”.<a href="data.html#fnref7">↩</a></p></li>
-<li id="fn8"><p>If you are reading the PDF copy of these notes (i.e., the ones I hand out in class), the line breaks are eliminated, making the piped commands rather hard to read. I am working on fixing this. For now, you may find the online notes at <a href="http://bkenkel.com/pdaps" class="uri">http://bkenkel.com/pdaps</a> easier to follow.<a href="data.html#fnref8">↩</a></p></li>
-<li id="fn9"><p>This won’t be the case if you got <code>clean_data</code> by loading it in directly from <code>clean-data.csv</code> on my website, since <code>read_csv()</code> will have correctly encoded <code>year</code> as an integer.<a href="data.html#fnref9">↩</a></p></li>
-<li id="fn10"><p><strong>countrycode</strong> is a very useful, albeit imperfect, package for converting between different country naming/coding schemes.<a href="data.html#fnref10">↩</a></p></li>
+<li id="fn4"><p>Even if it’s data you collected yourself, that data should still have a “canonical” representation that never gets overwritten. See <span class="citation">Leek (<a href="#ref-Leek:2015uw">2015</a>)</span> for more on distributing your own data.<a href="data.html#fnref4" class="footnote-back">↩</a></p></li>
+<li id="fn5"><p>But not for me, because these tools didn’t exist when I was a PhD student. Also, get off my lawn!<a href="data.html#fnref5" class="footnote-back">↩</a></p></li>
+<li id="fn6"><p>More precisely, the <strong>readr</strong> functions produce output of class <code>&quot;tbl_df&quot;</code> (pronounced “tibble diff,” I’m told), which are like data frames but better. See <code>help(package = &quot;tibble&quot;)</code> for what can be done with <code>tbl_df</code>s.<a href="data.html#fnref6" class="footnote-back">↩</a></p></li>
+<li id="fn7"><p>Insert lame joke about how Americanists haven’t heard of other countries. But, seriously, if you’re confused because you haven’t heard of other countries, just think of “state-years”.<a href="data.html#fnref7" class="footnote-back">↩</a></p></li>
+<li id="fn8"><p>If you are reading the PDF copy of these notes (i.e., the ones I hand out in class), the line breaks are eliminated, making the piped commands rather hard to read. I am working on fixing this. For now, you may find the online notes at <a href="http://bkenkel.com/pdaps" class="uri">http://bkenkel.com/pdaps</a> easier to follow.<a href="data.html#fnref8" class="footnote-back">↩</a></p></li>
+<li id="fn9"><p>This won’t be the case if you got <code>clean_data</code> by loading it in directly from <code>clean-data.csv</code> on my website, since <code>read_csv()</code> will have correctly encoded <code>year</code> as an integer.<a href="data.html#fnref9" class="footnote-back">↩</a></p></li>
+<li id="fn10"><p><strong>countrycode</strong> is a very useful, albeit imperfect, package for converting between different country naming/coding schemes.<a href="data.html#fnref10" class="footnote-back">↩</a></p></li>
 </ol>
 </div>
             </section>
@@ -793,27 +819,30 @@ inflation_data</code></pre></div>
         </div>
       </div>
 <a href="programming.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="visualization.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
-
+<a href="visualization.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
 <script>
-require(["gitbook"], function(gitbook) {
+gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
 "sharing": {
 "github": false,
 "facebook": true,
 "twitter": true,
-"google": false,
+"linkedin": false,
 "weibo": false,
-"instapper": false,
+"instapaper": false,
 "vk": false,
-"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
 "theme": "white",
@@ -823,6 +852,14 @@ gitbook.start({
 "edit": {
 "link": "https://github.com/rstudio/bookdown-demo/edit/master/02-data.Rmd",
 "text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
 },
 "download": null,
 "toc": {
@@ -837,9 +874,12 @@ gitbook.start({
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
-    if (location.protocol !== "file:" && /^https?:/.test(script.src))
-      script.src  = script.src.replace(/^https?:/, '');
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>
