@@ -34,6 +34,7 @@
 <link rel="prev" href="visualization.html"/>
 <link rel="next" href="matrix.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/elevate-section-attrs-2.0/elevate-section-attrs.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -53,27 +54,26 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; position: absolute; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; }
-pre.numberSource a.sourceLine:empty
-  { position: absolute; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
-    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all;
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -82,9 +82,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -134,55 +134,64 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> About This Book</a></li>
-<li class="chapter" data-level="2" data-path="programming.html"><a href="programming.html"><i class="fa fa-check"></i><b>2</b> Principles of Programming</a><ul>
+<li class="chapter" data-level="2" data-path="programming.html"><a href="programming.html"><i class="fa fa-check"></i><b>2</b> Principles of Programming</a>
+<ul>
 <li class="chapter" data-level="2.1" data-path="programming.html"><a href="programming.html#write-programs-for-people-not-computers"><i class="fa fa-check"></i><b>2.1</b> Write Programs for People, Not Computers</a></li>
 <li class="chapter" data-level="2.2" data-path="programming.html"><a href="programming.html#let-the-computer-do-the-work"><i class="fa fa-check"></i><b>2.2</b> Let the Computer Do the Work</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>3</b> Working with Data</a><ul>
+<li class="chapter" data-level="3" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>3</b> Working with Data</a>
+<ul>
 <li class="chapter" data-level="3.1" data-path="data.html"><a href="data.html#loading"><i class="fa fa-check"></i><b>3.1</b> Loading</a></li>
 <li class="chapter" data-level="3.2" data-path="data.html"><a href="data.html#tidying"><i class="fa fa-check"></i><b>3.2</b> Tidying</a></li>
 <li class="chapter" data-level="3.3" data-path="data.html"><a href="data.html#transforming-and-aggregating"><i class="fa fa-check"></i><b>3.3</b> Transforming and Aggregating</a></li>
 <li class="chapter" data-level="3.4" data-path="data.html"><a href="data.html#merging"><i class="fa fa-check"></i><b>3.4</b> Merging</a></li>
 <li class="chapter" data-level="3.5" data-path="data.html"><a href="data.html#appendix-creating-the-example-data"><i class="fa fa-check"></i><b>3.5</b> Appendix: Creating the Example Data</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="visualization.html"><a href="visualization.html"><i class="fa fa-check"></i><b>4</b> Data Visualization</a><ul>
+<li class="chapter" data-level="4" data-path="visualization.html"><a href="visualization.html"><i class="fa fa-check"></i><b>4</b> Data Visualization</a>
+<ul>
 <li class="chapter" data-level="4.1" data-path="visualization.html"><a href="visualization.html#basic-plots"><i class="fa fa-check"></i><b>4.1</b> Basic Plots</a></li>
 <li class="chapter" data-level="4.2" data-path="visualization.html"><a href="visualization.html#saving-plots"><i class="fa fa-check"></i><b>4.2</b> Saving Plots</a></li>
 <li class="chapter" data-level="4.3" data-path="visualization.html"><a href="visualization.html#faceting"><i class="fa fa-check"></i><b>4.3</b> Faceting</a></li>
 <li class="chapter" data-level="4.4" data-path="visualization.html"><a href="visualization.html#aesthetics"><i class="fa fa-check"></i><b>4.4</b> Aesthetics</a></li>
 <li class="chapter" data-level="4.5" data-path="visualization.html"><a href="visualization.html#appendix-creating-the-example-data-1"><i class="fa fa-check"></i><b>4.5</b> Appendix: Creating the Example Data</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="bivariate.html"><a href="bivariate.html"><i class="fa fa-check"></i><b>5</b> Bivariate Regression</a><ul>
+<li class="chapter" data-level="5" data-path="bivariate.html"><a href="bivariate.html"><i class="fa fa-check"></i><b>5</b> Bivariate Regression</a>
+<ul>
 <li class="chapter" data-level="5.1" data-path="bivariate.html"><a href="bivariate.html#probability-refresher"><i class="fa fa-check"></i><b>5.1</b> Probability Refresher</a></li>
 <li class="chapter" data-level="5.2" data-path="bivariate.html"><a href="bivariate.html#the-linear-model"><i class="fa fa-check"></i><b>5.2</b> The Linear Model</a></li>
 <li class="chapter" data-level="5.3" data-path="bivariate.html"><a href="bivariate.html#least-squares"><i class="fa fa-check"></i><b>5.3</b> Least Squares</a></li>
 <li class="chapter" data-level="5.4" data-path="bivariate.html"><a href="bivariate.html#properties"><i class="fa fa-check"></i><b>5.4</b> Properties</a></li>
 <li class="chapter" data-level="5.5" data-path="bivariate.html"><a href="bivariate.html#appendix-regression-in-r"><i class="fa fa-check"></i><b>5.5</b> Appendix: Regression in R</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="matrix.html"><a href="matrix.html"><i class="fa fa-check"></i><b>6</b> Matrix Algebra: A Crash Course</a><ul>
+<li class="chapter" data-level="6" data-path="matrix.html"><a href="matrix.html"><i class="fa fa-check"></i><b>6</b> Matrix Algebra: A Crash Course</a>
+<ul>
 <li class="chapter" data-level="6.1" data-path="matrix.html"><a href="matrix.html#vector-operations"><i class="fa fa-check"></i><b>6.1</b> Vector Operations</a></li>
 <li class="chapter" data-level="6.2" data-path="matrix.html"><a href="matrix.html#matrix-operations"><i class="fa fa-check"></i><b>6.2</b> Matrix Operations</a></li>
 <li class="chapter" data-level="6.3" data-path="matrix.html"><a href="matrix.html#matrix-inversion"><i class="fa fa-check"></i><b>6.3</b> Matrix Inversion</a></li>
 <li class="chapter" data-level="6.4" data-path="matrix.html"><a href="matrix.html#solving-linear-systems"><i class="fa fa-check"></i><b>6.4</b> Solving Linear Systems</a></li>
 <li class="chapter" data-level="6.5" data-path="matrix.html"><a href="matrix.html#appendix-matrices-in-r"><i class="fa fa-check"></i><b>6.5</b> Appendix: Matrices in R</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="ols-matrix.html"><a href="ols-matrix.html"><i class="fa fa-check"></i><b>7</b> Reintroduction to the Linear Model</a><ul>
+<li class="chapter" data-level="7" data-path="ols-matrix.html"><a href="ols-matrix.html"><i class="fa fa-check"></i><b>7</b> Reintroduction to the Linear Model</a>
+<ul>
 <li class="chapter" data-level="7.1" data-path="ols-matrix.html"><a href="ols-matrix.html#the-linear-model-in-matrix-form"><i class="fa fa-check"></i><b>7.1</b> The Linear Model in Matrix Form</a></li>
 <li class="chapter" data-level="7.2" data-path="ols-matrix.html"><a href="ols-matrix.html#the-ols-estimator"><i class="fa fa-check"></i><b>7.2</b> The OLS Estimator</a></li>
 <li class="chapter" data-level="7.3" data-path="ols-matrix.html"><a href="ols-matrix.html#vector-valued-random-variables"><i class="fa fa-check"></i><b>7.3</b> Vector-Valued Random Variables</a></li>
 <li class="chapter" data-level="7.4" data-path="ols-matrix.html"><a href="ols-matrix.html#properties-of-ols"><i class="fa fa-check"></i><b>7.4</b> Properties of OLS</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="specification.html"><a href="specification.html"><i class="fa fa-check"></i><b>8</b> Specification Issues</a><ul>
+<li class="chapter" data-level="8" data-path="specification.html"><a href="specification.html"><i class="fa fa-check"></i><b>8</b> Specification Issues</a>
+<ul>
 <li class="chapter" data-level="8.1" data-path="specification.html"><a href="specification.html#categorical-variables"><i class="fa fa-check"></i><b>8.1</b> Categorical Variables</a></li>
 <li class="chapter" data-level="8.2" data-path="specification.html"><a href="specification.html#interaction-terms"><i class="fa fa-check"></i><b>8.2</b> Interaction Terms</a></li>
 <li class="chapter" data-level="8.3" data-path="specification.html"><a href="specification.html#quadratic-and-logarithmic-terms"><i class="fa fa-check"></i><b>8.3</b> Quadratic and Logarithmic Terms</a></li>
-<li class="chapter" data-level="8.4" data-path="specification.html"><a href="specification.html#appendix-nonstandard-specifications-in-r"><i class="fa fa-check"></i><b>8.4</b> Appendix: Nonstandard Specifications in R</a><ul>
+<li class="chapter" data-level="8.4" data-path="specification.html"><a href="specification.html#appendix-nonstandard-specifications-in-r"><i class="fa fa-check"></i><b>8.4</b> Appendix: Nonstandard Specifications in R</a>
+<ul>
 <li class="chapter" data-level="8.4.1" data-path="specification.html"><a href="specification.html#categorical-variables-1"><i class="fa fa-check"></i><b>8.4.1</b> Categorical Variables</a></li>
 <li class="chapter" data-level="8.4.2" data-path="specification.html"><a href="specification.html#interaction-terms-1"><i class="fa fa-check"></i><b>8.4.2</b> Interaction Terms</a></li>
 <li class="chapter" data-level="8.4.3" data-path="specification.html"><a href="specification.html#quadratic-and-logarithmic-models"><i class="fa fa-check"></i><b>8.4.3</b> Quadratic and Logarithmic Models</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="inference.html"><a href="inference.html"><i class="fa fa-check"></i><b>9</b> Drawing Inferences</a><ul>
+<li class="chapter" data-level="9" data-path="inference.html"><a href="inference.html"><i class="fa fa-check"></i><b>9</b> Drawing Inferences</a>
+<ul>
 <li class="chapter" data-level="9.1" data-path="inference.html"><a href="inference.html#the-basics-of-hypothesis-testing"><i class="fa fa-check"></i><b>9.1</b> The Basics of Hypothesis Testing</a></li>
 <li class="chapter" data-level="9.2" data-path="inference.html"><a href="inference.html#variance-of-ols"><i class="fa fa-check"></i><b>9.2</b> Variance of OLS</a></li>
 <li class="chapter" data-level="9.3" data-path="inference.html"><a href="inference.html#single-variable-hypotheses"><i class="fa fa-check"></i><b>9.3</b> Single Variable Hypotheses</a></li>
@@ -190,23 +199,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="9.5" data-path="inference.html"><a href="inference.html#appendix-full-derivation-of-ols-variance"><i class="fa fa-check"></i><b>9.5</b> Appendix: Full Derivation of OLS Variance</a></li>
 <li class="chapter" data-level="9.6" data-path="inference.html"><a href="inference.html#appendix-regression-inference-in-r"><i class="fa fa-check"></i><b>9.6</b> Appendix: Regression Inference in R</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="crisis.html"><a href="crisis.html"><i class="fa fa-check"></i><b>10</b> The Statistical Crisis in Science</a><ul>
+<li class="chapter" data-level="10" data-path="crisis.html"><a href="crisis.html"><i class="fa fa-check"></i><b>10</b> The Statistical Crisis in Science</a>
+<ul>
 <li class="chapter" data-level="10.1" data-path="crisis.html"><a href="crisis.html#publication-bias"><i class="fa fa-check"></i><b>10.1</b> Publication Bias</a></li>
 <li class="chapter" data-level="10.2" data-path="crisis.html"><a href="crisis.html#p-hacking"><i class="fa fa-check"></i><b>10.2</b> <span class="math inline">\(p\)</span>-Hacking</a></li>
 <li class="chapter" data-level="10.3" data-path="crisis.html"><a href="crisis.html#what-to-do"><i class="fa fa-check"></i><b>10.3</b> What to Do</a></li>
 <li class="chapter" data-level="10.4" data-path="crisis.html"><a href="crisis.html#appendix-r-simulation"><i class="fa fa-check"></i><b>10.4</b> Appendix: R Simulation</a></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="nonspherical.html"><a href="nonspherical.html"><i class="fa fa-check"></i><b>11</b> Non-Spherical Errors</a><ul>
+<li class="chapter" data-level="11" data-path="nonspherical.html"><a href="nonspherical.html"><i class="fa fa-check"></i><b>11</b> Non-Spherical Errors</a>
+<ul>
 <li class="chapter" data-level="11.1" data-path="nonspherical.html"><a href="nonspherical.html#generalized-least-squares"><i class="fa fa-check"></i><b>11.1</b> Generalized Least Squares</a></li>
 <li class="chapter" data-level="11.2" data-path="nonspherical.html"><a href="nonspherical.html#detecting-heteroskedasticity"><i class="fa fa-check"></i><b>11.2</b> Detecting Heteroskedasticity</a></li>
 <li class="chapter" data-level="11.3" data-path="nonspherical.html"><a href="nonspherical.html#heteroskedasticity-of-unknown-form"><i class="fa fa-check"></i><b>11.3</b> Heteroskedasticity of Unknown Form</a></li>
-<li class="chapter" data-level="11.4" data-path="nonspherical.html"><a href="nonspherical.html#appendix-implementation-in-r"><i class="fa fa-check"></i><b>11.4</b> Appendix: Implementation in R</a><ul>
+<li class="chapter" data-level="11.4" data-path="nonspherical.html"><a href="nonspherical.html#appendix-implementation-in-r"><i class="fa fa-check"></i><b>11.4</b> Appendix: Implementation in R</a>
+<ul>
 <li class="chapter" data-level="11.4.1" data-path="nonspherical.html"><a href="nonspherical.html#generalized-least-squares-1"><i class="fa fa-check"></i><b>11.4.1</b> Generalized Least Squares</a></li>
 <li class="chapter" data-level="11.4.2" data-path="nonspherical.html"><a href="nonspherical.html#breusch-pagan-test"><i class="fa fa-check"></i><b>11.4.2</b> Breusch-Pagan Test</a></li>
 <li class="chapter" data-level="11.4.3" data-path="nonspherical.html"><a href="nonspherical.html#heteroskedasticity-consistent-standard-errors"><i class="fa fa-check"></i><b>11.4.3</b> Heteroskedasticity-Consistent Standard Errors</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="12" data-path="panel.html"><a href="panel.html"><i class="fa fa-check"></i><b>12</b> Clustered and Panel Data</a><ul>
+<li class="chapter" data-level="12" data-path="panel.html"><a href="panel.html"><i class="fa fa-check"></i><b>12</b> Clustered and Panel Data</a>
+<ul>
 <li class="chapter" data-level="12.1" data-path="panel.html"><a href="panel.html#the-linear-model-with-grouped-data"><i class="fa fa-check"></i><b>12.1</b> The Linear Model with Grouped Data</a></li>
 <li class="chapter" data-level="12.2" data-path="panel.html"><a href="panel.html#clustered-standard-errors"><i class="fa fa-check"></i><b>12.2</b> Clustered Standard Errors</a></li>
 <li class="chapter" data-level="12.3" data-path="panel.html"><a href="panel.html#random-effects"><i class="fa fa-check"></i><b>12.3</b> Random Effects</a></li>
@@ -234,13 +247,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="bivariate" class="section level1">
-<h1><span class="header-section-number">5</span> Bivariate Regression</h1>
-
+<div id="bivariate" class="section level1" number="5">
+<h1 number="5"><span class="header-section-number">5</span> Bivariate Regression</h1>
 <p>The goal of empirical social science is usually to learn about the relationships between variables in the social world. Our goals might be descriptive: were college graduates more likely to vote for Clinton in 2016? Or causal: does receiving more education make a person more liberal on average? Or predictive: what kinds of voters should Democrats target in 2020 to have the best chance of victory?</p>
 <p>The linear model is one of the simplest ways to model relationships between variables. Ordinary least squares regression is one of the easiest and (often) best ways to estimate the parameters of the linear model. Consequently, a linear model estimated by OLS is the starting point for many analyses. We will start with the simplest case: regression on a single covariate.</p>
-<div id="probability-refresher" class="section level2">
-<h2><span class="header-section-number">5.1</span> Probability Refresher</h2>
+<div id="probability-refresher" class="section level2" number="5.1">
+<h2 number="5.1"><span class="header-section-number">5.1</span> Probability Refresher</h2>
 <p>Let <span class="math inline">\(Y\)</span> be a random variable that takes values in the finite set <span class="math inline">\(\mathcal{Y}\)</span> according to the probability mass function <span class="math inline">\(f_Y : \mathcal{Y} \to [0, 1]\)</span>. The <em>expected value</em> (aka <em>expectation</em>) of <span class="math inline">\(Y\)</span> is the weighted average of each value in <span class="math inline">\(\mathcal{Y}\)</span>, where the weights are the corresponding probabilities:
 <span class="math display">\[\begin{equation}
 E[Y] = \sum_{y \in \mathcal{Y}} y \: f_Y(y);
@@ -305,8 +317,8 @@ as well.</p>
 S_Y^2 = \frac{1}{N-1} \sum_n Y_n (Y_n - \bar{Y}).
 \end{equation}\]</span></p>
 </div>
-<div id="the-linear-model" class="section level2">
-<h2><span class="header-section-number">5.2</span> The Linear Model</h2>
+<div id="the-linear-model" class="section level2" number="5.2">
+<h2 number="5.2"><span class="header-section-number">5.2</span> The Linear Model</h2>
 <p>Suppose we observe a sequence of <span class="math inline">\(N\)</span> draws from <span class="math inline">\(f_{XY}\)</span>, denoted <span class="math inline">\((X_1, Y_1), (X_2, Y_2), \ldots, (X_N, Y_N)\)</span>, or <span class="math inline">\(\{(X_n, Y_n)\}_{n=1}^N\)</span> for short. What can we learn about the relationship between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> from this sample of data?</p>
 <p>If we were really ambitious, we could try to estimate the shape of the full joint distribution, <span class="math inline">\(f_{XY}\)</span>. The joint distribution encodes everything there is to know about the relationship between the two variables, so it would be pretty useful to know. But except in the most trivial cases, it would be infeasible to estimate <span class="math inline">\(f_{XY}\)</span> precisely. If <span class="math inline">\(X\)</span> or <span class="math inline">\(Y\)</span> can take on more than a few values, estimating the joint distribution would require an amount of data that we’re unlikely to have.<a href="#fn13" class="footnote-ref" id="fnref13"><sup>13</sup></a></p>
 <p>The first way we simplify our estimation task is to set our sights lower. Let <span class="math inline">\(Y\)</span> be the <em>response</em> or the <em>dependent variable</em>—i.e., the thing we want to explain. We call <span class="math inline">\(X\)</span> the <em>covariate</em> or the <em>independent variable</em>. Instead of estimating the full joint distribution, we’re just going to try to learn the conditional expectation, <span class="math inline">\(E[Y \,|\, X]\)</span>. In other words, for each potential value of the covariate, what is the expected value of the response? This will allow us to answer questions like whether greater values of <span class="math inline">\(X\)</span> are associated with greater values of <span class="math inline">\(Y\)</span>.</p>
@@ -340,8 +352,8 @@ E[\epsilon_n \,|\, X_1, \ldots X_N] = 0.
 You can think of <span class="math inline">\(\epsilon_n\)</span> as the summation of everything besides the covariate <span class="math inline">\(X_n\)</span> that affects the response <span class="math inline">\(Y_n\)</span>. The assumption that <span class="math inline">\(E[\epsilon_n \,|\, X_1, \ldots, X_N] = 0\)</span> implies that these external factors are uncorrelated with the covariate. This is not a trivial technical condition that you can ignore—it is a substantive statement about the variables in your model. It requires justification, and it is difficult to justify.</p>
 <p>For now we will proceed assuming that our data satisfy the above conditions. Later in the course, we will talk about how to proceed when <span class="math inline">\(E[\epsilon_n \,|\, X_1, \ldots, X_N] \neq 0\)</span>, and you will learn much more about such strategies in Stat III.</p>
 </div>
-<div id="least-squares" class="section level2">
-<h2><span class="header-section-number">5.3</span> Least Squares</h2>
+<div id="least-squares" class="section level2" number="5.3">
+<h2 number="5.3"><span class="header-section-number">5.3</span> Least Squares</h2>
 <p>To estimate the parameters of the linear model, we will rely on a mathematically convenient method called <em>least squares</em>. We will see that this method not only is convenient, but also has nice statistical properties.</p>
 <p>Given a parameter estimate <span class="math inline">\((\hat{\alpha}, \hat{\beta})\)</span>, define the <em>residual</em> of the <span class="math inline">\(n\)</span>’th observation as the difference between the true and predicted values:
 <span class="math display">\[\begin{equation}
@@ -357,7 +369,7 @@ The residual is directional. The residual is positive when the regression line f
 <p>To derive the OLS estimator, we will derive the conditions for minimization of the sum of squared errors. The SSE is a quadratic and therefore continuously differentiable function of the estimands, <span class="math inline">\(\hat{\alpha}\)</span> and <span class="math inline">\(\hat{\beta}\)</span>. You will remember from calculus that, at any extreme point of a continuous function, all its partial derivatives equal zero. To derive necessary conditions for minimization,<a href="#fn14" class="footnote-ref" id="fnref14"><sup>14</sup></a> we can take the derivatives of the SSE and set them to equal zero.</p>
 <p>The derivative with respect to the intercept is
 <span class="math display">\[
-\frac{\partial \mathop{\rm SSE}\nolimits(\hat{\alpha}, \hat{\beta})}{\partial \hat{\alpha}}
+\frac{\partial{}\mathop{\rm SSE}\nolimits(\hat{\alpha}, \hat{\beta})}{\partial{}\hat{\alpha}}
 = -2 \sum_n (Y_n - \hat{\alpha} - \hat{\beta} X_n).
 \]</span>
 Setting this to equal zero gives
@@ -369,7 +381,7 @@ Setting this to equal zero gives
 This gives us one important property of OLS: the regression line estimated by OLS always passes through <span class="math inline">\((\bar{X}, \bar{Y})\)</span>.</p>
 <p>The derivative with respect to the slope is
 <span class="math display">\[
-\frac{\partial \mathop{\rm SSE}\nolimits(\hat{\alpha}, \hat{\beta})}{\partial \hat{\beta}}
+\frac{\partial{}\mathop{\rm SSE}\nolimits(\hat{\alpha}, \hat{\beta})}{\partial{}\hat{\beta}}
 = -2 \sum_n X_n (Y_n - \hat{\alpha} - \hat{\beta} X_n).
 \]</span>
 Setting this equal to zero and substituting in the expression for <span class="math inline">\(\hat{\alpha}\)</span> we derived above gives
@@ -415,8 +427,8 @@ If the regression line is flat, in which case <span class="math inline">\(\hat{\
 Since bivariate regression uses two degrees of freedom (one for the intercept, one for the slope), we divide by <span class="math inline">\(N - 2\)</span> instead of the usual <span class="math inline">\(N - 1\)</span>. The most useful quantity is <span class="math inline">\(\hat{\sigma}\)</span>, the square root of the residual variance. <span class="math inline">\(\hat{\sigma}\)</span> is measured in the same units as <span class="math inline">\(Y\)</span>, and it is a measure of the spread of points around the regression line. If the residuals are roughly normally distributed, then we would expect roughly 95% of the data to lie within <span class="math inline">\(\pm 2 \hat{\sigma}\)</span> of the regression line.</p>
 <p><img src="pdaps_files/figure-html/r2-examples-1.png" width="672" /></p>
 </div>
-<div id="properties" class="section level2">
-<h2><span class="header-section-number">5.4</span> Properties</h2>
+<div id="properties" class="section level2" number="5.4">
+<h2 number="5.4"><span class="header-section-number">5.4</span> Properties</h2>
 <p>We didn’t use any fancy statistical theory to derive the OLS estimator. We just found the intercept and slope that minimize the sum of squared residuals. As it turns out, though, OLS indeed has some very nice statistical properties as an estimator of the linear model.</p>
 <p>The first desirable property of OLS is that it is <em>unbiased</em>. Recall that an estimator <span class="math inline">\(\hat{\theta}\)</span> of the parameter <span class="math inline">\(\theta\)</span> is unbiased if <span class="math inline">\(E[\hat{\theta}] = \theta\)</span>. This doesn’t mean the estimator always gives us the right answer, just that on average it is not systematically biased upward or downward. In other words, if we could take many many samples and apply the estimator to each of them, the average would equal the true parameter.</p>
 <p>We will begin by showing that the OLS estimator of the slope is unbiased; i.e., that <span class="math inline">\(E[\hat{\beta}_{\text{OLS}}(X, Y)] = \beta\)</span>. At first, we’ll take the conditional expectation of the slope estimator, treating the covariates <span class="math inline">\((X_1, \ldots, X_N)\)</span> as fixed.
@@ -470,14 +482,14 @@ and show that
 \]</span>
 This takes more algebra than we have time for, so I leave it as an exercise for the reader.</p>
 </div>
-<div id="appendix-regression-in-r" class="section level2">
-<h2><span class="header-section-number">5.5</span> Appendix: Regression in R</h2>
+<div id="appendix-regression-in-r" class="section level2" number="5.5">
+<h2 number="5.5"><span class="header-section-number">5.5</span> Appendix: Regression in R</h2>
 <p>We will be using the <strong>tidyverse</strong> package as always, the <strong>car</strong> package for the <code>Prestige</code> data, and the <strong>broom</strong> package for its convenient post-analysis functions.</p>
-<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb151-1" data-line-number="1"><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</a>
-<a class="sourceLine" id="cb151-2" data-line-number="2"><span class="kw">library</span>(<span class="st">&quot;car&quot;</span>)</a>
-<a class="sourceLine" id="cb151-3" data-line-number="3"><span class="kw">library</span>(<span class="st">&quot;broom&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="bivariate.html#cb151-1"></a><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</span>
+<span id="cb151-2"><a href="bivariate.html#cb151-2"></a><span class="kw">library</span>(<span class="st">&quot;car&quot;</span>)</span>
+<span id="cb151-3"><a href="bivariate.html#cb151-3"></a><span class="kw">library</span>(<span class="st">&quot;broom&quot;</span>)</span></code></pre></div>
 <p>Let’s take a look at <code>Prestige</code>, which records basic information (including perceived prestige) for a variety of occupations.</p>
-<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb152-1" data-line-number="1"><span class="kw">head</span>(Prestige)</a></code></pre></div>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="bivariate.html#cb152-1"></a><span class="kw">head</span>(Prestige)</span></code></pre></div>
 <pre><code>##                     education income women prestige census type
 ## gov.administrators      13.11  12351 11.16     68.8   1113 prof
 ## general.managers        12.26  25879  4.02     69.1   1130 prof
@@ -486,7 +498,7 @@ This takes more algebra than we have time for, so I leave it as an exercise for 
 ## chemists                14.62   8403 11.68     73.5   2111 prof
 ## physicists              15.64  11030  5.13     77.6   2113 prof</code></pre>
 <p>Suppose we want to run a regression of prestige on education. We will use the <code>lm()</code> function, which stands for <em>linear model</em>. This will employ the “formula” syntax that you previously saw when faceting in ggplot. The basic syntax of a formula is <code>response ~ covariate</code>, where <code>response</code> and <code>covariate</code> are the names of the variables in question. In this case, with <code>prestige</code> (note that the variable is lowercase, while the dataset is capitalized) as the response and education as the covariate:</p>
-<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb154-1" data-line-number="1"><span class="kw">lm</span>(prestige <span class="op">~</span><span class="st"> </span>education, <span class="dt">data =</span> Prestige)</a></code></pre></div>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="bivariate.html#cb154-1"></a><span class="kw">lm</span>(prestige <span class="op">~</span><span class="st"> </span>education, <span class="dt">data =</span> Prestige)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = prestige ~ education, data = Prestige)
@@ -496,9 +508,9 @@ This takes more algebra than we have time for, so I leave it as an exercise for 
 ##     -10.732        5.361</code></pre>
 <p>You’ll notice that didn’t give us very much. If you’ve previously used statistical programs like Stata, you might expect a ton of output at this point. It’s all there in R too, but R has a different philosophy about models. R sees the fitted model as an object in its own right—like a data frame, a function, or anything else you load or create in R. Therefore, to analyze regression results in R, you will typically save the regression results to a variable.</p>
 <p>Like any other variable, you’ll want to give your regression results meaningful names. I typically call them <code>fit_</code> to indicate a fitted model, followed by some memorable description.</p>
-<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb156-1" data-line-number="1">fit_educ &lt;-<span class="st"> </span><span class="kw">lm</span>(prestige <span class="op">~</span><span class="st"> </span>education, <span class="dt">data =</span> Prestige)</a></code></pre></div>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="bivariate.html#cb156-1"></a>fit_educ &lt;-<span class="st"> </span><span class="kw">lm</span>(prestige <span class="op">~</span><span class="st"> </span>education, <span class="dt">data =</span> Prestige)</span></code></pre></div>
 <p>When you do this, the output doesn’t get printed. To see the default output, just run the variable name, just like you would to see the content of a data frame:</p>
-<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb157-1" data-line-number="1">fit_educ</a></code></pre></div>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="bivariate.html#cb157-1"></a>fit_educ</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = prestige ~ education, data = Prestige)
@@ -507,7 +519,7 @@ This takes more algebra than we have time for, so I leave it as an exercise for 
 ## (Intercept)    education  
 ##     -10.732        5.361</code></pre>
 <p>For a more detailed readout, use the <code>summary()</code> method:</p>
-<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb159-1" data-line-number="1"><span class="kw">summary</span>(fit_educ)</a></code></pre></div>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="bivariate.html#cb159-1"></a><span class="kw">summary</span>(fit_educ)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = prestige ~ education, data = Prestige)
@@ -542,11 +554,11 @@ This takes more algebra than we have time for, so I leave it as an exercise for 
 <li><span class="math inline">\(F\)</span> statistic, degrees of freedom, and associated <span class="math inline">\(p\)</span>-value for a hypothesis test that every coefficient besides the intercept equals zero</li>
 </ul>
 <p>Strangely, <code>summary()</code> doesn’t give you the sample size. For that you must use <code>nobs()</code>:</p>
-<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb161-1" data-line-number="1"><span class="kw">nobs</span>(fit_educ)</a></code></pre></div>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="bivariate.html#cb161-1"></a><span class="kw">nobs</span>(fit_educ)</span></code></pre></div>
 <pre><code>## [1] 102</code></pre>
 <p>You can use a fitted model object to make predictions for new data. For example, let’s make a basic data frame of education levels.</p>
-<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb163-1" data-line-number="1">my_data &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">education =</span> <span class="dv">8</span><span class="op">:</span><span class="dv">16</span>)</a>
-<a class="sourceLine" id="cb163-2" data-line-number="2">my_data</a></code></pre></div>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="bivariate.html#cb163-1"></a>my_data &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">education =</span> <span class="dv">8</span><span class="op">:</span><span class="dv">16</span>)</span>
+<span id="cb163-2"><a href="bivariate.html#cb163-2"></a>my_data</span></code></pre></div>
 <pre><code>## # A tibble: 9 x 1
 ##   education
 ##       &lt;int&gt;
@@ -560,17 +572,17 @@ This takes more algebra than we have time for, so I leave it as an exercise for 
 ## 8        15
 ## 9        16</code></pre>
 <p>To calculate the predicted level of prestige for each education level, use <code>predict()</code>:</p>
-<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb165-1" data-line-number="1"><span class="kw">predict</span>(fit_educ, <span class="dt">newdata =</span> my_data)</a></code></pre></div>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="bivariate.html#cb165-1"></a><span class="kw">predict</span>(fit_educ, <span class="dt">newdata =</span> my_data)</span></code></pre></div>
 <pre><code>##        1        2        3        4        5        6        7        8 
 ## 32.15504 37.51592 42.87680 48.23767 53.59855 58.95943 64.32031 69.68118 
 ##        9 
 ## 75.04206</code></pre>
 <p>When using <code>predict()</code>, it is crucial that the <code>newdata</code> have the same column names as in the data used to fit the model.</p>
 <p>You can also extract a confidence interval for each prediction:</p>
-<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb167-1" data-line-number="1"><span class="kw">predict</span>(fit_educ,</a>
-<a class="sourceLine" id="cb167-2" data-line-number="2">        <span class="dt">newdata =</span> my_data,</a>
-<a class="sourceLine" id="cb167-3" data-line-number="3">        <span class="dt">interval =</span> <span class="st">&quot;confidence&quot;</span>,</a>
-<a class="sourceLine" id="cb167-4" data-line-number="4">        <span class="dt">level =</span> <span class="fl">0.95</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="bivariate.html#cb167-1"></a><span class="kw">predict</span>(fit_educ,</span>
+<span id="cb167-2"><a href="bivariate.html#cb167-2"></a>        <span class="dt">newdata =</span> my_data,</span>
+<span id="cb167-3"><a href="bivariate.html#cb167-3"></a>        <span class="dt">interval =</span> <span class="st">&quot;confidence&quot;</span>,</span>
+<span id="cb167-4"><a href="bivariate.html#cb167-4"></a>        <span class="dt">level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
 <pre><code>##        fit      lwr      upr
 ## 1 32.15504 29.61530 34.69478
 ## 2 37.51592 35.39261 39.63922
@@ -582,22 +594,22 @@ This takes more algebra than we have time for, so I leave it as an exercise for 
 ## 8 69.68118 66.35281 73.00956
 ## 9 75.04206 71.14209 78.94204</code></pre>
 <p>One of the problems with <code>summary()</code> and <code>predict()</code> is that they return inconveniently shaped output. The output of <code>summary()</code> is particularly hard to deal with. The <strong>broom</strong> package provides three utilities to help get model output into shape. The first is <code>tidy()</code>, which makes a tidy data frame out of the regression coefficients and the associated inferential statistics:</p>
-<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb169-1" data-line-number="1"><span class="kw">tidy</span>(fit_educ)</a></code></pre></div>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="bivariate.html#cb169-1"></a><span class="kw">tidy</span>(fit_educ)</span></code></pre></div>
 <pre><code>## # A tibble: 2 x 5
 ##   term        estimate std.error statistic  p.value
 ##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
 ## 1 (Intercept)   -10.7      3.68      -2.92 4.34e- 3
 ## 2 education       5.36     0.332     16.1  1.29e-29</code></pre>
 <p>The second is <code>glance()</code>, which provides a one-row data frame containing overall model characteristics (e.g., <span class="math inline">\(R^2\)</span> and <span class="math inline">\(\hat{\sigma}\)</span>):</p>
-<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb171-1" data-line-number="1"><span class="kw">glance</span>(fit_educ)</a></code></pre></div>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="bivariate.html#cb171-1"></a><span class="kw">glance</span>(fit_educ)</span></code></pre></div>
 <pre><code>## # A tibble: 1 x 11
 ##   r.squared adj.r.squared sigma statistic  p.value    df logLik   AIC   BIC
 ##       &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 ## 1     0.723         0.720  9.10      261. 1.29e-29     2  -369.  744.  752.
 ## # … with 2 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;</code></pre>
 <p>The third is <code>augment()</code>, which “augments” the original data—or new data you supply, as in <code>predict()</code>—with information from the model, such as predicted values.</p>
-<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb173-1" data-line-number="1"><span class="co"># Lots of output, so only printing first 10 rows</span></a>
-<a class="sourceLine" id="cb173-2" data-line-number="2"><span class="kw">head</span>(<span class="kw">augment</span>(fit_educ), <span class="dv">10</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="bivariate.html#cb173-1"></a><span class="co"># Lots of output, so only printing first 10 rows</span></span>
+<span id="cb173-2"><a href="bivariate.html#cb173-2"></a><span class="kw">head</span>(<span class="kw">augment</span>(fit_educ), <span class="dv">10</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 10 x 10
 ##    .rownames prestige education .fitted .se.fit .resid   .hat .sigma .cooksd
 ##    &lt;chr&gt;        &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;
@@ -612,8 +624,8 @@ This takes more algebra than we have time for, so I leave it as an exercise for 
 ##  9 civil.en…     73.1      14.5    67.1   1.55    5.99 0.0288   9.13 6.62e-3
 ## 10 mining.e…     68.8      14.6    67.8   1.58    1.05 0.0301   9.15 2.12e-4
 ## # … with 1 more variable: .std.resid &lt;dbl&gt;</code></pre>
-<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb175-1" data-line-number="1"><span class="kw">augment</span>(fit_educ,</a>
-<a class="sourceLine" id="cb175-2" data-line-number="2">        <span class="dt">newdata =</span> my_data)</a></code></pre></div>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="bivariate.html#cb175-1"></a><span class="kw">augment</span>(fit_educ,</span>
+<span id="cb175-2"><a href="bivariate.html#cb175-2"></a>        <span class="dt">newdata =</span> my_data)</span></code></pre></div>
 <pre><code>## # A tibble: 9 x 3
 ##   education .fitted .se.fit
 ##       &lt;int&gt;   &lt;dbl&gt;   &lt;dbl&gt;
@@ -627,15 +639,15 @@ This takes more algebra than we have time for, so I leave it as an exercise for 
 ## 8        15    69.7   1.68 
 ## 9        16    75.0   1.97</code></pre>
 <p>Notice that you get back more information for the data used to fit the model than for newly supplied data. The most important is <code>.fitted</code>, the predicted value. See <code>?augment.lm</code> for what all the various output represents.</p>
-<p>One last note on plotting regression lines with ggplot. Use <code>geom_smooth(method = &quot;lm&quot;)</code>.</p>
-<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb177-1" data-line-number="1"><span class="kw">ggplot</span>(Prestige, <span class="kw">aes</span>(<span class="dt">x =</span> education, <span class="dt">y =</span> prestige)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb177-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb177-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>)</a></code></pre></div>
+<p>One last note on plotting regression lines with ggplot. Use <code>geom_smooth(method = "lm")</code>.</p>
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="bivariate.html#cb177-1"></a><span class="kw">ggplot</span>(Prestige, <span class="kw">aes</span>(<span class="dt">x =</span> education, <span class="dt">y =</span> prestige)) <span class="op">+</span></span>
+<span id="cb177-2"><a href="bivariate.html#cb177-2"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></span>
+<span id="cb177-3"><a href="bivariate.html#cb177-3"></a><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>)</span></code></pre></div>
 <p><img src="pdaps_files/figure-html/ggplot-lm-1.png" width="672" /></p>
 <p>To get rid of the confidence interval:</p>
-<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb178-1" data-line-number="1"><span class="kw">ggplot</span>(Prestige, <span class="kw">aes</span>(<span class="dt">x =</span> education, <span class="dt">y =</span> prestige)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb178-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb178-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">se =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="bivariate.html#cb178-1"></a><span class="kw">ggplot</span>(Prestige, <span class="kw">aes</span>(<span class="dt">x =</span> education, <span class="dt">y =</span> prestige)) <span class="op">+</span></span>
+<span id="cb178-2"><a href="bivariate.html#cb178-2"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></span>
+<span id="cb178-3"><a href="bivariate.html#cb178-3"></a><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">se =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
 <p><img src="pdaps_files/figure-html/ggplot-lm-no-se-1.png" width="672" /></p>
 
 </div>
@@ -643,12 +655,12 @@ This takes more algebra than we have time for, so I leave it as an exercise for 
 <div class="footnotes">
 <hr />
 <ol start="12">
-<li id="fn12"><p>The marginal mass function, if you don’t recall, is <span class="math inline">\(f_X(x) = \sum_{y \in \mathcal{Y}} f_{XY} (x, y)\)</span>. In the continuous case, the marginal density function is <span class="math inline">\(f_X(x) = \int f_{XY} (x, y) \, dy\)</span>.<a href="bivariate.html#fnref12" class="footnote-back">↩</a></p></li>
-<li id="fn13"><p>This problem only gets worse as we move from bivariate into multivariate analysis, a phenomenon called the <em>curse of dimensionality</em>.<a href="bivariate.html#fnref13" class="footnote-back">↩</a></p></li>
-<li id="fn14"><p>In fact, since the SSE function is strictly convex, these conditions are sufficient for global minimization.<a href="bivariate.html#fnref14" class="footnote-back">↩</a></p></li>
-<li id="fn15"><p>This is a bit of an abuse of notation, since previously I used <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> to refer to the random variables and now I’m using them to refer to vectors of sample data. Sorry.<a href="bivariate.html#fnref15" class="footnote-back">↩</a></p></li>
-<li id="fn16"><p>For random variables <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, <span class="math inline">\(E[f(A, B)] = E_A[ E_B[f(A, B) \,|\, A] ] = E_B [ E_A[f(A, B) \,|\, B] ]\)</span>.<a href="bivariate.html#fnref16" class="footnote-back">↩</a></p></li>
-<li id="fn17"><p>What I am describing here is <em>mean square consistency</em>, which is stronger than the broadest definitions of consistency in statistical theory.<a href="bivariate.html#fnref17" class="footnote-back">↩</a></p></li>
+<li id="fn12"><p>The marginal mass function, if you don’t recall, is <span class="math inline">\(f_X(x) = \sum_{y \in \mathcal{Y}} f_{XY} (x, y)\)</span>. In the continuous case, the marginal density function is <span class="math inline">\(f_X(x) = \int f_{XY} (x, y) \, dy\)</span>.<a href="bivariate.html#fnref12" class="footnote-back">↩︎</a></p></li>
+<li id="fn13"><p>This problem only gets worse as we move from bivariate into multivariate analysis, a phenomenon called the <em>curse of dimensionality</em>.<a href="bivariate.html#fnref13" class="footnote-back">↩︎</a></p></li>
+<li id="fn14"><p>In fact, since the SSE function is strictly convex, these conditions are sufficient for global minimization.<a href="bivariate.html#fnref14" class="footnote-back">↩︎</a></p></li>
+<li id="fn15"><p>This is a bit of an abuse of notation, since previously I used <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> to refer to the random variables and now I’m using them to refer to vectors of sample data. Sorry.<a href="bivariate.html#fnref15" class="footnote-back">↩︎</a></p></li>
+<li id="fn16"><p>For random variables <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, <span class="math inline">\(E[f(A, B)] = E_A[ E_B[f(A, B) \,|\, A] ] = E_B [ E_A[f(A, B) \,|\, B] ]\)</span>.<a href="bivariate.html#fnref16" class="footnote-back">↩︎</a></p></li>
+<li id="fn17"><p>What I am describing here is <em>mean square consistency</em>, which is stronger than the broadest definitions of consistency in statistical theory.<a href="bivariate.html#fnref17" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>
@@ -699,7 +711,7 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": null,
+"download": ["pdaps.pdf"],
 "toc": {
 "collapse": "subsection"
 }
