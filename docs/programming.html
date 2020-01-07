@@ -263,7 +263,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2 number="2.1"><span class="header-section-number">2.1</span> Write Programs for People, Not Computers</h2>
 <p>The first two words here—<em>write programs</em>—are crucial. When you are doing analysis for a research project, you should be writing and running scripts, not typing commands into the R (or Stata) console. The console is ephemeral, but scripts are forever, at least if you save them.</p>
 <p>Like the manuscripts you will write to describe your findings, your analysis scripts are a form of scientific communication. You wouldn’t write a paper that is disorganized, riddled with grammatical errors, or incomprehensible to anyone besides yourself. Don’t write your analysis scripts that way either.</p>
-<p>Each script should be self-contained, ideally accomplishing one major task. Using an omnibus script that runs every bit of analysis is like writing a paper without paragraph breaks. A typical breakdown of scripts for a project of mine looks like:</p>
+<p>I personally prefer each script to be self-contained, ideally accomplishing one major task. A typical breakdown of scripts for a project of mine looks like:</p>
 <ul>
 <li><code>0-download.r</code>: downloads the data</li>
 <li><code>1-clean.r</code>: cleans the data</li>
@@ -271,18 +271,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><code>3-figs.r</code>: generates figures</li>
 </ul>
 <p>The exact structure varies depending on the nature of the project. Notice that the scripts are numbered in the order they should be run.</p>
-<p>Within each script, write the code to make it as easy as possible for your reader to follow what you’re doing. You should indent your code according to style conventions such as <a href="http://adv-r.had.co.nz/Style.html" class="uri">http://adv-r.had.co.nz/Style.html</a>. Even better, use the <code>Code -&gt; Reindent Lines</code> menu option in R Studio to automatically indent according to a sane style.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="programming.html#cb1-1"></a><span class="co"># Bad</span></span>
-<span id="cb1-2"><a href="programming.html#cb1-2"></a>my_results &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">mean</span>(variable),</span>
-<span id="cb1-3"><a href="programming.html#cb1-3"></a><span class="kw">quantile</span>(variable,</span>
-<span id="cb1-4"><a href="programming.html#cb1-4"></a><span class="dt">probs =</span> <span class="fl">0.25</span>),</span>
-<span id="cb1-5"><a href="programming.html#cb1-5"></a><span class="kw">max</span>(variable))</span>
-<span id="cb1-6"><a href="programming.html#cb1-6"></a></span>
-<span id="cb1-7"><a href="programming.html#cb1-7"></a><span class="co"># Better</span></span>
-<span id="cb1-8"><a href="programming.html#cb1-8"></a>my_results &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">mean</span>(variable),</span>
-<span id="cb1-9"><a href="programming.html#cb1-9"></a>                <span class="kw">quantile</span>(variable,</span>
-<span id="cb1-10"><a href="programming.html#cb1-10"></a>                         <span class="dt">probs =</span> <span class="fl">0.25</span>),</span>
-<span id="cb1-11"><a href="programming.html#cb1-11"></a>                <span class="kw">max</span>(variable))</span></code></pre></div>
+<p>Using an omnibus script that runs every bit of analysis is like writing a paper without paragraph breaks. And if portions of your analysis take a long time to run, an omnibus file at best is unwieldy to work with and at worst causes you to lose valuable time.</p>
+<p>Within each script, write the code to make it as easy as possible for your reader to follow what you’re doing. You should indent your code according to style conventions such as <a href="https://style.tidyverse.org/" class="uri">https://style.tidyverse.org/</a>. Even better, use the <code>Code -&gt; Reindent Lines</code> menu option in R Studio to automatically indent according to a sane style.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="programming.html#cb1-1"></a><span class="co"># Terrible</span></span>
+<span id="cb1-2"><a href="programming.html#cb1-2"></a>my_results&lt;-<span class="kw">c</span>(<span class="kw">mean</span>(variable),<span class="kw">quantile</span>(variable,<span class="dt">probs=</span><span class="fl">0.25</span>),<span class="kw">max</span>(variable))</span>
+<span id="cb1-3"><a href="programming.html#cb1-3"></a></span>
+<span id="cb1-4"><a href="programming.html#cb1-4"></a><span class="co"># Bad</span></span>
+<span id="cb1-5"><a href="programming.html#cb1-5"></a>my_results &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">mean</span>(variable),</span>
+<span id="cb1-6"><a href="programming.html#cb1-6"></a><span class="kw">quantile</span>(variable,</span>
+<span id="cb1-7"><a href="programming.html#cb1-7"></a><span class="dt">probs =</span> <span class="fl">0.25</span>),</span>
+<span id="cb1-8"><a href="programming.html#cb1-8"></a><span class="kw">max</span>(variable))</span>
+<span id="cb1-9"><a href="programming.html#cb1-9"></a></span>
+<span id="cb1-10"><a href="programming.html#cb1-10"></a><span class="co"># Better</span></span>
+<span id="cb1-11"><a href="programming.html#cb1-11"></a>my_results &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">mean</span>(variable),</span>
+<span id="cb1-12"><a href="programming.html#cb1-12"></a>                <span class="kw">quantile</span>(variable,</span>
+<span id="cb1-13"><a href="programming.html#cb1-13"></a>                         <span class="dt">probs =</span> <span class="fl">0.25</span>),</span>
+<span id="cb1-14"><a href="programming.html#cb1-14"></a>                <span class="kw">max</span>(variable))</span></code></pre></div>
 <p>Another way to make your code readable—one that, unfortunately, cannot be accomplished quite so algorithmically—is to add explanatory comments. The point of comments is not to document how the language works. The following comment is an extreme example of a useless comment.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="programming.html#cb2-1"></a><span class="co"># Take the square root of the errors and assign them to</span></span>
 <span id="cb2-2"><a href="programming.html#cb2-2"></a><span class="co"># the output variable</span></span>
@@ -293,7 +297,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="let-the-computer-do-the-work" class="section level2" number="2.2">
 <h2 number="2.2"><span class="header-section-number">2.2</span> Let the Computer Do the Work</h2>
 <p>Computers are really good at structured, repetitive tasks. If you ever find yourself entering the same thing into the computer over and over again, you are Doing It Wrong. Your job as the human directing the computer is to figure out the structure that underlies the repeated task and to program the computer to do the repetition.</p>
-<p>For example, imagine you have just run a large experiment and you want to estimate effects by subgroups.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> Your respondents differ across four variables—party ID (R or D), gender (male or female), race (white or nonwhite), and education (college degree or not)—giving you 16 subgroups. You <em>could</em> copy and paste your code to estimate the treatment effect 16 times. But this is a bad idea for a few reasons.</p>
+<p>For example, imagine you have just run a large experiment and you want to estimate effects across subgroups.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> Your respondents differ across four variables—party ID (R or D), gender (male or female), race (white or nonwhite), and education (college degree or not)—giving you 16 subgroups. You <em>could</em> copy and paste your code to estimate the treatment effect 16 times. But this is a bad idea for a few reasons.</p>
 <ul>
 <li><p>Copy-paste doesn’t scale. Copy-paste is managable (albeit misguided) for 16 iterations, but probably not for 50 and definitely not for more than 100.</p></li>
 <li><p>Making changes becomes painful. Suppose you decide to change how you calculate the estimate. Now you have to go back and individually edit 16 chunks of code.</p></li>
@@ -305,7 +309,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 \bar{X} = \frac{1}{N} \sum_{n = 1}^{N} X_n,
 \end{equation*}\]</span>
 where each <span class="math inline">\(X_n\)</span> is independent and identically distributed with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span>. Loosely speaking, the CLT says that as <span class="math inline">\(N\)</span> grows large, the sampling distribution of <span class="math inline">\(\bar{X}\)</span> becomes approximately normal with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2 / N\)</span>.</p>
-<p>Here’s what we would need to do to see the CLT in practice. We’d want to take a bunch of samples, each of size <span class="math inline">\(N\)</span>, and calculate the sample mean of each. Then we’d have a sample of sample means, and we could check to verify that they are approximately normally distributed with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2 / N\)</span>. This is a structured, repetitive task—exactly the kind of thing that should be programmed. We’ll try it out with a random variable from a Poisson distribution with <span class="math inline">\(\lambda = 3\)</span>, which has mean <span class="math inline">\(\mu = 3\)</span> and variance <span class="math inline">\(\sigma^2 = 3\)</span>.</p>
+<p>Here’s what we would need to do to see the CLT operate in practice. We’d want to take a bunch of samples, each of size <span class="math inline">\(N\)</span>, and calculate the sample mean of each. Then we’d have a sample of sample means, and we could check to verify that the distribution of our sample-of-samples is approximately normal with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2 / N\)</span>. This is a structured, repetitive task—exactly the kind of thing that should be programmed. We’ll try it out with samples from a Poisson distribution with <span class="math inline">\(\lambda = 3\)</span>, which has mean <span class="math inline">\(\mu = 3\)</span> and variance <span class="math inline">\(\sigma^2 = 3\)</span>.</p>
 <p>First things first. We can use the <code>rpois</code> function to draw a random sample of <span class="math inline">\(N\)</span> numbers from the Poisson distribution.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="programming.html#cb3-1"></a>samp &lt;-<span class="st"> </span><span class="kw">rpois</span>(<span class="dv">10</span>, <span class="dt">lambda =</span> <span class="dv">3</span>)</span>
 <span id="cb3-2"><a href="programming.html#cb3-2"></a>samp</span></code></pre></div>

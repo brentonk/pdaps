@@ -165,7 +165,7 @@ The first two words here---\emph{write programs}---are crucial. When you are doi
 
 Like the manuscripts you will write to describe your findings, your analysis scripts are a form of scientific communication. You wouldn't write a paper that is disorganized, riddled with grammatical errors, or incomprehensible to anyone besides yourself. Don't write your analysis scripts that way either.
 
-Each script should be self-contained, ideally accomplishing one major task. Using an omnibus script that runs every bit of analysis is like writing a paper without paragraph breaks. A typical breakdown of scripts for a project of mine looks like:
+I personally prefer each script to be self-contained, ideally accomplishing one major task. A typical breakdown of scripts for a project of mine looks like:
 
 \begin{itemize}
 \tightlist
@@ -181,10 +181,15 @@ Each script should be self-contained, ideally accomplishing one major task. Usin
 
 The exact structure varies depending on the nature of the project. Notice that the scripts are numbered in the order they should be run.
 
-Within each script, write the code to make it as easy as possible for your reader to follow what you're doing. You should indent your code according to style conventions such as \url{http://adv-r.had.co.nz/Style.html}. Even better, use the \texttt{Code\ -\textgreater{}\ Reindent\ Lines} menu option in R Studio to automatically indent according to a sane style.
+Using an omnibus script that runs every bit of analysis is like writing a paper without paragraph breaks. And if portions of your analysis take a long time to run, an omnibus file at best is unwieldy to work with and at worst causes you to lose valuable time.
+
+Within each script, write the code to make it as easy as possible for your reader to follow what you're doing. You should indent your code according to style conventions such as \url{https://style.tidyverse.org/}. Even better, use the \texttt{Code\ -\textgreater{}\ Reindent\ Lines} menu option in R Studio to automatically indent according to a sane style.
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\CommentTok{\# Terrible}
+\NormalTok{my\_results<{-}}\KeywordTok{c}\NormalTok{(}\KeywordTok{mean}\NormalTok{(variable),}\KeywordTok{quantile}\NormalTok{(variable,}\DataTypeTok{probs=}\FloatTok{0.25}\NormalTok{),}\KeywordTok{max}\NormalTok{(variable))}
+
 \CommentTok{\# Bad}
 \NormalTok{my\_results <{-}}\StringTok{ }\KeywordTok{c}\NormalTok{(}\KeywordTok{mean}\NormalTok{(variable),}
 \KeywordTok{quantile}\NormalTok{(variable,}
@@ -218,7 +223,7 @@ My basic heuristic for code readability is \emph{If I got hit by a bus tomorrow,
 
 Computers are really good at structured, repetitive tasks. If you ever find yourself entering the same thing into the computer over and over again, you are Doing It Wrong. Your job as the human directing the computer is to figure out the structure that underlies the repeated task and to program the computer to do the repetition.
 
-For example, imagine you have just run a large experiment and you want to estimate effects by subgroups.\footnote{There could be statistical problems with this kind of analysis, at least if the subgroups were specified \emph{post hoc}. See \url{https://xkcd.com/882/} (``Significant''). We're going to leave this issue aside for now, but we'll return to it later when we discuss the statistical crisis in science.} Your respondents differ across four variables---party ID (R or D), gender (male or female), race (white or nonwhite), and education (college degree or not)---giving you 16 subgroups. You \emph{could} copy and paste your code to estimate the treatment effect 16 times. But this is a bad idea for a few reasons.
+For example, imagine you have just run a large experiment and you want to estimate effects across subgroups.\footnote{There could be statistical problems with this kind of analysis, at least if the subgroups were specified \emph{post hoc}. See \url{https://xkcd.com/882/} (``Significant''). We're going to leave this issue aside for now, but we'll return to it later when we discuss the statistical crisis in science.} Your respondents differ across four variables---party ID (R or D), gender (male or female), race (white or nonwhite), and education (college degree or not)---giving you 16 subgroups. You \emph{could} copy and paste your code to estimate the treatment effect 16 times. But this is a bad idea for a few reasons.
 
 \begin{itemize}
 \item
@@ -237,7 +242,7 @@ The central limit theorem concerns the \emph{sampling distribution} of the sampl
 \end{equation*}
 where each \(X_n\) is independent and identically distributed with mean \(\mu\) and variance \(\sigma^2\). Loosely speaking, the CLT says that as \(N\) grows large, the sampling distribution of \(\bar{X}\) becomes approximately normal with mean \(\mu\) and variance \(\sigma^2 / N\).
 
-Here's what we would need to do to see the CLT in practice. We'd want to take a bunch of samples, each of size \(N\), and calculate the sample mean of each. Then we'd have a sample of sample means, and we could check to verify that they are approximately normally distributed with mean \(\mu\) and variance \(\sigma^2 / N\). This is a structured, repetitive task---exactly the kind of thing that should be programmed. We'll try it out with a random variable from a Poisson distribution with \(\lambda = 3\), which has mean \(\mu = 3\) and variance \(\sigma^2 = 3\).
+Here's what we would need to do to see the CLT operate in practice. We'd want to take a bunch of samples, each of size \(N\), and calculate the sample mean of each. Then we'd have a sample of sample means, and we could check to verify that the distribution of our sample-of-samples is approximately normal with mean \(\mu\) and variance \(\sigma^2 / N\). This is a structured, repetitive task---exactly the kind of thing that should be programmed. We'll try it out with samples from a Poisson distribution with \(\lambda = 3\), which has mean \(\mu = 3\) and variance \(\sigma^2 = 3\).
 
 First things first. We can use the \texttt{rpois} function to draw a random sample of \(N\) numbers from the Poisson distribution.
 
