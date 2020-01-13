@@ -2,12 +2,15 @@
 
 ```{r, echo=FALSE}
 options(tibble.print_min = 5)
+
+## Prevent repeated errors due to MASS masking select()
+select <- dplyr::select
 ```
 
 
 *Some material in this chapter is adapted from notes [Matt DiLorenzo](http://mdilorenzo.github.io) wrote for the Spring 2016 session of PSCI 8357.*
 
-Let me repeat something I said last week.  In your careers as social scientists, starting with your dissertation research---if not earlier---you will probably spend more time collecting, merging, and cleaning data than you will on statistical analysis.  So it's worth taking some time to learn how to do this well.
+In your careers as social scientists, starting with your dissertation research---if not earlier---you will probably spend more time collecting, merging, and cleaning data than you will on statistical analysis.  So it's worth taking some time to learn how to do this well.
 
 Best practices for data management can be summarized in a single sentence: *Record and document everything you do to the data.*
 
@@ -19,13 +22,13 @@ In almost any non-trivial analysis, the "final" data---the format you plug into 
 
 The most sensible way to achieve this level of reproducibility is to do all of your data merging and cleaning in a script.  In other words, no going into Excel and mucking around manually.  Like any other piece of your analysis, your pipeline from raw data to final data should follow the [principles of programming](#programming) that we discussed last week.
 
-Luckily for you,[^old-man] the **tidyverse** suite of R packages (including **dplyr**, **tidyr**, and others) makes it easy to script your "data pipeline".  We'll begin by loading the package.
+Luckily for you,[^old-man] the **tidyverse** suite of R packages (including **dplyr**, **tidyr**, and others) makes it easy to script your "data pipeline".
 
 ```{r tidyverse, message=FALSE}
 library("tidyverse")
 ```
 
-[^old-man]: But not for me, because these tools didn't exist when I was a PhD student.  Also, get off my lawn!
+[^old-man]: But not for me, because these tools didn't exist when I was a PhD student.  Yes, I am old.
 
 
 ## Loading
@@ -40,6 +43,7 @@ download.file(url = "http://bkenkel.com/data/untidy-data.csv",
 ```
 
 Once you've got the file stored locally, use the utilities from the **readr** package (part of **tidyverse**) to read it into R as a data frame.[^data-frame]  We have a CSV file, so we will use `read_csv`.  See `help(package = "readr")` for other possibilities.
+`read_csv` (with an underscore) is typically better than R's built-in `read.csv` (with a dot), as it reads files faster and processes them more cleanly.
 
 [^data-frame]: More precisely, the **readr** functions produce output of class `"tbl_df"` (pronounced "tibble diff," I'm told), which are like data frames but better.  See `help(package = "tibble")` for what can be done with `tbl_df`s.
 
@@ -60,7 +64,7 @@ However, in analyses intended for publication, it's usually preferable to downlo
 Now let's take a look at the data we've just loaded in.
 
 ```{r head-untidy-data}
-head(untidy_data)
+untidy_data
 ```
 
 We have a `country` variable giving country abbreviations.  The other variables are numerical values: the country's GDP in 2005, 2006, 2007, and 2008; then the same for population and unemployment.  Let's get this into a format we could use for analysis.
@@ -76,9 +80,9 @@ We have a `country` variable giving country abbreviations.  The other variables 
 
 For one thing, this means that whether a dataset is tidy or not depends---at least in part (some data collections are messy from any angle)---on the purpose it's being analyzed for.
 
-Each row of `untidy_data` is a country.  In observational studies in comparative politics and international relations, more commonly the unit of observation is the country-year.[^americanists]  How can we take `untidy_data` and easily make it into country-year data?
+Each row of `untidy_data` is a country.  In observational studies in comparative politics and international relations, more commonly the unit of observation is the country-year.[^inference-purists]  How can we take `untidy_data` and easily make it into country-year data?
 
-[^americanists]: Insert lame joke about how Americanists haven't heard of other countries.  But, seriously, if you're confused because you haven't heard of other countries, just think of "state-years".
+[^inference-purists]: Yes, this kind of huge cross-country analysis has fallen out of favor as we've become more attentive to causal inference.  But wait until later in the semester to worry about that!
 
 We'll use the **tidyr** package (again, part of **tidyverse**) to clean up this data.  The biggest problem right now is that each column, besides the country identifier, really encodes two pieces of information: the year of observation and the variable being observed.  To deal with this, we'll have to first transform the data from one untidy format to another.  We're going to use the `gather()` function to make each row a country-year-variable.
 
@@ -107,8 +111,8 @@ So now we have country-year-variable data, with the year and variable convenient
 
 ```{r spread}
 clean_data <- spread(long_data,
-                    key = var,
-                    value = number)
+                     key = var,
+                     value = number)
 head(clean_data)
 ```
 
@@ -150,9 +154,7 @@ than `i(h(g(f(x))))`.
 
 You can pass function arguments using the pipe too.  For example, `f(x, bear = "moose")` is equivalent to `x %>% f(bear = "moose")`.
 
-The key thing about the **tidyverse** functions is that each of them takes a data frame as its first argument, and returns a data frame as its output.  This makes them highly amenable to piping.  For example, we can combine all three steps of our tidying above with a single command, thanks to the pipe:[^pdf-copy]
-
-[^pdf-copy]: If you are reading the PDF copy of these notes (i.e., the ones I hand out in class), the line breaks are eliminated, making the piped commands rather hard to read.  I am working on fixing this.  For now, you may find the online notes at <http://bkenkel.com/pdaps> easier to follow.
+The key thing about the **tidyverse** functions is that each of them takes a data frame as its first argument, and returns a data frame as its output.  This makes them highly amenable to piping.  For example, we can combine all three steps of our tidying above with a single command, thanks to the pipe:
 
 ```{r pipe}
 untidy_data %>%
@@ -215,6 +217,17 @@ clean_data %>%
   select(-pop)
 ```
 
+You can also select columns based on how their names start or end, or with even more complex criteria.
+See `?select_helpers`.
+
+```{r select-helpers}
+untidy_data %>%
+  select(country, starts_with("gdp"))
+
+untidy_data %>%
+  select(country, ends_with("2005"))
+```
+
 `mutate()` lets you create new variables that are transformations of old ones.
 
 ```{r mutate}
@@ -249,22 +262,20 @@ clean_data %>%
 
 ```{r grouped-mutate}
 clean_data %>%
+  filter(!is.na(unemp)) %>%
   group_by(year) %>%
-  mutate(max_unemp = max(unemp, na.rm = TRUE),
+  mutate(max_unemp = max(unemp),
          unemp_over_max = unemp / max_unemp) %>%
   select(country, year, contains("unemp"))
 ```
 
 This gives us back the original data, but with a `max_unemp` variable recording the highest unemployment level that year.  We can then calculate each individual country's unemployment as a percentage of the maximum.  Whether grouped `mutate` or `summarise` is better depends, of course, on the purpose and structure of your analysis.
 
-Notice how I selected all of the unemployment-related columns with `contains("unemp")`.  See `?select_helpers` for a full list of helpful functions like this for `select`-ing variables.
-
 
 ## Merging
 
-Only rarely will you be lucky enough to draw all your data from a single source.  More often, you'll be merging together data from multiple sources.
-
-The key to merging data from separate tables is to have consistent identifiers across tables.  For example, if you run an experiment, you might have demographic data on each subject in one table, and each subject's response to each treatment in another table.  Naturally, you'll want to have a subject identifier that "links" the records across tables, as in the following hypothetical example.
+Particularly if you do observational work, you'll often be merging together data from multiple sources.
+The key to merging data from separate tables is to have consistent identifiers across tables.  For example, if you run an experiment, you might have demographic data on each subject in one table, and each subject's response to treatment in another table.  Naturally, you'll want to have a subject identifier that "links" the records across tables, as in the following hypothetical example.
 
 ```{r faux-experimental-data, echo=FALSE}
 subject_data <- tribble(

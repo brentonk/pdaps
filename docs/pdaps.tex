@@ -486,7 +486,7 @@ Functions, for loops, and if/else statements are just a few of the useful tools 
 
 \emph{Some material in this chapter is adapted from notes \href{http://mdilorenzo.github.io}{Matt DiLorenzo} wrote for the Spring 2016 session of PSCI 8357.}
 
-Let me repeat something I said last week. In your careers as social scientists, starting with your dissertation research---if not earlier---you will probably spend more time collecting, merging, and cleaning data than you will on statistical analysis. So it's worth taking some time to learn how to do this well.
+In your careers as social scientists, starting with your dissertation research---if not earlier---you will probably spend more time collecting, merging, and cleaning data than you will on statistical analysis. So it's worth taking some time to learn how to do this well.
 
 Best practices for data management can be summarized in a single sentence: \emph{Record and document everything you do to the data.}
 
@@ -496,7 +496,7 @@ In almost any non-trivial analysis, the ``final'' data---the format you plug int
 
 The most sensible way to achieve this level of reproducibility is to do all of your data merging and cleaning in a script. In other words, no going into Excel and mucking around manually. Like any other piece of your analysis, your pipeline from raw data to final data should follow the \protect\hyperlink{programming}{principles of programming} that we discussed last week.
 
-Luckily for you,\footnote{But not for me, because these tools didn't exist when I was a PhD student. Also, get off my lawn!} the \textbf{tidyverse} suite of R packages (including \textbf{dplyr}, \textbf{tidyr}, and others) makes it easy to script your ``data pipeline''. We'll begin by loading the package.
+Luckily for you,\footnote{But not for me, because these tools didn't exist when I was a PhD student. Yes, I am old.} the \textbf{tidyverse} suite of R packages (including \textbf{dplyr}, \textbf{tidyr}, and others) makes it easy to script your ``data pipeline''.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -519,6 +519,7 @@ The R function \texttt{download.file()} is the easiest way to download files fro
 \end{Shaded}
 
 Once you've got the file stored locally, use the utilities from the \textbf{readr} package (part of \textbf{tidyverse}) to read it into R as a data frame.\footnote{More precisely, the \textbf{readr} functions produce output of class \texttt{"tbl\_df"} (pronounced ``tibble diff,'' I'm told), which are like data frames but better. See \texttt{help(package\ =\ "tibble")} for what can be done with \texttt{tbl\_df}s.} We have a CSV file, so we will use \texttt{read\_csv}. See \texttt{help(package\ =\ "readr")} for other possibilities.
+\texttt{read\_csv} (with an underscore) is typically better than R's built-in \texttt{read.csv} (with a dot), as it reads files faster and processes them more cleanly.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -561,12 +562,12 @@ Now let's take a look at the data we've just loaded in.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{head}\NormalTok{(untidy\_data)}
+\NormalTok{untidy\_data}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## # A tibble: 6 x 13
+## # A tibble: 215 x 13
 ##   country gdp.2005 gdp.2006 gdp.2007 gdp.2008 pop.2005 pop.2006 pop.2007
 ##   <chr>      <dbl>    <dbl>    <dbl>    <dbl>    <dbl>    <dbl>    <dbl>
 ## 1 AD          3.85     4.03     4.03     3.68   0.0789   0.0810   0.0827
@@ -574,9 +575,8 @@ Now let's take a look at the data we've just loaded in.
 ## 3 AF          9.16     9.66    11.0     11.4   25.7     26.4     27.1   
 ## 4 AG          1.15     1.29     1.41     1.41   0.0815   0.0827   0.0840
 ## 5 AL          9.22     9.77    10.4     11.1    3.01     2.99     2.97  
-## 6 AM          7.67     8.68     9.87    10.6    2.98     2.96     2.93  
-## # ... with 5 more variables: pop.2008 <dbl>, unemp.2005 <dbl>,
-## #   unemp.2006 <dbl>, unemp.2007 <dbl>, unemp.2008 <dbl>
+## # ... with 210 more rows, and 5 more variables: pop.2008 <dbl>,
+## #   unemp.2005 <dbl>, unemp.2006 <dbl>, unemp.2007 <dbl>, unemp.2008 <dbl>
 \end{verbatim}
 
 We have a \texttt{country} variable giving country abbreviations. The other variables are numerical values: the country's GDP in 2005, 2006, 2007, and 2008; then the same for population and unemployment. Let's get this into a format we could use for analysis.
@@ -599,7 +599,7 @@ We have a \texttt{country} variable giving country abbreviations. The other vari
 
 For one thing, this means that whether a dataset is tidy or not depends---at least in part (some data collections are messy from any angle)---on the purpose it's being analyzed for.
 
-Each row of \texttt{untidy\_data} is a country. In observational studies in comparative politics and international relations, more commonly the unit of observation is the country-year.\footnote{Insert lame joke about how Americanists haven't heard of other countries. But, seriously, if you're confused because you haven't heard of other countries, just think of ``state-years''.} How can we take \texttt{untidy\_data} and easily make it into country-year data?
+Each row of \texttt{untidy\_data} is a country. In observational studies in comparative politics and international relations, more commonly the unit of observation is the country-year.\footnote{Yes, this kind of huge cross-country analysis has fallen out of favor as we've become more attentive to causal inference. But wait until later in the semester to worry about that!} How can we take \texttt{untidy\_data} and easily make it into country-year data?
 
 We'll use the \textbf{tidyr} package (again, part of \textbf{tidyverse}) to clean up this data. The biggest problem right now is that each column, besides the country identifier, really encodes two pieces of information: the year of observation and the variable being observed. To deal with this, we'll have to first transform the data from one untidy format to another. We're going to use the \texttt{gather()} function to make each row a country-year-variable.
 
@@ -657,8 +657,8 @@ So now we have country-year-variable data, with the year and variable convenient
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{clean\_data <{-}}\StringTok{ }\KeywordTok{spread}\NormalTok{(long\_data,}
-                    \DataTypeTok{key =}\NormalTok{ var,}
-                    \DataTypeTok{value =}\NormalTok{ number)}
+                     \DataTypeTok{key =}\NormalTok{ var,}
+                     \DataTypeTok{value =}\NormalTok{ number)}
 \KeywordTok{head}\NormalTok{(clean\_data)}
 \end{Highlighting}
 \end{Shaded}
@@ -738,7 +738,7 @@ than \texttt{i(h(g(f(x))))}.
 
 You can pass function arguments using the pipe too. For example, \texttt{f(x,\ bear\ =\ "moose")} is equivalent to \texttt{x\ \%\textgreater{}\%\ f(bear\ =\ "moose")}.
 
-The key thing about the \textbf{tidyverse} functions is that each of them takes a data frame as its first argument, and returns a data frame as its output. This makes them highly amenable to piping. For example, we can combine all three steps of our tidying above with a single command, thanks to the pipe:\footnote{If you are reading the PDF copy of these notes (i.e., the ones I hand out in class), the line breaks are eliminated, making the piped commands rather hard to read. I am working on fixing this. For now, you may find the online notes at \url{http://bkenkel.com/pdaps} easier to follow.}
+The key thing about the \textbf{tidyverse} functions is that each of them takes a data frame as its first argument, and returns a data frame as its output. This makes them highly amenable to piping. For example, we can combine all three steps of our tidying above with a single command, thanks to the pipe:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -877,6 +877,47 @@ If you wanted to make the change stick, you would have to run:
 ## # ... with 855 more rows
 \end{verbatim}
 
+You can also select columns based on how their names start or end, or with even more complex criteria.
+See \texttt{?select\_helpers}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{untidy\_data }\OperatorTok{\%>\%}
+\StringTok{  }\KeywordTok{select}\NormalTok{(country, }\KeywordTok{starts\_with}\NormalTok{(}\StringTok{"gdp"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 215 x 5
+##   country gdp.2005 gdp.2006 gdp.2007 gdp.2008
+##   <chr>      <dbl>    <dbl>    <dbl>    <dbl>
+## 1 AD          3.85     4.03     4.03     3.68
+## 2 AE        257.     283.     292.     301.  
+## 3 AF          9.16     9.66    11.0     11.4 
+## 4 AG          1.15     1.29     1.41     1.41
+## 5 AL          9.22     9.77    10.4     11.1 
+## # ... with 210 more rows
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{untidy\_data }\OperatorTok{\%>\%}
+\StringTok{  }\KeywordTok{select}\NormalTok{(country, }\KeywordTok{ends\_with}\NormalTok{(}\StringTok{"2005"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 215 x 4
+##   country gdp.2005 pop.2005 unemp.2005
+##   <chr>      <dbl>    <dbl>      <dbl>
+## 1 AD          3.85   0.0789      NA   
+## 2 AE        257.     4.59         3.12
+## 3 AF          9.16  25.7          2.94
+## 4 AG          1.15   0.0815      NA   
+## 5 AL          9.22   3.01        16.9 
+## # ... with 210 more rows
+\end{verbatim}
+
 \texttt{mutate()} lets you create new variables that are transformations of old ones.
 
 \begin{Shaded}
@@ -961,36 +1002,34 @@ This seems sort of useless, until you combine it with the \texttt{group\_by()} f
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{clean\_data }\OperatorTok{\%>\%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(}\OperatorTok{!}\KeywordTok{is.na}\NormalTok{(unemp)) }\OperatorTok{\%>\%}
 \StringTok{  }\KeywordTok{group\_by}\NormalTok{(year) }\OperatorTok{\%>\%}
-\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{max\_unemp =} \KeywordTok{max}\NormalTok{(unemp, }\DataTypeTok{na.rm =} \OtherTok{TRUE}\NormalTok{),}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{max\_unemp =} \KeywordTok{max}\NormalTok{(unemp),}
          \DataTypeTok{unemp\_over\_max =}\NormalTok{ unemp }\OperatorTok{/}\StringTok{ }\NormalTok{max\_unemp) }\OperatorTok{\%>\%}
 \StringTok{  }\KeywordTok{select}\NormalTok{(country, year, }\KeywordTok{contains}\NormalTok{(}\StringTok{"unemp"}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## # A tibble: 860 x 5
+## # A tibble: 744 x 5
 ## # Groups:   year [4]
 ##   country year  unemp max_unemp unemp_over_max
 ##   <chr>   <chr> <dbl>     <dbl>          <dbl>
-## 1 AD      2005  NA         37.2        NA     
-## 2 AD      2006  NA         36.0        NA     
-## 3 AD      2007  NA         34.9        NA     
-## 4 AD      2008  NA         33.8        NA     
-## 5 AE      2005   3.12      37.2         0.0838
-## # ... with 855 more rows
+## 1 AE      2005   3.12      37.2         0.0838
+## 2 AE      2006   2.77      36.0         0.0770
+## 3 AE      2007   2.47      34.9         0.0706
+## 4 AE      2008   2.33      33.8         0.0691
+## 5 AF      2005   2.94      37.2         0.0790
+## # ... with 739 more rows
 \end{verbatim}
 
 This gives us back the original data, but with a \texttt{max\_unemp} variable recording the highest unemployment level that year. We can then calculate each individual country's unemployment as a percentage of the maximum. Whether grouped \texttt{mutate} or \texttt{summarise} is better depends, of course, on the purpose and structure of your analysis.
 
-Notice how I selected all of the unemployment-related columns with \texttt{contains("unemp")}. See \texttt{?select\_helpers} for a full list of helpful functions like this for \texttt{select}-ing variables.
-
 \hypertarget{merging}{%
 \section{Merging}\label{merging}}
 
-Only rarely will you be lucky enough to draw all your data from a single source. More often, you'll be merging together data from multiple sources.
-
-The key to merging data from separate tables is to have consistent identifiers across tables. For example, if you run an experiment, you might have demographic data on each subject in one table, and each subject's response to each treatment in another table. Naturally, you'll want to have a subject identifier that ``links'' the records across tables, as in the following hypothetical example.
+Particularly if you do observational work, you'll often be merging together data from multiple sources.
+The key to merging data from separate tables is to have consistent identifiers across tables. For example, if you run an experiment, you might have demographic data on each subject in one table, and each subject's response to treatment in another table. Naturally, you'll want to have a subject identifier that ``links'' the records across tables, as in the following hypothetical example.
 
 \begin{Shaded}
 \begin{Highlighting}[]

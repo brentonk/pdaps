@@ -261,7 +261,7 @@ E[Y] = \sum_{y \in \mathcal{Y}} y \: f_Y(y);
 <span class="math display">\[\begin{equation}
 E[Y] = \int y \: f_Y(y) \, dy.
 \end{equation}\]</span></p>
-<p>Now suppose <span class="math inline">\((X, Y)\)</span> is a pair of discrete random variables drawn according to the joint mass function <span class="math inline">\(f_{XY}\)</span> on <span class="math inline">\(\mathcal{X} \times \mathcal{Y}\)</span>, with respective marginal mass functions <span class="math inline">\(f_X\)</span> and <span class="math inline">\(f_Y\)</span>.<a href="#fn15" class="footnote-ref" id="fnref15"><sup>15</sup></a> Recall the formula for conditional probability,
+<p>Now suppose <span class="math inline">\((X, Y)\)</span> is a pair of discrete random variables drawn according to the joint mass function <span class="math inline">\(f_{XY}\)</span> on <span class="math inline">\(\mathcal{X} \times \mathcal{Y}\)</span>, with respective marginal mass functions <span class="math inline">\(f_X\)</span> and <span class="math inline">\(f_Y\)</span>.<a href="#fn14" class="footnote-ref" id="fnref14"><sup>14</sup></a> Recall the formula for conditional probability,
 <span class="math display">\[\begin{equation}
 \Pr(Y = y \,|\, X = x)
 = \frac{\Pr(X = x, Y = y)}{\Pr(X = x)}
@@ -320,7 +320,7 @@ S_Y^2 = \frac{1}{N-1} \sum_n Y_n (Y_n - \bar{Y}).
 <div id="the-linear-model" class="section level2" number="5.2">
 <h2 number="5.2"><span class="header-section-number">5.2</span> The Linear Model</h2>
 <p>Suppose we observe a sequence of <span class="math inline">\(N\)</span> draws from <span class="math inline">\(f_{XY}\)</span>, denoted <span class="math inline">\((X_1, Y_1), (X_2, Y_2), \ldots, (X_N, Y_N)\)</span>, or <span class="math inline">\(\{(X_n, Y_n)\}_{n=1}^N\)</span> for short. What can we learn about the relationship between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> from this sample of data?</p>
-<p>If we were really ambitious, we could try to estimate the shape of the full joint distribution, <span class="math inline">\(f_{XY}\)</span>. The joint distribution encodes everything there is to know about the relationship between the two variables, so it would be pretty useful to know. But except in the most trivial cases, it would be infeasible to estimate <span class="math inline">\(f_{XY}\)</span> precisely. If <span class="math inline">\(X\)</span> or <span class="math inline">\(Y\)</span> can take on more than a few values, estimating the joint distribution would require an amount of data that we’re unlikely to have.<a href="#fn16" class="footnote-ref" id="fnref16"><sup>16</sup></a></p>
+<p>If we were really ambitious, we could try to estimate the shape of the full joint distribution, <span class="math inline">\(f_{XY}\)</span>. The joint distribution encodes everything there is to know about the relationship between the two variables, so it would be pretty useful to know. But except in the most trivial cases, it would be infeasible to estimate <span class="math inline">\(f_{XY}\)</span> precisely. If <span class="math inline">\(X\)</span> or <span class="math inline">\(Y\)</span> can take on more than a few values, estimating the joint distribution would require an amount of data that we’re unlikely to have.<a href="#fn15" class="footnote-ref" id="fnref15"><sup>15</sup></a></p>
 <p>The first way we simplify our estimation task is to set our sights lower. Let <span class="math inline">\(Y\)</span> be the <em>response</em> or the <em>dependent variable</em>—i.e., the thing we want to explain. We call <span class="math inline">\(X\)</span> the <em>covariate</em> or the <em>independent variable</em>. Instead of estimating the full joint distribution, we’re just going to try to learn the conditional expectation, <span class="math inline">\(E[Y \,|\, X]\)</span>. In other words, for each potential value of the covariate, what is the expected value of the response? This will allow us to answer questions like whether greater values of <span class="math inline">\(X\)</span> are associated with greater values of <span class="math inline">\(Y\)</span>.</p>
 <p>Two important things about the estimation of conditional expectations before we go any further.</p>
 <ol style="list-style-type: decimal">
@@ -366,7 +366,7 @@ The residual is directional. The residual is positive when the regression line f
 \]</span>
 (Throughout the rest of this chapter, I write <span class="math inline">\(\sum_n\)</span> as shorthand for <span class="math inline">\(\sum_{n=1}^N\)</span>.) When we focus on squared error, we penalize a positive residual the same as a negative residual of the same size. Moreover, we penalize one big residual proportionally more than a few small ones.</p>
 <p>It is important to keep the linear model and ordinary least squares distinct in your mind. The linear model is a model of the data. Ordinary least squares is one estimator—one among many—of the parameters of the linear model. Assuming a linear model does not commit you to estimate it with OLS if you think another estimator is more appropriate. And using OLS does not necessarily commit you to the linear model, as we will discuss when we get to multiple regression.</p>
-<p>To derive the OLS estimator, we will derive the conditions for minimization of the sum of squared errors. The SSE is a quadratic and therefore continuously differentiable function of the estimands, <span class="math inline">\(\hat{\alpha}\)</span> and <span class="math inline">\(\hat{\beta}\)</span>. You will remember from calculus that, at any extreme point of a continuous function, all its partial derivatives equal zero. To derive necessary conditions for minimization,<a href="#fn17" class="footnote-ref" id="fnref17"><sup>17</sup></a> we can take the derivatives of the SSE and set them to equal zero.</p>
+<p>To derive the OLS estimator, we will derive the conditions for minimization of the sum of squared errors. The SSE is a quadratic and therefore continuously differentiable function of the estimands, <span class="math inline">\(\hat{\alpha}\)</span> and <span class="math inline">\(\hat{\beta}\)</span>. You will remember from calculus that, at any extreme point of a continuous function, all its partial derivatives equal zero. To derive necessary conditions for minimization,<a href="#fn16" class="footnote-ref" id="fnref16"><sup>16</sup></a> we can take the derivatives of the SSE and set them to equal zero.</p>
 <p>The derivative with respect to the intercept is
 <span class="math display">\[
 \frac{\partial{}\mathop{\rm SSE}\nolimits(\hat{\alpha}, \hat{\beta})}{\partial{}\hat{\alpha}}
@@ -394,7 +394,7 @@ As long as the sample variance of <span class="math inline">\(X\)</span> is non-
 = \frac{\sum_n X_n (Y_n - \bar{Y})}{\sum_n X_n (X_n - \bar{X})}
 = \frac{S_{XY}}{S_X^2}.
 \]</span></p>
-<p>Combining these two results, we have the OLS estimators of the intercept and slope of the bivariate linear model. We write them as functions of <span class="math inline">\((X_1, \ldots, X_N, Y_1, \ldots, Y_N)\)</span>, or <span class="math inline">\((X, Y)\)</span> for short,<a href="#fn18" class="footnote-ref" id="fnref18"><sup>18</sup></a> to emphasize that an estimator is a statistic, which in turn is a function of sample data. We place the “OLS” subscript on them to emphasize that there are many estimators of these parameters, of which OLS is just one (good!) choice.
+<p>Combining these two results, we have the OLS estimators of the intercept and slope of the bivariate linear model. We write them as functions of <span class="math inline">\((X_1, \ldots, X_N, Y_1, \ldots, Y_N)\)</span>, or <span class="math inline">\((X, Y)\)</span> for short,<a href="#fn17" class="footnote-ref" id="fnref17"><sup>17</sup></a> to emphasize that an estimator is a statistic, which in turn is a function of sample data. We place the “OLS” subscript on them to emphasize that there are many estimators of these parameters, of which OLS is just one (good!) choice.
 <span class="math display">\[
 \begin{aligned}
 \hat{\alpha}_{\text{OLS}}(X, Y)
@@ -444,7 +444,7 @@ E[\hat{\beta}_{\text{OLS}}(X, Y) \,|\, X]
 &amp;= \beta.
 \end{aligned}
 \]</span>
-It then follows from the <em>law of iterated expectation</em><a href="#fn19" class="footnote-ref" id="fnref19"><sup>19</sup></a> that
+It then follows from the <em>law of iterated expectation</em><a href="#fn18" class="footnote-ref" id="fnref18"><sup>18</sup></a> that
 <span class="math display">\[
 E[\hat{\beta}_{\text{OLS}}(X, Y)] = \beta.
 \]</span>
@@ -467,7 +467,7 @@ As with the slope, this conditional expectation gives us the unconditional expec
 E[\hat{\alpha}_{\text{OLS}}(X, Y)] = \alpha.
 \]</span></p>
 <p>To sum up: as long as the crucial condition <span class="math inline">\(E[\epsilon_n \,|\, X_1, \ldots, X_N] = 0\)</span> holds, then OLS is an unbiased estimator of the parameters of the linear model.</p>
-<p>Another important property of OLS is that it is <em>consistent</em>. Informally, this means that in sufficiently large samples, the OLS estimates <span class="math inline">\((\hat{\alpha}_{\text{OLS}}, \hat{\beta}_{\text{OLS}})\)</span> are very likely to be close to the true parameter values <span class="math inline">\((\alpha, \beta)\)</span>. Another way to think of consistency is that, as <span class="math inline">\(N \to \infty\)</span>, the bias and variance of the OLS estimator both go to zero.<a href="#fn20" class="footnote-ref" id="fnref20"><sup>20</sup></a></p>
+<p>Another important property of OLS is that it is <em>consistent</em>. Informally, this means that in sufficiently large samples, the OLS estimates <span class="math inline">\((\hat{\alpha}_{\text{OLS}}, \hat{\beta}_{\text{OLS}})\)</span> are very likely to be close to the true parameter values <span class="math inline">\((\alpha, \beta)\)</span>. Another way to think of consistency is that, as <span class="math inline">\(N \to \infty\)</span>, the bias and variance of the OLS estimator both go to zero.<a href="#fn19" class="footnote-ref" id="fnref19"><sup>19</sup></a></p>
 <p>Of course the bias “goes to” zero, since OLS is unbiased. The real trick to proving consistency is to show that the variance goes to zero. If you wanted to do that for the slope estimate, you’d derive an expression for
 <span class="math display">\[
 V[\hat{\beta}_{\text{OLS}}]
@@ -485,11 +485,11 @@ This takes more algebra than we have time for, so I leave it as an exercise for 
 <div id="appendix-regression-in-r" class="section level2" number="5.5">
 <h2 number="5.5"><span class="header-section-number">5.5</span> Appendix: Regression in R</h2>
 <p>We will be using the <strong>tidyverse</strong> package as always, the <strong>car</strong> package for the <code>Prestige</code> data, and the <strong>broom</strong> package for its convenient post-analysis functions.</p>
-<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="bivariate.html#cb144-1"></a><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</span>
-<span id="cb144-2"><a href="bivariate.html#cb144-2"></a><span class="kw">library</span>(<span class="st">&quot;car&quot;</span>)</span>
-<span id="cb144-3"><a href="bivariate.html#cb144-3"></a><span class="kw">library</span>(<span class="st">&quot;broom&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="bivariate.html#cb148-1"></a><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</span>
+<span id="cb148-2"><a href="bivariate.html#cb148-2"></a><span class="kw">library</span>(<span class="st">&quot;car&quot;</span>)</span>
+<span id="cb148-3"><a href="bivariate.html#cb148-3"></a><span class="kw">library</span>(<span class="st">&quot;broom&quot;</span>)</span></code></pre></div>
 <p>Let’s take a look at <code>Prestige</code>, which records basic information (including perceived prestige) for a variety of occupations.</p>
-<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="bivariate.html#cb145-1"></a><span class="kw">head</span>(Prestige)</span></code></pre></div>
+<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="bivariate.html#cb149-1"></a><span class="kw">head</span>(Prestige)</span></code></pre></div>
 <pre><code>##                     education income women prestige census type
 ## gov.administrators      13.11  12351 11.16     68.8   1113 prof
 ## general.managers        12.26  25879  4.02     69.1   1130 prof
@@ -498,7 +498,7 @@ This takes more algebra than we have time for, so I leave it as an exercise for 
 ## chemists                14.62   8403 11.68     73.5   2111 prof
 ## physicists              15.64  11030  5.13     77.6   2113 prof</code></pre>
 <p>Suppose we want to run a regression of prestige on education. We will use the <code>lm()</code> function, which stands for <em>linear model</em>. This will employ the “formula” syntax that you previously saw when faceting in ggplot. The basic syntax of a formula is <code>response ~ covariate</code>, where <code>response</code> and <code>covariate</code> are the names of the variables in question. In this case, with <code>prestige</code> (note that the variable is lowercase, while the dataset is capitalized) as the response and education as the covariate:</p>
-<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="bivariate.html#cb147-1"></a><span class="kw">lm</span>(prestige <span class="op">~</span><span class="st"> </span>education, <span class="dt">data =</span> Prestige)</span></code></pre></div>
+<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="bivariate.html#cb151-1"></a><span class="kw">lm</span>(prestige <span class="op">~</span><span class="st"> </span>education, <span class="dt">data =</span> Prestige)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = prestige ~ education, data = Prestige)
@@ -508,9 +508,9 @@ This takes more algebra than we have time for, so I leave it as an exercise for 
 ##     -10.732        5.361</code></pre>
 <p>You’ll notice that didn’t give us very much. If you’ve previously used statistical programs like Stata, you might expect a ton of output at this point. It’s all there in R too, but R has a different philosophy about models. R sees the fitted model as an object in its own right—like a data frame, a function, or anything else you load or create in R. Therefore, to analyze regression results in R, you will typically save the regression results to a variable.</p>
 <p>Like any other variable, you’ll want to give your regression results meaningful names. I typically call them <code>fit_</code> to indicate a fitted model, followed by some memorable description.</p>
-<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="bivariate.html#cb149-1"></a>fit_educ &lt;-<span class="st"> </span><span class="kw">lm</span>(prestige <span class="op">~</span><span class="st"> </span>education, <span class="dt">data =</span> Prestige)</span></code></pre></div>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="bivariate.html#cb153-1"></a>fit_educ &lt;-<span class="st"> </span><span class="kw">lm</span>(prestige <span class="op">~</span><span class="st"> </span>education, <span class="dt">data =</span> Prestige)</span></code></pre></div>
 <p>When you do this, the output doesn’t get printed. To see the default output, just run the variable name, just like you would to see the content of a data frame:</p>
-<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="bivariate.html#cb150-1"></a>fit_educ</span></code></pre></div>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="bivariate.html#cb154-1"></a>fit_educ</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = prestige ~ education, data = Prestige)
@@ -519,7 +519,7 @@ This takes more algebra than we have time for, so I leave it as an exercise for 
 ## (Intercept)    education  
 ##     -10.732        5.361</code></pre>
 <p>For a more detailed readout, use the <code>summary()</code> method:</p>
-<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="bivariate.html#cb152-1"></a><span class="kw">summary</span>(fit_educ)</span></code></pre></div>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="bivariate.html#cb156-1"></a><span class="kw">summary</span>(fit_educ)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = prestige ~ education, data = Prestige)
@@ -554,11 +554,11 @@ This takes more algebra than we have time for, so I leave it as an exercise for 
 <li><span class="math inline">\(F\)</span> statistic, degrees of freedom, and associated <span class="math inline">\(p\)</span>-value for a hypothesis test that every coefficient besides the intercept equals zero</li>
 </ul>
 <p>Strangely, <code>summary()</code> doesn’t give you the sample size. For that you must use <code>nobs()</code>:</p>
-<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="bivariate.html#cb154-1"></a><span class="kw">nobs</span>(fit_educ)</span></code></pre></div>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="bivariate.html#cb158-1"></a><span class="kw">nobs</span>(fit_educ)</span></code></pre></div>
 <pre><code>## [1] 102</code></pre>
 <p>You can use a fitted model object to make predictions for new data. For example, let’s make a basic data frame of education levels.</p>
-<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="bivariate.html#cb156-1"></a>my_data &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">education =</span> <span class="dv">8</span><span class="op">:</span><span class="dv">16</span>)</span>
-<span id="cb156-2"><a href="bivariate.html#cb156-2"></a>my_data</span></code></pre></div>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="bivariate.html#cb160-1"></a>my_data &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">education =</span> <span class="dv">8</span><span class="op">:</span><span class="dv">16</span>)</span>
+<span id="cb160-2"><a href="bivariate.html#cb160-2"></a>my_data</span></code></pre></div>
 <pre><code>## # A tibble: 9 x 1
 ##   education
 ##       &lt;int&gt;
@@ -572,17 +572,17 @@ This takes more algebra than we have time for, so I leave it as an exercise for 
 ## 8        15
 ## 9        16</code></pre>
 <p>To calculate the predicted level of prestige for each education level, use <code>predict()</code>:</p>
-<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="bivariate.html#cb158-1"></a><span class="kw">predict</span>(fit_educ, <span class="dt">newdata =</span> my_data)</span></code></pre></div>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="bivariate.html#cb162-1"></a><span class="kw">predict</span>(fit_educ, <span class="dt">newdata =</span> my_data)</span></code></pre></div>
 <pre><code>##        1        2        3        4        5        6        7        8 
 ## 32.15504 37.51592 42.87680 48.23767 53.59855 58.95943 64.32031 69.68118 
 ##        9 
 ## 75.04206</code></pre>
 <p>When using <code>predict()</code>, it is crucial that the <code>newdata</code> have the same column names as in the data used to fit the model.</p>
 <p>You can also extract a confidence interval for each prediction:</p>
-<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="bivariate.html#cb160-1"></a><span class="kw">predict</span>(fit_educ,</span>
-<span id="cb160-2"><a href="bivariate.html#cb160-2"></a>        <span class="dt">newdata =</span> my_data,</span>
-<span id="cb160-3"><a href="bivariate.html#cb160-3"></a>        <span class="dt">interval =</span> <span class="st">&quot;confidence&quot;</span>,</span>
-<span id="cb160-4"><a href="bivariate.html#cb160-4"></a>        <span class="dt">level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="bivariate.html#cb164-1"></a><span class="kw">predict</span>(fit_educ,</span>
+<span id="cb164-2"><a href="bivariate.html#cb164-2"></a>        <span class="dt">newdata =</span> my_data,</span>
+<span id="cb164-3"><a href="bivariate.html#cb164-3"></a>        <span class="dt">interval =</span> <span class="st">&quot;confidence&quot;</span>,</span>
+<span id="cb164-4"><a href="bivariate.html#cb164-4"></a>        <span class="dt">level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
 <pre><code>##        fit      lwr      upr
 ## 1 32.15504 29.61530 34.69478
 ## 2 37.51592 35.39261 39.63922
@@ -594,22 +594,22 @@ This takes more algebra than we have time for, so I leave it as an exercise for 
 ## 8 69.68118 66.35281 73.00956
 ## 9 75.04206 71.14209 78.94204</code></pre>
 <p>One of the problems with <code>summary()</code> and <code>predict()</code> is that they return inconveniently shaped output. The output of <code>summary()</code> is particularly hard to deal with. The <strong>broom</strong> package provides three utilities to help get model output into shape. The first is <code>tidy()</code>, which makes a tidy data frame out of the regression coefficients and the associated inferential statistics:</p>
-<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="bivariate.html#cb162-1"></a><span class="kw">tidy</span>(fit_educ)</span></code></pre></div>
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="bivariate.html#cb166-1"></a><span class="kw">tidy</span>(fit_educ)</span></code></pre></div>
 <pre><code>## # A tibble: 2 x 5
 ##   term        estimate std.error statistic  p.value
 ##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
 ## 1 (Intercept)   -10.7      3.68      -2.92 4.34e- 3
 ## 2 education       5.36     0.332     16.1  1.29e-29</code></pre>
 <p>The second is <code>glance()</code>, which provides a one-row data frame containing overall model characteristics (e.g., <span class="math inline">\(R^2\)</span> and <span class="math inline">\(\hat{\sigma}\)</span>):</p>
-<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="bivariate.html#cb164-1"></a><span class="kw">glance</span>(fit_educ)</span></code></pre></div>
+<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="bivariate.html#cb168-1"></a><span class="kw">glance</span>(fit_educ)</span></code></pre></div>
 <pre><code>## # A tibble: 1 x 11
 ##   r.squared adj.r.squared sigma statistic  p.value    df logLik   AIC   BIC
 ##       &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 ## 1     0.723         0.720  9.10      261. 1.29e-29     2  -369.  744.  752.
 ## # … with 2 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;</code></pre>
 <p>The third is <code>augment()</code>, which “augments” the original data—or new data you supply, as in <code>predict()</code>—with information from the model, such as predicted values.</p>
-<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="bivariate.html#cb166-1"></a><span class="co"># Lots of output, so only printing first 10 rows</span></span>
-<span id="cb166-2"><a href="bivariate.html#cb166-2"></a><span class="kw">head</span>(<span class="kw">augment</span>(fit_educ), <span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="bivariate.html#cb170-1"></a><span class="co"># Lots of output, so only printing first 10 rows</span></span>
+<span id="cb170-2"><a href="bivariate.html#cb170-2"></a><span class="kw">head</span>(<span class="kw">augment</span>(fit_educ), <span class="dv">10</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 10 x 10
 ##    .rownames prestige education .fitted .se.fit .resid   .hat .sigma .cooksd
 ##    &lt;chr&gt;        &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;
@@ -624,8 +624,8 @@ This takes more algebra than we have time for, so I leave it as an exercise for 
 ##  9 civil.en…     73.1      14.5    67.1   1.55    5.99 0.0288   9.13 6.62e-3
 ## 10 mining.e…     68.8      14.6    67.8   1.58    1.05 0.0301   9.15 2.12e-4
 ## # … with 1 more variable: .std.resid &lt;dbl&gt;</code></pre>
-<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="bivariate.html#cb168-1"></a><span class="kw">augment</span>(fit_educ,</span>
-<span id="cb168-2"><a href="bivariate.html#cb168-2"></a>        <span class="dt">newdata =</span> my_data)</span></code></pre></div>
+<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="bivariate.html#cb172-1"></a><span class="kw">augment</span>(fit_educ,</span>
+<span id="cb172-2"><a href="bivariate.html#cb172-2"></a>        <span class="dt">newdata =</span> my_data)</span></code></pre></div>
 <pre><code>## # A tibble: 9 x 3
 ##   education .fitted .se.fit
 ##       &lt;int&gt;   &lt;dbl&gt;   &lt;dbl&gt;
@@ -640,27 +640,27 @@ This takes more algebra than we have time for, so I leave it as an exercise for 
 ## 9        16    75.0   1.97</code></pre>
 <p>Notice that you get back more information for the data used to fit the model than for newly supplied data. The most important is <code>.fitted</code>, the predicted value. See <code>?augment.lm</code> for what all the various output represents.</p>
 <p>One last note on plotting regression lines with ggplot. Use <code>geom_smooth(method = "lm")</code>.</p>
-<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="bivariate.html#cb170-1"></a><span class="kw">ggplot</span>(Prestige, <span class="kw">aes</span>(<span class="dt">x =</span> education, <span class="dt">y =</span> prestige)) <span class="op">+</span></span>
-<span id="cb170-2"><a href="bivariate.html#cb170-2"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></span>
-<span id="cb170-3"><a href="bivariate.html#cb170-3"></a><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="bivariate.html#cb174-1"></a><span class="kw">ggplot</span>(Prestige, <span class="kw">aes</span>(<span class="dt">x =</span> education, <span class="dt">y =</span> prestige)) <span class="op">+</span></span>
+<span id="cb174-2"><a href="bivariate.html#cb174-2"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></span>
+<span id="cb174-3"><a href="bivariate.html#cb174-3"></a><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>)</span></code></pre></div>
 <p><img src="pdaps_files/figure-html/ggplot-lm-1.png" width="672" /></p>
 <p>To get rid of the confidence interval:</p>
-<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="bivariate.html#cb171-1"></a><span class="kw">ggplot</span>(Prestige, <span class="kw">aes</span>(<span class="dt">x =</span> education, <span class="dt">y =</span> prestige)) <span class="op">+</span></span>
-<span id="cb171-2"><a href="bivariate.html#cb171-2"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></span>
-<span id="cb171-3"><a href="bivariate.html#cb171-3"></a><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">se =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="bivariate.html#cb175-1"></a><span class="kw">ggplot</span>(Prestige, <span class="kw">aes</span>(<span class="dt">x =</span> education, <span class="dt">y =</span> prestige)) <span class="op">+</span></span>
+<span id="cb175-2"><a href="bivariate.html#cb175-2"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></span>
+<span id="cb175-3"><a href="bivariate.html#cb175-3"></a><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">se =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
 <p><img src="pdaps_files/figure-html/ggplot-lm-no-se-1.png" width="672" /></p>
 
 </div>
 </div>
 <div class="footnotes">
 <hr />
-<ol start="15">
-<li id="fn15"><p>The marginal mass function, if you don’t recall, is <span class="math inline">\(f_X(x) = \sum_{y \in \mathcal{Y}} f_{XY} (x, y)\)</span>. In the continuous case, the marginal density function is <span class="math inline">\(f_X(x) = \int f_{XY} (x, y) \, dy\)</span>.<a href="bivariate.html#fnref15" class="footnote-back">↩︎</a></p></li>
-<li id="fn16"><p>This problem only gets worse as we move from bivariate into multivariate analysis, a phenomenon called the <em>curse of dimensionality</em>.<a href="bivariate.html#fnref16" class="footnote-back">↩︎</a></p></li>
-<li id="fn17"><p>In fact, since the SSE function is strictly convex, these conditions are sufficient for global minimization.<a href="bivariate.html#fnref17" class="footnote-back">↩︎</a></p></li>
-<li id="fn18"><p>This is a bit of an abuse of notation, since previously I used <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> to refer to the random variables and now I’m using them to refer to vectors of sample data. Sorry.<a href="bivariate.html#fnref18" class="footnote-back">↩︎</a></p></li>
-<li id="fn19"><p>For random variables <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, <span class="math inline">\(E[f(A, B)] = E_A[ E_B[f(A, B) \,|\, A] ] = E_B [ E_A[f(A, B) \,|\, B] ]\)</span>.<a href="bivariate.html#fnref19" class="footnote-back">↩︎</a></p></li>
-<li id="fn20"><p>What I am describing here is <em>mean square consistency</em>, which is stronger than the broadest definitions of consistency in statistical theory.<a href="bivariate.html#fnref20" class="footnote-back">↩︎</a></p></li>
+<ol start="14">
+<li id="fn14"><p>The marginal mass function, if you don’t recall, is <span class="math inline">\(f_X(x) = \sum_{y \in \mathcal{Y}} f_{XY} (x, y)\)</span>. In the continuous case, the marginal density function is <span class="math inline">\(f_X(x) = \int f_{XY} (x, y) \, dy\)</span>.<a href="bivariate.html#fnref14" class="footnote-back">↩︎</a></p></li>
+<li id="fn15"><p>This problem only gets worse as we move from bivariate into multivariate analysis, a phenomenon called the <em>curse of dimensionality</em>.<a href="bivariate.html#fnref15" class="footnote-back">↩︎</a></p></li>
+<li id="fn16"><p>In fact, since the SSE function is strictly convex, these conditions are sufficient for global minimization.<a href="bivariate.html#fnref16" class="footnote-back">↩︎</a></p></li>
+<li id="fn17"><p>This is a bit of an abuse of notation, since previously I used <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> to refer to the random variables and now I’m using them to refer to vectors of sample data. Sorry.<a href="bivariate.html#fnref17" class="footnote-back">↩︎</a></p></li>
+<li id="fn18"><p>For random variables <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, <span class="math inline">\(E[f(A, B)] = E_A[ E_B[f(A, B) \,|\, A] ] = E_B [ E_A[f(A, B) \,|\, B] ]\)</span>.<a href="bivariate.html#fnref18" class="footnote-back">↩︎</a></p></li>
+<li id="fn19"><p>What I am describing here is <em>mean square consistency</em>, which is stronger than the broadest definitions of consistency in statistical theory.<a href="bivariate.html#fnref19" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>
