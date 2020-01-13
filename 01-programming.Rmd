@@ -82,71 +82,104 @@ For example, imagine you have just run a large experiment and you want to estima
 
 We're going to look at the most basic ways to get the computer to repeat structured tasks---functions and control flow statements.  To illustrate these, we will use a result you discussed in Stat I: the central limit theorem.
 
-The central limit theorem concerns the *sampling distribution* of the sample mean,
-\begin{equation*}
-\bar{X} = \frac{1}{N} \sum_{n = 1}^{N} X_n,
-\end{equation*}
-where each $X_n$ is independent and identically distributed with mean $\mu$ and variance $\sigma^2$.  Loosely speaking, the CLT says that as $N$ grows large, the sampling distribution of $\bar{X}$ becomes approximately normal with mean $\mu$ and variance $\sigma^2 / N$.
+The central limit theorem concerns the approximate normality of the *sampling distribution* of the sample mean and similar estimators.
+You'll remember that the sampling distribution is the probability distribution of an estimator---loosely speaking, the distribution of the estimates we would get if we could run the estimator on a great many samples from the population of data.
+In real life, it's hard for us to directly observe sampling distributions.
+But it's easy to do on a computer: we can randomly draw many samples from the same population, apply an estimator to each one, and thereby observe its sampling distribution.
+This is what we call the *Monte Carlo method*.
 
-Here's what we would need to do to see the CLT operate in practice.  We'd want to take a bunch of samples, each of size $N$, and calculate the sample mean of each.  Then we'd have a sample of sample means, and we could check to verify that the distribution of our sample-of-samples is approximately normal with mean $\mu$ and variance $\sigma^2 / N$.  This is a structured, repetitive task---exactly the kind of thing that should be programmed.  We'll try it out with samples from a Poisson distribution with $\lambda = 3$, which has mean $\mu = 3$ and variance $\sigma^2 = 3$.
+We will observe how the coefficients of a bivariate regression obey the central limit theorem.
+Specifically, we will see that their sampling distributions are approximately normal, even if the regressors and the error term have non-normal distributions.[^normality]
 
-First things first.  We can use the `rpois` function to draw a random sample of $N$ numbers from the Poisson distribution.
+[^normality]: You will hear sometimes that one of the "OLS assumptions" is that the regressors and/or the error term are normally distributed.  This is one of the myriad reasons why that claim is false.
+
+
+Let's consider the sampling distribution of the bivariate regression coefficients from a sample of data $(X_n, Y_n)_{n=1}^N$, where $N = 50$.
+We'll assume the regressor $X_n$ has an exponential distribution, $X_n \sim \text{Exponential}(\lambda)$, with rate parameter $\lambda = 0.25$.[^exponential]
+And we'll assume the response $Y_n$ is generated according to a linear model, $$Y_n = \alpha + \beta X_n + \epsilon_n,$$ where $\alpha = 1$, $\beta = -2$, and $\epsilon_n \sim U[-5, 5]$.
+To draw a sample from this population, we can use R's built-in random number sampling functions: `rexp` for an exponential variable and `runif` for a uniform.[^r-distributions]
+
+[^exponential]: This is a right-skewed distribution with a mean of $1 / \lambda = 4$ and a variance of $1 / \lambda^2 = 16$.
+
+[^r-distributions]: There are many more distributions available to simulate.  See `?Distributions` in R.
 
 ```{r set-seed, echo=FALSE}
 set.seed(22)
 ```
 
-```{r runif}
-samp <- rpois(10, lambda = 3)
-samp
+```{r draw-sample}
+n_samp <- 50
+x <- rexp(n = n_samp, rate = 0.25)
+y <- 1 - 2 * x + runif(n = n_samp, min = -5, max = 5)
 ```
 
-To calculate the sample mean, we simply use the `mean` function.
+You can run a regression on your simulated data the usual way.
+(Your output will, in all likelihood, differ from mine here---remember that we are working with random numbers!)
 
-```{r mean}
-mean(samp)
+```{r mc-lm}
+fit <- lm(y ~ x)
+summary(fit)
 ```
 
-We are interested in the distribution of the sample mean across many samples like this one.  To begin, we will write a **function** that automates our core task---drawing a sample of $N$ observations from Poisson(3) and calculating the sample mean.  A function consists of a set of *arguments* (the inputs) and a *body* of code specifying which calculations to perform on the inputs to produce the output.
+We are interested in the distribution of the OLS coefficients across many samples like this one.
+To begin, let's write a **function** to extract the estimated slope, $\hat{\beta}_1$, from a bivariate regression.
 
 ```{r function-ex}
-pois_mean <- function(n_obs) {
-  samp <- rpois(n_obs, lambda = 3)
-  ans <- mean(samp)
-  return(ans)
+ols_coef <- function(x, y) {
+  fit <- lm(y ~ x)
+  cf <- coef(fit)[2]
+  return(cf)
 }
 ```
 
-This code creates a function called `pois_mean`.  It has a single argument, called `n_obs`.  It generates a random sample of `n_obs` draws from Poisson(3) and calculates its sample mean.  It then `return`s the sample mean as the output.
+This code creates a function called `ols_coef`.
+It has two *arguments*, `x` (covariate vector) and `y` (response vector).
+It runs a regression of `y` on `x` and then `return`s the OLS slope estimate as the output.
+If we run this function on the `x` and `y` we just simulated, it should spit out the OLS coefficient we saw earlier.
 
-Let's try calling this function a few times, each with a sample size of $N = 30$.  Your output will differ slightly from what's printed here, since the function is generating random numbers.
-
-```{r try-pois-mean}
-pois_mean(n_obs = 30)
-pois_mean(n_obs = 30)
-pois_mean(n_obs = 30)
+```{r run-function-ex}
+ols_coef(x, y)
 ```
 
-Remember that what we're interested in is the *sampling distribution* of the sample mean---the distribution of the sample mean across every possible sample of $N$ observations.  We can approximate this distribution by running `pois_mean` many times (e.g., 1000 or more).  This would be infeasible via copy-paste.  Instead, we will use a **for loop**.
+Remember that we're interested in the *sampling distribution* of the OLS coefficients---their probability distribution across all possible samples of $N = 50$ from the population we've defined.
+We can approximate this distribution by drawing a new sample and calculating the OLS slope many times (e.g., 1000 or more).
+This would be infeasible by copy-paste.
+Instead, we will use a **for loop** to perform the same operation repeatedly.
 
 ```{r for-ex}
 # Set up a vector to store the output
-n_replicates <- 1000
+n_samp <- 50  # Observations per sample
+n_replicates <- 1000  # Number of distinct samples to draw
 sampling_dist <- rep(NA, n_replicates)
 
 for (i in 1:n_replicates) {
-  sampling_dist[i] <- pois_mean(n_obs = 30)
+  # Draw sample from defined population
+  x <- rexp(n = n_samp, rate = 0.25)
+  y <- 1 - 2 * x + runif(n = n_samp, min = -5, max = 5)
+
+  # Calculate and store OLS slope
+  est <- ols_coef(x, y)
+  sampling_dist[i] <- est
 }
 ```
 
-Here's how the for loop works.  We specified `i` as the name of the index variable, with values `1:n_replicates`.  The for loop takes each value in the sequence, assigns it to the variable `i`, runs the given expression (in this case, assigning the output of `pois_mean` to the `i`'th element of `sampling_dist`), and then moves on to the next value in sequence, until it reaches the end.
+Here's how the for loop works.
+We specified `i` as the name of the index variable, with values `1:n_replicates`.
+The for loop takes each value in the sequence, assigns it to the variable `i`, then runs the expression in brackets.
+In this case, that consists of drawing a sample of data from the same distribution we used before, calculating the OLS estimate of the slope, and storing that estimate as the `i`'th element of `sampling_dist`.
+After completing the expression in brackets, the for loop moves on to the next element of the given sequence, continuing until it reaches the end.
 
 Let's take a look at the results and compare them to our expectations.
+OLS is unbiased, so we should expect the average estimated slope to be close to the true value of $-2$.
 
-```{r sampling-dist-results}
-mean(sampling_dist)  # Expect 3
-var(sampling_dist)  # Expect 1/10
-hist(sampling_dist)  # Expect roughly normal
+```{r mc-ols-bias}
+mean(sampling_dist)
+```
+
+And, by the CLT, the estimates should be approximately normally distributed.
+
+```{r mc-ols-clt}
+hist(sampling_dist, breaks = 25)
 ```
 
 For loops are fun, but don't overuse them.  Many simple operations are **vectorized** and don't require a loop.  For example, suppose you want to take the square of a sequence of numbers.  You could use a for loop ...
@@ -162,7 +195,6 @@ for (i in 1:length(input)) {
 output
 ```
 
-
 ... but it's faster (in terms of computational speed) and easier to just take advantage of vectorization:
 
 ```{r square-vectorized}
@@ -171,26 +203,34 @@ input^2
 
 Another useful piece of control flow is **if/else statements**.  These check a logical condition---an expression whose value is `TRUE` or `FALSE`---and run different code depending on the value of the expression.  (You may want to catch up on the comparison operators: `==`, `>`, `>=`, `<`, `<=`, etc.)
 
-Let's edit the `pois_mean` function to allow us to calculate the median instead of the mean.  We'll add a second argument to the function, and implement the option using an if/else statement.
+Let's edit the `ols_coef` function to allow us to extract the intercept instead of the slope.  We'll add another argument to the function, and implement the option using an if/else statement.
 
-```{r pois-mean-median}
-pois_mean <- function(n_obs, use_median = FALSE) {
-  samp <- rpois(n_obs, lambda = 3)
-  if (use_median) {
-    ans <- median(samp)
+```{r fn-if-else}
+ols_coef <- function(x, y, slope = TRUE) {
+  fit <- lm(y ~ x)
+
+  if (slope) {
+    cf <- coef(fit)[2]
   } else {
-    ans <- mean(samp)
+    cf <- coef(fit)[1]
   }
-  return(ans)
+
+  return(cf)
 }
 ```
 
-A couple of things to notice about the structure of the function.  We use a comma to separate multiple function arguments.  Also, we've specified `FALSE` as the *default* for the `use_median` argument.  If we call the function without explicitly specifying a value for `use_median`, the function sets it to `FALSE`.
+Here's how the `if`/`else` block in the middle of the function works.
+The first line checks the `slope` variable.
+If it's `TRUE`, then it runs the first set of brackets (extract the slope).
+If not, then it skips that, and runs the second set of brackets (extract the intercept).
 
-```{r call-pois-mean-median}
-pois_mean(n_obs = 9)
-pois_mean(n_obs = 9, use_median = TRUE)
-pois_mean(n_obs = 9, use_median = FALSE)
+Also notice how we wrote `slope = TRUE` into the arguments of the function.
+This sets `TRUE` as the default value, so if we call `ols_coef()` without explicitly specifying the `slope` argument, it will assume we wanted it to be `TRUE`.
+
+```{r fn-defaults}
+ols_coef(x, y)
+ols_coef(x, y, slope = TRUE)
+ols_coef(x, y, slope = FALSE)
 ```
 
 There is a vectorized version of if/else statements called, naturally, the `ifelse` function.  This function takes three arguments, each a vector of the same length: (1) a logical condition, (2) an output value if the condition is `TRUE`, (3) an output value if the condition is `FALSE`.

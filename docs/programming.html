@@ -24,7 +24,7 @@
 <meta name="author" content="Brenton Kenkel" />
 
 
-<meta name="date" content="2020-01-06" />
+<meta name="date" content="2020-01-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -304,88 +304,135 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p>Copy-paste is error-prone, and insidiously so. If you do the calculation wrong all 16 times, you’ll probably notice. But what if you screwed up for just one or two cases? Are you <em>really</em> going to go through and check that you did everything right in each individual case?</p></li>
 </ul>
 <p>We’re going to look at the most basic ways to get the computer to repeat structured tasks—functions and control flow statements. To illustrate these, we will use a result you discussed in Stat I: the central limit theorem.</p>
-<p>The central limit theorem concerns the <em>sampling distribution</em> of the sample mean,
-<span class="math display">\[\begin{equation*}
-\bar{X} = \frac{1}{N} \sum_{n = 1}^{N} X_n,
-\end{equation*}\]</span>
-where each <span class="math inline">\(X_n\)</span> is independent and identically distributed with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span>. Loosely speaking, the CLT says that as <span class="math inline">\(N\)</span> grows large, the sampling distribution of <span class="math inline">\(\bar{X}\)</span> becomes approximately normal with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2 / N\)</span>.</p>
-<p>Here’s what we would need to do to see the CLT operate in practice. We’d want to take a bunch of samples, each of size <span class="math inline">\(N\)</span>, and calculate the sample mean of each. Then we’d have a sample of sample means, and we could check to verify that the distribution of our sample-of-samples is approximately normal with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2 / N\)</span>. This is a structured, repetitive task—exactly the kind of thing that should be programmed. We’ll try it out with samples from a Poisson distribution with <span class="math inline">\(\lambda = 3\)</span>, which has mean <span class="math inline">\(\mu = 3\)</span> and variance <span class="math inline">\(\sigma^2 = 3\)</span>.</p>
-<p>First things first. We can use the <code>rpois</code> function to draw a random sample of <span class="math inline">\(N\)</span> numbers from the Poisson distribution.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="programming.html#cb3-1"></a>samp &lt;-<span class="st"> </span><span class="kw">rpois</span>(<span class="dv">10</span>, <span class="dt">lambda =</span> <span class="dv">3</span>)</span>
-<span id="cb3-2"><a href="programming.html#cb3-2"></a>samp</span></code></pre></div>
-<pre><code>##  [1] 2 3 8 3 5 4 3 4 2 2</code></pre>
-<p>To calculate the sample mean, we simply use the <code>mean</code> function.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="programming.html#cb5-1"></a><span class="kw">mean</span>(samp)</span></code></pre></div>
-<pre><code>## [1] 3.6</code></pre>
-<p>We are interested in the distribution of the sample mean across many samples like this one. To begin, we will write a <strong>function</strong> that automates our core task—drawing a sample of <span class="math inline">\(N\)</span> observations from Poisson(3) and calculating the sample mean. A function consists of a set of <em>arguments</em> (the inputs) and a <em>body</em> of code specifying which calculations to perform on the inputs to produce the output.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="programming.html#cb7-1"></a>pois_mean &lt;-<span class="st"> </span><span class="cf">function</span>(n_obs) {</span>
-<span id="cb7-2"><a href="programming.html#cb7-2"></a>  samp &lt;-<span class="st"> </span><span class="kw">rpois</span>(n_obs, <span class="dt">lambda =</span> <span class="dv">3</span>)</span>
-<span id="cb7-3"><a href="programming.html#cb7-3"></a>  ans &lt;-<span class="st"> </span><span class="kw">mean</span>(samp)</span>
-<span id="cb7-4"><a href="programming.html#cb7-4"></a>  <span class="kw">return</span>(ans)</span>
-<span id="cb7-5"><a href="programming.html#cb7-5"></a>}</span></code></pre></div>
-<p>This code creates a function called <code>pois_mean</code>. It has a single argument, called <code>n_obs</code>. It generates a random sample of <code>n_obs</code> draws from Poisson(3) and calculates its sample mean. It then <code>return</code>s the sample mean as the output.</p>
-<p>Let’s try calling this function a few times, each with a sample size of <span class="math inline">\(N = 30\)</span>. Your output will differ slightly from what’s printed here, since the function is generating random numbers.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="programming.html#cb8-1"></a><span class="kw">pois_mean</span>(<span class="dt">n_obs =</span> <span class="dv">30</span>)</span></code></pre></div>
-<pre><code>## [1] 3.033333</code></pre>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="programming.html#cb10-1"></a><span class="kw">pois_mean</span>(<span class="dt">n_obs =</span> <span class="dv">30</span>)</span></code></pre></div>
-<pre><code>## [1] 2.466667</code></pre>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="programming.html#cb12-1"></a><span class="kw">pois_mean</span>(<span class="dt">n_obs =</span> <span class="dv">30</span>)</span></code></pre></div>
-<pre><code>## [1] 2.966667</code></pre>
-<p>Remember that what we’re interested in is the <em>sampling distribution</em> of the sample mean—the distribution of the sample mean across every possible sample of <span class="math inline">\(N\)</span> observations. We can approximate this distribution by running <code>pois_mean</code> many times (e.g., 1000 or more). This would be infeasible via copy-paste. Instead, we will use a <strong>for loop</strong>.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="programming.html#cb14-1"></a><span class="co"># Set up a vector to store the output</span></span>
-<span id="cb14-2"><a href="programming.html#cb14-2"></a>n_replicates &lt;-<span class="st"> </span><span class="dv">1000</span></span>
-<span id="cb14-3"><a href="programming.html#cb14-3"></a>sampling_dist &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>, n_replicates)</span>
-<span id="cb14-4"><a href="programming.html#cb14-4"></a></span>
-<span id="cb14-5"><a href="programming.html#cb14-5"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>n_replicates) {</span>
-<span id="cb14-6"><a href="programming.html#cb14-6"></a>  sampling_dist[i] &lt;-<span class="st"> </span><span class="kw">pois_mean</span>(<span class="dt">n_obs =</span> <span class="dv">30</span>)</span>
-<span id="cb14-7"><a href="programming.html#cb14-7"></a>}</span></code></pre></div>
-<p>Here’s how the for loop works. We specified <code>i</code> as the name of the index variable, with values <code>1:n_replicates</code>. The for loop takes each value in the sequence, assigns it to the variable <code>i</code>, runs the given expression (in this case, assigning the output of <code>pois_mean</code> to the <code>i</code>’th element of <code>sampling_dist</code>), and then moves on to the next value in sequence, until it reaches the end.</p>
-<p>Let’s take a look at the results and compare them to our expectations.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="programming.html#cb15-1"></a><span class="kw">mean</span>(sampling_dist)  <span class="co"># Expect 3</span></span></code></pre></div>
-<pre><code>## [1] 2.995167</code></pre>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="programming.html#cb17-1"></a><span class="kw">var</span>(sampling_dist)  <span class="co"># Expect 1/10</span></span></code></pre></div>
-<pre><code>## [1] 0.09694358</code></pre>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="programming.html#cb19-1"></a><span class="kw">hist</span>(sampling_dist)  <span class="co"># Expect roughly normal</span></span></code></pre></div>
-<p><img src="pdaps_files/figure-html/sampling-dist-results-1.png" width="672" /></p>
+<p>The central limit theorem concerns the approximate normality of the <em>sampling distribution</em> of the sample mean and similar estimators.
+You’ll remember that the sampling distribution is the probability distribution of an estimator—loosely speaking, the distribution of the estimates we would get if we could run the estimator on a great many samples from the population of data.
+In real life, it’s hard for us to directly observe sampling distributions.
+But it’s easy to do on a computer: we can randomly draw many samples from the same population, apply an estimator to each one, and thereby observe its sampling distribution.
+This is what we call the <em>Monte Carlo method</em>.</p>
+<p>We will observe how the coefficients of a bivariate regression obey the central limit theorem.
+Specifically, we will see that their sampling distributions are approximately normal, even if the regressors and the error term have non-normal distributions.<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a></p>
+<p>Let’s consider the sampling distribution of the bivariate regression coefficients from a sample of data <span class="math inline">\((X_n, Y_n)_{n=1}^N\)</span>, where <span class="math inline">\(N = 50\)</span>.
+We’ll assume the regressor <span class="math inline">\(X_n\)</span> has an exponential distribution, <span class="math inline">\(X_n \sim \text{Exponential}(\lambda)\)</span>, with rate parameter <span class="math inline">\(\lambda = 0.25\)</span>.<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a>
+And we’ll assume the response <span class="math inline">\(Y_n\)</span> is generated according to a linear model, <span class="math display">\[Y_n = \alpha + \beta X_n + \epsilon_n,\]</span> where <span class="math inline">\(\alpha = 1\)</span>, <span class="math inline">\(\beta = -2\)</span>, and <span class="math inline">\(\epsilon_n \sim U[-5, 5]\)</span>.
+To draw a sample from this population, we can use R’s built-in random number sampling functions: <code>rexp</code> for an exponential variable and <code>runif</code> for a uniform.<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="programming.html#cb3-1"></a>n_samp &lt;-<span class="st"> </span><span class="dv">50</span></span>
+<span id="cb3-2"><a href="programming.html#cb3-2"></a>x &lt;-<span class="st"> </span><span class="kw">rexp</span>(<span class="dt">n =</span> n_samp, <span class="dt">rate =</span> <span class="fl">0.25</span>)</span>
+<span id="cb3-3"><a href="programming.html#cb3-3"></a>y &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>x <span class="op">+</span><span class="st"> </span><span class="kw">runif</span>(<span class="dt">n =</span> n_samp, <span class="dt">min =</span> <span class="dv">-5</span>, <span class="dt">max =</span> <span class="dv">5</span>)</span></code></pre></div>
+<p>You can run a regression on your simulated data the usual way.
+(Your output will, in all likelihood, differ from mine here—remember that we are working with random numbers!)</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="programming.html#cb4-1"></a>fit &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x)</span>
+<span id="cb4-2"><a href="programming.html#cb4-2"></a><span class="kw">summary</span>(fit)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = y ~ x)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -4.7628 -2.5853 -0.6533  2.8858  5.0777 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   1.9528     0.7303   2.674   0.0102 *  
+## x            -2.2531     0.1495 -15.068   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 3.077 on 48 degrees of freedom
+## Multiple R-squared:  0.8255, Adjusted R-squared:  0.8218 
+## F-statistic:   227 on 1 and 48 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>We are interested in the distribution of the OLS coefficients across many samples like this one.
+To begin, let’s write a <strong>function</strong> to extract the estimated slope, <span class="math inline">\(\hat{\beta}_1\)</span>, from a bivariate regression.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="programming.html#cb6-1"></a>ols_coef &lt;-<span class="st"> </span><span class="cf">function</span>(x, y) {</span>
+<span id="cb6-2"><a href="programming.html#cb6-2"></a>  fit &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x)</span>
+<span id="cb6-3"><a href="programming.html#cb6-3"></a>  cf &lt;-<span class="st"> </span><span class="kw">coef</span>(fit)[<span class="dv">2</span>]</span>
+<span id="cb6-4"><a href="programming.html#cb6-4"></a>  <span class="kw">return</span>(cf)</span>
+<span id="cb6-5"><a href="programming.html#cb6-5"></a>}</span></code></pre></div>
+<p>This code creates a function called <code>ols_coef</code>.
+It has two <em>arguments</em>, <code>x</code> (covariate vector) and <code>y</code> (response vector).
+It runs a regression of <code>y</code> on <code>x</code> and then <code>return</code>s the OLS slope estimate as the output.
+If we run this function on the <code>x</code> and <code>y</code> we just simulated, it should spit out the OLS coefficient we saw earlier.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="programming.html#cb7-1"></a><span class="kw">ols_coef</span>(x, y)</span></code></pre></div>
+<pre><code>##         x 
+## -2.253125</code></pre>
+<p>Remember that we’re interested in the <em>sampling distribution</em> of the OLS coefficients—their probability distribution across all possible samples of <span class="math inline">\(N = 50\)</span> from the population we’ve defined.
+We can approximate this distribution by drawing a new sample and calculating the OLS slope many times (e.g., 1000 or more).
+This would be infeasible by copy-paste.
+Instead, we will use a <strong>for loop</strong> to perform the same operation repeatedly.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="programming.html#cb9-1"></a><span class="co"># Set up a vector to store the output</span></span>
+<span id="cb9-2"><a href="programming.html#cb9-2"></a>n_samp &lt;-<span class="st"> </span><span class="dv">50</span>  <span class="co"># Observations per sample</span></span>
+<span id="cb9-3"><a href="programming.html#cb9-3"></a>n_replicates &lt;-<span class="st"> </span><span class="dv">1000</span>  <span class="co"># Number of distinct samples to draw</span></span>
+<span id="cb9-4"><a href="programming.html#cb9-4"></a>sampling_dist &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>, n_replicates)</span>
+<span id="cb9-5"><a href="programming.html#cb9-5"></a></span>
+<span id="cb9-6"><a href="programming.html#cb9-6"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>n_replicates) {</span>
+<span id="cb9-7"><a href="programming.html#cb9-7"></a>  <span class="co"># Draw sample from defined population</span></span>
+<span id="cb9-8"><a href="programming.html#cb9-8"></a>  x &lt;-<span class="st"> </span><span class="kw">rexp</span>(<span class="dt">n =</span> n_samp, <span class="dt">rate =</span> <span class="fl">0.25</span>)</span>
+<span id="cb9-9"><a href="programming.html#cb9-9"></a>  y &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>x <span class="op">+</span><span class="st"> </span><span class="kw">runif</span>(<span class="dt">n =</span> n_samp, <span class="dt">min =</span> <span class="dv">-5</span>, <span class="dt">max =</span> <span class="dv">5</span>)</span>
+<span id="cb9-10"><a href="programming.html#cb9-10"></a></span>
+<span id="cb9-11"><a href="programming.html#cb9-11"></a>  <span class="co"># Calculate and store OLS slope</span></span>
+<span id="cb9-12"><a href="programming.html#cb9-12"></a>  est &lt;-<span class="st"> </span><span class="kw">ols_coef</span>(x, y)</span>
+<span id="cb9-13"><a href="programming.html#cb9-13"></a>  sampling_dist[i] &lt;-<span class="st"> </span>est</span>
+<span id="cb9-14"><a href="programming.html#cb9-14"></a>}</span></code></pre></div>
+<p>Here’s how the for loop works.
+We specified <code>i</code> as the name of the index variable, with values <code>1:n_replicates</code>.
+The for loop takes each value in the sequence, assigns it to the variable <code>i</code>, then runs the expression in brackets.
+In this case, that consists of drawing a sample of data from the same distribution we used before, calculating the OLS estimate of the slope, and storing that estimate as the <code>i</code>’th element of <code>sampling_dist</code>.
+After completing the expression in brackets, the for loop moves on to the next element of the given sequence, continuing until it reaches the end.</p>
+<p>Let’s take a look at the results and compare them to our expectations.
+OLS is unbiased, so we should expect the average estimated slope to be close to the true value of <span class="math inline">\(-2\)</span>.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="programming.html#cb10-1"></a><span class="kw">mean</span>(sampling_dist)</span></code></pre></div>
+<pre><code>## [1] -1.999707</code></pre>
+<p>And, by the CLT, the estimates should be approximately normally distributed.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="programming.html#cb12-1"></a><span class="kw">hist</span>(sampling_dist, <span class="dt">breaks =</span> <span class="dv">25</span>)</span></code></pre></div>
+<p><img src="pdaps_files/figure-html/mc-ols-clt-1.png" width="672" /></p>
 <p>For loops are fun, but don’t overuse them. Many simple operations are <strong>vectorized</strong> and don’t require a loop. For example, suppose you want to take the square of a sequence of numbers. You could use a for loop …</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="programming.html#cb20-1"></a>input &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">7</span>, <span class="dv">29</span>)</span>
-<span id="cb20-2"><a href="programming.html#cb20-2"></a>output &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>, <span class="kw">length</span>(input))</span>
-<span id="cb20-3"><a href="programming.html#cb20-3"></a></span>
-<span id="cb20-4"><a href="programming.html#cb20-4"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(input)) {</span>
-<span id="cb20-5"><a href="programming.html#cb20-5"></a>  output[i] &lt;-<span class="st"> </span>input[i]<span class="op">^</span><span class="dv">2</span></span>
-<span id="cb20-6"><a href="programming.html#cb20-6"></a>}</span>
-<span id="cb20-7"><a href="programming.html#cb20-7"></a></span>
-<span id="cb20-8"><a href="programming.html#cb20-8"></a>output</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="programming.html#cb13-1"></a>input &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">7</span>, <span class="dv">29</span>)</span>
+<span id="cb13-2"><a href="programming.html#cb13-2"></a>output &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>, <span class="kw">length</span>(input))</span>
+<span id="cb13-3"><a href="programming.html#cb13-3"></a></span>
+<span id="cb13-4"><a href="programming.html#cb13-4"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(input)) {</span>
+<span id="cb13-5"><a href="programming.html#cb13-5"></a>  output[i] &lt;-<span class="st"> </span>input[i]<span class="op">^</span><span class="dv">2</span></span>
+<span id="cb13-6"><a href="programming.html#cb13-6"></a>}</span>
+<span id="cb13-7"><a href="programming.html#cb13-7"></a></span>
+<span id="cb13-8"><a href="programming.html#cb13-8"></a>output</span></code></pre></div>
 <pre><code>## [1]   1   9  49 841</code></pre>
 <p>… but it’s faster (in terms of computational speed) and easier to just take advantage of vectorization:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="programming.html#cb22-1"></a>input<span class="op">^</span><span class="dv">2</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="programming.html#cb15-1"></a>input<span class="op">^</span><span class="dv">2</span></span></code></pre></div>
 <pre><code>## [1]   1   9  49 841</code></pre>
 <p>Another useful piece of control flow is <strong>if/else statements</strong>. These check a logical condition—an expression whose value is <code>TRUE</code> or <code>FALSE</code>—and run different code depending on the value of the expression. (You may want to catch up on the comparison operators: <code>==</code>, <code>&gt;</code>, <code>&gt;=</code>, <code>&lt;</code>, <code>&lt;=</code>, etc.)</p>
-<p>Let’s edit the <code>pois_mean</code> function to allow us to calculate the median instead of the mean. We’ll add a second argument to the function, and implement the option using an if/else statement.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="programming.html#cb24-1"></a>pois_mean &lt;-<span class="st"> </span><span class="cf">function</span>(n_obs, <span class="dt">use_median =</span> <span class="ot">FALSE</span>) {</span>
-<span id="cb24-2"><a href="programming.html#cb24-2"></a>  samp &lt;-<span class="st"> </span><span class="kw">rpois</span>(n_obs, <span class="dt">lambda =</span> <span class="dv">3</span>)</span>
-<span id="cb24-3"><a href="programming.html#cb24-3"></a>  <span class="cf">if</span> (use_median) {</span>
-<span id="cb24-4"><a href="programming.html#cb24-4"></a>    ans &lt;-<span class="st"> </span><span class="kw">median</span>(samp)</span>
-<span id="cb24-5"><a href="programming.html#cb24-5"></a>  } <span class="cf">else</span> {</span>
-<span id="cb24-6"><a href="programming.html#cb24-6"></a>    ans &lt;-<span class="st"> </span><span class="kw">mean</span>(samp)</span>
-<span id="cb24-7"><a href="programming.html#cb24-7"></a>  }</span>
-<span id="cb24-8"><a href="programming.html#cb24-8"></a>  <span class="kw">return</span>(ans)</span>
-<span id="cb24-9"><a href="programming.html#cb24-9"></a>}</span></code></pre></div>
-<p>A couple of things to notice about the structure of the function. We use a comma to separate multiple function arguments. Also, we’ve specified <code>FALSE</code> as the <em>default</em> for the <code>use_median</code> argument. If we call the function without explicitly specifying a value for <code>use_median</code>, the function sets it to <code>FALSE</code>.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="programming.html#cb25-1"></a><span class="kw">pois_mean</span>(<span class="dt">n_obs =</span> <span class="dv">9</span>)</span></code></pre></div>
-<pre><code>## [1] 3.777778</code></pre>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="programming.html#cb27-1"></a><span class="kw">pois_mean</span>(<span class="dt">n_obs =</span> <span class="dv">9</span>, <span class="dt">use_median =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
-<pre><code>## [1] 2</code></pre>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="programming.html#cb29-1"></a><span class="kw">pois_mean</span>(<span class="dt">n_obs =</span> <span class="dv">9</span>, <span class="dt">use_median =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
-<pre><code>## [1] 2.666667</code></pre>
+<p>Let’s edit the <code>ols_coef</code> function to allow us to extract the intercept instead of the slope. We’ll add another argument to the function, and implement the option using an if/else statement.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="programming.html#cb17-1"></a>ols_coef &lt;-<span class="st"> </span><span class="cf">function</span>(x, y, <span class="dt">slope =</span> <span class="ot">TRUE</span>) {</span>
+<span id="cb17-2"><a href="programming.html#cb17-2"></a>  fit &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x)</span>
+<span id="cb17-3"><a href="programming.html#cb17-3"></a></span>
+<span id="cb17-4"><a href="programming.html#cb17-4"></a>  <span class="cf">if</span> (slope) {</span>
+<span id="cb17-5"><a href="programming.html#cb17-5"></a>    cf &lt;-<span class="st"> </span><span class="kw">coef</span>(fit)[<span class="dv">2</span>]</span>
+<span id="cb17-6"><a href="programming.html#cb17-6"></a>  } <span class="cf">else</span> {</span>
+<span id="cb17-7"><a href="programming.html#cb17-7"></a>    cf &lt;-<span class="st"> </span><span class="kw">coef</span>(fit)[<span class="dv">1</span>]</span>
+<span id="cb17-8"><a href="programming.html#cb17-8"></a>  }</span>
+<span id="cb17-9"><a href="programming.html#cb17-9"></a></span>
+<span id="cb17-10"><a href="programming.html#cb17-10"></a>  <span class="kw">return</span>(cf)</span>
+<span id="cb17-11"><a href="programming.html#cb17-11"></a>}</span></code></pre></div>
+<p>Here’s how the <code>if</code>/<code>else</code> block in the middle of the function works.
+The first line checks the <code>slope</code> variable.
+If it’s <code>TRUE</code>, then it runs the first set of brackets (extract the slope).
+If not, then it skips that, and runs the second set of brackets (extract the intercept).</p>
+<p>Also notice how we wrote <code>slope = TRUE</code> into the arguments of the function.
+This sets <code>TRUE</code> as the default value, so if we call <code>ols_coef()</code> without explicitly specifying the <code>slope</code> argument, it will assume we wanted it to be <code>TRUE</code>.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="programming.html#cb18-1"></a><span class="kw">ols_coef</span>(x, y)</span></code></pre></div>
+<pre><code>##         x 
+## -2.126934</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="programming.html#cb20-1"></a><span class="kw">ols_coef</span>(x, y, <span class="dt">slope =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<pre><code>##         x 
+## -2.126934</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="programming.html#cb22-1"></a><span class="kw">ols_coef</span>(x, y, <span class="dt">slope =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
+<pre><code>## (Intercept) 
+##     1.11694</code></pre>
 <p>There is a vectorized version of if/else statements called, naturally, the <code>ifelse</code> function. This function takes three arguments, each a vector of the same length: (1) a logical condition, (2) an output value if the condition is <code>TRUE</code>, (3) an output value if the condition is <code>FALSE</code>.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="programming.html#cb31-1"></a>x &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span></span>
-<span id="cb31-2"><a href="programming.html#cb31-2"></a>big_x &lt;-<span class="st"> </span>x <span class="op">*</span><span class="st"> </span><span class="dv">100</span></span>
-<span id="cb31-3"><a href="programming.html#cb31-3"></a>small_x &lt;-<span class="st"> </span>x <span class="op">*</span><span class="st"> </span><span class="dv">-100</span></span>
-<span id="cb31-4"><a href="programming.html#cb31-4"></a></span>
-<span id="cb31-5"><a href="programming.html#cb31-5"></a><span class="kw">ifelse</span>(x <span class="op">&gt;</span><span class="st"> </span><span class="dv">5</span>, big_x, small_x)</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="programming.html#cb24-1"></a>x &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span></span>
+<span id="cb24-2"><a href="programming.html#cb24-2"></a>big_x &lt;-<span class="st"> </span>x <span class="op">*</span><span class="st"> </span><span class="dv">100</span></span>
+<span id="cb24-3"><a href="programming.html#cb24-3"></a>small_x &lt;-<span class="st"> </span>x <span class="op">*</span><span class="st"> </span><span class="dv">-100</span></span>
+<span id="cb24-4"><a href="programming.html#cb24-4"></a></span>
+<span id="cb24-5"><a href="programming.html#cb24-5"></a><span class="kw">ifelse</span>(x <span class="op">&gt;</span><span class="st"> </span><span class="dv">5</span>, big_x, small_x)</span></code></pre></div>
 <pre><code>##  [1] -100 -200 -300 -400 -500  600  700  800  900 1000</code></pre>
-<p>Functions, for loops, and if/else statements are just a few of the useful tools for programming in R.<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> But even these simple tools are enough to allow you to do much more at scale than you could with a copy-paste philosophy.</p>
+<p>Functions, for loops, and if/else statements are just a few of the useful tools for programming in R.<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a> But even these simple tools are enough to allow you to do much more at scale than you could with a copy-paste philosophy.</p>
 
 </div>
 </div>
@@ -394,7 +441,10 @@ where each <span class="math inline">\(X_n\)</span> is independent and identical
 <ol start="1">
 <li id="fn1"><p>Or whatever other social science field.<a href="programming.html#fnref1" class="footnote-back">↩︎</a></p></li>
 <li id="fn2"><p>There could be statistical problems with this kind of analysis, at least if the subgroups were specified <em>post hoc</em>. See <a href="https://xkcd.com/882/" class="uri">https://xkcd.com/882/</a> (“Significant”). We’re going to leave this issue aside for now, but we’ll return to it later when we discuss the statistical crisis in science.<a href="programming.html#fnref2" class="footnote-back">↩︎</a></p></li>
-<li id="fn3"><p>Others include the <code>replicate</code> function, the <code>apply</code> family of functions (<code>sapply</code>, <code>lapply</code>, <code>tapply</code>, <code>mapply</code>, …), the <strong>foreach</strong> package, the <strong>purrr</strong> package, just to name a few of the most useful off the top of my head.<a href="programming.html#fnref3" class="footnote-back">↩︎</a></p></li>
+<li id="fn3"><p>You will hear sometimes that one of the “OLS assumptions” is that the regressors and/or the error term are normally distributed. This is one of the myriad reasons why that claim is false.<a href="programming.html#fnref3" class="footnote-back">↩︎</a></p></li>
+<li id="fn4"><p>This is a right-skewed distribution with a mean of <span class="math inline">\(1 / \lambda = 4\)</span> and a variance of <span class="math inline">\(1 / \lambda^2 = 16\)</span>.<a href="programming.html#fnref4" class="footnote-back">↩︎</a></p></li>
+<li id="fn5"><p>There are many more distributions available to simulate. See <code>?Distributions</code> in R.<a href="programming.html#fnref5" class="footnote-back">↩︎</a></p></li>
+<li id="fn6"><p>Others include the <code>replicate</code> function, the <code>apply</code> family of functions (<code>sapply</code>, <code>lapply</code>, <code>tapply</code>, <code>mapply</code>, …), the <strong>foreach</strong> package, the <strong>purrr</strong> package, just to name a few of the most useful off the top of my head.<a href="programming.html#fnref6" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>

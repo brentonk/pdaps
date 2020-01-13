@@ -24,7 +24,7 @@
 <meta name="author" content="Brenton Kenkel" />
 
 
-<meta name="date" content="2020-01-06" />
+<meta name="date" content="2020-01-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -259,7 +259,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>To return to our running example, suppose you are interested in the correlates of voting for Donald Trump in the 2016 general election. You observe survey respondents grouped by state. Vote choice might be affected by:</p>
 <ol style="list-style-type: decimal">
 <li><p><em>Individual</em> characteristics like one’s age, gender, race, income, and education.</p></li>
-<li><p><em>State</em> characteristics<a href="#fn29" class="footnote-ref" id="fnref29"><sup>29</sup></a> like the unemployment rate, undocumented population, and exposure to trade with China.</p></li>
+<li><p><em>State</em> characteristics<a href="#fn32" class="footnote-ref" id="fnref32"><sup>32</sup></a> like the unemployment rate, undocumented population, and exposure to trade with China.</p></li>
 </ol>
 <p>Some state characteristics that might affect vote choice are difficult or impossible to measure. For example, some states have a more cosmopolitan culture, while others have a more traditional culture. A 50-year-old white man living in Connecticut is, we would expect, less likely to have voted for Trump than a 50-year-old white man living in Alabama. This is <em>unobserved heterogeneity</em>—characteristics that we do not observe, and therefore cannot control for, but which affect the response.</p>
 <p>If we are not careful in dealing with grouped data, unobserved heterogeneity can be a major problem. The spherical errors assumption is usually not tenable for grouped data, since observations will be correlated with others in the same group. OLS will therefore be inefficient and yield invalid inferences, as we saw last week. Even worse, if group-level sources of unobserved heterogeneity are correlated with individual characteristics—if, say, younger voters are more likely to live in cosmopolitan states—OLS may also be biased and inconsistent.</p>
@@ -267,7 +267,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Before we get started, a note of caution. One week allows us just enough time to scratch the surface of how to analyze grouped data. If you work with grouped data in your dissertation or other research, you should think carefully about your data structure and potential sources of unobserved heterogeneity. The methods we discuss this week may not solve your problems. As further references, I recommend <span class="citation">Wooldridge (<a href="references.html#ref-Wooldridge:2002vr" role="doc-biblioref">2002</a>)</span> and <span class="citation">Gelman and Hill (<a href="references.html#ref-gelman2006data" role="doc-biblioref">2006</a>)</span>.</p>
 <div id="the-linear-model-with-grouped-data" class="section level2" number="12.1">
 <h2 number="12.1"><span class="header-section-number">12.1</span> The Linear Model with Grouped Data</h2>
-<p>We need to change our notation a bit to reflect the arrangement of observations into groups. Let there be <span class="math inline">\(G\)</span> groups indexed by <span class="math inline">\(g = 1, \ldots, G\)</span>. Within each group, we have <span class="math inline">\(N\)</span> observations indexed by <span class="math inline">\(n = 1, \ldots, N\)</span>.<a href="#fn30" class="footnote-ref" id="fnref30"><sup>30</sup></a> (In the special case of panel data, where each group is a unit observed over time, the standard notation is to use <span class="math inline">\(t = 1, \ldots, T\)</span> instead.)</p>
+<p>We need to change our notation a bit to reflect the arrangement of observations into groups. Let there be <span class="math inline">\(G\)</span> groups indexed by <span class="math inline">\(g = 1, \ldots, G\)</span>. Within each group, we have <span class="math inline">\(N\)</span> observations indexed by <span class="math inline">\(n = 1, \ldots, N\)</span>.<a href="#fn33" class="footnote-ref" id="fnref33"><sup>33</sup></a> (In the special case of panel data, where each group is a unit observed over time, the standard notation is to use <span class="math inline">\(t = 1, \ldots, T\)</span> instead.)</p>
 <p>We will now index individual “rows” of the data by <span class="math inline">\(gn\)</span>, which stands for the <span class="math inline">\(n\)</span>’th observation within group <span class="math inline">\(g\)</span>.</p>
 <ul>
 <li>Unit-level
@@ -387,7 +387,7 @@ Since there is no autocorrelation across groups, <span class="math inline">\(\Om
 \mathbf{Y} = \mathbf{X} \beta + \mathbf{D} \alpha + \eta,
 \]</span>
 where <span class="math inline">\(\alpha\)</span> is the <span class="math inline">\(G \times 1\)</span> vector of group-specific intercepts. This suggests that we run OLS on our covariates plus the full set of group membership indicators. (As with any set of indicators, we need to omit one category.) The first <span class="math inline">\(K\)</span> elements of this regression constitute the <em>fixed effects</em> estimator.</p>
-<p>Most textbook treatments of fixed effect estimators go through a whole rigmarole about computation, because it used to be challenging to invert a <span class="math inline">\((K + G) \times (K + G)\)</span> matrix when <span class="math inline">\(G\)</span> was moderately large. This is no longer true,<a href="#fn31" class="footnote-ref" id="fnref31"><sup>31</sup></a> so you can safely ignore most of the hand-wringing about computational difficulties.</p>
+<p>Most textbook treatments of fixed effect estimators go through a whole rigmarole about computation, because it used to be challenging to invert a <span class="math inline">\((K + G) \times (K + G)\)</span> matrix when <span class="math inline">\(G\)</span> was moderately large. This is no longer true,<a href="#fn34" class="footnote-ref" id="fnref34"><sup>34</sup></a> so you can safely ignore most of the hand-wringing about computational difficulties.</p>
 <p>The standard errors of the fixed effects estimator are usually higher than those of the random effects estimator, since estimating <span class="math inline">\(G\)</span> additional parameters uses a lot of degrees of freedom. This leads us to the following pair of observations.</p>
 <ul>
 <li><p>If the random effects assumption is met (group-specific effects are uncorrelated with covariates), then the random effects and fixed estimators are both consistent, but fixed effects is less efficient.</p></li>
@@ -404,10 +404,10 @@ asymptotically has a <span class="math inline">\(\chi^2\)</span> distribution wi
 <div id="appendix-implementation-in-r-1" class="section level2" number="12.5">
 <h2 number="12.5"><span class="header-section-number">12.5</span> Appendix: Implementation in R</h2>
 <p>The methods introduced here can be implemented via the <strong>plm</strong> package.</p>
-<div class="sourceCode" id="cb336"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb336-1"><a href="panel.html#cb336-1"></a><span class="kw">library</span>(<span class="st">&quot;plm&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb329-1"><a href="panel.html#cb329-1"></a><span class="kw">library</span>(<span class="st">&quot;plm&quot;</span>)</span></code></pre></div>
 <p>We will use the <code>Produc</code> dataset from <strong>plm</strong>, a riveting collection of economic statistics about the U.S. states from 1970 to 1986.</p>
-<div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb337-1"><a href="panel.html#cb337-1"></a><span class="kw">data</span>(Produc, <span class="dt">package =</span> <span class="st">&quot;plm&quot;</span>)</span>
-<span id="cb337-2"><a href="panel.html#cb337-2"></a><span class="kw">head</span>(Produc)</span></code></pre></div>
+<div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb330-1"><a href="panel.html#cb330-1"></a><span class="kw">data</span>(Produc, <span class="dt">package =</span> <span class="st">&quot;plm&quot;</span>)</span>
+<span id="cb330-2"><a href="panel.html#cb330-2"></a><span class="kw">head</span>(Produc)</span></code></pre></div>
 <pre><code>##     state year region     pcap     hwy   water    util       pc   gsp    emp
 ## 1 ALABAMA 1970      6 15032.67 7325.80 1655.68 6051.20 35793.80 28418 1010.5
 ## 2 ALABAMA 1971      6 15501.94 7525.94 1721.02 6254.98 37299.91 29375 1021.9
@@ -424,9 +424,9 @@ asymptotically has a <span class="math inline">\(\chi^2\)</span> distribution wi
 ## 6   7.7</code></pre>
 <p>The functions in <strong>plm</strong> assume that your data are organized like <code>Produc</code>, with the grouping variable in the first column and the identification variable (time, in the case of panel data) in the second column. See the <strong>plm</strong> package vignette on how to get datasets not organized this way into line.</p>
 <p>We will treat unemployment (<code>unemp</code>) as our response and public capital stock (<code>pcap</code>) and private capital stock (<code>pc</code>) as our covariates. As a benchmark, let’s use OLS.</p>
-<div class="sourceCode" id="cb339"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb339-1"><a href="panel.html#cb339-1"></a>fit_ols &lt;-<span class="st"> </span><span class="kw">lm</span>(unemp <span class="op">~</span><span class="st"> </span>pcap <span class="op">+</span><span class="st"> </span>pc,</span>
-<span id="cb339-2"><a href="panel.html#cb339-2"></a>              <span class="dt">data =</span> Produc)</span>
-<span id="cb339-3"><a href="panel.html#cb339-3"></a><span class="kw">summary</span>(fit_ols)</span></code></pre></div>
+<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb332-1"><a href="panel.html#cb332-1"></a>fit_ols &lt;-<span class="st"> </span><span class="kw">lm</span>(unemp <span class="op">~</span><span class="st"> </span>pcap <span class="op">+</span><span class="st"> </span>pc,</span>
+<span id="cb332-2"><a href="panel.html#cb332-2"></a>              <span class="dt">data =</span> Produc)</span>
+<span id="cb332-3"><a href="panel.html#cb332-3"></a><span class="kw">summary</span>(fit_ols)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = unemp ~ pcap + pc, data = Produc)
@@ -447,10 +447,10 @@ asymptotically has a <span class="math inline">\(\chi^2\)</span> distribution wi
 ## Multiple R-squared:  0.03516,    Adjusted R-squared:  0.03279 
 ## F-statistic: 14.81 on 2 and 813 DF,  p-value: 4.795e-07</code></pre>
 <p>The “pooling” estimator implemented by <code>plm()</code> ought to give us the same results.</p>
-<div class="sourceCode" id="cb341"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb341-1"><a href="panel.html#cb341-1"></a>fit_pooling &lt;-<span class="st"> </span><span class="kw">plm</span>(unemp <span class="op">~</span><span class="st"> </span>pcap <span class="op">+</span><span class="st"> </span>pc,</span>
-<span id="cb341-2"><a href="panel.html#cb341-2"></a>                   <span class="dt">data =</span> Produc,</span>
-<span id="cb341-3"><a href="panel.html#cb341-3"></a>                   <span class="dt">model =</span> <span class="st">&quot;pooling&quot;</span>)</span>
-<span id="cb341-4"><a href="panel.html#cb341-4"></a><span class="kw">summary</span>(fit_pooling)</span></code></pre></div>
+<div class="sourceCode" id="cb334"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb334-1"><a href="panel.html#cb334-1"></a>fit_pooling &lt;-<span class="st"> </span><span class="kw">plm</span>(unemp <span class="op">~</span><span class="st"> </span>pcap <span class="op">+</span><span class="st"> </span>pc,</span>
+<span id="cb334-2"><a href="panel.html#cb334-2"></a>                   <span class="dt">data =</span> Produc,</span>
+<span id="cb334-3"><a href="panel.html#cb334-3"></a>                   <span class="dt">model =</span> <span class="st">&quot;pooling&quot;</span>)</span>
+<span id="cb334-4"><a href="panel.html#cb334-4"></a><span class="kw">summary</span>(fit_pooling)</span></code></pre></div>
 <pre><code>## Pooling Model
 ## 
 ## Call:
@@ -476,10 +476,10 @@ asymptotically has a <span class="math inline">\(\chi^2\)</span> distribution wi
 ## Adj. R-Squared: 0.032788
 ## F-statistic: 14.8141 on 2 and 813 DF, p-value: 4.7947e-07</code></pre>
 <p>We can obtain the cluster-robust variance matrix estimate via <code>vcovHC()</code>. Make sure to specify <code>method = "arellano"</code> so as to get the usual estimator. It is not entirely clear to me which of the various finite-sample adjustments corresponds to the defaults in Stata.</p>
-<div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb343-1"><a href="panel.html#cb343-1"></a>crvm_pooling &lt;-<span class="st"> </span><span class="kw">vcovHC</span>(fit_pooling,</span>
-<span id="cb343-2"><a href="panel.html#cb343-2"></a>                       <span class="dt">method =</span> <span class="st">&quot;arellano&quot;</span>,</span>
-<span id="cb343-3"><a href="panel.html#cb343-3"></a>                       <span class="dt">type =</span> <span class="st">&quot;HC1&quot;</span>)</span>
-<span id="cb343-4"><a href="panel.html#cb343-4"></a><span class="kw">summary</span>(fit_pooling, <span class="dt">vcov =</span> crvm_pooling)</span></code></pre></div>
+<div class="sourceCode" id="cb336"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb336-1"><a href="panel.html#cb336-1"></a>crvm_pooling &lt;-<span class="st"> </span><span class="kw">vcovHC</span>(fit_pooling,</span>
+<span id="cb336-2"><a href="panel.html#cb336-2"></a>                       <span class="dt">method =</span> <span class="st">&quot;arellano&quot;</span>,</span>
+<span id="cb336-3"><a href="panel.html#cb336-3"></a>                       <span class="dt">type =</span> <span class="st">&quot;HC1&quot;</span>)</span>
+<span id="cb336-4"><a href="panel.html#cb336-4"></a><span class="kw">summary</span>(fit_pooling, <span class="dt">vcov =</span> crvm_pooling)</span></code></pre></div>
 <pre><code>## Pooling Model
 ## 
 ## Note: Coefficient variance-covariance matrix supplied: crvm_pooling
@@ -508,10 +508,10 @@ asymptotically has a <span class="math inline">\(\chi^2\)</span> distribution wi
 ## F-statistic: 6.45144 on 2 and 47 DF, p-value: 0.0033441</code></pre>
 <p>Notice that our <span class="math inline">\(t\)</span>-statistics are cut in more than half, even though our variables have within-group variation (unlike <span class="citation">Moulton (<a href="references.html#ref-Moulton:1990bl" role="doc-biblioref">1990</a>)</span>’s example).</p>
 <p>We can also use <code>plm()</code> to estimate a random-effects model.</p>
-<div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb345-1"><a href="panel.html#cb345-1"></a>fit_random &lt;-<span class="st"> </span><span class="kw">plm</span>(unemp <span class="op">~</span><span class="st"> </span>pcap <span class="op">+</span><span class="st"> </span>pc,</span>
-<span id="cb345-2"><a href="panel.html#cb345-2"></a>                  <span class="dt">data =</span> Produc,</span>
-<span id="cb345-3"><a href="panel.html#cb345-3"></a>                  <span class="dt">model =</span> <span class="st">&quot;random&quot;</span>)</span>
-<span id="cb345-4"><a href="panel.html#cb345-4"></a><span class="kw">summary</span>(fit_random)</span></code></pre></div>
+<div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb338-1"><a href="panel.html#cb338-1"></a>fit_random &lt;-<span class="st"> </span><span class="kw">plm</span>(unemp <span class="op">~</span><span class="st"> </span>pcap <span class="op">+</span><span class="st"> </span>pc,</span>
+<span id="cb338-2"><a href="panel.html#cb338-2"></a>                  <span class="dt">data =</span> Produc,</span>
+<span id="cb338-3"><a href="panel.html#cb338-3"></a>                  <span class="dt">model =</span> <span class="st">&quot;random&quot;</span>)</span>
+<span id="cb338-4"><a href="panel.html#cb338-4"></a><span class="kw">summary</span>(fit_random)</span></code></pre></div>
 <pre><code>## Oneway (individual) effect Random Effect Model 
 ##    (Swamy-Arora&#39;s transformation)
 ## 
@@ -544,10 +544,10 @@ asymptotically has a <span class="math inline">\(\chi^2\)</span> distribution wi
 ## Adj. R-Squared: 0.040043
 ## Chisq: 35.9967 on 2 DF, p-value: 1.5256e-08</code></pre>
 <p>And, finally, a fixed-effects model, which <code>plm()</code> calls the <code>"within"</code> model.</p>
-<div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb347-1"><a href="panel.html#cb347-1"></a>fit_fixed &lt;-<span class="st"> </span><span class="kw">plm</span>(unemp <span class="op">~</span><span class="st"> </span>pcap <span class="op">+</span><span class="st"> </span>pc,</span>
-<span id="cb347-2"><a href="panel.html#cb347-2"></a>                 <span class="dt">data =</span> Produc,</span>
-<span id="cb347-3"><a href="panel.html#cb347-3"></a>                 <span class="dt">model =</span> <span class="st">&quot;within&quot;</span>)</span>
-<span id="cb347-4"><a href="panel.html#cb347-4"></a><span class="kw">summary</span>(fit_fixed)</span></code></pre></div>
+<div class="sourceCode" id="cb340"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb340-1"><a href="panel.html#cb340-1"></a>fit_fixed &lt;-<span class="st"> </span><span class="kw">plm</span>(unemp <span class="op">~</span><span class="st"> </span>pcap <span class="op">+</span><span class="st"> </span>pc,</span>
+<span id="cb340-2"><a href="panel.html#cb340-2"></a>                 <span class="dt">data =</span> Produc,</span>
+<span id="cb340-3"><a href="panel.html#cb340-3"></a>                 <span class="dt">model =</span> <span class="st">&quot;within&quot;</span>)</span>
+<span id="cb340-4"><a href="panel.html#cb340-4"></a><span class="kw">summary</span>(fit_fixed)</span></code></pre></div>
 <pre><code>## Oneway (individual) effect Within Model
 ## 
 ## Call:
@@ -572,7 +572,7 @@ asymptotically has a <span class="math inline">\(\chi^2\)</span> distribution wi
 ## Adj. R-Squared: 0.088906
 ## F-statistic: 64.2646 on 2 and 766 DF, p-value: &lt; 2.22e-16</code></pre>
 <p>We can extract the fixed-effect estimates themselves via <code>fixef()</code>.</p>
-<div class="sourceCode" id="cb349"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb349-1"><a href="panel.html#cb349-1"></a><span class="kw">fixef</span>(fit_fixed)</span></code></pre></div>
+<div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb342-1"><a href="panel.html#cb342-1"></a><span class="kw">fixef</span>(fit_fixed)</span></code></pre></div>
 <pre><code>##        ALABAMA        ARIZONA       ARKANSAS     CALIFORNIA       COLORADO 
 ##     3.76390190     3.20123239     5.02097974   -24.35181563     1.90688506 
 ##    CONNECTICUT       DELAWARE        FLORIDA        GEORGIA          IDAHO 
@@ -594,11 +594,11 @@ asymptotically has a <span class="math inline">\(\chi^2\)</span> distribution wi
 ##  WEST_VIRGINIA      WISCONSIN        WYOMING 
 ##     6.94076391     0.19197087     3.79896918</code></pre>
 <p>If we wanted to include time dummies as well, we could specify <code>effect = "twoways"</code> in the fitting function.</p>
-<div class="sourceCode" id="cb351"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb351-1"><a href="panel.html#cb351-1"></a>fit_fixed_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">plm</span>(unemp <span class="op">~</span><span class="st"> </span>pcap <span class="op">+</span><span class="st"> </span>pc,</span>
-<span id="cb351-2"><a href="panel.html#cb351-2"></a>                   <span class="dt">data =</span> Produc,</span>
-<span id="cb351-3"><a href="panel.html#cb351-3"></a>                   <span class="dt">effect =</span> <span class="st">&quot;twoways&quot;</span>,</span>
-<span id="cb351-4"><a href="panel.html#cb351-4"></a>                   <span class="dt">model =</span> <span class="st">&quot;within&quot;</span>)</span>
-<span id="cb351-5"><a href="panel.html#cb351-5"></a><span class="kw">summary</span>(fit_fixed_<span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb344-1"><a href="panel.html#cb344-1"></a>fit_fixed_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">plm</span>(unemp <span class="op">~</span><span class="st"> </span>pcap <span class="op">+</span><span class="st"> </span>pc,</span>
+<span id="cb344-2"><a href="panel.html#cb344-2"></a>                   <span class="dt">data =</span> Produc,</span>
+<span id="cb344-3"><a href="panel.html#cb344-3"></a>                   <span class="dt">effect =</span> <span class="st">&quot;twoways&quot;</span>,</span>
+<span id="cb344-4"><a href="panel.html#cb344-4"></a>                   <span class="dt">model =</span> <span class="st">&quot;within&quot;</span>)</span>
+<span id="cb344-5"><a href="panel.html#cb344-5"></a><span class="kw">summary</span>(fit_fixed_<span class="dv">2</span>)</span></code></pre></div>
 <pre><code>## Twoways effects Within Model
 ## 
 ## Call:
@@ -623,7 +623,7 @@ asymptotically has a <span class="math inline">\(\chi^2\)</span> distribution wi
 ## R-Squared:      0.016355
 ## Adj. R-Squared: -0.068894
 ## F-statistic: 6.23517 on 2 and 750 DF, p-value: 0.0020624</code></pre>
-<div class="sourceCode" id="cb353"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb353-1"><a href="panel.html#cb353-1"></a><span class="kw">fixef</span>(fit_fixed_<span class="dv">2</span>, <span class="dt">effect =</span> <span class="st">&quot;time&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb346"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb346-1"><a href="panel.html#cb346-1"></a><span class="kw">fixef</span>(fit_fixed_<span class="dv">2</span>, <span class="dt">effect =</span> <span class="st">&quot;time&quot;</span>)</span></code></pre></div>
 <pre><code>##     1970     1971     1972     1973     1974     1975     1976     1977 
 ## 3.554848 4.282335 3.771045 3.193486 3.831850 6.516024 5.457664 4.936477 
 ##     1978     1979     1980     1981     1982     1983     1984     1985 
@@ -631,7 +631,7 @@ asymptotically has a <span class="math inline">\(\chi^2\)</span> distribution wi
 ##     1986 
 ## 5.350387</code></pre>
 <p><code>phtest()</code> implements the Hausman test. Remember that the null hypothesis is that both estimators are consistent; if we reject it, then the random effects estimator is inconsistent and we must use fixed effects.</p>
-<div class="sourceCode" id="cb355"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb355-1"><a href="panel.html#cb355-1"></a><span class="kw">phtest</span>(fit_random, fit_fixed)</span></code></pre></div>
+<div class="sourceCode" id="cb348"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb348-1"><a href="panel.html#cb348-1"></a><span class="kw">phtest</span>(fit_random, fit_fixed)</span></code></pre></div>
 <pre><code>## 
 ##  Hausman Test
 ## 
@@ -643,10 +643,10 @@ asymptotically has a <span class="math inline">\(\chi^2\)</span> distribution wi
 </div>
 <div class="footnotes">
 <hr />
-<ol start="29">
-<li id="fn29"><p>Why did I leave out national characteristics, like inflation or the national unemployment rate? In a single-election study, these are constant. While they might shape variation <em>across</em> elections, they cannot be linked to variation <em>within</em> a single election.<a href="panel.html#fnref29" class="footnote-back">↩︎</a></p></li>
-<li id="fn30"><p>Everything we do here would go through if we allowed the number of observations to vary across groups, but the notation would get uglier. In the panel data context we say that the panels are <em>balanced</em> if the number of observations is the same for each group and <em>unbalanced</em> otherwise.<a href="panel.html#fnref30" class="footnote-back">↩︎</a></p></li>
-<li id="fn31"><p>When I taught this class last year, I simulated a dataset with a single covariate, <span class="math inline">\(N = 1{,}000\)</span>, and <span class="math inline">\(J = 1{,}000\)</span>, meaning the fixed effects regression entailed estimating <span class="math inline">\(1{,}001\)</span> parameters from <span class="math inline">\(1{,}000{,}000\)</span> observations. It took less than two minutes to run on my not-especially-powerful laptop. That said, should you ever have <span class="math inline">\(N\)</span> another order of magnitude above that, the computational tricks given in the textbook treatments will once again be of use.<a href="panel.html#fnref31" class="footnote-back">↩︎</a></p></li>
+<ol start="32">
+<li id="fn32"><p>Why did I leave out national characteristics, like inflation or the national unemployment rate? In a single-election study, these are constant. While they might shape variation <em>across</em> elections, they cannot be linked to variation <em>within</em> a single election.<a href="panel.html#fnref32" class="footnote-back">↩︎</a></p></li>
+<li id="fn33"><p>Everything we do here would go through if we allowed the number of observations to vary across groups, but the notation would get uglier. In the panel data context we say that the panels are <em>balanced</em> if the number of observations is the same for each group and <em>unbalanced</em> otherwise.<a href="panel.html#fnref33" class="footnote-back">↩︎</a></p></li>
+<li id="fn34"><p>When I taught this class last year, I simulated a dataset with a single covariate, <span class="math inline">\(N = 1{,}000\)</span>, and <span class="math inline">\(J = 1{,}000\)</span>, meaning the fixed effects regression entailed estimating <span class="math inline">\(1{,}001\)</span> parameters from <span class="math inline">\(1{,}000{,}000\)</span> observations. It took less than two minutes to run on my not-especially-powerful laptop. That said, should you ever have <span class="math inline">\(N\)</span> another order of magnitude above that, the computational tricks given in the textbook treatments will once again be of use.<a href="panel.html#fnref34" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>
