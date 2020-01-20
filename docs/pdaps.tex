@@ -114,7 +114,7 @@
 
 \title{Practical Data Analysis for Political Scientists}
 \author{Brenton Kenkel}
-\date{2020-01-13}
+\date{2020-01-20}
 
 \begin{document}
 \frontmatter
@@ -2542,15 +2542,16 @@ is \(c_1 = 0, \ldots, c_J = 0\). Otherwise, we call the vectors \emph{linearly d
 Examples:
 \[
 \begin{gathered}
+\mathbf{v}_1 = \begin{pmatrix} 1 \\ 2 \\ 3 \end{pmatrix},
+\mathbf{v}_2 = \begin{pmatrix} 2 \\ 4 \\ 6 \end{pmatrix}; \\
+\mathbf{v}_1 = \begin{pmatrix} 1 \\ 2 \\ 3 \end{pmatrix},
+\mathbf{v}_2 = \begin{pmatrix} 1 \\ 4 \\ 9 \end{pmatrix}; \\
 \mathbf{v}_1 = \begin{pmatrix} 1 \\ 1 \\ 1 \end{pmatrix},
 \mathbf{v}_2 = \begin{pmatrix} 0 \\ 1 \\ 0 \end{pmatrix},
 \mathbf{v}_3 = \begin{pmatrix} 0 \\ 0 \\ 1 \end{pmatrix}; \\
 \mathbf{v}_1 = \begin{pmatrix} 1 \\ 0 \\ 0 \end{pmatrix},
 \mathbf{v}_2 = \begin{pmatrix} 14 \\ 12 \\ 0 \end{pmatrix},
-\mathbf{v}_3 = \begin{pmatrix} 0 \\ -1 \\ 0 \end{pmatrix}; \\
-\mathbf{v}_1 = \begin{pmatrix} 1 \\ 2 \\ 3 \end{pmatrix},
-\mathbf{v}_2 = \begin{pmatrix} 1 \\ 4 \\ 9 \end{pmatrix},
-\mathbf{v}_3 = \begin{pmatrix} 1 \\ 8 \\ 27 \end{pmatrix}.
+\mathbf{v}_3 = \begin{pmatrix} 0 \\ -1 \\ 0 \end{pmatrix}.
 \end{gathered}
 \]
 
@@ -2717,7 +2718,7 @@ Some important properties of matrix multiplication:
 \item
   For any \(n \times m\) matrix \(\mathbf{A}\), we have \(\mathbf{A} \mathbf{I}_m = \mathbf{I}_n \mathbf{A} = \mathbf{A}\). In this way, the identity matrix is kind of like the matrix equivalent of the number one. (More on this when we get to matrix inversion.)
 \item
-  Matrix multiplication is \emph{not} commutative. In other words, \(\mathbf{A} \mathbf{B} \neq \mathbf{B} \mathbf{A}\) except in very special cases (e.g., one of them is the identity matrix).
+  Matrix multiplication is \emph{not} commutative. In other words, \(\mathbf{A} \mathbf{B} \neq \mathbf{B} \mathbf{A}\) except in very special cases (e.g., both are square and one of them is the identity matrix).
 
   This is obvious when we're dealing with non-square matrices. Let \(\mathbf{A}\) be \(n \times m\) and \(\mathbf{B}\) be \(m \times p\), so that \(\mathbf{A} \mathbf{B}\) exists. Then \(\mathbf{B} \mathbf{A}\) doesn't even exist unless \(n = p\). Even then, if \(n \neq m\), then \(\mathbf{A} \mathbf{B}\) is \(n \times n\) and \(\mathbf{B} \mathbf{A}\) is \(m \times m\), so they can't possibly be the same.
 
@@ -2743,7 +2744,7 @@ Some important properties of matrix multiplication:
 \item
   The transpose of the product is the product of the transposes \ldots{} but the other way around: \((\mathbf{A} \mathbf{B})^\top = \mathbf{B}^\top \mathbf{A}^\top\).
 
-  This is intuitive, if you think about it. Suppose \(\mathbf{A}\) is \(n \times m\) and \(\mathbf{B}\) is \(m \times p\). Then \(\mathbf{A} \mathbf{B}\) is \(n \times p\), so \((\mathbf{A} \mathbf{B})^\top\) should be \(p \times n\). Therefore, \(\mathbf{B}^\top\) must come first.
+  Here's the intuition behind this weird-seeming property. Suppose \(\mathbf{A}\) is \(n \times m\) and \(\mathbf{B}\) is \(m \times p\). Then \(\mathbf{A} \mathbf{B}\) is \(n \times p\), so \((\mathbf{A} \mathbf{B})^\top\) should be \(p \times n\). Therefore, \(\mathbf{B}^\top\) must come first.
 \end{itemize}
 
 \hypertarget{matrix-inversion}{%

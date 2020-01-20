@@ -24,7 +24,7 @@
 <meta name="author" content="Brenton Kenkel" />
 
 
-<meta name="date" content="2020-01-13" />
+<meta name="date" content="2020-01-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -300,15 +300,16 @@ is <span class="math inline">\(c_1 = 0, \ldots, c_J = 0\)</span>. Otherwise, we 
 <p>Examples:
 <span class="math display">\[
 \begin{gathered}
+\mathbf{v}_1 = \begin{pmatrix} 1 \\ 2 \\ 3 \end{pmatrix},
+\mathbf{v}_2 = \begin{pmatrix} 2 \\ 4 \\ 6 \end{pmatrix}; \\
+\mathbf{v}_1 = \begin{pmatrix} 1 \\ 2 \\ 3 \end{pmatrix},
+\mathbf{v}_2 = \begin{pmatrix} 1 \\ 4 \\ 9 \end{pmatrix}; \\
 \mathbf{v}_1 = \begin{pmatrix} 1 \\ 1 \\ 1 \end{pmatrix},
 \mathbf{v}_2 = \begin{pmatrix} 0 \\ 1 \\ 0 \end{pmatrix},
 \mathbf{v}_3 = \begin{pmatrix} 0 \\ 0 \\ 1 \end{pmatrix}; \\
 \mathbf{v}_1 = \begin{pmatrix} 1 \\ 0 \\ 0 \end{pmatrix},
 \mathbf{v}_2 = \begin{pmatrix} 14 \\ 12 \\ 0 \end{pmatrix},
-\mathbf{v}_3 = \begin{pmatrix} 0 \\ -1 \\ 0 \end{pmatrix}; \\
-\mathbf{v}_1 = \begin{pmatrix} 1 \\ 2 \\ 3 \end{pmatrix},
-\mathbf{v}_2 = \begin{pmatrix} 1 \\ 4 \\ 9 \end{pmatrix},
-\mathbf{v}_3 = \begin{pmatrix} 1 \\ 8 \\ 27 \end{pmatrix}.
+\mathbf{v}_3 = \begin{pmatrix} 0 \\ -1 \\ 0 \end{pmatrix}.
 \end{gathered}
 \]</span></p>
 </div>
@@ -458,7 +459,7 @@ And here’s one that you’ll start seeing a lot of soon.
 <li><p>Matrix multiplication is associative: <span class="math inline">\((\mathbf{A} \mathbf{B}) \mathbf{C} = \mathbf{A} (\mathbf{B} \mathbf{C})\)</span>.</p></li>
 <li><p>Matrix multiplication is distributive: <span class="math inline">\(\mathbf{A} (\mathbf{B} + \mathbf{C}) = \mathbf{A} \mathbf{B} + \mathbf{A} \mathbf{C}\)</span>.</p></li>
 <li><p>For any <span class="math inline">\(n \times m\)</span> matrix <span class="math inline">\(\mathbf{A}\)</span>, we have <span class="math inline">\(\mathbf{A} \mathbf{I}_m = \mathbf{I}_n \mathbf{A} = \mathbf{A}\)</span>. In this way, the identity matrix is kind of like the matrix equivalent of the number one. (More on this when we get to matrix inversion.)</p></li>
-<li><p>Matrix multiplication is <em>not</em> commutative. In other words, <span class="math inline">\(\mathbf{A} \mathbf{B} \neq \mathbf{B} \mathbf{A}\)</span> except in very special cases (e.g., one of them is the identity matrix).</p>
+<li><p>Matrix multiplication is <em>not</em> commutative. In other words, <span class="math inline">\(\mathbf{A} \mathbf{B} \neq \mathbf{B} \mathbf{A}\)</span> except in very special cases (e.g., both are square and one of them is the identity matrix).</p>
 <p>This is obvious when we’re dealing with non-square matrices. Let <span class="math inline">\(\mathbf{A}\)</span> be <span class="math inline">\(n \times m\)</span> and <span class="math inline">\(\mathbf{B}\)</span> be <span class="math inline">\(m \times p\)</span>, so that <span class="math inline">\(\mathbf{A} \mathbf{B}\)</span> exists. Then <span class="math inline">\(\mathbf{B} \mathbf{A}\)</span> doesn’t even exist unless <span class="math inline">\(n = p\)</span>. Even then, if <span class="math inline">\(n \neq m\)</span>, then <span class="math inline">\(\mathbf{A} \mathbf{B}\)</span> is <span class="math inline">\(n \times n\)</span> and <span class="math inline">\(\mathbf{B} \mathbf{A}\)</span> is <span class="math inline">\(m \times m\)</span>, so they can’t possibly be the same.</p>
 <p>For an example that <span class="math inline">\(\mathbf{A} \mathbf{B} \neq \mathbf{B} \mathbf{A}\)</span> even for square matrices: <span class="math display">\[\begin{gathered}
 \mathbf{A} = \begin{bmatrix}
@@ -480,7 +481,7 @@ And here’s one that you’ll start seeing a lot of soon.
 \end{gathered}
 \]</span></p></li>
 <li><p>The transpose of the product is the product of the transposes … but the other way around: <span class="math inline">\((\mathbf{A} \mathbf{B})^\top = \mathbf{B}^\top \mathbf{A}^\top\)</span>.</p>
-<p>This is intuitive, if you think about it. Suppose <span class="math inline">\(\mathbf{A}\)</span> is <span class="math inline">\(n \times m\)</span> and <span class="math inline">\(\mathbf{B}\)</span> is <span class="math inline">\(m \times p\)</span>. Then <span class="math inline">\(\mathbf{A} \mathbf{B}\)</span> is <span class="math inline">\(n \times p\)</span>, so <span class="math inline">\((\mathbf{A} \mathbf{B})^\top\)</span> should be <span class="math inline">\(p \times n\)</span>. Therefore, <span class="math inline">\(\mathbf{B}^\top\)</span> must come first.</p></li>
+<p>Here’s the intuition behind this weird-seeming property. Suppose <span class="math inline">\(\mathbf{A}\)</span> is <span class="math inline">\(n \times m\)</span> and <span class="math inline">\(\mathbf{B}\)</span> is <span class="math inline">\(m \times p\)</span>. Then <span class="math inline">\(\mathbf{A} \mathbf{B}\)</span> is <span class="math inline">\(n \times p\)</span>, so <span class="math inline">\((\mathbf{A} \mathbf{B})^\top\)</span> should be <span class="math inline">\(p \times n\)</span>. Therefore, <span class="math inline">\(\mathbf{B}^\top\)</span> must come first.</p></li>
 </ul>
 </div>
 <div id="matrix-inversion" class="section level2" number="6.3">
