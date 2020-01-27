@@ -24,7 +24,7 @@
 <meta name="author" content="Brenton Kenkel" />
 
 
-<meta name="date" content="2020-01-20" />
+<meta name="date" content="2020-01-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -498,7 +498,7 @@ which is the definition of unbiasedness.</p>
 <ul>
 <li><p>OLS is <em>consistent</em>. Informally, what this means is that as <span class="math inline">\(N\)</span> grows larger, the distribution of the OLS estimator becomes tighter around the population parameter <span class="math inline">\(\beta\)</span>. In other words, with a sufficiently large sample, it becomes highly unlikely that you will draw a sample <span class="math inline">\((\mathbf{X}, \mathbf{Y})\)</span> such that <span class="math inline">\(\hat{\beta}_{\text{OLS}}(\mathbf{X}, \mathbf{Y})\)</span> is far from the true value.</p>
 <p>Of course, you can’t know that the OLS estimate from any particular sample is close to the truth. But you’re much more likely to get an estimate close to the truth if <span class="math inline">\(N = 100{,}000\)</span> than if <span class="math inline">\(N = 10\)</span>.</p></li>
-<li><p>OLS is <em>asymptotically normal</em>. Informally, what this is means is that if <span class="math inline">\(N\)</span> is large enough, the sampling distribution of <span class="math inline">\(\hat{\beta}_{\text{OLS}}\)</span> (i.e., its distribution across different possible samples) is roughly normal. This makes the computation of inferential statistics fairly simple in large samples. More on this in two weeks.</p></li>
+<li><p>OLS is <em>asymptotically normal</em>. Informally, what this is means is that if <span class="math inline">\(N\)</span> is large enough, the sampling distribution of <span class="math inline">\(\hat{\beta}_{\text{OLS}}\)</span> (i.e., its distribution across different possible samples) is roughly normal. This makes the computation of inferential statistics fairly simple in large samples.</p></li>
 </ul>
 <p>Unbiasedness and consistency are nice, but frankly they’re kind of dime-a-dozen. Lots of estimators are unbiased and consistent. Why is OLS so ubiquitous? The reason is that it is <em>efficient</em>, at least under a particular condition on the error term. Unlike unbiasedness and consistency, efficiency is defined with reference to other estimators. Given some class or collection of estimators, one is efficient if it has the lowest standard errors—i.e., it is the least sensitive to sampling variation, and thereby the most likely to come close to the true parameter value.</p>
 <p>The condition we need to hold is that we have <em>spherical errors</em>:

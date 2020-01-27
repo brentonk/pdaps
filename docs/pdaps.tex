@@ -114,7 +114,7 @@
 
 \title{Practical Data Analysis for Political Scientists}
 \author{Brenton Kenkel}
-\date{2020-01-20}
+\date{2020-01-27}
 
 \begin{document}
 \frontmatter
@@ -3497,7 +3497,7 @@ Unbiasedness is a small-sample property. No matter the sample size, if strict ex
 
   Of course, you can't know that the OLS estimate from any particular sample is close to the truth. But you're much more likely to get an estimate close to the truth if \(N = 100{,}000\) than if \(N = 10\).
 \item
-  OLS is \emph{asymptotically normal}. Informally, what this is means is that if \(N\) is large enough, the sampling distribution of \(\hat{\beta}_{\text{OLS}}\) (i.e., its distribution across different possible samples) is roughly normal. This makes the computation of inferential statistics fairly simple in large samples. More on this in two weeks.
+  OLS is \emph{asymptotically normal}. Informally, what this is means is that if \(N\) is large enough, the sampling distribution of \(\hat{\beta}_{\text{OLS}}\) (i.e., its distribution across different possible samples) is roughly normal. This makes the computation of inferential statistics fairly simple in large samples.
 \end{itemize}
 
 Unbiasedness and consistency are nice, but frankly they're kind of dime-a-dozen. Lots of estimators are unbiased and consistent. Why is OLS so ubiquitous? The reason is that it is \emph{efficient}, at least under a particular condition on the error term. Unlike unbiasedness and consistency, efficiency is defined with reference to other estimators. Given some class or collection of estimators, one is efficient if it has the lowest standard errors---i.e., it is the least sensitive to sampling variation, and thereby the most likely to come close to the true parameter value.
