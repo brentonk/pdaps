@@ -249,7 +249,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="inference" class="section level1" number="9">
 <h1><span class="header-section-number">9</span> Drawing Inferences</h1>
-<p>You can think of regression as a descriptive statistic or data reduction method—a simple way to summarize trends and relationships in multivariate data. But for better or worse, most social scientists view regression as a tool for hypothesis testing. This week, we will learn what it is that we’re going when we gaze at the “stars” that accompany our regression output.</p>
+<p>You can think of regression as a descriptive statistic or data reduction method—a simple way to summarize trends and relationships in multivariate data. But for better or worse, most social scientists view regression as a tool for hypothesis testing. This week, we will talk about what it is that we’re doing when we gaze at the “stars” that accompany our regression output.</p>
 <div id="the-basics-of-hypothesis-testing" class="section level2" number="9.1">
 <h2><span class="header-section-number">9.1</span> The Basics of Hypothesis Testing</h2>
 <p>Remember the general procedure for testing against a null hypothesis.</p>
@@ -295,7 +295,7 @@ whose square root ends up in the denominator of the <span class="math inline">\(
 <li><p>Strict exogeneity: <span class="math inline">\(E[\epsilon \,|\, \mathbf{X}] = \mathbf{0}\)</span>.</p></li>
 <li><p>Spherical errors: <span class="math inline">\(V[\epsilon \,|\, \mathbf{X}] = \sigma^2 \mathbf{I}_N\)</span>, where <span class="math inline">\(\sigma^2 &gt; 0\)</span>.</p></li>
 </ul>
-<p>Without the first assumption, OLS is hopeless to begin with. Without the second assumption, OLS is unbiased and consistent, but not efficient. In a couple of weeks, we will discuss how to draw inferences in the presence of non-spherical errors.</p>
+<p>Without the first assumption, OLS is hopeless to begin with. Without the second assumption, OLS is unbiased and consistent, but not efficient. Later on, we will discuss how to draw inferences in the presence of non-spherical errors.</p>
 <p>The OLS estimator is a <span class="math inline">\(K \times 1\)</span> vector, so its variance won’t be a single number—it will be a <span class="math inline">\(K \times K\)</span> matrix,
 <span class="math display">\[
 V[\hat{\beta}] = \begin{bmatrix}
@@ -326,7 +326,7 @@ A very important note. If the errors are not spherical, this formula produces a 
 <li><p>Our estimates will not be systematically biased away from the population parameter, and the probability of our estimate being any meaningful distance away from the population parameter goes to zero as our sample size increases.</p></li>
 <li><p>Our hypothesis tests will <strong>not</strong> perform as advertised—typically, they will lead us to reject the null hypothesis more often than we should—and this problem does <strong>not</strong> go away as our sample size increases.</p></li>
 </ul>
-<p>For the remainder of this week, we will proceed under the assumption of spherical errors. In a couple of weeks, we will discuss how to draw inferences appropriately when this assumption fails to hold.</p>
+<p>For the remainder of this week, we will proceed under the assumption of spherical errors. Later on, we will discuss how to draw inferences appropriately when this assumption fails to hold.</p>
 </div>
 <div id="single-variable-hypotheses" class="section level2" number="9.3">
 <h2><span class="header-section-number">9.3</span> Single Variable Hypotheses</h2>
