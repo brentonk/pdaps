@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html lang="" xml:lang="">
 <head>
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>2 Principles of Programming | Practical Data Analysis for Political Scientists</title>
   <meta name="description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right." />
-  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.17.2 and GitBook 2.6.7" />
 
   <meta property="og:title" content="2 Principles of Programming | Practical Data Analysis for Political Scientists" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Brenton Kenkel" />
 
 
-<meta name="date" content="2020-01-27" />
+<meta name="date" content="2020-02-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,8 +33,8 @@
   
 <link rel="prev" href="index.html"/>
 <link rel="next" href="data.html"/>
+<script src="libs/header-attrs-2.1/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
-<script src="libs/elevate-section-attrs-2.0/elevate-section-attrs.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -157,7 +157,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="5" data-path="bivariate.html"><a href="bivariate.html"><i class="fa fa-check"></i><b>5</b> Bivariate Regression</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="bivariate.html"><a href="bivariate.html#probability-refresher"><i class="fa fa-check"></i><b>5.1</b> Probability Refresher</a></li>
+<li class="chapter" data-level="5.1" data-path="bivariate.html"><a href="bivariate.html#probability"><i class="fa fa-check"></i><b>5.1</b> Probability Refresher</a></li>
 <li class="chapter" data-level="5.2" data-path="bivariate.html"><a href="bivariate.html#the-linear-model"><i class="fa fa-check"></i><b>5.2</b> The Linear Model</a></li>
 <li class="chapter" data-level="5.3" data-path="bivariate.html"><a href="bivariate.html#least-squares"><i class="fa fa-check"></i><b>5.3</b> Least Squares</a></li>
 <li class="chapter" data-level="5.4" data-path="bivariate.html"><a href="bivariate.html#properties"><i class="fa fa-check"></i><b>5.4</b> Properties</a></li>
@@ -248,19 +248,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="programming" class="section level1" number="2">
-<h1 number="2"><span class="header-section-number">2</span> Principles of Programming</h1>
+<h1><span class="header-section-number">2</span> Principles of Programming</h1>
 <p>It may seem strange to begin a statistics class with two weeks on programming. It is strange. Here is why I have made this strange choice.</p>
 <p>First, as a working social scientist, most of the time you spend on data analysis won’t be on the <em>analysis</em> part. It’ll be on obtaining and cleaning the data, to get it in a form that makes sense to analyze. Good programming skills will let you spend less time cleaning data and more time publishing papers.</p>
 <p>Second, even if you don’t want to develop good programming habits, journals are going to force you to. Every reputable political science journal requires that you provide replication scripts, and some of the best (e.g., <em>American Journal of Political Science</em>) have begun auditing the replication materials as a condition of publication. Better to learn The Right Way now when you have lots of time than to be forced to when you’re writing a dissertation or on the market or teaching your own courses.</p>
 <p>Third, while I feel embarrassed to invoke the cliché that is Big Data, that doesn’t mean it’s not a real thing. Political scientists have access to more data and more computing power than ever before. You can’t collect, manage, clean, and analyze large quantities of data without understanding the basic principles of programming.</p>
-<p>As <span class="citation">Bowers (<a href="references.html#ref-Bowers:2011ua" role="doc-biblioref">2011</a>)</span> puts it, “Data analysis is computer programming.” By getting a PhD in political science,<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> by necessity you’re going to become a computer programmer. The choice before you is whether to be a good one or a bad one.</p>
-<p><span class="citation">Wilson et al. (<a href="references.html#ref-Wilson:2014ck" role="doc-biblioref">2014</a>)</span> list eight “best practices for scientific computing.” The first two encapsulate most of what you need to know:</p>
+<p>As <span class="citation">Bowers (<a href="#ref-Bowers:2011ua" role="doc-biblioref">2011</a>)</span> puts it, “Data analysis is computer programming.” By getting a PhD in political science,<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> by necessity you’re going to become a computer programmer. The choice before you is whether to be a good one or a bad one.</p>
+<p><span class="citation">Wilson et al. (<a href="#ref-Wilson:2014ck" role="doc-biblioref">2014</a>)</span> list eight “best practices for scientific computing.” The first two encapsulate most of what you need to know:</p>
 <ol style="list-style-type: decimal">
 <li>Write programs for people, not computers.</li>
 <li>Let the computer do the work.</li>
 </ol>
 <div id="write-programs-for-people-not-computers" class="section level2" number="2.1">
-<h2 number="2.1"><span class="header-section-number">2.1</span> Write Programs for People, Not Computers</h2>
+<h2><span class="header-section-number">2.1</span> Write Programs for People, Not Computers</h2>
 <p>The first two words here—<em>write programs</em>—are crucial. When you are doing analysis for a research project, you should be writing and running scripts, not typing commands into the R (or Stata) console. The console is ephemeral, but scripts are forever, at least if you save them.</p>
 <p>Like the manuscripts you will write to describe your findings, your analysis scripts are a form of scientific communication. You wouldn’t write a paper that is disorganized, riddled with grammatical errors, or incomprehensible to anyone besides yourself. Don’t write your analysis scripts that way either.</p>
 <p>I personally prefer each script to be self-contained, ideally accomplishing one major task. A typical breakdown of scripts for a project of mine looks like:</p>
@@ -295,7 +295,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>My basic heuristic for code readability is <em>If I got hit by a bus tomorrow, could one of my coauthors figure out what the hell I was doing and finish the paper?</em></p>
 </div>
 <div id="let-the-computer-do-the-work" class="section level2" number="2.2">
-<h2 number="2.2"><span class="header-section-number">2.2</span> Let the Computer Do the Work</h2>
+<h2><span class="header-section-number">2.2</span> Let the Computer Do the Work</h2>
 <p>Computers are really good at structured, repetitive tasks. If you ever find yourself entering the same thing into the computer over and over again, you are Doing It Wrong. Your job as the human directing the computer is to figure out the structure that underlies the repeated task and to program the computer to do the repetition.</p>
 <p>For example, imagine you have just run a large experiment and you want to estimate effects across subgroups.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> Your respondents differ across four variables—party ID (R or D), gender (male or female), race (white or nonwhite), and education (college degree or not)—giving you 16 subgroups. You <em>could</em> copy and paste your code to estimate the treatment effect 16 times. But this is a bad idea for a few reasons.</p>
 <ul>
@@ -434,6 +434,15 @@ This sets <code>TRUE</code> as the default value, so if we call <code>ols_coef()
 <pre><code>##  [1] -100 -200 -300 -400 -500  600  700  800  900 1000</code></pre>
 <p>Functions, for loops, and if/else statements are just a few of the useful tools for programming in R.<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a> But even these simple tools are enough to allow you to do much more at scale than you could with a copy-paste philosophy.</p>
 
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-Bowers:2011ua">
+<p>Bowers, Jake. 2011. “Six Steps to a Better Relationship with Your Future Self.” <em>The Political Methodologist</em> 18 (2): 2–8.</p>
+</div>
+<div id="ref-Wilson:2014ck">
+<p>Wilson, Greg, D A Aruliah, C Titus Brown, Neil P Chue Hong, Matt Davis, Richard T Guy, Steven H D Haddock, et al. 2014. “Best Practices for Scientific Computing.” <em>PLOS Biology</em> 12 (1): e1001745.</p>
 </div>
 </div>
 <div class="footnotes">

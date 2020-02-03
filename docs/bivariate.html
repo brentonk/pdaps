@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html lang="" xml:lang="">
 <head>
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>5 Bivariate Regression | Practical Data Analysis for Political Scientists</title>
   <meta name="description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right." />
-  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.17.2 and GitBook 2.6.7" />
 
   <meta property="og:title" content="5 Bivariate Regression | Practical Data Analysis for Political Scientists" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Brenton Kenkel" />
 
 
-<meta name="date" content="2020-01-27" />
+<meta name="date" content="2020-02-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,8 +33,8 @@
   
 <link rel="prev" href="visualization.html"/>
 <link rel="next" href="matrix.html"/>
+<script src="libs/header-attrs-2.1/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
-<script src="libs/elevate-section-attrs-2.0/elevate-section-attrs.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -157,7 +157,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="5" data-path="bivariate.html"><a href="bivariate.html"><i class="fa fa-check"></i><b>5</b> Bivariate Regression</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="bivariate.html"><a href="bivariate.html#probability-refresher"><i class="fa fa-check"></i><b>5.1</b> Probability Refresher</a></li>
+<li class="chapter" data-level="5.1" data-path="bivariate.html"><a href="bivariate.html#probability"><i class="fa fa-check"></i><b>5.1</b> Probability Refresher</a></li>
 <li class="chapter" data-level="5.2" data-path="bivariate.html"><a href="bivariate.html#the-linear-model"><i class="fa fa-check"></i><b>5.2</b> The Linear Model</a></li>
 <li class="chapter" data-level="5.3" data-path="bivariate.html"><a href="bivariate.html#least-squares"><i class="fa fa-check"></i><b>5.3</b> Least Squares</a></li>
 <li class="chapter" data-level="5.4" data-path="bivariate.html"><a href="bivariate.html#properties"><i class="fa fa-check"></i><b>5.4</b> Properties</a></li>
@@ -248,11 +248,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="bivariate" class="section level1" number="5">
-<h1 number="5"><span class="header-section-number">5</span> Bivariate Regression</h1>
+<h1><span class="header-section-number">5</span> Bivariate Regression</h1>
 <p>The goal of empirical social science is usually to learn about the relationships between variables in the social world. Our goals might be descriptive: were college graduates more likely to vote for Clinton in 2016? Or causal: does receiving more education make a person more liberal on average? Or predictive: what kinds of voters should Democrats target in 2020 to have the best chance of victory?</p>
 <p>The linear model is one of the simplest ways to model relationships between variables. Ordinary least squares regression is one of the easiest and (often) best ways to estimate the parameters of the linear model. Consequently, a linear model estimated by OLS is the starting point for many analyses. We will start with the simplest case: regression on a single covariate.</p>
-<div id="probability-refresher" class="section level2" number="5.1">
-<h2 number="5.1"><span class="header-section-number">5.1</span> Probability Refresher</h2>
+<div id="probability" class="section level2" number="5.1">
+<h2><span class="header-section-number">5.1</span> Probability Refresher</h2>
 <p>Let <span class="math inline">\(Y\)</span> be a random variable that takes values in the finite set <span class="math inline">\(\mathcal{Y}\)</span> according to the probability mass function <span class="math inline">\(f_Y : \mathcal{Y} \to [0, 1]\)</span>. The <em>expected value</em> (aka <em>expectation</em>) of <span class="math inline">\(Y\)</span> is the weighted average of each value in <span class="math inline">\(\mathcal{Y}\)</span>, where the weights are the corresponding probabilities:
 <span class="math display">\[\begin{equation}
 E[Y] = \sum_{y \in \mathcal{Y}} y \: f_Y(y);
@@ -282,6 +282,26 @@ E[Y | X = x]
 = \int y \: f_{Y|X} (y \,|\, x) \, dy,
 \end{equation}\]</span>
 where <span class="math inline">\(f_{Y|X}\)</span> is the conditional density function.</p>
+<p>A fun fact about conditional expectation that will prove useful later on is the <em>law of iterated expectation</em>.
+This rule tells us that the expected value of a random variable is equal to the weighted average of its conditional expectations.
+More succinctly, the law of iterated expectation is
+<span class="math display">\[
+E[Y] = E[ E[Y | X] ]
+\]</span>
+The “inner” expectation there is taken with respect to the conditional distribution of <span class="math inline">\(Y\)</span>, treating <span class="math inline">\(X\)</span> as fixed.
+The “outer” expectation is with respect to the distribution of <span class="math inline">\(X\)</span>.
+It’s easy enough to prove the law of iterated expectation in the finite case, where we have
+<span class="math display">\[
+\begin{aligned}
+E[ E[Y | X] ]
+&amp;= \sum_{x \in \mathcal{X}} E[Y | X = x] \Pr(X = x) \\
+&amp;= \sum_{x \in \mathcal{X}} \left( \sum_{y \in \mathcal{Y}} y \Pr(Y = y \,|\, X = x) \right) \Pr(X = x) \\
+&amp;= \sum_{x \in \mathcal{X}} \sum_{y \in \mathcal{Y}} y \Pr(X = x, Y = y) \\
+&amp;= \sum_{y \in \mathcal{Y}} y \left( \sum_{x \in \mathcal{X}} \Pr(X = x, Y = y) \right) \\
+&amp;= \sum_{y \in \mathcal{Y}} y \Pr(Y = y) \\
+&amp;= E[Y].
+\end{aligned}
+\]</span></p>
 <p>The <em>variance</em> of a random variable <span class="math inline">\(Y\)</span> is
 <span class="math display">\[\begin{equation}
 V[Y] = E[(Y - E[Y])^2].
@@ -318,7 +338,7 @@ S_Y^2 = \frac{1}{N-1} \sum_n Y_n (Y_n - \bar{Y}).
 \end{equation}\]</span></p>
 </div>
 <div id="the-linear-model" class="section level2" number="5.2">
-<h2 number="5.2"><span class="header-section-number">5.2</span> The Linear Model</h2>
+<h2><span class="header-section-number">5.2</span> The Linear Model</h2>
 <p>Suppose we observe a sequence of <span class="math inline">\(N\)</span> draws from <span class="math inline">\(f_{XY}\)</span>, denoted <span class="math inline">\((X_1, Y_1), (X_2, Y_2), \ldots, (X_N, Y_N)\)</span>, or <span class="math inline">\(\{(X_n, Y_n)\}_{n=1}^N\)</span> for short. What can we learn about the relationship between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> from this sample of data?</p>
 <p>If we were really ambitious, we could try to estimate the shape of the full joint distribution, <span class="math inline">\(f_{XY}\)</span>. The joint distribution encodes everything there is to know about the relationship between the two variables, so it would be pretty useful to know. But except in the most trivial cases, it would be infeasible to estimate <span class="math inline">\(f_{XY}\)</span> precisely. If <span class="math inline">\(X\)</span> or <span class="math inline">\(Y\)</span> can take on more than a few values, estimating the joint distribution would require an amount of data that we’re unlikely to have.<a href="#fn15" class="footnote-ref" id="fnref15"><sup>15</sup></a></p>
 <p>The first way we simplify our estimation task is to set our sights lower. Let <span class="math inline">\(Y\)</span> be the <em>response</em> or the <em>dependent variable</em>—i.e., the thing we want to explain. We call <span class="math inline">\(X\)</span> the <em>covariate</em> or the <em>independent variable</em>. Instead of estimating the full joint distribution, we’re just going to try to learn the conditional expectation, <span class="math inline">\(E[Y \,|\, X]\)</span>. In other words, for each potential value of the covariate, what is the expected value of the response? This will allow us to answer questions like whether greater values of <span class="math inline">\(X\)</span> are associated with greater values of <span class="math inline">\(Y\)</span>.</p>
@@ -353,7 +373,7 @@ You can think of <span class="math inline">\(\epsilon_n\)</span> as the summatio
 <p>For now we will proceed assuming that our data satisfy the above conditions. Later in the course, we will talk about how to proceed when <span class="math inline">\(E[\epsilon_n \,|\, X_1, \ldots, X_N] \neq 0\)</span>, and you will learn much more about such strategies in Stat III.</p>
 </div>
 <div id="least-squares" class="section level2" number="5.3">
-<h2 number="5.3"><span class="header-section-number">5.3</span> Least Squares</h2>
+<h2><span class="header-section-number">5.3</span> Least Squares</h2>
 <p>To estimate the parameters of the linear model, we will rely on a mathematically convenient method called <em>least squares</em>. We will see that this method not only is convenient, but also has nice statistical properties.</p>
 <p>Given a parameter estimate <span class="math inline">\((\hat{\alpha}, \hat{\beta})\)</span>, define the <em>residual</em> of the <span class="math inline">\(n\)</span>’th observation as the difference between the true and predicted values:
 <span class="math display">\[\begin{equation}
@@ -428,7 +448,7 @@ Since bivariate regression uses two degrees of freedom (one for the intercept, o
 <p><img src="pdaps_files/figure-html/r2-examples-1.png" width="672" /></p>
 </div>
 <div id="properties" class="section level2" number="5.4">
-<h2 number="5.4"><span class="header-section-number">5.4</span> Properties</h2>
+<h2><span class="header-section-number">5.4</span> Properties</h2>
 <p>We didn’t use any fancy statistical theory to derive the OLS estimator. We just found the intercept and slope that minimize the sum of squared residuals. As it turns out, though, OLS indeed has some very nice statistical properties as an estimator of the linear model.</p>
 <p>The first desirable property of OLS is that it is <em>unbiased</em>. Recall that an estimator <span class="math inline">\(\hat{\theta}\)</span> of the parameter <span class="math inline">\(\theta\)</span> is unbiased if <span class="math inline">\(E[\hat{\theta}] = \theta\)</span>. This doesn’t mean the estimator always gives us the right answer, just that on average it is not systematically biased upward or downward. In other words, if we could take many many samples and apply the estimator to each of them, the average would equal the true parameter.</p>
 <p>We will begin by showing that the OLS estimator of the slope is unbiased; i.e., that <span class="math inline">\(E[\hat{\beta}_{\text{OLS}}(X, Y)] = \beta\)</span>. At first, we’ll take the conditional expectation of the slope estimator, treating the covariates <span class="math inline">\((X_1, \ldots, X_N)\)</span> as fixed.
@@ -483,7 +503,7 @@ and show that
 This takes more algebra than we have time for, so I leave it as an exercise for the reader.</p>
 </div>
 <div id="appendix-regression-in-r" class="section level2" number="5.5">
-<h2 number="5.5"><span class="header-section-number">5.5</span> Appendix: Regression in R</h2>
+<h2><span class="header-section-number">5.5</span> Appendix: Regression in R</h2>
 <p>We will be using the <strong>tidyverse</strong> package as always, the <strong>car</strong> package for the <code>Prestige</code> data, and the <strong>broom</strong> package for its convenient post-analysis functions.</p>
 <div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="bivariate.html#cb148-1"></a><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</span>
 <span id="cb148-2"><a href="bivariate.html#cb148-2"></a><span class="kw">library</span>(<span class="st">&quot;car&quot;</span>)</span>

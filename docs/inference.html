@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html lang="" xml:lang="">
 <head>
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>9 Drawing Inferences | Practical Data Analysis for Political Scientists</title>
   <meta name="description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right." />
-  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.17.2 and GitBook 2.6.7" />
 
   <meta property="og:title" content="9 Drawing Inferences | Practical Data Analysis for Political Scientists" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Brenton Kenkel" />
 
 
-<meta name="date" content="2020-01-27" />
+<meta name="date" content="2020-02-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,8 +33,8 @@
   
 <link rel="prev" href="specification.html"/>
 <link rel="next" href="crisis.html"/>
+<script src="libs/header-attrs-2.1/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
-<script src="libs/elevate-section-attrs-2.0/elevate-section-attrs.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -157,7 +157,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="5" data-path="bivariate.html"><a href="bivariate.html"><i class="fa fa-check"></i><b>5</b> Bivariate Regression</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="bivariate.html"><a href="bivariate.html#probability-refresher"><i class="fa fa-check"></i><b>5.1</b> Probability Refresher</a></li>
+<li class="chapter" data-level="5.1" data-path="bivariate.html"><a href="bivariate.html#probability"><i class="fa fa-check"></i><b>5.1</b> Probability Refresher</a></li>
 <li class="chapter" data-level="5.2" data-path="bivariate.html"><a href="bivariate.html#the-linear-model"><i class="fa fa-check"></i><b>5.2</b> The Linear Model</a></li>
 <li class="chapter" data-level="5.3" data-path="bivariate.html"><a href="bivariate.html#least-squares"><i class="fa fa-check"></i><b>5.3</b> Least Squares</a></li>
 <li class="chapter" data-level="5.4" data-path="bivariate.html"><a href="bivariate.html#properties"><i class="fa fa-check"></i><b>5.4</b> Properties</a></li>
@@ -248,10 +248,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="inference" class="section level1" number="9">
-<h1 number="9"><span class="header-section-number">9</span> Drawing Inferences</h1>
+<h1><span class="header-section-number">9</span> Drawing Inferences</h1>
 <p>You can think of regression as a descriptive statistic or data reduction method—a simple way to summarize trends and relationships in multivariate data. But for better or worse, most social scientists view regression as a tool for hypothesis testing. This week, we will learn what it is that we’re going when we gaze at the “stars” that accompany our regression output.</p>
 <div id="the-basics-of-hypothesis-testing" class="section level2" number="9.1">
-<h2 number="9.1"><span class="header-section-number">9.1</span> The Basics of Hypothesis Testing</h2>
+<h2><span class="header-section-number">9.1</span> The Basics of Hypothesis Testing</h2>
 <p>Remember the general procedure for testing against a null hypothesis.</p>
 <ol style="list-style-type: decimal">
 <li><p>Choose a test statistic and significance level.</p></li>
@@ -276,7 +276,7 @@ The denominator of the <span class="math inline">\(t\)</span> statistic is the <
 <p>If <span class="math inline">\(X\)</span> is not known to be normally distributed, but our sample size is “large” (in practice, <span class="math inline">\(N \geq 30\)</span>), we can rely on the Central Limit Theorem. As <span class="math inline">\(N \to \infty\)</span>, the distribution of <span class="math inline">\(t\)</span> under the null hypothesis is approximately <span class="math inline">\(N(0, 1)\)</span>, the normal distribution with mean zero and variance one.</p>
 </div>
 <div id="variance-of-ols" class="section level2" number="9.2">
-<h2 number="9.2"><span class="header-section-number">9.2</span> Variance of OLS</h2>
+<h2><span class="header-section-number">9.2</span> Variance of OLS</h2>
 <p>Now let us return to the world of the linear model,
 <span class="math display">\[
 \mathbf{Y} = \mathbf{X} \beta + \epsilon,
@@ -329,7 +329,7 @@ A very important note. If the errors are not spherical, this formula produces a 
 <p>For the remainder of this week, we will proceed under the assumption of spherical errors. In a couple of weeks, we will discuss how to draw inferences appropriately when this assumption fails to hold.</p>
 </div>
 <div id="single-variable-hypotheses" class="section level2" number="9.3">
-<h2 number="9.3"><span class="header-section-number">9.3</span> Single Variable Hypotheses</h2>
+<h2><span class="header-section-number">9.3</span> Single Variable Hypotheses</h2>
 <p>Consider a null hypothesis about the population value of a single coefficient, of the form
 <span class="math display">\[
 H_0 : \beta_k = b,
@@ -357,7 +357,7 @@ Our mode of inference from there depends on the sample size and on whether we ar
 \]</span></p>
 </div>
 <div id="multiple-variable-hypotheses" class="section level2" number="9.4">
-<h2 number="9.4"><span class="header-section-number">9.4</span> Multiple Variable Hypotheses</h2>
+<h2><span class="header-section-number">9.4</span> Multiple Variable Hypotheses</h2>
 <p>It is common, especially (though not exclusively) when working with categorical variables or higher-order terms, to have hypotheses involving multiple variables. For example, think of our model from last week,
 <span class="math display">\[
 \text{Trump}_n = \beta_1 + \beta_2 \text{Independent}_n + \beta_3 \text{Democratic}_n + \beta_4 \text{Age}_n + \epsilon_n.
@@ -444,7 +444,7 @@ H_0 : \left\{ \begin{aligned}
 \]</span></p>
 </div>
 <div id="appendix-full-derivation-of-ols-variance" class="section level2" number="9.5">
-<h2 number="9.5"><span class="header-section-number">9.5</span> Appendix: Full Derivation of OLS Variance</h2>
+<h2><span class="header-section-number">9.5</span> Appendix: Full Derivation of OLS Variance</h2>
 <p>We will assume strict exogeneity,
 <span class="math display">\[
 E [\epsilon \,|\, \mathbf{X}] = \mathbf{0},
@@ -522,7 +522,7 @@ Consequently,
 \]</span></p>
 </div>
 <div id="appendix-regression-inference-in-r" class="section level2" number="9.6">
-<h2 number="9.6"><span class="header-section-number">9.6</span> Appendix: Regression Inference in R</h2>
+<h2><span class="header-section-number">9.6</span> Appendix: Regression Inference in R</h2>
 <p>As usual, we will rely on the <strong>tidyverse</strong> and <strong>broom</strong> packages. We will also be using the <strong>car</strong> package, not only for data but also for its hypothesis testing functions.</p>
 <div class="sourceCode" id="cb258"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb258-1"><a href="inference.html#cb258-1"></a><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</span>
 <span id="cb258-2"><a href="inference.html#cb258-2"></a><span class="kw">library</span>(<span class="st">&quot;broom&quot;</span>)</span>

@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html lang="" xml:lang="">
 <head>
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>4 Data Visualization | Practical Data Analysis for Political Scientists</title>
   <meta name="description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right." />
-  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.17.2 and GitBook 2.6.7" />
 
   <meta property="og:title" content="4 Data Visualization | Practical Data Analysis for Political Scientists" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Brenton Kenkel" />
 
 
-<meta name="date" content="2020-01-27" />
+<meta name="date" content="2020-02-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,8 +33,8 @@
   
 <link rel="prev" href="data.html"/>
 <link rel="next" href="bivariate.html"/>
+<script src="libs/header-attrs-2.1/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
-<script src="libs/elevate-section-attrs-2.0/elevate-section-attrs.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -157,7 +157,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="5" data-path="bivariate.html"><a href="bivariate.html"><i class="fa fa-check"></i><b>5</b> Bivariate Regression</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="bivariate.html"><a href="bivariate.html#probability-refresher"><i class="fa fa-check"></i><b>5.1</b> Probability Refresher</a></li>
+<li class="chapter" data-level="5.1" data-path="bivariate.html"><a href="bivariate.html#probability"><i class="fa fa-check"></i><b>5.1</b> Probability Refresher</a></li>
 <li class="chapter" data-level="5.2" data-path="bivariate.html"><a href="bivariate.html#the-linear-model"><i class="fa fa-check"></i><b>5.2</b> The Linear Model</a></li>
 <li class="chapter" data-level="5.3" data-path="bivariate.html"><a href="bivariate.html#least-squares"><i class="fa fa-check"></i><b>5.3</b> Least Squares</a></li>
 <li class="chapter" data-level="5.4" data-path="bivariate.html"><a href="bivariate.html#properties"><i class="fa fa-check"></i><b>5.4</b> Properties</a></li>
@@ -248,11 +248,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="visualization" class="section level1" number="4">
-<h1 number="4"><span class="header-section-number">4</span> Data Visualization</h1>
+<h1><span class="header-section-number">4</span> Data Visualization</h1>
 <p>Visualization is most important at the very beginning and the very end of the data analysis process. In the beginning, when you’ve just gotten your data together, visualization is perhaps the easiest tool to explore each variable and learn about the relationships among them. And when your analysis is almost complete, you will (usually) use visualizations to communicate your findings to your audience.</p>
 <p>We only have time to scratch the surface of data visualization. This chapter will cover the plotting techniques I find most useful for exploratory and descriptive data analysis. We will talk about graphical techniques for presenting the results of regression analyses later in the class—once we’ve, you know, learned something about regression.</p>
 <div id="basic-plots" class="section level2" number="4.1">
-<h2 number="4.1"><span class="header-section-number">4.1</span> Basic Plots</h2>
+<h2><span class="header-section-number">4.1</span> Basic Plots</h2>
 <p>We will use the <strong>ggplot2</strong> package, which is part of—I’m as tired of it as you are—the <strong>tidyverse</strong>.</p>
 <div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="visualization.html#cb118-1"></a><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</span></code></pre></div>
 <p>For the examples today, we’ll be using a dataset with statistics about the fifty U.S. states in 1977,<a href="#fn13" class="footnote-ref" id="fnref13"><sup>13</sup></a> which is posted on my website.</p>
@@ -325,7 +325,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="pdaps_files/figure-html/combine-1.png" width="672" /></p>
 </div>
 <div id="saving-plots" class="section level2" number="4.2">
-<h2 number="4.2"><span class="header-section-number">4.2</span> Saving Plots</h2>
+<h2><span class="header-section-number">4.2</span> Saving Plots</h2>
 <p>When you’re writing in R Markdown, the plots go straight into your document without much fuss. Odds are, your dissertation will contain plots but won’t be written in R Markdown, which means you’ll need to learn how to save them.</p>
 <p>It’s pretty simple:</p>
 <ol style="list-style-type: decimal">
@@ -342,7 +342,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>If you want plot types other than PDF, just set a different extension. See <code>?ggsave</code> for the possibilities.</p>
 </div>
 <div id="faceting" class="section level2" number="4.3">
-<h2 number="4.3"><span class="header-section-number">4.3</span> Faceting</h2>
+<h2><span class="header-section-number">4.3</span> Faceting</h2>
 <p>Suppose you want to split the data into subgroups, as defined by some variable in the data (e.g., the region states are in), and make the same plot for each subgroup. ggplot’s <em>faceting</em> functions, <code>facet_wrap()</code> and <code>facet_grid()</code>, make this easy.</p>
 <p>To split up plots according to a single grouping variable, use <code>facet_wrap()</code>. This uses R’s <em>formula</em> syntax, defined by the tilde <code>~</code>, which you’ll become well acquainted with once we start running regressions.</p>
 <div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="visualization.html#cb135-1"></a><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Population)) <span class="op">+</span></span>
@@ -364,7 +364,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="pdaps_files/figure-html/facet-grid-1.png" width="672" /></p>
 </div>
 <div id="aesthetics" class="section level2" number="4.4">
-<h2 number="4.4"><span class="header-section-number">4.4</span> Aesthetics</h2>
+<h2><span class="header-section-number">4.4</span> Aesthetics</h2>
 <p>Faceting is one way to incorporate information about additional variables into what would otherwise be a plot of just one or two variables. Aesthetics—which alter the appearance of particular plot features depending on the value of a variable—provide another way to do that.</p>
 <p>For example, when visualizing the relationship between statewide illiteracy and life expectancy, you might want larger states to get more visual weight. You can set the <code>size</code> aesthetic of the <code>point</code> geometry to vary according to the state’s population.</p>
 <div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="visualization.html#cb141-1"></a><span class="kw">ggplot</span>(state_data, <span class="kw">aes</span>(<span class="dt">x =</span> Illiteracy, <span class="dt">y =</span> LifeExp)) <span class="op">+</span></span>
@@ -388,7 +388,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>But the fact that you <em>can</em> do something doesn’t mean you <em>should</em>. That plot is so cluttered that it’s hard to extract the relevant information from it. Data visualizations should communicate a clear message to viewers without overwhelming them. To do this well takes practice, patience, and maybe even a bit of taste.</p>
 </div>
 <div id="appendix-creating-the-example-data-1" class="section level2" number="4.5">
-<h2 number="4.5"><span class="header-section-number">4.5</span> Appendix: Creating the Example Data</h2>
+<h2><span class="header-section-number">4.5</span> Appendix: Creating the Example Data</h2>
 <p>The example data comes from data on U.S. states in 1977 that are included with base R. See <code>?state</code>.</p>
 <div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="visualization.html#cb146-1"></a><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</span>
 <span id="cb146-2"><a href="visualization.html#cb146-2"></a></span>

@@ -11,7 +11,7 @@ The goal of empirical social science is usually to learn about the relationships
 The linear model is one of the simplest ways to model relationships between variables.  Ordinary least squares regression is one of the easiest and (often) best ways to estimate the parameters of the linear model.  Consequently, a linear model estimated by OLS is the starting point for many analyses.  We will start with the simplest case: regression on a single covariate.
 
 
-## Probability Refresher
+## Probability Refresher {#probability}
 
 Let $Y$ be a random variable that takes values in the finite set $\mathcal{Y}$ according to the probability mass function $f_Y : \mathcal{Y} \to [0, 1]$.  The *expected value* (aka *expectation*) of $Y$ is the weighted average of each value in $\mathcal{Y}$, where the weights are the corresponding probabilities:
 \begin{equation}
@@ -47,6 +47,27 @@ E[Y | X = x]
 = \int y \: f_{Y|X} (y \,|\, x) \, dy,
 \end{equation}
 where $f_{Y|X}$ is the conditional density function.
+
+A fun fact about conditional expectation that will prove useful later on is the *law of iterated expectation*.
+This rule tells us that the expected value of a random variable is equal to the weighted average of its conditional expectations.
+More succinctly, the law of iterated expectation is
+$$
+E[Y] = E[ E[Y | X] ]
+$$
+The "inner" expectation there is taken with respect to the conditional distribution of $Y$, treating $X$ as fixed.
+The "outer" expectation is with respect to the distribution of $X$.
+It's easy enough to prove the law of iterated expectation in the finite case, where we have
+$$
+\begin{aligned}
+E[ E[Y | X] ]
+&= \sum_{x \in \mathcal{X}} E[Y | X = x] \Pr(X = x) \\
+&= \sum_{x \in \mathcal{X}} \left( \sum_{y \in \mathcal{Y}} y \Pr(Y = y \,|\, X = x) \right) \Pr(X = x) \\
+&= \sum_{x \in \mathcal{X}} \sum_{y \in \mathcal{Y}} y \Pr(X = x, Y = y) \\
+&= \sum_{y \in \mathcal{Y}} y \left( \sum_{x \in \mathcal{X}} \Pr(X = x, Y = y) \right) \\
+&= \sum_{y \in \mathcal{Y}} y \Pr(Y = y) \\
+&= E[Y].
+\end{aligned}
+$$
 
 The *variance* of a random variable $Y$ is
 \begin{equation}

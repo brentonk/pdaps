@@ -99,82 +99,144 @@ It is worth pausing to clarify what is known and unknown here.
 
 ## The OLS Estimator
 
+Given a linear model along the lines described above, the formula for the OLS estimate of $\beta$ is $$\hat{\beta}_{\OLS} = (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top \mathbf{Y}.$$
+What I want to convince you of now is that if we start in the same place as we did with bivariate regression---that we want to find coefficients that minimize the sum of squared residuals---then we will end up with this formula.
+
 Consider the linear model with three covariates,
 $$
-Y_n = \beta_1 x_{n1} + \beta_2 x_{n2} + \beta_3 x_{n3} + \epsilon_n.
+Y_n = \beta_r r_n + \beta_s s_n + \beta_t t_n + \epsilon_n.
 $$
-Let's do like we did with bivariate regression, and imagine estimating the parameters of the model by least squares.  Let $(b_1, b_2, b_3)$ denote an estimate of the parameters.[^no-hats]  We will set up the sum of squared errors as a function of the parameters,
+Let's do like we did with bivariate regression, and imagine estimating the parameters of the model by least squares.  Let $(b_r, b_s, b_t)$ denote an estimate of the parameters.[^no-hats]  We will set up the sum of squared errors as a function of the parameters,
 $$
-\SSE(b_1, b_2, b_3)
-= \sum_n (Y_n - b_1 x_{n1} - b_2 x_{n2} - b_3 x_{n3})^2.
+\SSE(b_r, b_s, b_t)
+= \sum_n (Y_n - b_r r_n - b_s s_n - b_t t_n)^2.
 $$
 
 [^no-hats]: I'm using $b_k$ instead of $\hat{\beta}_k$ simply because it's exhausting to type all those `\hat{}`s.
 
-Just as we did to derive the bivariate OLS estimator, let's begin by taking the partial derivative of the SSE with respect to the first regression coefficient, then equalizing it to zero.
+Just as we did to derive the bivariate OLS estimator, let's begin by taking the partial derivative of the SSE with respect to the coefficient on $r$, then equalizing it to zero.
 $$
-\frac{\partial \SSE}{\partial b_1}
-= -2 \sum_n x_{n1} (Y_n - b_1 x_{n1} - b_2 x_{n2} - b_3 x_{n3})
+\frac{\partial \SSE}{\partial b_r}
+= -2 \sum_n r_n (Y_n - b_r r_n - b_s s_n - b_t t_n)
 = 0.
 $$
 Dividing each side by $-2$ and rearranging terms gives us
 $$
-\sum_n x_{n1} (b_1 x_{n1} + b_2 x_{n2} + b_3 x_{n3}) = \sum_n x_{n1} Y_n.
+\sum_n r_n (b_r r_n + b_s s_n + b_t t_n) = \sum_n r_n Y_n.
 $$
-If we break up the left-hand sum into three individual sums, we get
+We can break up the left-hand sum into three individual sums to get
 $$
-\left( \sum_n x_{n1}^2 \right) b_1 + \left( \sum_n x_{n1} x_{n2} \right) b_2 + \left( \sum_n x_{n1} x_{n3} \right) b_3 = \sum_n x_{n1} Y_n,
+\left( \sum_n r_n^2 \right) b_r + \left( \sum_n r_n s_n \right) b_s + \left( \sum_n r_n t_n \right) b_t = \sum_n r_n Y_n,
 $$
-which is a linear condition on $(b_1, b_2, b_3)$.  If we go through the same steps with $\partial \SSE/ \partial b_2$ and $\partial \SSE / \partial b_3$, we obtain the linear system
+which is a linear condition for our proposed coefficient estimates, $(b_r, b_s, b_n)$.
+If we go through the same steps with $\partial \SSE/ \partial b_s$ and $\partial \SSE / \partial b_t$, we obtain the linear system
 $$
 \begin{aligned}
-\left( \sum_n x_{n1}^2 \right) b_1 + \left( \sum_n x_{n1} x_{n2} \right) b_2 + \left( \sum_n x_{n1} x_{n3} \right) b_3 &= \sum_n x_{n1} Y_n, \\
-\left( \sum_n x_{n2} x_{n1} \right) b_1 + \left( \sum_n x_{n2}^2 \right) b_2 + \left( \sum_n x_{n2} x_{n3} \right) b_3 &= \sum_n x_{n2} Y_n, \\
-\left( \sum_n x_{n3} x_{n1} \right) b_1 + \left( \sum_n x_{n3} x_{n2} \right) b_2 + \left( \sum_n x_{n3}^2 \right) b_3 &= \sum_n x_{n3} Y_n.
+\left( \sum_n r_n^2 \right) b_r + \left( \sum_n r_n s_n \right) b_s + \left( \sum_n r_n t_n \right) b_t &= \sum_n r_n Y_n, \\
+\left( \sum_n r_n s_n \right) b_r + \left( \sum_n s_n^2 \right) b_s + \left( \sum_n s_n t_n \right) b_t &= \sum_n s_n Y_n, \\
+\left( \sum_n r_n t_n \right) b_r + \left( \sum_n s_n t_n \right) b_s + \left( \sum_n t_n^2 \right) b_t &= \sum_n t_n Y_n.
 \end{aligned}
 $$
-This is a linear system of three equations in three unknowns, namely $(b_1, b_2, b_3)$.  We can write it as $\mathbf{A} \mathbf{b} = \mathbf{c}$, where $\mathbf{b}$ is the $3 \times 1$ column vector we are trying to solve for.  You'll remember from last week that we use matrix algebra to solve linear systems like this one.
+This is a linear system of three equations in three unknowns, namely the coefficient estimates $(b_r, b_s, b_t)$.
+You'll remember from last week that we can write linear systems in terms of matrix algebra, and then use matrix inversion to solve these systems.
+Once we solve this system, we'll have the coefficient estimates that minimize the sum of squared residuals.
+Let's write it up in the form $\mathbf{A} \mathbf{b} = \mathbf{c}$, where:
 
-Let's take a closer look at the coefficient matrix we have here,
+*   $\mathbf{A}$ is the $3 \times 3$ matrix of coefficients (known)
+*   $\mathbf{b}$ is the $3 \times 1$ vector we're trying to solve for (unknown for now, will give us the OLS formula once we've solved the system)
+*   $\mathbf{c}$ is the $3 \times 1$ vector containing the value of each of three equations we are solving for (known)
+
+The matrix form of our system of equations, divided into these three components, is as follows
 $$
-\mathbf{A} =
-\begin{bmatrix}
-\sum_n x_{n1}^2 & \sum_n x_{n1} x_{n2} & \sum_n x_{n1} x_{n3} \\
-\sum_n x_{n2} x_{n1} & \sum_n x_{n2}^2 & \sum_n x_{n2} x_{n3} \\
-\sum_n x_{n3} x_{n1} & \sum_n x_{n3} x_{n2} & \sum_n x_{n3}^2
-\end{bmatrix}
-$$
-Notice that each $ij$'th element is
-$$
-a_{ij} = \sum_n x_{ni} x_{nj} = \mathbf{X}_i \cdot \mathbf{X}_j,
-$$
-the dot product of the $i$'th and $j$'th columns of our $\mathbf{X}$ matrix.  Of course, the $i$'th column of $\mathbf{X}$ is the $i$'th row of $\mathbf{X}^\top$.  If the $ij$'th entry of $\mathbf{A}$ is the dot product of the $i$'th row of $\mathbf{X}^\top$ and the $j$'th column of $\mathbf{X}$, that means
-$$
-\mathbf{A} = \mathbf{X}^\top \mathbf{X}.
+\underbrace{\begin{bmatrix}
+\sum_n r_n^2 & \sum_n r_n s_n & \sum_n r_n t_n \\
+\sum_n r_n s_n & \sum_n s_n^2 & \sum_n s_n t_n \\
+\sum_n r_n t_n & \sum_n s_n t_n & \sum_n t_n^2
+\end{bmatrix}}_{\mathbf{A}}
+\underbrace{\begin{bmatrix}
+b_r \\ b_s \\ b_t
+\end{bmatrix}}_{\mathbf{b}}
+=
+\underbrace{\begin{bmatrix}
+\sum_n r_n Y_n \\ \sum_n s_n Y_n \\ \sum_n t_n Y_n
+\end{bmatrix}}_{\mathbf{c}}.
 $$
 
-Similarly, let's take a look at our right-hand side,
+Now before we go on, let's think about where we want to end up.
+Remember I claimed the OLS formula is $\hat{\beta}_{\OLS} = (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top \mathbf{Y}$.
+Let's take a closer look at each portion of this formula.
+For our example here with the three variables $r$, $s$, and $t$, we have
 $$
-\mathbf{c} = \begin{bmatrix}
-\sum_n x_{n1} Y_n \\
-\sum_n x_{n2} Y_n \\
-\sum_n x_{n3} Y_n
+\mathbf{X} = \begin{bmatrix}
+r_1 & s_1 & t_1 \\
+r_2 & s_2 & t_2 \\
+\vdots & \vdots & \vdots \\
+r_N & s_N & t_N
+\end{bmatrix}, \quad
+\mathbf{Y} = \begin{bmatrix}
+Y_1 \\ Y_2 \\ \vdots \\ Y_N
 \end{bmatrix}.
 $$
-Each $i$'th entry of $\mathbf{c}$ is
+Since $\mathbf{X}$ is $N \times 3$ and $\mathbf{Y}$ is $N \times 1$, if we want to multiply them, we need to take the transpose of $\mathbf{X}$.
+Doing so, we yield
 $$
-c_i = \sum_n x_{ni} Y_n = \mathbf{X}_i \cdot \mathbf{Y}.
+\begin{aligned}
+\mathbf{X}^\top \mathbf{Y}
+&= \begin{bmatrix}
+r_1 & r_2 & \cdots & r_N \\
+s_1 & s_2 & \cdots & s_N \\
+t_1 & t_2 & \cdots & t_N
+\end{bmatrix} \begin{bmatrix}
+Y_1 \\ Y_2 \\ \vdots \\ Y_N
+\end{bmatrix} \\
+&= \begin{bmatrix}
+r_1 Y_1 + r_2 Y_2 + \cdots + r_N y_N \\
+s_1 Y_1 + s_2 Y_2 + \cdots + s_N y_N \\
+t_1 Y_1 + t_2 Y_2 + \cdots + t_N y_N \\
+\end{bmatrix} \\
+&= \begin{bmatrix}
+\sum_n r_n Y_n \\ \sum_n s_n Y_n \\ \sum_n t_n Y_n
+\end{bmatrix}.
+\end{aligned}
 $$
-the dot product of the $i$'th column of $\mathbf{X}$ (i.e., the $i$'th column of $\mathbf{X}^\top$) and the vector $\mathbf{Y}$.  Therefore, we have
+This is precisely what we have on the right-hand side of our system of equations above!
+In other words, we have $\mathbf{c} = \mathbf{X}^\top \mathbf{Y}$.
+Looking at the other portion of what I have claimed is the OLS formula, notice that
 $$
-\mathbf{c} = \mathbf{X}^\top \mathbf{Y}.
+\begin{aligned}
+\mathbf{X}^\top \mathbf{X}
+&= \begin{bmatrix}
+r_1 & r_2 & \cdots & r_N \\
+s_1 & s_2 & \cdots & s_N \\
+t_1 & t_2 & \cdots & t_N
+\end{bmatrix} \begin{bmatrix}
+r_1 & s_1 & t_1 \\
+r_2 & s_2 & t_2 \\
+\vdots & \vdots & \vdots \\
+r_N & s_N & t_N
+\end{bmatrix} \\
+&= \begin{bmatrix}
+r_1^2 + \cdots + r_N^2 & r_1 s_1 + \cdots + r_N s_N & r_1 t_1 + \cdots + r_N t_N \\
+r_1 s_1 + \cdots + r_N s_N & s_1^2 + \cdots + s_N^2 & s_1 t_1 + \cdots + s_N t_N \\
+r_1 t_1 + \cdots + r_N t_N & s_1 t_1 + \cdots + s_N t_N & t_1^2 + \cdots + t_N^2
+\end{bmatrix} \\
+&= \begin{bmatrix}
+\sum_n r_n^2 & \sum_n r_n s_n & \sum_n r_n t_n \\
+\sum_n r_n s_n & \sum_n s_n^2 & \sum_n s_n t_n \\
+\sum_n r_n t_n & \sum_n s_n t_n & \sum_n t_n^2
+\end{bmatrix}
+\end{aligned}
 $$
+This is exactly the matrix of coefficients from our system of equations: $\mathbf{A} = \mathbf{X}^\top \mathbf{X}$.
 
-Our linear system of equations, $\mathbf{A} \mathbf{b} = \mathbf{c}$, is equivalent to
+We're now in position to derive the formula for the OLS estimator.
+Starting from the premise that we wanted to choose $\mathbf{b}$ to minimize the sum of squared residuals, we ended up with the system of equations
 $$
-(\mathbf{X}^\top \mathbf{X}) \mathbf{b} = \mathbf{X}^\top \mathbf{Y}.
+\underbrace{(\mathbf{X}^\top \mathbf{X})}_{\mathbf{A}} \mathbf{b} = \underbrace{\mathbf{X}^\top \mathbf{Y}}_{\mathbf{c}}.
 $$
-Consequently, the solution to the system is
+So to solve for $\mathbf{b}$, we'd like to "divide" each side by $\mathbf{X}^\top \mathbf{X}$.
+In terms of matrix algebra, this means multiplying each side on the left by $(\mathbf{X}^\top \mathbf{X})^{-1}$.
+Altogether, this gives us the formula
 $$
 \mathbf{b} = (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top \mathbf{Y}.
 $$
@@ -194,7 +256,11 @@ Imagine you have a linear dependency between two variables, so one is just a sca
 
 ## Vector-Valued Random Variables
 
+<!-- Add reminder on expectation, variance, their basic properties, law of iterated expectations -->
+
 Before we can talk about the properties of OLS in the multivariate case, we need to refresh ourselves on how basic statistical operations (expected value and variance) translate when we're dealing with vectors of random variables.
+This section will assume you are familiar with expected value and variance.
+If you feel shaky about those terms, go back to the probability refresher in Section \@ref(probability).
 
 Let $A$ and $B$ be random variables with means $\mu_A = E[A]$ and $\mu_B = E[B]$ respectively.  Let $C$ be the column vector whose first value is $A$ and whose second value is $B$:
 $$
@@ -242,15 +308,34 @@ This is what we call the *variance* matrix, or *variance-covariance matrix*, of 
 
 ## Properties of OLS
 
+<!-- Should update this section to add proof that strict exogeneity implies zero correlation, and to apply the law of iterated expectations to OLS unbiasedness -->
+
 Just like in the bivariate case, the "good" properties of OLS depend on whether the process that generated our data satisfies particular assumptions.  The key assumption, which we call *strict exogeneity*, is
 $$
 E[\epsilon \,|\, \mathbf{X}] = \mathbf{0}.
 $$
-In other words, the error term must be uncorrelated with the covariates.  Remember that the error for the $n$'th observation, $\epsilon_n$, collects everything that affects $Y_n$ but is not included in $\mathbf{x}_n$.  So what we're saying when we impose this condition is either that there's nothing else out there that affects $\mathbf{Y}$ besides $\mathbf{X}$ (unlikely!), or that anything else that affects $\mathbf{Y}$ is uncorrelated with $\mathbf{X}$ (also unlikely, but slightly less so!).
+When we assume strict exogeneity, we are assuming the error term is uncorrelated with the covariates.
+To see why, let's impose strict exogeneity, and calculate the covariance between the $m$'th error term, $\epsilon_m$, and the $n$'th observation of the $k$'th covariate, $X_{nk}$.
+($m$ and $n$ may be the same or different.)
+Assuming strict exogeneity holds, we have
+$$
+\begin{aligned}
+\Cov[\epsilon_m, X_{nk}]
+&= E[(\epsilon_m - E[\epsilon_m])(X_{nk} - E[X_{nk}])] \\
+&= E[ \epsilon_m (X_{nk} - E[X_{nk}]) ] \\
+&= E[ \epsilon_m X_{nk} ] - E [ \epsilon_m E[X_{nk}] ] \\
+&= \underbrace{E[ E[ \epsilon_m X_{nk} \,|\, X_{nk} ] ]}_{\text{by law of iterated expectation}} - \underbrace{E [\epsilon_m]}_{= 0} E[ X_{nk} ] \\
+&= E[ X_{nk} \underbrace{E[\epsilon_m \,|\, X_{nk}]}_{=0} ] \\
+&= 0.
+\end{aligned}
+$$
+Therefore, once we have assumed strict exogeneity, we have thereby assumed zero correlation between the covariates and the error term.
+
+Remember that the error for the $n$'th observation, $\epsilon_n$, collects everything that affects $Y_n$ but is not included in $\mathbf{x}_n$.  So what we're saying when we impose strict exogeneity is either that there's nothing else out there that affects $\mathbf{Y}$ besides $\mathbf{X}$ (unlikely!), or that anything else that affects $\mathbf{Y}$ is uncorrelated with $\mathbf{X}$ (also unlikely, but slightly less so!).
 
 In the '90s and '00s, as more data became available and computing power increased, political scientists labored under the delusion that the way to make strict exogeneity hold was to throw every covariate you could imagine into each regression.  This approach was statistically illiterate [@clarke2005phantom] and scholars have since begun to favor *design-based* approaches.  The basic idea is to collect data with relatively little unobservable heterogeneity, whether through experiments or through careful observational work, rather than to try to eliminate it through endless controls.  We'll talk more about design when we get to causal inference, and it will be a major source of discussion in Stat III.
 
-For now, let us proceed imagining that strict exogeneity holds.  Then, just as in the bivariate case, OLS is unbiased.  In fact, it's even easier to prove now.  First, notice that under strict exogeneity, we have
+For now, let us proceed imagining that strict exogeneity holds.  Then, just as in the bivariate case, OLS is unbiased.  In fact, it's even easier to prove now.  Momentarily treating the covariates $\mathbf{X}$ as fixed, strict exogeneity implies that
 $$
 \begin{aligned}
 E[\mathbf{Y} \,|\, \mathbf{X}]
@@ -267,8 +352,12 @@ E[\hat{\beta}_{\OLS}(\mathbf{X}, \mathbf{Y}) \,|\, \mathbf{X}]
 &= (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top E[\mathbf{Y} \,|\, \mathbf{X}] \\
 &= (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top (\mathbf{X} \beta) \\
 &= (\mathbf{X}^\top \mathbf{X})^{-1} (\mathbf{X}^\top \mathbf{X}) \beta \\
-&= \beta,
+&= \beta.
 \end{aligned}
+$$
+Finally, applying the law of iterated expectations, we have
+$$
+E[\hat{\beta}_{\OLS}] = E [ E[\hat{\beta}_{\OLS} \,|\, \mathbf{X}] ] = E [ \beta ] = \beta,
 $$
 which is the definition of unbiasedness.
 

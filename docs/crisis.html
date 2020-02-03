@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html lang="" xml:lang="">
 <head>
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>10 The Statistical Crisis in Science | Practical Data Analysis for Political Scientists</title>
   <meta name="description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right." />
-  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.17.2 and GitBook 2.6.7" />
 
   <meta property="og:title" content="10 The Statistical Crisis in Science | Practical Data Analysis for Political Scientists" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Brenton Kenkel" />
 
 
-<meta name="date" content="2020-01-27" />
+<meta name="date" content="2020-02-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,8 +33,8 @@
   
 <link rel="prev" href="inference.html"/>
 <link rel="next" href="nonspherical.html"/>
+<script src="libs/header-attrs-2.1/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
-<script src="libs/elevate-section-attrs-2.0/elevate-section-attrs.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -157,7 +157,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="5" data-path="bivariate.html"><a href="bivariate.html"><i class="fa fa-check"></i><b>5</b> Bivariate Regression</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="bivariate.html"><a href="bivariate.html#probability-refresher"><i class="fa fa-check"></i><b>5.1</b> Probability Refresher</a></li>
+<li class="chapter" data-level="5.1" data-path="bivariate.html"><a href="bivariate.html#probability"><i class="fa fa-check"></i><b>5.1</b> Probability Refresher</a></li>
 <li class="chapter" data-level="5.2" data-path="bivariate.html"><a href="bivariate.html#the-linear-model"><i class="fa fa-check"></i><b>5.2</b> The Linear Model</a></li>
 <li class="chapter" data-level="5.3" data-path="bivariate.html"><a href="bivariate.html#least-squares"><i class="fa fa-check"></i><b>5.3</b> Least Squares</a></li>
 <li class="chapter" data-level="5.4" data-path="bivariate.html"><a href="bivariate.html#properties"><i class="fa fa-check"></i><b>5.4</b> Properties</a></li>
@@ -248,19 +248,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="crisis" class="section level1" number="10">
-<h1 number="10"><span class="header-section-number">10</span> The Statistical Crisis in Science</h1>
+<h1><span class="header-section-number">10</span> The Statistical Crisis in Science</h1>
 <p>As a general rule, I do not believe the statistical results reported in political science publications. More to the point, absent compelling evidence to the contrary, I assume that:</p>
 <ul>
 <li><p>Reported effect sizes are biased upward in magnitude. The marginal effect of the key variable(s) in the population is likely less dramatic than what is reported.</p></li>
 <li><p>Reported <span class="math inline">\(p\)</span>-values are biased downward. The probability of making a Type I error, in case the null hypothesis were false and one followed the <em>actual</em> procedure that led to the reported results, is greater than what is reported.</p></li>
 </ul>
-<p>My position is not one of blind skepticism. It follows, perhaps ironically, from empirical research showing that far more than 5 percent of studies do not replicate upon re-testing <span class="citation">(Open Science Collaboration <a href="references.html#ref-open2015estimating" role="doc-biblioref">2015</a>)</span>. <span class="citation">Ioannidis (<a href="references.html#ref-ioannidis2005most" role="doc-biblioref">2005</a>)</span> puts it bluntly: “Most published research findings are false.” Today we’ll discuss why.</p>
-<p>I’ll follow <span class="citation">Young, Ioannidis, and Al-Ubaydli (<a href="references.html#ref-young2008current" role="doc-biblioref">2008</a>)</span>’s economic analogy. Consider scientific publication as an economic activity, where researchers “sell” findings to journals in exchange for prestige.<a href="#fn27" class="footnote-ref" id="fnref27"><sup>27</sup></a> The <em>demand-side problem</em> is that journals will only “buy” statistically significant findings. Even absent any effects on author behavior, this practice makes published findings a biased sample of actual findings. But of course there are effects on author behavior. The <em>supply-side problem</em> is that authors try to produce “statistically significant” findings instead of scientifically sound findings.</p>
+<p>My position is not one of blind skepticism. It follows, perhaps ironically, from empirical research showing that far more than 5 percent of studies do not replicate upon re-testing <span class="citation">(Open Science Collaboration <a href="#ref-open2015estimating" role="doc-biblioref">2015</a>)</span>. <span class="citation">Ioannidis (<a href="#ref-ioannidis2005most" role="doc-biblioref">2005</a>)</span> puts it bluntly: “Most published research findings are false.” Today we’ll discuss why.</p>
+<p>I’ll follow <span class="citation">Young, Ioannidis, and Al-Ubaydli (<a href="#ref-young2008current" role="doc-biblioref">2008</a>)</span>’s economic analogy. Consider scientific publication as an economic activity, where researchers “sell” findings to journals in exchange for prestige.<a href="#fn27" class="footnote-ref" id="fnref27"><sup>27</sup></a> The <em>demand-side problem</em> is that journals will only “buy” statistically significant findings. Even absent any effects on author behavior, this practice makes published findings a biased sample of actual findings. But of course there are effects on author behavior. The <em>supply-side problem</em> is that authors try to produce “statistically significant” findings instead of scientifically sound findings.</p>
 <p>There is far more out there on the replication crisis in science than we can cover in a week. Sanjay Srivastava’s faux syllabus, <a href="https://hardsci.wordpress.com/2016/08/11/everything-is-fucked-the-syllabus/">“Everything is fucked”</a>, provides a more comprehensive treatment.</p>
 <div id="publication-bias" class="section level2" number="10.1">
-<h2 number="10.1"><span class="header-section-number">10.1</span> Publication Bias</h2>
+<h2><span class="header-section-number">10.1</span> Publication Bias</h2>
 <p>If you open up an issue of any empirically oriented political science journal, you will not read many abstracts that conclude “We were unable to reject the null hypothesis of no effect.” You probably won’t see any. The prevailing attitude of reviewers and editors is that only significant results are interesting and only interesting results are worth publishing—so only significant results get published.</p>
-<p>Consequently, published empirical findings are not a representative sample of all empirical findings. <a href="http://andrewgelman.com/2011/09/10/the-statistical-significance-filter/">Andrew Gelman calls this the <em>statistical significance filter</em></a>: the publication process only reveals the findings of some studies, namely those that achieve statistical significance. If you draw your beliefs from scientific journals (particularly prestigious ones, as <span class="citation">Ioannidis (<a href="references.html#ref-ioannidis2008most" role="doc-biblioref">2008</a>)</span> notes), you will end up with some false ideas about how the world works.</p>
+<p>Consequently, published empirical findings are not a representative sample of all empirical findings. <a href="http://andrewgelman.com/2011/09/10/the-statistical-significance-filter/">Andrew Gelman calls this the <em>statistical significance filter</em></a>: the publication process only reveals the findings of some studies, namely those that achieve statistical significance. If you draw your beliefs from scientific journals (particularly prestigious ones, as <span class="citation">Ioannidis (<a href="#ref-ioannidis2008most" role="doc-biblioref">2008</a>)</span> notes), you will end up with some false ideas about how the world works.</p>
 <p>Some of these beliefs will be Type I errors: you will reject null hypotheses that are true. Suppose there is a treatment <span class="math inline">\(T\)</span> that has no effect on an outcome <span class="math inline">\(Y\)</span>, and 100 labs run separate experiments of the effect of <span class="math inline">\(T\)</span> on <span class="math inline">\(Y\)</span>. We would expect about 95 of these experiments to (correctly) fail to reject the null hypotheses, and about 5 to (incorrectly) reject it. But if some of the significant findings get published and none of the insignificant ones do, you will end up incorrectly believing the treatment affects the outcome.</p>
 <p>But the statistical significance filter has another, less obvious—and thus more pernicious—effect on our inferences. Assume that the null hypothesis is indeed false: that the treatment <span class="math inline">\(T\)</span> has an effect on the outcome <span class="math inline">\(Y\)</span>. Suppose once again that 100 labs run separate experiments of the effect of <span class="math inline">\(T\)</span> on <span class="math inline">\(Y\)</span>. Depending on the power of the experiments, some proportion of them will (incorrectly) fail to reject the null hypothesis, and the remainder will (correctly) reject it. Because of the statistical significance filter, only the ones that reject the null hypothesis will get published.</p>
 <p>That’s not so bad, right? Only the studies that reject the null hypothesis get published, but the null hypothesis is wrong! The problem comes in when we want to evaluate the size of the effect—what political scientists like to call “substantive significance.”<a href="#fn28" class="footnote-ref" id="fnref28"><sup>28</sup></a> On average, the statistically significant studies will tend to overestimate the magnitude of the effect. Viewing studies through the statistical significance filter, we will correctly infer that there is an effect, but we will systematically overestimate how strong it is.</p>
@@ -271,14 +271,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The first time I read about this result, on Andrew Gelman’s blog, I didn’t believe it. (I <em>should</em> have believed it, because he’s a professional statistician and I’m not.) So I fired up R and ran a simulation to answer: if we only report our estimate of <span class="math inline">\(\beta_k\)</span> when it’s statistically significant, will we overestimate its magnitude on average? In your R session this week, you will run a version of this same simulation.</p>
 </div>
 <div id="p-hacking" class="section level2" number="10.2">
-<h2 number="10.2"><span class="header-section-number">10.2</span> <span class="math inline">\(p\)</span>-Hacking</h2>
+<h2><span class="header-section-number">10.2</span> <span class="math inline">\(p\)</span>-Hacking</h2>
 <p>The statistical significance filter is a demand-side problem. The demand (by journals) for “insignificant” findings is too low. This in turn creates supply-side problems. Scientists’ careers depend on their ability to publish their findings. Since there is no demand for insignificant findings, scientists do what they can to conjure up significant results. In the best case scenario, this means devoting effort to projects with a high prior probability of turning up significant, rather than riskier endeavors. In the worst case, it means engaging in vaguely-to-definitely unethical statistical practices in a desperate search for significance.</p>
 <p>One way to <span class="math inline">\(p\)</span>-hack is to just define the significance level <em>post hoc</em>.</p>
 <div class="figure">
 <img src="p_values.png" alt="" />
 <p class="caption"><a href="https://xkcd.com/1478/">XKCD #1478.</a></p>
 </div>
-<p>Luckily, this is pretty transparent. The convention, for better or worse, is a significance level of 0.05, and it’s easy to notice deviations from the convention. Look for the “daggers” in people’s regression tables, or language like “comes close to statistical significance”. Matthew Hankins’ blog post <a href="https://mchankins.wordpress.com/2013/04/21/still-not-significant-2/">“Still Not Significant”</a> is a comprehensive compendium of the weasel language people use to try to dress up their insignificant findings. See also <span class="citation">Pritschet, Powell, and Horne (<a href="references.html#ref-pritschet2016marginally" role="doc-biblioref">2016</a>)</span>.</p>
+<p>Luckily, this is pretty transparent. The convention, for better or worse, is a significance level of 0.05, and it’s easy to notice deviations from the convention. Look for the “daggers” in people’s regression tables, or language like “comes close to statistical significance”. Matthew Hankins’ blog post <a href="https://mchankins.wordpress.com/2013/04/21/still-not-significant-2/">“Still Not Significant”</a> is a comprehensive compendium of the weasel language people use to try to dress up their insignificant findings. See also <span class="citation">Pritschet, Powell, and Horne (<a href="#ref-pritschet2016marginally" role="doc-biblioref">2016</a>)</span>.</p>
 <p>The more pernicious form of <span class="math inline">\(p\)</span>-hacking is going fishing for something significant after one’s original hypothesis test “fails.” Let us once again imagine a lab performing an experiment. They are interested in the effect of a treatment <span class="math inline">\(T\)</span> on an outcome <span class="math inline">\(Y\)</span>. To make it concrete, suppose the treatment is reading a particular editorial, and the outcome is where the respondent places himself or herself on a left-right ideological scale ranging between 0 and 1. The lab spends a lot of time and money recruiting subjects, running the experiment, and tabulating the data. They get their spreadsheet together, load their data into R, test for a treatment effect … and fail to reject the null hypothesis.</p>
 <p>Damn. All that effort wasted, for a result that can’t be published. But wait! The op-ed was written by a man, and his picture appeared next to it. It seems plausible that it might only have an effect on men, or only one on women. So just to see, the lab re-runs the test once just for men and once just for women. They get a <span class="math inline">\(p\)</span>-value just below <span class="math inline">\(0.05\)</span> for the male subsample! Hooray! This is at least potentially a publishable finding!</p>
 <p>What’s wrong with this picture? Let’s go back to the formal definition of the significance level.</p>
@@ -306,7 +306,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>What all these have in common is that the final test you report depends on the result of some earlier test you ran. All standard hypothesis tests assume that you didn’t do anything like this—that this was the only test you ran, that your initial results didn’t influence your choice of further tests. It is unethical to report the nominal <span class="math inline">\(p\)</span>-value (i.e., the value your computer spits out) from a <span class="math inline">\(p\)</span>-hacked test, because the true probability of getting a result at least as extreme is greater than the nominal value.</p>
 </div>
 <div id="what-to-do" class="section level2" number="10.3">
-<h2 number="10.3"><span class="header-section-number">10.3</span> What to Do</h2>
+<h2><span class="header-section-number">10.3</span> What to Do</h2>
 <p>At a macro level, we should probably:</p>
 <ul>
 <li><p>Assume the magnitudes of published results are exaggerated, and adjust our own beliefs accordingly.</p></li>
@@ -323,7 +323,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 </div>
 <div id="appendix-r-simulation" class="section level2" number="10.4">
-<h2 number="10.4"><span class="header-section-number">10.4</span> Appendix: R Simulation</h2>
+<h2><span class="header-section-number">10.4</span> Appendix: R Simulation</h2>
 <p>Let’s run a simulation to see how publication bias affects scientific output.</p>
 <p>Imagine a bivariate regression situation where <span class="math inline">\(X\)</span> has a small but real effect on <span class="math inline">\(Y\)</span>. Specifically, let the population model be
 <span class="math display">\[
@@ -409,6 +409,24 @@ where <span class="math inline">\(X_n\)</span> is uniformly distributed on <span
 <p><img src="pdaps_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
 <p>The significance-filtered average is still overinflated, but not nearly as drastically as when we were working with a small sample.</p>
 
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-ioannidis2005most">
+<p>Ioannidis, John PA. 2005. “Why Most Published Research Findings Are False.” <em>PLos Med</em> 2 (8): e124.</p>
+</div>
+<div id="ref-ioannidis2008most">
+<p>Ioannidis, John PA. 2008. “Why Most Discovered True Associations Are Inflated.” <em>Epidemiology</em> 19 (5): 640–48.</p>
+</div>
+<div id="ref-open2015estimating">
+<p>Open Science Collaboration. 2015. “Estimating the Reproducibility of Psychological Science.” <em>Science</em> 349 (6251): aac4716.</p>
+</div>
+<div id="ref-pritschet2016marginally">
+<p>Pritschet, Laura, Derek Powell, and Zachary Horne. 2016. “Marginally Significant Effects as Evidence for Hypotheses: Changing Attitudes over Four Decades.” <em>Psychological Science</em> 27 (7): 1036–42.</p>
+</div>
+<div id="ref-young2008current">
+<p>Young, Neal S, John PA Ioannidis, and Omar Al-Ubaydli. 2008. “Why Current Publication Practices May Distort Science.” <em>PLoS Med</em> 5 (10): e201.</p>
 </div>
 </div>
 <div class="footnotes">

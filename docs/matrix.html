@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html lang="" xml:lang="">
 <head>
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>6 Matrix Algebra: A Crash Course | Practical Data Analysis for Political Scientists</title>
   <meta name="description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right." />
-  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.17.2 and GitBook 2.6.7" />
 
   <meta property="og:title" content="6 Matrix Algebra: A Crash Course | Practical Data Analysis for Political Scientists" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Brenton Kenkel" />
 
 
-<meta name="date" content="2020-01-27" />
+<meta name="date" content="2020-02-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,8 +33,8 @@
   
 <link rel="prev" href="bivariate.html"/>
 <link rel="next" href="ols-matrix.html"/>
+<script src="libs/header-attrs-2.1/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
-<script src="libs/elevate-section-attrs-2.0/elevate-section-attrs.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -157,7 +157,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="5" data-path="bivariate.html"><a href="bivariate.html"><i class="fa fa-check"></i><b>5</b> Bivariate Regression</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="bivariate.html"><a href="bivariate.html#probability-refresher"><i class="fa fa-check"></i><b>5.1</b> Probability Refresher</a></li>
+<li class="chapter" data-level="5.1" data-path="bivariate.html"><a href="bivariate.html#probability"><i class="fa fa-check"></i><b>5.1</b> Probability Refresher</a></li>
 <li class="chapter" data-level="5.2" data-path="bivariate.html"><a href="bivariate.html#the-linear-model"><i class="fa fa-check"></i><b>5.2</b> The Linear Model</a></li>
 <li class="chapter" data-level="5.3" data-path="bivariate.html"><a href="bivariate.html#least-squares"><i class="fa fa-check"></i><b>5.3</b> Least Squares</a></li>
 <li class="chapter" data-level="5.4" data-path="bivariate.html"><a href="bivariate.html#properties"><i class="fa fa-check"></i><b>5.4</b> Properties</a></li>
@@ -248,12 +248,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="matrix" class="section level1" number="6">
-<h1 number="6"><span class="header-section-number">6</span> Matrix Algebra: A Crash Course</h1>
+<h1><span class="header-section-number">6</span> Matrix Algebra: A Crash Course</h1>
 <p><em>Some material in this chapter is adapted from notes <a href="https://hyeyoungyou.com">Hye Young You</a> wrote for the math boot camp for the political science PhD program at Vanderbilt.</em></p>
 <p>Matrix algebra is an essential tool for understanding multivariate statistics. You are probably already familiar with matrices, at least informally. The data representations we have worked with so far—each row an observation, each column a variable—are formatted like matrices.</p>
 <p>An introductory treatment of matrix algebra is a semester-long college course. We don’t have that long, or even half that long. This chapter gives you the <em>bare minimum</em> you need to understand to get up and running with the matrix algebra we need for OLS with multiple covariates. If you want to use advanced statistical methods in your research and haven’t previously taken a matrix algebra or linear algebra course, I recommend taking some time this summer to catch up. For example, MIT has its undergraduate linear algebra course <a href="https://ocw.mit.edu/courses/mathematics/18-06-linear-algebra-spring-2010/index.htm">available online</a>, including video lectures.</p>
 <div id="vector-operations" class="section level2" number="6.1">
-<h2 number="6.1"><span class="header-section-number">6.1</span> Vector Operations</h2>
+<h2><span class="header-section-number">6.1</span> Vector Operations</h2>
 <p>A <em>vector</em> is an ordered array. To denote a vector <span class="math inline">\(v\)</span> of <span class="math inline">\(k\)</span> elements, we write <span class="math inline">\(\mathbf{v} = (v_1, v_2, \ldots, v_k)\)</span>, or sometimes
 <span class="math display">\[
 \mathbf{v} = \begin{pmatrix} v_1 \\ v_2 \\ \vdots \\ v_k \end{pmatrix}.
@@ -314,7 +314,7 @@ is <span class="math inline">\(c_1 = 0, \ldots, c_J = 0\)</span>. Otherwise, we 
 \]</span></p>
 </div>
 <div id="matrix-operations" class="section level2" number="6.2">
-<h2 number="6.2"><span class="header-section-number">6.2</span> Matrix Operations</h2>
+<h2><span class="header-section-number">6.2</span> Matrix Operations</h2>
 <p>A matrix is a two-dimensional array of numbers, with entries in rows and columns. We call a matrix with <span class="math inline">\(n\)</span> rows and <span class="math inline">\(m\)</span> columns an <span class="math inline">\(n \times m\)</span> matrix. For example, the following is a <span class="math inline">\(2 \times 3\)</span> matrix:
 <span class="math display">\[
 \mathbf{A}
@@ -485,7 +485,7 @@ And here’s one that you’ll start seeing a lot of soon.
 </ul>
 </div>
 <div id="matrix-inversion" class="section level2" number="6.3">
-<h2 number="6.3"><span class="header-section-number">6.3</span> Matrix Inversion</h2>
+<h2><span class="header-section-number">6.3</span> Matrix Inversion</h2>
 <p>We’ve covered matrix addition, subtraction, and multiplication. What about division?</p>
 <p>Let’s think about division of real numbers for a second. We know that any division problem can be rewritten as a multiplication problem,
 <span class="math display">\[
@@ -576,7 +576,7 @@ d &amp; -b \\
 \]</span></p>
 </div>
 <div id="solving-linear-systems" class="section level2" number="6.4">
-<h2 number="6.4"><span class="header-section-number">6.4</span> Solving Linear Systems</h2>
+<h2><span class="header-section-number">6.4</span> Solving Linear Systems</h2>
 <p>You may remember from high school being asked to solve for <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span> in systems of equations like the following one:
 <span class="math display">\[
 \begin{aligned}
@@ -612,7 +612,7 @@ x_1 + x_2 &amp;= 1, \\
 \]</span></p>
 </div>
 <div id="appendix-matrices-in-r" class="section level2" number="6.5">
-<h2 number="6.5"><span class="header-section-number">6.5</span> Appendix: Matrices in R</h2>
+<h2><span class="header-section-number">6.5</span> Appendix: Matrices in R</h2>
 <!-- Making this a separate Rmd file since the math in the other one was driving R Studio insane -->
 <p>We use the <code>matrix()</code> command to create matrices.</p>
 <div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb176-1"><a href="matrix.html#cb176-1"></a>A &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">4</span>),</span>

@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html lang="" xml:lang="">
 <head>
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>8 Specification Issues | Practical Data Analysis for Political Scientists</title>
   <meta name="description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right." />
-  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.17.2 and GitBook 2.6.7" />
 
   <meta property="og:title" content="8 Specification Issues | Practical Data Analysis for Political Scientists" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Brenton Kenkel" />
 
 
-<meta name="date" content="2020-01-27" />
+<meta name="date" content="2020-02-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,8 +33,8 @@
   
 <link rel="prev" href="ols-matrix.html"/>
 <link rel="next" href="inference.html"/>
+<script src="libs/header-attrs-2.1/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
-<script src="libs/elevate-section-attrs-2.0/elevate-section-attrs.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -157,7 +157,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="5" data-path="bivariate.html"><a href="bivariate.html"><i class="fa fa-check"></i><b>5</b> Bivariate Regression</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="bivariate.html"><a href="bivariate.html#probability-refresher"><i class="fa fa-check"></i><b>5.1</b> Probability Refresher</a></li>
+<li class="chapter" data-level="5.1" data-path="bivariate.html"><a href="bivariate.html#probability"><i class="fa fa-check"></i><b>5.1</b> Probability Refresher</a></li>
 <li class="chapter" data-level="5.2" data-path="bivariate.html"><a href="bivariate.html#the-linear-model"><i class="fa fa-check"></i><b>5.2</b> The Linear Model</a></li>
 <li class="chapter" data-level="5.3" data-path="bivariate.html"><a href="bivariate.html#least-squares"><i class="fa fa-check"></i><b>5.3</b> Least Squares</a></li>
 <li class="chapter" data-level="5.4" data-path="bivariate.html"><a href="bivariate.html#properties"><i class="fa fa-check"></i><b>5.4</b> Properties</a></li>
@@ -248,7 +248,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="specification" class="section level1" number="8">
-<h1 number="8"><span class="header-section-number">8</span> Specification Issues</h1>
+<h1><span class="header-section-number">8</span> Specification Issues</h1>
 <p>I lied to you about the linear model last week. Like the grade-school teachers who told you everyone thought the world was flat before Columbus proved them wrong, I had good intentions—but it was a lie nonetheless.</p>
 <p>I claimed that the linear model assumed that the conditional expectation of the response was a linear function of the covariates. That is false. A data model is a linear model, can be estimated consistently and without bias by OLS, and all that good stuff, as long as it is linear in the <em>parameters</em>.</p>
 <p>For example, the following is a linear model.
@@ -263,7 +263,7 @@ Y_n = 2^{\beta_1} + 2^{\beta_2} x_n + \epsilon_n.
 Holding <span class="math inline">\(\beta\)</span> fixed, this is a linear function of the covariate <span class="math inline">\(x_n\)</span>. But, holding <span class="math inline">\(x_n\)</span> fixed, this is not a linear function of <span class="math inline">\(\beta\)</span>. OLS is not an appropriate estimator for the parameters of this model.</p>
 <p>This week, we will talk about linear models with non-standard covariate specifications—those that aren’t just a linear function of continuous variables.</p>
 <div id="categorical-variables" class="section level2" number="8.1">
-<h2 number="8.1"><span class="header-section-number">8.1</span> Categorical Variables</h2>
+<h2><span class="header-section-number">8.1</span> Categorical Variables</h2>
 <p>Using the linear model, we write the conditional expectation for the <span class="math inline">\(n\)</span>’th response as
 <span class="math display">\[
 E[Y_n \,|\, \mathbf{x}_n] = \mathbf{x}_n \cdot \beta + \epsilon_n,
@@ -455,7 +455,7 @@ The interpretation of the coefficient on Democratic is the same as for the coeff
 Notice that the slope is the same in each regression line. Only the intercept varies across groups. When we include a categorical variable in a regression model, it’s like allowing the intercept to differ across categories.</p>
 </div>
 <div id="interaction-terms" class="section level2" number="8.2">
-<h2 number="8.2"><span class="header-section-number">8.2</span> Interaction Terms</h2>
+<h2><span class="header-section-number">8.2</span> Interaction Terms</h2>
 <p>When political scientists or economists describe their regression results, they will often talk about the marginal effects of different variables. Formally, the <em>marginal effect</em> of the <span class="math inline">\(k\)</span>’th covariate, <span class="math inline">\(x_{nk}\)</span>, is
 <span class="math display">\[
 \frac{\partial{}E[Y_n \,|\, \mathbf{x}_n]}{\partial{}x_{nk}},
@@ -507,7 +507,7 @@ We saw before that including a categorical variable is like allowing a different
 <li><p>You might want to formally test the hypothesis that the effect of education is equal for whites and non-whites. This is easiest to do if you have a single model. Next week we will talk about the tools you would need to undertake this sort of test.</p></li>
 </ul>
 <p>One frequent source of confusion with interaction terms is whether you need to include lower-order terms in the model. For example, if we are only interested in how the effect of education differs with race, why can’t we just include education and its product with race in the specification? The equations above give you the answer. Leaving the white indicator out of the model is like fixing <span class="math inline">\(\beta_3 = 0\)</span>. This means you’re forcing the regression lines for whites and non-whites to have the same intercept, which there’s no good reason to do.</p>
-<p>If you’re not yet persuaded on the necessity of including constitutive terms of interactions in your regressions, see <span class="citation">Braumoeller (<a href="references.html#ref-braumoeller2004hypothesis" role="doc-biblioref">2004</a>)</span>.</p>
+<p>If you’re not yet persuaded on the necessity of including constitutive terms of interactions in your regressions, see <span class="citation">Braumoeller (<a href="#ref-braumoeller2004hypothesis" role="doc-biblioref">2004</a>)</span>.</p>
 <p>For an example of interaction terms, imagine the following example. Suppose education is measured in years of schooling.</p>
 <table>
 <thead>
@@ -586,7 +586,7 @@ These results would seem to imply that (1) older people have a higher baseline p
 \]</span></p>
 </div>
 <div id="quadratic-and-logarithmic-terms" class="section level2" number="8.3">
-<h2 number="8.3"><span class="header-section-number">8.3</span> Quadratic and Logarithmic Terms</h2>
+<h2><span class="header-section-number">8.3</span> Quadratic and Logarithmic Terms</h2>
 <p>We use interaction terms when the marginal effect of one variable depends on the value of another variable. But sometimes the marginal effect of a variable depends on its <em>own</em> value. The most stark example is a “U-shaped” relationship, such as we expect between ideology and voter turnout.</p>
 <p><img src="pdaps_files/figure-html/u-shaped-1.png" width="672" /></p>
 <p>We call this kind of relationship <em>non-monotonic</em>, since it is neither increasing everywhere nor decreasing everywhere. However, even with a monotonic relationship, the marginal effect might depend on the value of the variable. (In other words, while every linear function is monotonic, not every monotonic function is linear.) For example, think of a hockey-stick shaped relationship.</p>
@@ -628,10 +628,10 @@ we would say that a 1-percent difference in <span class="math inline">\(x_n\)</s
 <li><p>You may let theory be your guide—develop expectations, on the basis of your substantive knowledge, about whether the relevant changes in conditional expectation will be in terms of levels or proportions.</p></li>
 <li><p>Or you may be inductive—make scatterplots of all four possibilities, and choose the specification under which the relationship is closest to linear.</p></li>
 </ul>
-<p>A final note on logarithmic models. The logarithm of a number <span class="math inline">\(c \leq 0\)</span> does not exist. Therefore, a logarithmic model is only appropriate for a strictly positive response/covariate. For non-negative variables that include zeroes, some people try to “fix” this by doing <span class="math inline">\(\log(Y_n + 1)\)</span>, but in this situation it is generally better to follow the procedure advocated by <span class="citation">Burbidge, Magee, and Robb (<a href="references.html#ref-burbidge1988alternative" role="doc-biblioref">1988</a>)</span>.</p>
+<p>A final note on logarithmic models. The logarithm of a number <span class="math inline">\(c \leq 0\)</span> does not exist. Therefore, a logarithmic model is only appropriate for a strictly positive response/covariate. For non-negative variables that include zeroes, some people try to “fix” this by doing <span class="math inline">\(\log(Y_n + 1)\)</span>, but in this situation it is generally better to follow the procedure advocated by <span class="citation">Burbidge, Magee, and Robb (<a href="#ref-burbidge1988alternative" role="doc-biblioref">1988</a>)</span>.</p>
 </div>
 <div id="appendix-nonstandard-specifications-in-r" class="section level2" number="8.4">
-<h2 number="8.4"><span class="header-section-number">8.4</span> Appendix: Nonstandard Specifications in R</h2>
+<h2><span class="header-section-number">8.4</span> Appendix: Nonstandard Specifications in R</h2>
 <p>We will use the following packages:</p>
 <div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="specification.html#cb224-1"></a><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</span>
 <span id="cb224-2"><a href="specification.html#cb224-2"></a><span class="kw">library</span>(<span class="st">&quot;broom&quot;</span>)</span>
@@ -654,7 +654,7 @@ we would say that a 1-percent difference in <span class="math inline">\(x_n\)</s
 ## 5      14.6   8403 11.7      73.5   2111 prof 
 ## # … with 97 more rows</code></pre>
 <div id="categorical-variables-1" class="section level3" number="8.4.1">
-<h3 number="8.4.1"><span class="header-section-number">8.4.1</span> Categorical Variables</h3>
+<h3><span class="header-section-number">8.4.1</span> Categorical Variables</h3>
 <p>You will notice that the <code>type</code> column of the prestige data is listed as a <code>&lt;fctr&gt;</code>, which stands for factor. A factor is R’s representation of a categorical variable. Let’s take a closer look.</p>
 <div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="specification.html#cb227-1"></a>Prestige<span class="op">$</span>type</span></code></pre></div>
 <pre><code>##   [1] prof prof prof prof prof prof prof prof prof prof prof prof prof prof prof
@@ -725,7 +725,7 @@ we would say that a 1-percent difference in <span class="math inline">\(x_n\)</s
 ## 6           1        1      0</code></pre>
 </div>
 <div id="interaction-terms-1" class="section level3" number="8.4.2">
-<h3 number="8.4.2"><span class="header-section-number">8.4.2</span> Interaction Terms</h3>
+<h3><span class="header-section-number">8.4.2</span> Interaction Terms</h3>
 <p>The syntax for an interactive model is pretty intuitive. Let’s look at the joint effect of education and income on occupational prestige.</p>
 <div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="specification.html#cb248-1"></a>fit_interactive &lt;-<span class="st"> </span><span class="kw">lm</span>(prestige <span class="op">~</span><span class="st"> </span>education <span class="op">*</span><span class="st"> </span>income, <span class="dt">data =</span> Prestige)</span>
 <span id="cb248-2"><a href="specification.html#cb248-2"></a>fit_interactive</span></code></pre></div>
@@ -743,7 +743,7 @@ we would say that a 1-percent difference in <span class="math inline">\(x_n\)</s
 <p>We see that the marginal effect of education on prestige is high for low-income occupations, but almost nil for an occupation that earns around $25,000/year. (The bars represent a confidence interval—of course, we haven’t done any inferential statistics yet.)</p>
 </div>
 <div id="quadratic-and-logarithmic-models" class="section level3" number="8.4.3">
-<h3 number="8.4.3"><span class="header-section-number">8.4.3</span> Quadratic and Logarithmic Models</h3>
+<h3><span class="header-section-number">8.4.3</span> Quadratic and Logarithmic Models</h3>
 <p>The syntax for a quadratic model is a bit weird. You would think you could use a formula like <code>y ~ x + x^2</code>, but that won’t work. Instead, you have to write <code>y ~ x + I(x^2)</code>, as in the following example.</p>
 <div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb251-1"><a href="specification.html#cb251-1"></a>fit_quad &lt;-<span class="st"> </span><span class="kw">lm</span>(prestige <span class="op">~</span><span class="st"> </span>education <span class="op">+</span><span class="st"> </span><span class="kw">I</span>(education<span class="op">^</span><span class="dv">2</span>) <span class="op">+</span><span class="st"> </span>income, <span class="dt">data =</span> Prestige)</span>
 <span id="cb251-2"><a href="specification.html#cb251-2"></a>fit_quad</span></code></pre></div>
@@ -791,6 +791,15 @@ we would say that a 1-percent difference in <span class="math inline">\(x_n\)</s
 <p>To visualize the resulting relationship, you can use the same technique as for quadratic models.</p>
 
 </div>
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-braumoeller2004hypothesis">
+<p>Braumoeller, Bear F. 2004. “Hypothesis Testing and Multiplicative Interaction Terms.” <em>International Organization</em> 58 (04): 807–20.</p>
+</div>
+<div id="ref-burbidge1988alternative">
+<p>Burbidge, John B, Lonnie Magee, and A Leslie Robb. 1988. “Alternative Transformations to Handle Extreme Values of the Dependent Variable.” <em>Journal of the American Statistical Association</em> 83 (401): 123–27.</p>
 </div>
 </div>
 <div class="footnotes">

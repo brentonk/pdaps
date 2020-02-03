@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html lang="" xml:lang="">
 <head>
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>12 Clustered and Panel Data | Practical Data Analysis for Political Scientists</title>
   <meta name="description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right." />
-  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.17.2 and GitBook 2.6.7" />
 
   <meta property="og:title" content="12 Clustered and Panel Data | Practical Data Analysis for Political Scientists" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Brenton Kenkel" />
 
 
-<meta name="date" content="2020-01-27" />
+<meta name="date" content="2020-02-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,8 +33,8 @@
   
 <link rel="prev" href="nonspherical.html"/>
 <link rel="next" href="references.html"/>
+<script src="libs/header-attrs-2.1/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
-<script src="libs/elevate-section-attrs-2.0/elevate-section-attrs.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -157,7 +157,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="5" data-path="bivariate.html"><a href="bivariate.html"><i class="fa fa-check"></i><b>5</b> Bivariate Regression</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="bivariate.html"><a href="bivariate.html#probability-refresher"><i class="fa fa-check"></i><b>5.1</b> Probability Refresher</a></li>
+<li class="chapter" data-level="5.1" data-path="bivariate.html"><a href="bivariate.html#probability"><i class="fa fa-check"></i><b>5.1</b> Probability Refresher</a></li>
 <li class="chapter" data-level="5.2" data-path="bivariate.html"><a href="bivariate.html#the-linear-model"><i class="fa fa-check"></i><b>5.2</b> The Linear Model</a></li>
 <li class="chapter" data-level="5.3" data-path="bivariate.html"><a href="bivariate.html#least-squares"><i class="fa fa-check"></i><b>5.3</b> Least Squares</a></li>
 <li class="chapter" data-level="5.4" data-path="bivariate.html"><a href="bivariate.html#properties"><i class="fa fa-check"></i><b>5.4</b> Properties</a></li>
@@ -248,7 +248,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="panel" class="section level1" number="12">
-<h1 number="12"><span class="header-section-number">12</span> Clustered and Panel Data</h1>
+<h1><span class="header-section-number">12</span> Clustered and Panel Data</h1>
 <p>Grouped data structures, in which we observe individual units within larger groups, are common in political science and other social sciences. Examples include:</p>
 <ul>
 <li><p>Cross-national survey data, where we observe individual respondents grouped by country.</p></li>
@@ -264,9 +264,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Some state characteristics that might affect vote choice are difficult or impossible to measure. For example, some states have a more cosmopolitan culture, while others have a more traditional culture. A 50-year-old white man living in Connecticut is, we would expect, less likely to have voted for Trump than a 50-year-old white man living in Alabama. This is <em>unobserved heterogeneity</em>—characteristics that we do not observe, and therefore cannot control for, but which affect the response.</p>
 <p>If we are not careful in dealing with grouped data, unobserved heterogeneity can be a major problem. The spherical errors assumption is usually not tenable for grouped data, since observations will be correlated with others in the same group. OLS will therefore be inefficient and yield invalid inferences, as we saw last week. Even worse, if group-level sources of unobserved heterogeneity are correlated with individual characteristics—if, say, younger voters are more likely to live in cosmopolitan states—OLS may also be biased and inconsistent.</p>
 <p>On the other hand, if we deal with grouped data properly, we can enhance the credibility of our inferences. We can eliminate the influence of variation <em>across</em> groups, allowing us to focus on the comparisons <em>within</em> groups that we are usually most interested in.</p>
-<p>Before we get started, a note of caution. One week allows us just enough time to scratch the surface of how to analyze grouped data. If you work with grouped data in your dissertation or other research, you should think carefully about your data structure and potential sources of unobserved heterogeneity. The methods we discuss this week may not solve your problems. As further references, I recommend <span class="citation">Wooldridge (<a href="references.html#ref-Wooldridge:2002vr" role="doc-biblioref">2002</a>)</span> and <span class="citation">Gelman and Hill (<a href="references.html#ref-gelman2006data" role="doc-biblioref">2006</a>)</span>.</p>
+<p>Before we get started, a note of caution. One week allows us just enough time to scratch the surface of how to analyze grouped data. If you work with grouped data in your dissertation or other research, you should think carefully about your data structure and potential sources of unobserved heterogeneity. The methods we discuss this week may not solve your problems. As further references, I recommend <span class="citation">Wooldridge (<a href="#ref-Wooldridge:2002vr" role="doc-biblioref">2002</a>)</span> and <span class="citation">Gelman and Hill (<a href="#ref-gelman2006data" role="doc-biblioref">2006</a>)</span>.</p>
 <div id="the-linear-model-with-grouped-data" class="section level2" number="12.1">
-<h2 number="12.1"><span class="header-section-number">12.1</span> The Linear Model with Grouped Data</h2>
+<h2><span class="header-section-number">12.1</span> The Linear Model with Grouped Data</h2>
 <p>We need to change our notation a bit to reflect the arrangement of observations into groups. Let there be <span class="math inline">\(G\)</span> groups indexed by <span class="math inline">\(g = 1, \ldots, G\)</span>. Within each group, we have <span class="math inline">\(N\)</span> observations indexed by <span class="math inline">\(n = 1, \ldots, N\)</span>.<a href="#fn32" class="footnote-ref" id="fnref32"><sup>32</sup></a> (In the special case of panel data, where each group is a unit observed over time, the standard notation is to use <span class="math inline">\(t = 1, \ldots, T\)</span> instead.)</p>
 <p>We will now index individual “rows” of the data by <span class="math inline">\(gn\)</span>, which stands for the <span class="math inline">\(n\)</span>’th observation within group <span class="math inline">\(g\)</span>.</p>
 <ul>
@@ -310,13 +310,13 @@ E[\epsilon \,|\, \mathbf{X}] \neq \mathbf{0}.
 <p>We will proceed from the easiest problems to the hardest. We will first consider a standard error correction and an efficiency improvement for the case where errors are correlated within groups but strict exogeneity still holds. We will then identify an unbiased estimator in the case where strict exogeneity fails.</p>
 </div>
 <div id="clustered-standard-errors" class="section level2" number="12.2">
-<h2 number="12.2"><span class="header-section-number">12.2</span> Clustered Standard Errors</h2>
+<h2><span class="header-section-number">12.2</span> Clustered Standard Errors</h2>
 <p>Imagine the following policy experiment. The federal government randomly selects half of the states to receive a grant intended to improve high school education, while the other half do not receive it. We observe some indicator of educational quality (e.g., graduation rates) at the school district level, where school districts are grouped within states. So our model looks like
 <span class="math display">\[
 \text{Quality}_{gn} = \beta_1 + \beta_2 \text{Grant}_g + \epsilon_{gn}.
 \]</span>
 We want to know whether receiving the grant affected quality. What we cannot measure is how well the states used the money. If some states used it better than others, then we would expect the error term to be correlated across school districts within the state. In a state where the money was used wisely, we would expect most of the schools to do “better than expected”—to have positive residuals, in the language of regression. Conversely, in a state where the money was squandered, we would expect most of the schools to do worse than we would otherwise predict.</p>
-<p>This is one example of the general phenomenon Moulton <span class="citation">(<a href="references.html#ref-Moulton:1986kw" role="doc-biblioref">1986</a>, <a href="references.html#ref-Moulton:1990bl" role="doc-biblioref">1990</a>)</span> identifies—that there is often substantial correlation in the random errors within groups, especially when we are looking at the effects of variables that only vary at the group level. One way I think about it is that, with grouped data and group-level covariates, the effective number of observations is less than the nominal number of observations. If we use the OLS standard errors, we are pretending to have more data than we really do.</p>
+<p>This is one example of the general phenomenon Moulton <span class="citation">(<a href="#ref-Moulton:1986kw" role="doc-biblioref">1986</a>, <a href="#ref-Moulton:1990bl" role="doc-biblioref">1990</a>)</span> identifies—that there is often substantial correlation in the random errors within groups, especially when we are looking at the effects of variables that only vary at the group level. One way I think about it is that, with grouped data and group-level covariates, the effective number of observations is less than the nominal number of observations. If we use the OLS standard errors, we are pretending to have more data than we really do.</p>
 <p>Luckily, we can correct these “clustered” errors in a manner similar to what we did last week with heteroskedasticity of unknown form. The most we can assume on <span class="math inline">\(\Omega = V[\epsilon \,|\, \mathbf{X}]\)</span> is</p>
 <ul>
 <li><p>Heteroskedasticity of unknown form, within and across groups.</p></li>
@@ -341,12 +341,12 @@ where each <span class="math inline">\(\Omega_g\)</span> is a symmetric <span cl
 (\mathbf{X}^\top \mathbf{X})^{-1},
 \]</span>
 where <span class="math inline">\(\hat{e}_g\)</span> is the <span class="math inline">\(N \times 1\)</span> vector of OLS residuals for the <span class="math inline">\(g\)</span>’th group. Like White’s estimator for heteroskedasticity, this is a “sandwich” estimator. The “meat” of the sandwich here accounts for the within-group correlations in the error term.</p>
-<p>Also like White’s estimator for heteroskedasticity, the cluster-robust estimator is consistent, but not unbiased. It approaches the truth as <span class="math inline">\(G\)</span>, the number of groups, grows large (holding fixed <span class="math inline">\(N\)</span>, the number of observations per group), but it may be badly biased in small samples. The consensus seems to be that <span class="math inline">\(N = 50\)</span> is large enough <span class="citation">(Cameron and Miller <a href="references.html#ref-Cameron:2015ud" role="doc-biblioref">2015</a>)</span>, so you Americanists may go ahead and rejoice. However, if you observe a small number of units over a long period of time (e.g., in a study of the historical political economy of Western European countries), the cluster-robust standard error estimator will be severely biased. <span class="citation">Beck and Katz (<a href="references.html#ref-Beck:1995hm" role="doc-biblioref">1995</a>)</span> provide a similar estimator for such data, except with the summation in the middle of the “sandwich” taken over the <span class="math inline">\(N\)</span> time periods instead of the <span class="math inline">\(G\)</span> groups.</p>
-<p>The earliest derivation of this estimator was <span class="citation">Liang and Zeger (<a href="references.html#ref-Liang:1986gv" role="doc-biblioref">1986</a>)</span>, and that is whom you should cite when you use it. <span class="citation">Arellano (<a href="references.html#ref-Arellano:1987jx" role="doc-biblioref">1987</a>)</span> derives the same estimator but is a bit easier to follow. As with White’s estimator, there are various finite-sample corrections to <span class="math inline">\(\hat{\Sigma}_{\text{CR}}\)</span> that you may want to use; we will not go through those here.</p>
+<p>Also like White’s estimator for heteroskedasticity, the cluster-robust estimator is consistent, but not unbiased. It approaches the truth as <span class="math inline">\(G\)</span>, the number of groups, grows large (holding fixed <span class="math inline">\(N\)</span>, the number of observations per group), but it may be badly biased in small samples. The consensus seems to be that <span class="math inline">\(N = 50\)</span> is large enough <span class="citation">(Cameron and Miller <a href="#ref-Cameron:2015ud" role="doc-biblioref">2015</a>)</span>, so you Americanists may go ahead and rejoice. However, if you observe a small number of units over a long period of time (e.g., in a study of the historical political economy of Western European countries), the cluster-robust standard error estimator will be severely biased. <span class="citation">Beck and Katz (<a href="#ref-Beck:1995hm" role="doc-biblioref">1995</a>)</span> provide a similar estimator for such data, except with the summation in the middle of the “sandwich” taken over the <span class="math inline">\(N\)</span> time periods instead of the <span class="math inline">\(G\)</span> groups.</p>
+<p>The earliest derivation of this estimator was <span class="citation">Liang and Zeger (<a href="#ref-Liang:1986gv" role="doc-biblioref">1986</a>)</span>, and that is whom you should cite when you use it. <span class="citation">Arellano (<a href="#ref-Arellano:1987jx" role="doc-biblioref">1987</a>)</span> derives the same estimator but is a bit easier to follow. As with White’s estimator, there are various finite-sample corrections to <span class="math inline">\(\hat{\Sigma}_{\text{CR}}\)</span> that you may want to use; we will not go through those here.</p>
 </div>
 <div id="random-effects" class="section level2" number="12.3">
-<h2 number="12.3"><span class="header-section-number">12.3</span> Random Effects</h2>
-<p><em>The coverage and notation in this section and the next one closely follow <span class="citation">Johnston and DiNardo (<a href="references.html#ref-Johnston:1997um" role="doc-biblioref">1997</a>, chap. 12)</span>.</em></p>
+<h2><span class="header-section-number">12.3</span> Random Effects</h2>
+<p><em>The coverage and notation in this section and the next one closely follow <span class="citation">Johnston and DiNardo (<a href="#ref-Johnston:1997um" role="doc-biblioref">1997</a>, chap. 12)</span>.</em></p>
 <p>Just as Huber-White standard errors do not fix the inefficiency of OLS under heteroskedasticity, cluster-robust standard errors do not fix the inefficiency of OLS under within-group correlation. To get a handle on the efficiency problem, we will make further assumptions about the source of that correlation.</p>
 <p>We will assume each group <span class="math inline">\(g\)</span> has a (potentially) different intercept. We can incorporate this into our original model,
 <span class="math display">\[
@@ -378,10 +378,10 @@ Since there is no autocorrelation across groups, <span class="math inline">\(\Om
 <span class="math display">\[
 \hat{\beta}_{\text{RE}} = (\mathbf{X}^\top \hat{\Omega}^{-1} \mathbf{X})^{-1} \mathbf{X}^\top \hat{\Omega}^{-1} \mathbf{Y}.
 \]</span></p>
-<p>See <span class="citation">Johnston and DiNardo (<a href="references.html#ref-Johnston:1997um" role="doc-biblioref">1997</a>, 392–95)</span> for full formulas and details. FGLS is consistent but not unbiased, so the random effects model may not be a good idea in small samples. If our specification of the error structure is correct, it is asymptotically efficient—as the sample size increases, no other estimator has lower standard errors.</p>
+<p>See <span class="citation">Johnston and DiNardo (<a href="#ref-Johnston:1997um" role="doc-biblioref">1997</a>, 392–95)</span> for full formulas and details. FGLS is consistent but not unbiased, so the random effects model may not be a good idea in small samples. If our specification of the error structure is correct, it is asymptotically efficient—as the sample size increases, no other estimator has lower standard errors.</p>
 </div>
 <div id="fixed-effects" class="section level2" number="12.4">
-<h2 number="12.4"><span class="header-section-number">12.4</span> Fixed Effects</h2>
+<h2><span class="header-section-number">12.4</span> Fixed Effects</h2>
 <p>What if the group-specific intercepts are correlated with the covariates? Then, in order to maintain strict exogeneity, we must pull them out of the error term and into the covariate matrix. This is easy to do—we can rewrite the full model as
 <span class="math display">\[
 \mathbf{Y} = \mathbf{X} \beta + \mathbf{D} \alpha + \eta,
@@ -393,16 +393,16 @@ where <span class="math inline">\(\alpha\)</span> is the <span class="math inlin
 <li><p>If the random effects assumption is met (group-specific effects are uncorrelated with covariates), then the random effects and fixed estimators are both consistent, but fixed effects is less efficient.</p></li>
 <li><p>If the random effects assumption is not met, then the random effects estimator is inconsistent while the fixed effects estimator is consistent.</p></li>
 </ul>
-<p>The typical test for whether fixed effects are necessary comes from <span class="citation">Hausman (<a href="references.html#ref-Hausman:1978bi" role="doc-biblioref">1978</a>)</span>. Under the null hypothesis that both estimators are consistent (and thus fixed effects are unnecessary and inefficient), the test statistic
+<p>The typical test for whether fixed effects are necessary comes from <span class="citation">Hausman (<a href="#ref-Hausman:1978bi" role="doc-biblioref">1978</a>)</span>. Under the null hypothesis that both estimators are consistent (and thus fixed effects are unnecessary and inefficient), the test statistic
 <span class="math display">\[
 H = (\hat{\beta}_{\text{RE}} - \hat{\beta}_{\text{FE}})^\top (\hat{\Sigma}_{\text{FE}} - \hat{\Sigma}_{\text{RE}})^{-1} (\hat{\beta}_{\text{RE}} - \hat{\beta}_{\text{FE}})
 \]</span>
 asymptotically has a <span class="math inline">\(\chi^2\)</span> distribution with <span class="math inline">\(K\)</span> degrees of freedom.</p>
-<p>The other main drawback of fixed effects estimation is that you cannot estimate the effects of variables that do not vary within groups. (Why not?) See <span class="citation">Greene (<a href="references.html#ref-greene" role="doc-biblioref">2003</a>, sec. 13.5)</span> for estimation strategies with panel data and time-invariant covariates.</p>
-<p>One final note: <span class="citation">Arellano (<a href="references.html#ref-Arellano:1987jx" role="doc-biblioref">1987</a>)</span> shows that the cluster-robust variance matrix estimator can be used with fixed effects. <span class="citation">Cameron and Miller (<a href="references.html#ref-Cameron:2015ud" role="doc-biblioref">2015</a>)</span> recommend doing so, at least when the number of groups is large.</p>
+<p>The other main drawback of fixed effects estimation is that you cannot estimate the effects of variables that do not vary within groups. (Why not?) See <span class="citation">Greene (<a href="#ref-greene" role="doc-biblioref">2003</a>, sec. 13.5)</span> for estimation strategies with panel data and time-invariant covariates.</p>
+<p>One final note: <span class="citation">Arellano (<a href="#ref-Arellano:1987jx" role="doc-biblioref">1987</a>)</span> shows that the cluster-robust variance matrix estimator can be used with fixed effects. <span class="citation">Cameron and Miller (<a href="#ref-Cameron:2015ud" role="doc-biblioref">2015</a>)</span> recommend doing so, at least when the number of groups is large.</p>
 </div>
 <div id="appendix-implementation-in-r-1" class="section level2" number="12.5">
-<h2 number="12.5"><span class="header-section-number">12.5</span> Appendix: Implementation in R</h2>
+<h2><span class="header-section-number">12.5</span> Appendix: Implementation in R</h2>
 <p>The methods introduced here can be implemented via the <strong>plm</strong> package.</p>
 <div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb333-1"><a href="panel.html#cb333-1"></a><span class="kw">library</span>(<span class="st">&quot;plm&quot;</span>)</span></code></pre></div>
 <p>We will use the <code>Produc</code> dataset from <strong>plm</strong>, a riveting collection of economic statistics about the U.S. states from 1970 to 1986.</p>
@@ -506,7 +506,7 @@ asymptotically has a <span class="math inline">\(\chi^2\)</span> distribution wi
 ## R-Squared:      0.035162
 ## Adj. R-Squared: 0.032788
 ## F-statistic: 6.45144 on 2 and 47 DF, p-value: 0.0033441</code></pre>
-<p>Notice that our <span class="math inline">\(t\)</span>-statistics are cut in more than half, even though our variables have within-group variation (unlike <span class="citation">Moulton (<a href="references.html#ref-Moulton:1990bl" role="doc-biblioref">1990</a>)</span>’s example).</p>
+<p>Notice that our <span class="math inline">\(t\)</span>-statistics are cut in more than half, even though our variables have within-group variation (unlike <span class="citation">Moulton (<a href="#ref-Moulton:1990bl" role="doc-biblioref">1990</a>)</span>’s example).</p>
 <p>We can also use <code>plm()</code> to estimate a random-effects model.</p>
 <div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb342-1"><a href="panel.html#cb342-1"></a>fit_random &lt;-<span class="st"> </span><span class="kw">plm</span>(unemp <span class="op">~</span><span class="st"> </span>pcap <span class="op">+</span><span class="st"> </span>pc,</span>
 <span id="cb342-2"><a href="panel.html#cb342-2"></a>                  <span class="dt">data =</span> Produc,</span>
@@ -639,6 +639,42 @@ asymptotically has a <span class="math inline">\(\chi^2\)</span> distribution wi
 ## chisq = 95.562, df = 2, p-value &lt; 2.2e-16
 ## alternative hypothesis: one model is inconsistent</code></pre>
 
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-Arellano:1987jx">
+<p>Arellano, M. 1987. “Practitioners’ Corner: Computing Robust Standard Errors for Within-groups Estimators.” <em>Oxford Bulletin of Economics and Statistics</em> 49 (4): 431–34.</p>
+</div>
+<div id="ref-Beck:1995hm">
+<p>Beck, Nathaniel, and Jonathan N Katz. 1995. “What to do (and Not to Do) with Time-Series Cross-Section Data.” <em>American Political Science Review</em> 89 (03): 634–47.</p>
+</div>
+<div id="ref-Cameron:2015ud">
+<p>Cameron, A Colin, and Douglas L Miller. 2015. “A Practitioner’s Guide to Cluster-Robust Inference.” <em>Journal of Human Resources</em> 50 (2): 317–72.</p>
+</div>
+<div id="ref-gelman2006data">
+<p>Gelman, Andrew, and Jennifer Hill. 2006. <em>Data Analysis Using Regression and Multilevel/Hierarchical Models</em>. Cambridge university press.</p>
+</div>
+<div id="ref-greene">
+<p>Greene, William H. 2003. <em>Econometric Analysis</em>. 5th ed. Prentice Hall.</p>
+</div>
+<div id="ref-Hausman:1978bi">
+<p>Hausman, J A. 1978. “Specification Tests in Econometrics.” <em>Econometrica</em> 46 (6): 1251.</p>
+</div>
+<div id="ref-Johnston:1997um">
+<p>Johnston, John, and John DiNardo. 1997. <em>Econometric Methods</em>. 4th ed. McGraw-Hill.</p>
+</div>
+<div id="ref-Liang:1986gv">
+<p>Liang, Kung-Yee, and Scott L Zeger. 1986. “Longitudinal Data Analysis Using Generalized Linear Models.” <em>Biometrika</em> 73 (1): 13.</p>
+</div>
+<div id="ref-Moulton:1986kw">
+<p>Moulton, Brent R. 1986. “Random group effects and the precision of regression estimates.” <em>Journal of Econometrics</em> 32 (3): 385–97.</p>
+</div>
+<div id="ref-Moulton:1990bl">
+<p>Moulton, Brent R. 1990. “An Illustration of a Pitfall in Estimating the Effects of Aggregate Variables on Micro Units.” <em>The Review of Economics and Statistics</em> 72 (2): 334.</p>
+</div>
+<div id="ref-Wooldridge:2002vr">
+<p>Wooldridge, Jeffrey M. 2002. <em>Econometric Analysis of Cross Section and Panel Data</em>. MIT Press.</p>
 </div>
 </div>
 <div class="footnotes">
