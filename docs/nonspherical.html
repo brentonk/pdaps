@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>11 Non-Spherical Errors | Practical Data Analysis for Political Scientists</title>
+  <title>10 Non-Spherical Errors | Practical Data Analysis for Political Scientists</title>
   <meta name="description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right." />
   <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="11 Non-Spherical Errors | Practical Data Analysis for Political Scientists" />
+  <meta property="og:title" content="10 Non-Spherical Errors | Practical Data Analysis for Political Scientists" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="brentonk/pdaps" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="11 Non-Spherical Errors | Practical Data Analysis for Political Scientists" />
+  <meta name="twitter:title" content="10 Non-Spherical Errors | Practical Data Analysis for Political Scientists" />
   
   <meta name="twitter:description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="crisis.html"/>
-<link rel="next" href="panel.html"/>
+<link rel="prev" href="inference.html"/>
+<link rel="next" href="crisis.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -164,21 +164,21 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="9.5" data-path="inference.html"><a href="inference.html#appendix-full-derivation-of-ols-variance"><i class="fa fa-check"></i><b>9.5</b> Appendix: Full Derivation of OLS Variance</a></li>
 <li class="chapter" data-level="9.6" data-path="inference.html"><a href="inference.html#appendix-regression-inference-in-r"><i class="fa fa-check"></i><b>9.6</b> Appendix: Regression Inference in R</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="crisis.html"><a href="crisis.html"><i class="fa fa-check"></i><b>10</b> The Statistical Crisis in Science</a><ul>
-<li class="chapter" data-level="10.1" data-path="crisis.html"><a href="crisis.html#publication-bias"><i class="fa fa-check"></i><b>10.1</b> Publication Bias</a></li>
-<li class="chapter" data-level="10.2" data-path="crisis.html"><a href="crisis.html#p-hacking"><i class="fa fa-check"></i><b>10.2</b> <span class="math inline">\(p\)</span>-Hacking</a></li>
-<li class="chapter" data-level="10.3" data-path="crisis.html"><a href="crisis.html#what-to-do"><i class="fa fa-check"></i><b>10.3</b> What to Do</a></li>
-<li class="chapter" data-level="10.4" data-path="crisis.html"><a href="crisis.html#appendix-r-simulation"><i class="fa fa-check"></i><b>10.4</b> Appendix: R Simulation</a></li>
+<li class="chapter" data-level="10" data-path="nonspherical.html"><a href="nonspherical.html"><i class="fa fa-check"></i><b>10</b> Non-Spherical Errors</a><ul>
+<li class="chapter" data-level="10.1" data-path="nonspherical.html"><a href="nonspherical.html#generalized-least-squares"><i class="fa fa-check"></i><b>10.1</b> Generalized Least Squares</a></li>
+<li class="chapter" data-level="10.2" data-path="nonspherical.html"><a href="nonspherical.html#detecting-heteroskedasticity"><i class="fa fa-check"></i><b>10.2</b> Detecting Heteroskedasticity</a></li>
+<li class="chapter" data-level="10.3" data-path="nonspherical.html"><a href="nonspherical.html#heteroskedasticity-of-unknown-form"><i class="fa fa-check"></i><b>10.3</b> Heteroskedasticity of Unknown Form</a></li>
+<li class="chapter" data-level="10.4" data-path="nonspherical.html"><a href="nonspherical.html#appendix-implementation-in-r"><i class="fa fa-check"></i><b>10.4</b> Appendix: Implementation in R</a><ul>
+<li class="chapter" data-level="10.4.1" data-path="nonspherical.html"><a href="nonspherical.html#generalized-least-squares-1"><i class="fa fa-check"></i><b>10.4.1</b> Generalized Least Squares</a></li>
+<li class="chapter" data-level="10.4.2" data-path="nonspherical.html"><a href="nonspherical.html#breusch-pagan-test"><i class="fa fa-check"></i><b>10.4.2</b> Breusch-Pagan Test</a></li>
+<li class="chapter" data-level="10.4.3" data-path="nonspherical.html"><a href="nonspherical.html#heteroskedasticity-consistent-standard-errors"><i class="fa fa-check"></i><b>10.4.3</b> Heteroskedasticity-Consistent Standard Errors</a></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="nonspherical.html"><a href="nonspherical.html"><i class="fa fa-check"></i><b>11</b> Non-Spherical Errors</a><ul>
-<li class="chapter" data-level="11.1" data-path="nonspherical.html"><a href="nonspherical.html#generalized-least-squares"><i class="fa fa-check"></i><b>11.1</b> Generalized Least Squares</a></li>
-<li class="chapter" data-level="11.2" data-path="nonspherical.html"><a href="nonspherical.html#detecting-heteroskedasticity"><i class="fa fa-check"></i><b>11.2</b> Detecting Heteroskedasticity</a></li>
-<li class="chapter" data-level="11.3" data-path="nonspherical.html"><a href="nonspherical.html#heteroskedasticity-of-unknown-form"><i class="fa fa-check"></i><b>11.3</b> Heteroskedasticity of Unknown Form</a></li>
-<li class="chapter" data-level="11.4" data-path="nonspherical.html"><a href="nonspherical.html#appendix-implementation-in-r"><i class="fa fa-check"></i><b>11.4</b> Appendix: Implementation in R</a><ul>
-<li class="chapter" data-level="11.4.1" data-path="nonspherical.html"><a href="nonspherical.html#generalized-least-squares-1"><i class="fa fa-check"></i><b>11.4.1</b> Generalized Least Squares</a></li>
-<li class="chapter" data-level="11.4.2" data-path="nonspherical.html"><a href="nonspherical.html#breusch-pagan-test"><i class="fa fa-check"></i><b>11.4.2</b> Breusch-Pagan Test</a></li>
-<li class="chapter" data-level="11.4.3" data-path="nonspherical.html"><a href="nonspherical.html#heteroskedasticity-consistent-standard-errors"><i class="fa fa-check"></i><b>11.4.3</b> Heteroskedasticity-Consistent Standard Errors</a></li>
 </ul></li>
+<li class="chapter" data-level="11" data-path="crisis.html"><a href="crisis.html"><i class="fa fa-check"></i><b>11</b> The Statistical Crisis in Science</a><ul>
+<li class="chapter" data-level="11.1" data-path="crisis.html"><a href="crisis.html#publication-bias"><i class="fa fa-check"></i><b>11.1</b> Publication Bias</a></li>
+<li class="chapter" data-level="11.2" data-path="crisis.html"><a href="crisis.html#p-hacking"><i class="fa fa-check"></i><b>11.2</b> <span class="math inline">\(p\)</span>-Hacking</a></li>
+<li class="chapter" data-level="11.3" data-path="crisis.html"><a href="crisis.html#what-to-do"><i class="fa fa-check"></i><b>11.3</b> What to Do</a></li>
+<li class="chapter" data-level="11.4" data-path="crisis.html"><a href="crisis.html#appendix-r-simulation"><i class="fa fa-check"></i><b>11.4</b> Appendix: R Simulation</a></li>
 </ul></li>
 <li class="chapter" data-level="12" data-path="panel.html"><a href="panel.html"><i class="fa fa-check"></i><b>12</b> Clustered and Panel Data</a><ul>
 <li class="chapter" data-level="12.1" data-path="panel.html"><a href="panel.html#the-linear-model-with-grouped-data"><i class="fa fa-check"></i><b>12.1</b> The Linear Model with Grouped Data</a></li>
@@ -209,7 +209,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
             <section class="normal" id="section-">
 <div id="nonspherical" class="section level1">
-<h1><span class="header-section-number">11</span> Non-Spherical Errors</h1>
+<h1><span class="header-section-number">10</span> Non-Spherical Errors</h1>
 <p>In our consideration so far of the linear model, <span class="math display">\[
 \mathbf{Y} = \mathbf{X} \beta + \epsilon,
 \]</span> we have focused on the ordinary least squares estimator, <span class="math display">\[
@@ -246,7 +246,7 @@ V[\hat{\beta}_{\text{OLS}} \,|\, \mathbf{X}] = \sigma^2 (\mathbf{X}^\top \mathbf
 <p><img src="pdaps_files/figure-html/plot-spherical-errors-1.png" width="672" /></p>
 <p>Autocorrelation usually arises in time series analysis, which is beyond the scope of this course, so we will focus primarily on heteroskedasticity.</p>
 <div id="generalized-least-squares" class="section level2">
-<h2><span class="header-section-number">11.1</span> Generalized Least Squares</h2>
+<h2><span class="header-section-number">10.1</span> Generalized Least Squares</h2>
 <p>Suppose strict exogeneity holds, but spherical errors fails, with <span class="math display">\[
 V[\epsilon \,|\, \mathbf{X}]
 = \sigma^2 \Omega
@@ -256,7 +256,7 @@ V[\epsilon \,|\, \mathbf{X}]
   \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
   \omega_{1N} &amp; \omega_{2N} &amp; \cdots &amp; \omega_{NN}
 \end{bmatrix},
-\]</span> where <span class="math inline">\(\Omega\)</span> is known<a href="#fn29" class="footnoteRef" id="fnref29"><sup>29</sup></a> and <span class="math inline">\(\sigma^2\)</span> is unknown. In other words, we know the exact structure of heteroskedasticity and autocorrelation, up to a potentially unknown constant.</p>
+\]</span> where <span class="math inline">\(\Omega\)</span> is known<a href="#fn27" class="footnoteRef" id="fnref27"><sup>27</sup></a> and <span class="math inline">\(\sigma^2\)</span> is unknown. In other words, we know the exact structure of heteroskedasticity and autocorrelation, up to a potentially unknown constant.</p>
 <p>We derived the OLS estimator by finding the <span class="math inline">\(\hat{\beta}\)</span> that minimizes the sum of squared errors, <span class="math display">\[
 \text{SSE}
 = \sum_n (Y_n - \mathbf{x}_n \cdot \hat{\beta})^2
@@ -308,7 +308,7 @@ E [ \hat{\beta}_{\text{GLS}} \,|\, \mathbf{X} ]
 \]</span></p>
 </div>
 <div id="detecting-heteroskedasticity" class="section level2">
-<h2><span class="header-section-number">11.2</span> Detecting Heteroskedasticity</h2>
+<h2><span class="header-section-number">10.2</span> Detecting Heteroskedasticity</h2>
 <p>If you don’t have prior knowledge of the variance structure of the error term, you may be interested in testing whether the homoskedasticity assumption of OLS is viable. In a bivariate regression model, you can usually detect heteroskedasticity via the eye test. Not so much when you have multiple covariates. In this case, you may want to formally test for heteroskedasticity.</p>
 <p>There are a few such tests, but we will just talk about the <em>Breusch-Pagan test</em>, which was developed by <span class="citation">Breusch and Pagan (<a href="#ref-breusch1980lagrange">1980</a>)</span> and refined by <span class="citation">Koenker and Bassett Jr (<a href="#ref-koenker1982robust">1982</a>)</span>. The null hypothesis of the test is that <span class="math inline">\(V[\epsilon_i \,|\, \mathbf{X}] = \sigma^2\)</span> for all <span class="math inline">\(i = 1, \ldots, N\)</span>. The test procedure is as follows.</p>
 <ol style="list-style-type: decimal">
@@ -320,8 +320,8 @@ E [ \hat{\beta}_{\text{GLS}} \,|\, \mathbf{X} ]
 <p>In the canonical version of this test, <span class="math inline">\(\mathbf{Z}\)</span> is equal to <span class="math inline">\(\mathbf{X}\)</span>. A more powerful version is the <em>White test</em> <span class="citation">(H. White <a href="#ref-white1980heteroskedasticity">1980</a>)</span>, in which <span class="math inline">\(\mathbf{Z}\)</span> contains each variable in <span class="math inline">\(\mathbf{X}\)</span> as well as all second-order terms (squares and interactions).</p>
 </div>
 <div id="heteroskedasticity-of-unknown-form" class="section level2">
-<h2><span class="header-section-number">11.3</span> Heteroskedasticity of Unknown Form</h2>
-<p>Suppose we know there is heteroskedasticity but we don’t trust ourselves to properly specify the error variances to run weighted least squares.<a href="#fn30" class="footnoteRef" id="fnref30"><sup>30</sup></a> Then we do not have an efficient estimator of <span class="math inline">\(\beta\)</span>. We might be all right with that, but we would really like to have a good estimator for the standard errors of the OLS estimator, so that we can test hypotheses about the coefficients. Happily, we can estimate the variance matrix of the OLS estimator consistently even in the presence of heteroskedasticity.</p>
+<h2><span class="header-section-number">10.3</span> Heteroskedasticity of Unknown Form</h2>
+<p>Suppose we know there is heteroskedasticity but we don’t trust ourselves to properly specify the error variances to run weighted least squares.<a href="#fn28" class="footnoteRef" id="fnref28"><sup>28</sup></a> Then we do not have an efficient estimator of <span class="math inline">\(\beta\)</span>. We might be all right with that, but we would really like to have a good estimator for the standard errors of the OLS estimator, so that we can test hypotheses about the coefficients. Happily, we can estimate the variance matrix of the OLS estimator consistently even in the presence of heteroskedasticity.</p>
 <p><em>White’s heteroskedasticity-consistent estimator</em> <span class="citation">(H. White <a href="#ref-white1980heteroskedasticity">1980</a>)</span> of the variance matrix starts by forming a diagonal matrix out of the squared residuals, <span class="math display">\[
 \hat{\mathbf{U}}
 =
@@ -350,7 +350,7 @@ E [ \hat{\beta}_{\text{GLS}} \,|\, \mathbf{X} ]
 <p>Finally, it is important to know that weighted least squares and heteroskedasticity-consistent standard errors are not mutually exclusive approaches. If you have a suspicion about the error variances that you think can improve the precision of the regression, but you are not totally comfortable with committing to WLS for inference, you can calculate heteroskedasticity-consistent standard errors for a WLS (or GLS) fit.</p>
 </div>
 <div id="appendix-implementation-in-r" class="section level2">
-<h2><span class="header-section-number">11.4</span> Appendix: Implementation in R</h2>
+<h2><span class="header-section-number">10.4</span> Appendix: Implementation in R</h2>
 <p>We’ll be using the following packages:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)
 <span class="kw">library</span>(<span class="st">&quot;broom&quot;</span>)
@@ -368,7 +368,7 @@ E [ \hat{\beta}_{\text{GLS}} \,|\, \mathbf{X} ]
 ## 5      Prof          B            40          41 Male 141500
 ## 6 AssocProf          B             6           6 Male  97000</code></pre>
 <div id="generalized-least-squares-1" class="section level3">
-<h3><span class="header-section-number">11.4.1</span> Generalized Least Squares</h3>
+<h3><span class="header-section-number">10.4.1</span> Generalized Least Squares</h3>
 <p>Let us model a professor’s salary as a function of the number of years since she received her PhD. If we glance at the data, we see obvious heteroskedasticity.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(Salaries, <span class="kw">aes</span>(<span class="dt">x =</span> yrs.since.phd, <span class="dt">y =</span> salary)) <span class="op">+</span>
 <span class="st">    </span><span class="kw">geom_point</span>()</code></pre></div>
@@ -435,7 +435,7 @@ E [ \hat{\beta}_{\text{GLS}} \,|\, \mathbf{X} ]
 <p>In the (relatively unlikely) event that you are pre-specifying <span class="math inline">\(\Omega\)</span> with autocorrelations, you can use the <code>lm.gls()</code> function from the <strong>MASS</strong> package. The <code>gls()</code> function from the <strong>nlme</strong> package performs <em>feasible</em> generalized least squares, whereby we write <span class="math inline">\(\Omega\)</span> as a function of a few parameters, estimate those parameters, and run the subsequent GLS model.</p>
 </div>
 <div id="breusch-pagan-test" class="section level3">
-<h3><span class="header-section-number">11.4.2</span> Breusch-Pagan Test</h3>
+<h3><span class="header-section-number">10.4.2</span> Breusch-Pagan Test</h3>
 <p>We already used the “eye test” to confirm the presence of heteroskedasticity in the relationship we are modeling, but let’s see how we would use the Breusch-Pagan test to confirm our suspicion. For this we use the <code>bptest()</code> function from the <strong>lmtest</strong> package.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">bptest</span>(ols_salaries)</code></pre></div>
 <pre><code>## 
@@ -455,7 +455,7 @@ E [ \hat{\beta}_{\text{GLS}} \,|\, \mathbf{X} ]
 <p>In this case, regardless of which test we use, we reject the null hypothesis of homoskedasticity.</p>
 </div>
 <div id="heteroskedasticity-consistent-standard-errors" class="section level3">
-<h3><span class="header-section-number">11.4.3</span> Heteroskedasticity-Consistent Standard Errors</h3>
+<h3><span class="header-section-number">10.4.3</span> Heteroskedasticity-Consistent Standard Errors</h3>
 <p>To calculate the White estimator and its friends in R, we use the <code>vcovHC()</code> function from the <strong>sandwich</strong> package.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vcv0 &lt;-<span class="st"> </span><span class="kw">vcovHC</span>(ols_salaries, <span class="dt">type =</span> <span class="st">&quot;HC0&quot;</span>)
 vcv0</code></pre></div>
@@ -559,9 +559,9 @@ vcv0</code></pre></div>
 </div>
 <div class="footnotes">
 <hr />
-<ol start="29">
-<li id="fn29"><p>Like any variance matrix, <span class="math inline">\(\Omega\)</span> must be symmetric and positive definite. An <span class="math inline">\(N \times N\)</span> matrix <span class="math inline">\(\mathbf{A}\)</span> is positive definite if, for any <span class="math inline">\(N \times 1\)</span> vector <span class="math inline">\(\mathbf{c} \neq \mathbf{0}\)</span>, the scalar <span class="math inline">\(\mathbf{c}^\top \mathbf{A} \mathbf{c} &gt; 0\)</span>. Positive definiteness implies, among other things, that every diagonal entry of <span class="math inline">\(\Omega\)</span> is positive and that <span class="math inline">\(\Omega\)</span> is invertible.<a href="nonspherical.html#fnref29">↩</a></p></li>
-<li id="fn30"><p>There is an in-between solution known as <em>feasible generalized least squares</em>, whereby we estimate <span class="math inline">\(\Omega\)</span> from the data. This requires placing some structure on <span class="math inline">\(\Omega\)</span>, and the resulting estimator will be consistent but not unbiased.<a href="nonspherical.html#fnref30">↩</a></p></li>
+<ol start="27">
+<li id="fn27"><p>Like any variance matrix, <span class="math inline">\(\Omega\)</span> must be symmetric and positive definite. An <span class="math inline">\(N \times N\)</span> matrix <span class="math inline">\(\mathbf{A}\)</span> is positive definite if, for any <span class="math inline">\(N \times 1\)</span> vector <span class="math inline">\(\mathbf{c} \neq \mathbf{0}\)</span>, the scalar <span class="math inline">\(\mathbf{c}^\top \mathbf{A} \mathbf{c} &gt; 0\)</span>. Positive definiteness implies, among other things, that every diagonal entry of <span class="math inline">\(\Omega\)</span> is positive and that <span class="math inline">\(\Omega\)</span> is invertible.<a href="nonspherical.html#fnref27">↩</a></p></li>
+<li id="fn28"><p>There is an in-between solution known as <em>feasible generalized least squares</em>, whereby we estimate <span class="math inline">\(\Omega\)</span> from the data. This requires placing some structure on <span class="math inline">\(\Omega\)</span>, and the resulting estimator will be consistent but not unbiased.<a href="nonspherical.html#fnref28">↩</a></p></li>
 </ol>
 </div>
             </section>
@@ -569,8 +569,8 @@ vcv0</code></pre></div>
           </div>
         </div>
       </div>
-<a href="crisis.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="panel.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="inference.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="crisis.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -601,7 +601,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/10-gls.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/09-gls.Rmd",
 "text": "Edit"
 },
 "history": {
