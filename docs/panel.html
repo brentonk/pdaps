@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="" xml:lang="">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
 <head>
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>12 Clustered and Panel Data | Practical Data Analysis for Political Scientists</title>
   <meta name="description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right." />
-  <meta name="generator" content="bookdown 0.17.2 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
 
   <meta property="og:title" content="12 Clustered and Panel Data | Practical Data Analysis for Political Scientists" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Brenton Kenkel" />
 
 
-<meta name="date" content="2020-02-03" />
+<meta name="date" content="2020-02-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,6 @@
   
 <link rel="prev" href="nonspherical.html"/>
 <link rel="next" href="references.html"/>
-<script src="libs/header-attrs-2.1/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -54,67 +53,41 @@
 
 
 <style type="text/css">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -134,64 +107,56 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> About This Book</a></li>
-<li class="chapter" data-level="2" data-path="programming.html"><a href="programming.html"><i class="fa fa-check"></i><b>2</b> Principles of Programming</a>
-<ul>
+<li class="chapter" data-level="2" data-path="programming.html"><a href="programming.html"><i class="fa fa-check"></i><b>2</b> Principles of Programming</a><ul>
 <li class="chapter" data-level="2.1" data-path="programming.html"><a href="programming.html#write-programs-for-people-not-computers"><i class="fa fa-check"></i><b>2.1</b> Write Programs for People, Not Computers</a></li>
 <li class="chapter" data-level="2.2" data-path="programming.html"><a href="programming.html#let-the-computer-do-the-work"><i class="fa fa-check"></i><b>2.2</b> Let the Computer Do the Work</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>3</b> Working with Data</a>
-<ul>
+<li class="chapter" data-level="3" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>3</b> Working with Data</a><ul>
 <li class="chapter" data-level="3.1" data-path="data.html"><a href="data.html#loading"><i class="fa fa-check"></i><b>3.1</b> Loading</a></li>
 <li class="chapter" data-level="3.2" data-path="data.html"><a href="data.html#tidying"><i class="fa fa-check"></i><b>3.2</b> Tidying</a></li>
 <li class="chapter" data-level="3.3" data-path="data.html"><a href="data.html#transforming-and-aggregating"><i class="fa fa-check"></i><b>3.3</b> Transforming and Aggregating</a></li>
 <li class="chapter" data-level="3.4" data-path="data.html"><a href="data.html#merging"><i class="fa fa-check"></i><b>3.4</b> Merging</a></li>
 <li class="chapter" data-level="3.5" data-path="data.html"><a href="data.html#appendix-creating-the-example-data"><i class="fa fa-check"></i><b>3.5</b> Appendix: Creating the Example Data</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="visualization.html"><a href="visualization.html"><i class="fa fa-check"></i><b>4</b> Data Visualization</a>
-<ul>
+<li class="chapter" data-level="4" data-path="visualization.html"><a href="visualization.html"><i class="fa fa-check"></i><b>4</b> Data Visualization</a><ul>
 <li class="chapter" data-level="4.1" data-path="visualization.html"><a href="visualization.html#basic-plots"><i class="fa fa-check"></i><b>4.1</b> Basic Plots</a></li>
 <li class="chapter" data-level="4.2" data-path="visualization.html"><a href="visualization.html#saving-plots"><i class="fa fa-check"></i><b>4.2</b> Saving Plots</a></li>
 <li class="chapter" data-level="4.3" data-path="visualization.html"><a href="visualization.html#faceting"><i class="fa fa-check"></i><b>4.3</b> Faceting</a></li>
 <li class="chapter" data-level="4.4" data-path="visualization.html"><a href="visualization.html#aesthetics"><i class="fa fa-check"></i><b>4.4</b> Aesthetics</a></li>
 <li class="chapter" data-level="4.5" data-path="visualization.html"><a href="visualization.html#appendix-creating-the-example-data-1"><i class="fa fa-check"></i><b>4.5</b> Appendix: Creating the Example Data</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="bivariate.html"><a href="bivariate.html"><i class="fa fa-check"></i><b>5</b> Bivariate Regression</a>
-<ul>
+<li class="chapter" data-level="5" data-path="bivariate.html"><a href="bivariate.html"><i class="fa fa-check"></i><b>5</b> Bivariate Regression</a><ul>
 <li class="chapter" data-level="5.1" data-path="bivariate.html"><a href="bivariate.html#probability"><i class="fa fa-check"></i><b>5.1</b> Probability Refresher</a></li>
 <li class="chapter" data-level="5.2" data-path="bivariate.html"><a href="bivariate.html#the-linear-model"><i class="fa fa-check"></i><b>5.2</b> The Linear Model</a></li>
 <li class="chapter" data-level="5.3" data-path="bivariate.html"><a href="bivariate.html#least-squares"><i class="fa fa-check"></i><b>5.3</b> Least Squares</a></li>
 <li class="chapter" data-level="5.4" data-path="bivariate.html"><a href="bivariate.html#properties"><i class="fa fa-check"></i><b>5.4</b> Properties</a></li>
 <li class="chapter" data-level="5.5" data-path="bivariate.html"><a href="bivariate.html#appendix-regression-in-r"><i class="fa fa-check"></i><b>5.5</b> Appendix: Regression in R</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="matrix.html"><a href="matrix.html"><i class="fa fa-check"></i><b>6</b> Matrix Algebra: A Crash Course</a>
-<ul>
+<li class="chapter" data-level="6" data-path="matrix.html"><a href="matrix.html"><i class="fa fa-check"></i><b>6</b> Matrix Algebra: A Crash Course</a><ul>
 <li class="chapter" data-level="6.1" data-path="matrix.html"><a href="matrix.html#vector-operations"><i class="fa fa-check"></i><b>6.1</b> Vector Operations</a></li>
 <li class="chapter" data-level="6.2" data-path="matrix.html"><a href="matrix.html#matrix-operations"><i class="fa fa-check"></i><b>6.2</b> Matrix Operations</a></li>
 <li class="chapter" data-level="6.3" data-path="matrix.html"><a href="matrix.html#matrix-inversion"><i class="fa fa-check"></i><b>6.3</b> Matrix Inversion</a></li>
 <li class="chapter" data-level="6.4" data-path="matrix.html"><a href="matrix.html#solving-linear-systems"><i class="fa fa-check"></i><b>6.4</b> Solving Linear Systems</a></li>
 <li class="chapter" data-level="6.5" data-path="matrix.html"><a href="matrix.html#appendix-matrices-in-r"><i class="fa fa-check"></i><b>6.5</b> Appendix: Matrices in R</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="ols-matrix.html"><a href="ols-matrix.html"><i class="fa fa-check"></i><b>7</b> Reintroduction to the Linear Model</a>
-<ul>
+<li class="chapter" data-level="7" data-path="ols-matrix.html"><a href="ols-matrix.html"><i class="fa fa-check"></i><b>7</b> Reintroduction to the Linear Model</a><ul>
 <li class="chapter" data-level="7.1" data-path="ols-matrix.html"><a href="ols-matrix.html#the-linear-model-in-matrix-form"><i class="fa fa-check"></i><b>7.1</b> The Linear Model in Matrix Form</a></li>
 <li class="chapter" data-level="7.2" data-path="ols-matrix.html"><a href="ols-matrix.html#the-ols-estimator"><i class="fa fa-check"></i><b>7.2</b> The OLS Estimator</a></li>
 <li class="chapter" data-level="7.3" data-path="ols-matrix.html"><a href="ols-matrix.html#vector-valued-random-variables"><i class="fa fa-check"></i><b>7.3</b> Vector-Valued Random Variables</a></li>
 <li class="chapter" data-level="7.4" data-path="ols-matrix.html"><a href="ols-matrix.html#properties-of-ols"><i class="fa fa-check"></i><b>7.4</b> Properties of OLS</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="specification.html"><a href="specification.html"><i class="fa fa-check"></i><b>8</b> Specification Issues</a>
-<ul>
+<li class="chapter" data-level="8" data-path="specification.html"><a href="specification.html"><i class="fa fa-check"></i><b>8</b> Specification Issues</a><ul>
 <li class="chapter" data-level="8.1" data-path="specification.html"><a href="specification.html#categorical-variables"><i class="fa fa-check"></i><b>8.1</b> Categorical Variables</a></li>
 <li class="chapter" data-level="8.2" data-path="specification.html"><a href="specification.html#interaction-terms"><i class="fa fa-check"></i><b>8.2</b> Interaction Terms</a></li>
-<li class="chapter" data-level="8.3" data-path="specification.html"><a href="specification.html#quadratic-and-logarithmic-terms"><i class="fa fa-check"></i><b>8.3</b> Quadratic and Logarithmic Terms</a></li>
-<li class="chapter" data-level="8.4" data-path="specification.html"><a href="specification.html#appendix-nonstandard-specifications-in-r"><i class="fa fa-check"></i><b>8.4</b> Appendix: Nonstandard Specifications in R</a>
-<ul>
-<li class="chapter" data-level="8.4.1" data-path="specification.html"><a href="specification.html#categorical-variables-1"><i class="fa fa-check"></i><b>8.4.1</b> Categorical Variables</a></li>
-<li class="chapter" data-level="8.4.2" data-path="specification.html"><a href="specification.html#interaction-terms-1"><i class="fa fa-check"></i><b>8.4.2</b> Interaction Terms</a></li>
-<li class="chapter" data-level="8.4.3" data-path="specification.html"><a href="specification.html#quadratic-and-logarithmic-models"><i class="fa fa-check"></i><b>8.4.3</b> Quadratic and Logarithmic Models</a></li>
+<li class="chapter" data-level="8.3" data-path="specification.html"><a href="specification.html#quadratic-terms"><i class="fa fa-check"></i><b>8.3</b> Quadratic Terms</a></li>
+<li class="chapter" data-level="8.4" data-path="specification.html"><a href="specification.html#logarithmic-models"><i class="fa fa-check"></i><b>8.4</b> Logarithmic Models</a></li>
+<li class="chapter" data-level="8.5" data-path="specification.html"><a href="specification.html#appendix-nonstandard-specifications-in-r"><i class="fa fa-check"></i><b>8.5</b> Appendix: Nonstandard Specifications in R</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="specification.html"><a href="specification.html#categorical-variables-1"><i class="fa fa-check"></i><b>8.5.1</b> Categorical Variables</a></li>
+<li class="chapter" data-level="8.5.2" data-path="specification.html"><a href="specification.html#interaction-terms-1"><i class="fa fa-check"></i><b>8.5.2</b> Interaction Terms</a></li>
+<li class="chapter" data-level="8.5.3" data-path="specification.html"><a href="specification.html#quadratic-and-logarithmic-models"><i class="fa fa-check"></i><b>8.5.3</b> Quadratic and Logarithmic Models</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="inference.html"><a href="inference.html"><i class="fa fa-check"></i><b>9</b> Drawing Inferences</a>
-<ul>
+<li class="chapter" data-level="9" data-path="inference.html"><a href="inference.html"><i class="fa fa-check"></i><b>9</b> Drawing Inferences</a><ul>
 <li class="chapter" data-level="9.1" data-path="inference.html"><a href="inference.html#the-basics-of-hypothesis-testing"><i class="fa fa-check"></i><b>9.1</b> The Basics of Hypothesis Testing</a></li>
 <li class="chapter" data-level="9.2" data-path="inference.html"><a href="inference.html#variance-of-ols"><i class="fa fa-check"></i><b>9.2</b> Variance of OLS</a></li>
 <li class="chapter" data-level="9.3" data-path="inference.html"><a href="inference.html#single-variable-hypotheses"><i class="fa fa-check"></i><b>9.3</b> Single Variable Hypotheses</a></li>
@@ -199,27 +164,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="9.5" data-path="inference.html"><a href="inference.html#appendix-full-derivation-of-ols-variance"><i class="fa fa-check"></i><b>9.5</b> Appendix: Full Derivation of OLS Variance</a></li>
 <li class="chapter" data-level="9.6" data-path="inference.html"><a href="inference.html#appendix-regression-inference-in-r"><i class="fa fa-check"></i><b>9.6</b> Appendix: Regression Inference in R</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="crisis.html"><a href="crisis.html"><i class="fa fa-check"></i><b>10</b> The Statistical Crisis in Science</a>
-<ul>
+<li class="chapter" data-level="10" data-path="crisis.html"><a href="crisis.html"><i class="fa fa-check"></i><b>10</b> The Statistical Crisis in Science</a><ul>
 <li class="chapter" data-level="10.1" data-path="crisis.html"><a href="crisis.html#publication-bias"><i class="fa fa-check"></i><b>10.1</b> Publication Bias</a></li>
 <li class="chapter" data-level="10.2" data-path="crisis.html"><a href="crisis.html#p-hacking"><i class="fa fa-check"></i><b>10.2</b> <span class="math inline">\(p\)</span>-Hacking</a></li>
 <li class="chapter" data-level="10.3" data-path="crisis.html"><a href="crisis.html#what-to-do"><i class="fa fa-check"></i><b>10.3</b> What to Do</a></li>
 <li class="chapter" data-level="10.4" data-path="crisis.html"><a href="crisis.html#appendix-r-simulation"><i class="fa fa-check"></i><b>10.4</b> Appendix: R Simulation</a></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="nonspherical.html"><a href="nonspherical.html"><i class="fa fa-check"></i><b>11</b> Non-Spherical Errors</a>
-<ul>
+<li class="chapter" data-level="11" data-path="nonspherical.html"><a href="nonspherical.html"><i class="fa fa-check"></i><b>11</b> Non-Spherical Errors</a><ul>
 <li class="chapter" data-level="11.1" data-path="nonspherical.html"><a href="nonspherical.html#generalized-least-squares"><i class="fa fa-check"></i><b>11.1</b> Generalized Least Squares</a></li>
 <li class="chapter" data-level="11.2" data-path="nonspherical.html"><a href="nonspherical.html#detecting-heteroskedasticity"><i class="fa fa-check"></i><b>11.2</b> Detecting Heteroskedasticity</a></li>
 <li class="chapter" data-level="11.3" data-path="nonspherical.html"><a href="nonspherical.html#heteroskedasticity-of-unknown-form"><i class="fa fa-check"></i><b>11.3</b> Heteroskedasticity of Unknown Form</a></li>
-<li class="chapter" data-level="11.4" data-path="nonspherical.html"><a href="nonspherical.html#appendix-implementation-in-r"><i class="fa fa-check"></i><b>11.4</b> Appendix: Implementation in R</a>
-<ul>
+<li class="chapter" data-level="11.4" data-path="nonspherical.html"><a href="nonspherical.html#appendix-implementation-in-r"><i class="fa fa-check"></i><b>11.4</b> Appendix: Implementation in R</a><ul>
 <li class="chapter" data-level="11.4.1" data-path="nonspherical.html"><a href="nonspherical.html#generalized-least-squares-1"><i class="fa fa-check"></i><b>11.4.1</b> Generalized Least Squares</a></li>
 <li class="chapter" data-level="11.4.2" data-path="nonspherical.html"><a href="nonspherical.html#breusch-pagan-test"><i class="fa fa-check"></i><b>11.4.2</b> Breusch-Pagan Test</a></li>
 <li class="chapter" data-level="11.4.3" data-path="nonspherical.html"><a href="nonspherical.html#heteroskedasticity-consistent-standard-errors"><i class="fa fa-check"></i><b>11.4.3</b> Heteroskedasticity-Consistent Standard Errors</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="12" data-path="panel.html"><a href="panel.html"><i class="fa fa-check"></i><b>12</b> Clustered and Panel Data</a>
-<ul>
+<li class="chapter" data-level="12" data-path="panel.html"><a href="panel.html"><i class="fa fa-check"></i><b>12</b> Clustered and Panel Data</a><ul>
 <li class="chapter" data-level="12.1" data-path="panel.html"><a href="panel.html#the-linear-model-with-grouped-data"><i class="fa fa-check"></i><b>12.1</b> The Linear Model with Grouped Data</a></li>
 <li class="chapter" data-level="12.2" data-path="panel.html"><a href="panel.html#clustered-standard-errors"><i class="fa fa-check"></i><b>12.2</b> Clustered Standard Errors</a></li>
 <li class="chapter" data-level="12.3" data-path="panel.html"><a href="panel.html#random-effects"><i class="fa fa-check"></i><b>12.3</b> Random Effects</a></li>
@@ -247,7 +208,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="panel" class="section level1" number="12">
+<div id="panel" class="section level1">
 <h1><span class="header-section-number">12</span> Clustered and Panel Data</h1>
 <p>Grouped data structures, in which we observe individual units within larger groups, are common in political science and other social sciences. Examples include:</p>
 <ul>
@@ -259,15 +220,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>To return to our running example, suppose you are interested in the correlates of voting for Donald Trump in the 2016 general election. You observe survey respondents grouped by state. Vote choice might be affected by:</p>
 <ol style="list-style-type: decimal">
 <li><p><em>Individual</em> characteristics like one’s age, gender, race, income, and education.</p></li>
-<li><p><em>State</em> characteristics<a href="#fn31" class="footnote-ref" id="fnref31"><sup>31</sup></a> like the unemployment rate, undocumented population, and exposure to trade with China.</p></li>
+<li><p><em>State</em> characteristics<a href="#fn31" class="footnoteRef" id="fnref31"><sup>31</sup></a> like the unemployment rate, undocumented population, and exposure to trade with China.</p></li>
 </ol>
 <p>Some state characteristics that might affect vote choice are difficult or impossible to measure. For example, some states have a more cosmopolitan culture, while others have a more traditional culture. A 50-year-old white man living in Connecticut is, we would expect, less likely to have voted for Trump than a 50-year-old white man living in Alabama. This is <em>unobserved heterogeneity</em>—characteristics that we do not observe, and therefore cannot control for, but which affect the response.</p>
 <p>If we are not careful in dealing with grouped data, unobserved heterogeneity can be a major problem. The spherical errors assumption is usually not tenable for grouped data, since observations will be correlated with others in the same group. OLS will therefore be inefficient and yield invalid inferences, as we saw last week. Even worse, if group-level sources of unobserved heterogeneity are correlated with individual characteristics—if, say, younger voters are more likely to live in cosmopolitan states—OLS may also be biased and inconsistent.</p>
 <p>On the other hand, if we deal with grouped data properly, we can enhance the credibility of our inferences. We can eliminate the influence of variation <em>across</em> groups, allowing us to focus on the comparisons <em>within</em> groups that we are usually most interested in.</p>
-<p>Before we get started, a note of caution. One week allows us just enough time to scratch the surface of how to analyze grouped data. If you work with grouped data in your dissertation or other research, you should think carefully about your data structure and potential sources of unobserved heterogeneity. The methods we discuss this week may not solve your problems. As further references, I recommend <span class="citation">Wooldridge (<a href="#ref-Wooldridge:2002vr" role="doc-biblioref">2002</a>)</span> and <span class="citation">Gelman and Hill (<a href="#ref-gelman2006data" role="doc-biblioref">2006</a>)</span>.</p>
-<div id="the-linear-model-with-grouped-data" class="section level2" number="12.1">
+<p>Before we get started, a note of caution. One week allows us just enough time to scratch the surface of how to analyze grouped data. If you work with grouped data in your dissertation or other research, you should think carefully about your data structure and potential sources of unobserved heterogeneity. The methods we discuss this week may not solve your problems. As further references, I recommend <span class="citation">Wooldridge (<a href="#ref-Wooldridge:2002vr">2002</a>)</span> and <span class="citation">Gelman and Hill (<a href="#ref-gelman2006data">2006</a>)</span>.</p>
+<div id="the-linear-model-with-grouped-data" class="section level2">
 <h2><span class="header-section-number">12.1</span> The Linear Model with Grouped Data</h2>
-<p>We need to change our notation a bit to reflect the arrangement of observations into groups. Let there be <span class="math inline">\(G\)</span> groups indexed by <span class="math inline">\(g = 1, \ldots, G\)</span>. Within each group, we have <span class="math inline">\(N\)</span> observations indexed by <span class="math inline">\(n = 1, \ldots, N\)</span>.<a href="#fn32" class="footnote-ref" id="fnref32"><sup>32</sup></a> (In the special case of panel data, where each group is a unit observed over time, the standard notation is to use <span class="math inline">\(t = 1, \ldots, T\)</span> instead.)</p>
+<p>We need to change our notation a bit to reflect the arrangement of observations into groups. Let there be <span class="math inline">\(G\)</span> groups indexed by <span class="math inline">\(g = 1, \ldots, G\)</span>. Within each group, we have <span class="math inline">\(N\)</span> observations indexed by <span class="math inline">\(n = 1, \ldots, N\)</span>.<a href="#fn32" class="footnoteRef" id="fnref32"><sup>32</sup></a> (In the special case of panel data, where each group is a unit observed over time, the standard notation is to use <span class="math inline">\(t = 1, \ldots, T\)</span> instead.)</p>
 <p>We will now index individual “rows” of the data by <span class="math inline">\(gn\)</span>, which stands for the <span class="math inline">\(n\)</span>’th observation within group <span class="math inline">\(g\)</span>.</p>
 <ul>
 <li>Unit-level
@@ -290,124 +251,101 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><span class="math inline">\(\epsilon\)</span>: vector of all <span class="math inline">\(GN\)</span> random shocks</li>
 </ul></li>
 </ul>
-<p>If we assume a standard linear model for each <span class="math inline">\(gn\)</span>’th response,
-<span class="math display">\[
+<p>If we assume a standard linear model for each <span class="math inline">\(gn\)</span>’th response, <span class="math display">\[
 Y_{gn} = \mathbf{x}_{gn} \cdot \beta + \epsilon_{gn},
-\]</span>
-we end up with the familiar matrix equation
-<span class="math display">\[
+\]</span> we end up with the familiar matrix equation <span class="math display">\[
 \mathbf{Y} = \mathbf{X} \beta + \epsilon.
 \]</span></p>
 <p>You may look at this equation and think, “This looks like something we’ve used OLS on. What’s wrong with OLS?” Two reasons. First, at a minimum, we are unlikely to have spherical errors in grouped data. Observations in the same group—students in the same classroom, voters in the same state, LAPOP respondents in the same country—are likely to have residual correlation. There are unmeasured factors that commonly affect their responses. As in any non-spherical error model, this means OLS will yield invalid inferences. Moreover, because we are talking about autocorrelation and not just heteroskedasticity, the standard error correction that we encountered last week won’t do the trick.</p>
-<p>Second, depending on the nature of the group-specific effects, we may also have a failure of strict exogeneity. I hope I have impressed on you by now that this is a major problem. To see why we have a failure of strict exogeneity, let us return to the example of voters living in states with cosmopolitan versus traditional cultures. If we cannot measure cosmopolitanism (as I am assuming), then it ends up in the error term of our model:
-<span class="math display">\[
+<p>Second, depending on the nature of the group-specific effects, we may also have a failure of strict exogeneity. I hope I have impressed on you by now that this is a major problem. To see why we have a failure of strict exogeneity, let us return to the example of voters living in states with cosmopolitan versus traditional cultures. If we cannot measure cosmopolitanism (as I am assuming), then it ends up in the error term of our model: <span class="math display">\[
 \epsilon_{gn} = \text{Cosmpolitanism}_g + \text{Other Stuff}_{gn}.
-\]</span>
-But we know that younger and more educated voters are more likely to live in cosmopolitan areas. So if our covariate matrix includes age and education, we have
-<span class="math display">\[
+\]</span> But we know that younger and more educated voters are more likely to live in cosmopolitan areas. So if our covariate matrix includes age and education, we have <span class="math display">\[
 E[\epsilon \,|\, \mathbf{X}] \neq \mathbf{0}.
 \]</span></p>
 <p>We will proceed from the easiest problems to the hardest. We will first consider a standard error correction and an efficiency improvement for the case where errors are correlated within groups but strict exogeneity still holds. We will then identify an unbiased estimator in the case where strict exogeneity fails.</p>
 </div>
-<div id="clustered-standard-errors" class="section level2" number="12.2">
+<div id="clustered-standard-errors" class="section level2">
 <h2><span class="header-section-number">12.2</span> Clustered Standard Errors</h2>
-<p>Imagine the following policy experiment. The federal government randomly selects half of the states to receive a grant intended to improve high school education, while the other half do not receive it. We observe some indicator of educational quality (e.g., graduation rates) at the school district level, where school districts are grouped within states. So our model looks like
-<span class="math display">\[
+<p>Imagine the following policy experiment. The federal government randomly selects half of the states to receive a grant intended to improve high school education, while the other half do not receive it. We observe some indicator of educational quality (e.g., graduation rates) at the school district level, where school districts are grouped within states. So our model looks like <span class="math display">\[
 \text{Quality}_{gn} = \beta_1 + \beta_2 \text{Grant}_g + \epsilon_{gn}.
-\]</span>
-We want to know whether receiving the grant affected quality. What we cannot measure is how well the states used the money. If some states used it better than others, then we would expect the error term to be correlated across school districts within the state. In a state where the money was used wisely, we would expect most of the schools to do “better than expected”—to have positive residuals, in the language of regression. Conversely, in a state where the money was squandered, we would expect most of the schools to do worse than we would otherwise predict.</p>
-<p>This is one example of the general phenomenon Moulton <span class="citation">(<a href="#ref-Moulton:1986kw" role="doc-biblioref">1986</a>, <a href="#ref-Moulton:1990bl" role="doc-biblioref">1990</a>)</span> identifies—that there is often substantial correlation in the random errors within groups, especially when we are looking at the effects of variables that only vary at the group level. One way I think about it is that, with grouped data and group-level covariates, the effective number of observations is less than the nominal number of observations. If we use the OLS standard errors, we are pretending to have more data than we really do.</p>
+\]</span> We want to know whether receiving the grant affected quality. What we cannot measure is how well the states used the money. If some states used it better than others, then we would expect the error term to be correlated across school districts within the state. In a state where the money was used wisely, we would expect most of the schools to do “better than expected”—to have positive residuals, in the language of regression. Conversely, in a state where the money was squandered, we would expect most of the schools to do worse than we would otherwise predict.</p>
+<p>This is one example of the general phenomenon Moulton <span class="citation">(<a href="#ref-Moulton:1986kw">1986</a>; <a href="#ref-Moulton:1990bl">1990</a>)</span> identifies—that there is often substantial correlation in the random errors within groups, especially when we are looking at the effects of variables that only vary at the group level. One way I think about it is that, with grouped data and group-level covariates, the effective number of observations is less than the nominal number of observations. If we use the OLS standard errors, we are pretending to have more data than we really do.</p>
 <p>Luckily, we can correct these “clustered” errors in a manner similar to what we did last week with heteroskedasticity of unknown form. The most we can assume on <span class="math inline">\(\Omega = V[\epsilon \,|\, \mathbf{X}]\)</span> is</p>
 <ul>
 <li><p>Heteroskedasticity of unknown form, within and across groups.</p></li>
 <li><p>Autocorrelation of unknown form within groups.</p></li>
 <li><p><em>No</em> autocorrelation across groups.</p></li>
 </ul>
-<p>Under these assumptions, <span class="math inline">\(\Omega\)</span> has the block-diagonal form
-<span class="math display">\[
+<p>Under these assumptions, <span class="math inline">\(\Omega\)</span> has the block-diagonal form <span class="math display">\[
 \Omega = \begin{bmatrix}
   \Omega_1 &amp; \mathbf{0} &amp; \cdots &amp; \mathbf{0} \\
   \mathbf{0} &amp; \Omega_2 &amp; \cdots &amp; \mathbf{0} \\
   \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
   \mathbf{0} &amp; \mathbf{0} &amp; \cdots &amp; \Omega_G
 \end{bmatrix},
-\]</span>
-where each <span class="math inline">\(\Omega_g\)</span> is a symmetric <span class="math inline">\(N \times N\)</span> matrix. These may differ from each other—each group may have its own special autocorrelation structure.</p>
-<p>If we knew <span class="math inline">\(\Omega\)</span> exactly, we could use GLS to efficiently estimate <span class="math inline">\(\beta\)</span> and obtain correct standard errors. That is unlikely. Instead, we will use OLS to obtain our coefficient estimates, then we will correct the standard errors so as to be approximately correct in large samples. The <em>cluster-robust variance estimator</em> is
-<span class="math display">\[
+\]</span> where each <span class="math inline">\(\Omega_g\)</span> is a symmetric <span class="math inline">\(N \times N\)</span> matrix. These may differ from each other—each group may have its own special autocorrelation structure.</p>
+<p>If we knew <span class="math inline">\(\Omega\)</span> exactly, we could use GLS to efficiently estimate <span class="math inline">\(\beta\)</span> and obtain correct standard errors. That is unlikely. Instead, we will use OLS to obtain our coefficient estimates, then we will correct the standard errors so as to be approximately correct in large samples. The <em>cluster-robust variance estimator</em> is <span class="math display">\[
 \hat{\Sigma}_{\text{CR}} =
 (\mathbf{X}^\top \mathbf{X})^{-1}
 \left( \sum_{g=1}^G \mathbf{X}_g^\top \hat{e}_g \hat{e}_g^\top \mathbf{X}_g \right)
 (\mathbf{X}^\top \mathbf{X})^{-1},
-\]</span>
-where <span class="math inline">\(\hat{e}_g\)</span> is the <span class="math inline">\(N \times 1\)</span> vector of OLS residuals for the <span class="math inline">\(g\)</span>’th group. Like White’s estimator for heteroskedasticity, this is a “sandwich” estimator. The “meat” of the sandwich here accounts for the within-group correlations in the error term.</p>
-<p>Also like White’s estimator for heteroskedasticity, the cluster-robust estimator is consistent, but not unbiased. It approaches the truth as <span class="math inline">\(G\)</span>, the number of groups, grows large (holding fixed <span class="math inline">\(N\)</span>, the number of observations per group), but it may be badly biased in small samples. The consensus seems to be that <span class="math inline">\(N = 50\)</span> is large enough <span class="citation">(Cameron and Miller <a href="#ref-Cameron:2015ud" role="doc-biblioref">2015</a>)</span>, so you Americanists may go ahead and rejoice. However, if you observe a small number of units over a long period of time (e.g., in a study of the historical political economy of Western European countries), the cluster-robust standard error estimator will be severely biased. <span class="citation">Beck and Katz (<a href="#ref-Beck:1995hm" role="doc-biblioref">1995</a>)</span> provide a similar estimator for such data, except with the summation in the middle of the “sandwich” taken over the <span class="math inline">\(N\)</span> time periods instead of the <span class="math inline">\(G\)</span> groups.</p>
-<p>The earliest derivation of this estimator was <span class="citation">Liang and Zeger (<a href="#ref-Liang:1986gv" role="doc-biblioref">1986</a>)</span>, and that is whom you should cite when you use it. <span class="citation">Arellano (<a href="#ref-Arellano:1987jx" role="doc-biblioref">1987</a>)</span> derives the same estimator but is a bit easier to follow. As with White’s estimator, there are various finite-sample corrections to <span class="math inline">\(\hat{\Sigma}_{\text{CR}}\)</span> that you may want to use; we will not go through those here.</p>
+\]</span> where <span class="math inline">\(\hat{e}_g\)</span> is the <span class="math inline">\(N \times 1\)</span> vector of OLS residuals for the <span class="math inline">\(g\)</span>’th group. Like White’s estimator for heteroskedasticity, this is a “sandwich” estimator. The “meat” of the sandwich here accounts for the within-group correlations in the error term.</p>
+<p>Also like White’s estimator for heteroskedasticity, the cluster-robust estimator is consistent, but not unbiased. It approaches the truth as <span class="math inline">\(G\)</span>, the number of groups, grows large (holding fixed <span class="math inline">\(N\)</span>, the number of observations per group), but it may be badly biased in small samples. The consensus seems to be that <span class="math inline">\(N = 50\)</span> is large enough <span class="citation">(Cameron and Miller <a href="#ref-Cameron:2015ud">2015</a>)</span>, so you Americanists may go ahead and rejoice. However, if you observe a small number of units over a long period of time (e.g., in a study of the historical political economy of Western European countries), the cluster-robust standard error estimator will be severely biased. <span class="citation">Beck and Katz (<a href="#ref-Beck:1995hm">1995</a>)</span> provide a similar estimator for such data, except with the summation in the middle of the “sandwich” taken over the <span class="math inline">\(N\)</span> time periods instead of the <span class="math inline">\(G\)</span> groups.</p>
+<p>The earliest derivation of this estimator was <span class="citation">Liang and Zeger (<a href="#ref-Liang:1986gv">1986</a>)</span>, and that is whom you should cite when you use it. <span class="citation">Arellano (<a href="#ref-Arellano:1987jx">1987</a>)</span> derives the same estimator but is a bit easier to follow. As with White’s estimator, there are various finite-sample corrections to <span class="math inline">\(\hat{\Sigma}_{\text{CR}}\)</span> that you may want to use; we will not go through those here.</p>
 </div>
-<div id="random-effects" class="section level2" number="12.3">
+<div id="random-effects" class="section level2">
 <h2><span class="header-section-number">12.3</span> Random Effects</h2>
-<p><em>The coverage and notation in this section and the next one closely follow <span class="citation">Johnston and DiNardo (<a href="#ref-Johnston:1997um" role="doc-biblioref">1997</a>, chap. 12)</span>.</em></p>
+<p><em>The coverage and notation in this section and the next one closely follow <span class="citation">Johnston and DiNardo (<a href="#ref-Johnston:1997um">1997</a>, chap. 12)</span>.</em></p>
 <p>Just as Huber-White standard errors do not fix the inefficiency of OLS under heteroskedasticity, cluster-robust standard errors do not fix the inefficiency of OLS under within-group correlation. To get a handle on the efficiency problem, we will make further assumptions about the source of that correlation.</p>
-<p>We will assume each group <span class="math inline">\(g\)</span> has a (potentially) different intercept. We can incorporate this into our original model,
-<span class="math display">\[
+<p>We will assume each group <span class="math inline">\(g\)</span> has a (potentially) different intercept. We can incorporate this into our original model, <span class="math display">\[
 Y_{gn} = \mathbf{x}_{gn} \cdot \beta + \epsilon_{gn},
-\]</span>
-by decomposing the error term into independent <em>group-specific</em> and <em>individual-specific</em> components:
-<span class="math display">\[
+\]</span> by decomposing the error term into independent <em>group-specific</em> and <em>individual-specific</em> components: <span class="math display">\[
 \epsilon_{gn} = \underbrace{\alpha_g}_{\text{group}} + \underbrace{\eta_{gn}}_{\text{individual}}.
-\]</span>
-In this equation, <span class="math inline">\(\alpha_g\)</span> represents the difference between the intercept for group <span class="math inline">\(g\)</span> and the overall average, while <span class="math inline">\(\eta_{gn}\)</span> is an idiosyncratic shock specific to the <span class="math inline">\(n\)</span>’th observation of group <span class="math inline">\(g\)</span>. We will assume that <span class="math inline">\(\eta_{gn}\)</span> is independent and identically distributed across observations, so that the only source of autocorrelation is that observations in the same group share the same <span class="math inline">\(\alpha_g\)</span>.</p>
+\]</span> In this equation, <span class="math inline">\(\alpha_g\)</span> represents the difference between the intercept for group <span class="math inline">\(g\)</span> and the overall average, while <span class="math inline">\(\eta_{gn}\)</span> is an idiosyncratic shock specific to the <span class="math inline">\(n\)</span>’th observation of group <span class="math inline">\(g\)</span>. We will assume that <span class="math inline">\(\eta_{gn}\)</span> is independent and identically distributed across observations, so that the only source of autocorrelation is that observations in the same group share the same <span class="math inline">\(\alpha_g\)</span>.</p>
 <p>When we decompose the error term like this, we are assuming implicitly that the <span class="math inline">\(\alpha_g\)</span>’s are uncorrelated with the covariates in the model. Otherwise, strict exogeneity fails and the techniques that follow are useless. Let me put that another way—the random effects model depends on the assumption that the group-specific shocks are uncorrelated with the covariates. We will proceed under this assumption, and return shortly to the questions of testing it and what to do if it fails.</p>
-<p>The random-intercepts model gives us a convenient structure for the <span class="math inline">\(\Omega\)</span> matrix in GLS. Let <span class="math inline">\(V[\alpha_g] = \sigma^2_\alpha\)</span> and <span class="math inline">\(V[\eta_{gn}] = \sigma^2_\eta\)</span>. The error variance matrix for the <span class="math inline">\(g\)</span>’th group then works out to
-<span class="math display">\[
+<p>The random-intercepts model gives us a convenient structure for the <span class="math inline">\(\Omega\)</span> matrix in GLS. Let <span class="math inline">\(V[\alpha_g] = \sigma^2_\alpha\)</span> and <span class="math inline">\(V[\eta_{gn}] = \sigma^2_\eta\)</span>. The error variance matrix for the <span class="math inline">\(g\)</span>’th group then works out to <span class="math display">\[
 \Omega_g = \begin{bmatrix}
 \sigma_{\eta}^2 + \sigma_{\alpha}^2 &amp; \sigma_{\alpha}^2 &amp; \cdots &amp; \sigma_{\alpha}^2 \\
 \sigma_{\alpha}^2 &amp; \sigma_{\eta}^2 + \sigma_{\alpha}^2 &amp; \cdots &amp; \sigma_{\alpha}^2 \\
 \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
 \sigma_{\alpha}^2 &amp; \sigma_{\alpha}^2 &amp; \cdots &amp; \sigma_{\eta}^2 + \sigma_{\alpha}^2
 \end{bmatrix}.
-\]</span>
-Since there is no autocorrelation across groups, <span class="math inline">\(\Omega\)</span> takes the same block-diagonal form as in our discussion of cluster-robust standard errors.</p>
+\]</span> Since there is no autocorrelation across groups, <span class="math inline">\(\Omega\)</span> takes the same block-diagonal form as in our discussion of cluster-robust standard errors.</p>
 <p>If we knew <span class="math inline">\(\sigma^2_\alpha\)</span> and <span class="math inline">\(\sigma^2_\eta\)</span>, we could estimate <span class="math inline">\(\beta\)</span> by GLS. It is unlikely, however, that we would know these in advance. Luckily, there is a compromise option available. <em>Feasible GLS</em>, or FGLS, entails using a pair of first-stage regressions to estimate the variance of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\eta\)</span>, then plugging these into the GLS formula. I won’t go through all the math, but the basic idea is as follows.</p>
 <ol style="list-style-type: decimal">
 <li><p>Calculate the average response <span class="math inline">\(\bar{Y}_g\)</span> and average covariate vector <span class="math inline">\(\bar{\mathbf{x}}_g\)</span> for each group. Estimate <span class="math inline">\(\sigma^2_\alpha\)</span>, the <em>between-group variance</em>, using the residual variance of a regression of <span class="math inline">\(\bar{\mathbf{Y}}\)</span> on <span class="math inline">\(\bar{\mathbf{X}}\)</span>.</p></li>
 <li><p>Estimate <span class="math inline">\(\sigma^2_\eta\)</span>, the <em>within-group variance</em>, using the residual variance of a regression of <span class="math inline">\(\mathbf{Y}\)</span> on <span class="math inline">\(\mathbf{X}\)</span> and <span class="math inline">\(\mathbf{D}\)</span>, the full set of group dummies. We will see the importance of this regression very shortly.</p></li>
 <li><p>Form the matrix <span class="math inline">\(\hat{\Omega}\)</span> by plugging <span class="math inline">\(\hat{\sigma}^2_\alpha\)</span> and <span class="math inline">\(\hat{\sigma}^2_\eta\)</span> into the formulas above, then run GLS using <span class="math inline">\(\hat{\Omega}\)</span> as the weighting matrix.</p></li>
 </ol>
-<p>This gives us the <em>random effects estimator</em>,
-<span class="math display">\[
+<p>This gives us the <em>random effects estimator</em>, <span class="math display">\[
 \hat{\beta}_{\text{RE}} = (\mathbf{X}^\top \hat{\Omega}^{-1} \mathbf{X})^{-1} \mathbf{X}^\top \hat{\Omega}^{-1} \mathbf{Y}.
 \]</span></p>
-<p>See <span class="citation">Johnston and DiNardo (<a href="#ref-Johnston:1997um" role="doc-biblioref">1997</a>, 392–95)</span> for full formulas and details. FGLS is consistent but not unbiased, so the random effects model may not be a good idea in small samples. If our specification of the error structure is correct, it is asymptotically efficient—as the sample size increases, no other estimator has lower standard errors.</p>
+<p>See <span class="citation">Johnston and DiNardo (<a href="#ref-Johnston:1997um">1997</a>, 392–95)</span> for full formulas and details. FGLS is consistent but not unbiased, so the random effects model may not be a good idea in small samples. If our specification of the error structure is correct, it is asymptotically efficient—as the sample size increases, no other estimator has lower standard errors.</p>
 </div>
-<div id="fixed-effects" class="section level2" number="12.4">
+<div id="fixed-effects" class="section level2">
 <h2><span class="header-section-number">12.4</span> Fixed Effects</h2>
-<p>What if the group-specific intercepts are correlated with the covariates? Then, in order to maintain strict exogeneity, we must pull them out of the error term and into the covariate matrix. This is easy to do—we can rewrite the full model as
-<span class="math display">\[
+<p>What if the group-specific intercepts are correlated with the covariates? Then, in order to maintain strict exogeneity, we must pull them out of the error term and into the covariate matrix. This is easy to do—we can rewrite the full model as <span class="math display">\[
 \mathbf{Y} = \mathbf{X} \beta + \mathbf{D} \alpha + \eta,
-\]</span>
-where <span class="math inline">\(\alpha\)</span> is the <span class="math inline">\(G \times 1\)</span> vector of group-specific intercepts. This suggests that we run OLS on our covariates plus the full set of group membership indicators. (As with any set of indicators, we need to omit one category.) The first <span class="math inline">\(K\)</span> elements of this regression constitute the <em>fixed effects</em> estimator.</p>
-<p>Most textbook treatments of fixed effect estimators go through a whole rigmarole about computation, because it used to be challenging to invert a <span class="math inline">\((K + G) \times (K + G)\)</span> matrix when <span class="math inline">\(G\)</span> was moderately large. This is no longer true,<a href="#fn33" class="footnote-ref" id="fnref33"><sup>33</sup></a> so you can safely ignore most of the hand-wringing about computational difficulties.</p>
+\]</span> where <span class="math inline">\(\alpha\)</span> is the <span class="math inline">\(G \times 1\)</span> vector of group-specific intercepts. This suggests that we run OLS on our covariates plus the full set of group membership indicators. (As with any set of indicators, we need to omit one category.) The first <span class="math inline">\(K\)</span> elements of this regression constitute the <em>fixed effects</em> estimator.</p>
+<p>Most textbook treatments of fixed effect estimators go through a whole rigmarole about computation, because it used to be challenging to invert a <span class="math inline">\((K + G) \times (K + G)\)</span> matrix when <span class="math inline">\(G\)</span> was moderately large. This is no longer true,<a href="#fn33" class="footnoteRef" id="fnref33"><sup>33</sup></a> so you can safely ignore most of the hand-wringing about computational difficulties.</p>
 <p>The standard errors of the fixed effects estimator are usually higher than those of the random effects estimator, since estimating <span class="math inline">\(G\)</span> additional parameters uses a lot of degrees of freedom. This leads us to the following pair of observations.</p>
 <ul>
 <li><p>If the random effects assumption is met (group-specific effects are uncorrelated with covariates), then the random effects and fixed estimators are both consistent, but fixed effects is less efficient.</p></li>
 <li><p>If the random effects assumption is not met, then the random effects estimator is inconsistent while the fixed effects estimator is consistent.</p></li>
 </ul>
-<p>The typical test for whether fixed effects are necessary comes from <span class="citation">Hausman (<a href="#ref-Hausman:1978bi" role="doc-biblioref">1978</a>)</span>. Under the null hypothesis that both estimators are consistent (and thus fixed effects are unnecessary and inefficient), the test statistic
-<span class="math display">\[
+<p>The typical test for whether fixed effects are necessary comes from <span class="citation">Hausman (<a href="#ref-Hausman:1978bi">1978</a>)</span>. Under the null hypothesis that both estimators are consistent (and thus fixed effects are unnecessary and inefficient), the test statistic <span class="math display">\[
 H = (\hat{\beta}_{\text{RE}} - \hat{\beta}_{\text{FE}})^\top (\hat{\Sigma}_{\text{FE}} - \hat{\Sigma}_{\text{RE}})^{-1} (\hat{\beta}_{\text{RE}} - \hat{\beta}_{\text{FE}})
-\]</span>
-asymptotically has a <span class="math inline">\(\chi^2\)</span> distribution with <span class="math inline">\(K\)</span> degrees of freedom.</p>
-<p>The other main drawback of fixed effects estimation is that you cannot estimate the effects of variables that do not vary within groups. (Why not?) See <span class="citation">Greene (<a href="#ref-greene" role="doc-biblioref">2003</a>, sec. 13.5)</span> for estimation strategies with panel data and time-invariant covariates.</p>
-<p>One final note: <span class="citation">Arellano (<a href="#ref-Arellano:1987jx" role="doc-biblioref">1987</a>)</span> shows that the cluster-robust variance matrix estimator can be used with fixed effects. <span class="citation">Cameron and Miller (<a href="#ref-Cameron:2015ud" role="doc-biblioref">2015</a>)</span> recommend doing so, at least when the number of groups is large.</p>
+\]</span> asymptotically has a <span class="math inline">\(\chi^2\)</span> distribution with <span class="math inline">\(K\)</span> degrees of freedom.</p>
+<p>The other main drawback of fixed effects estimation is that you cannot estimate the effects of variables that do not vary within groups. (Why not?) See <span class="citation">Greene (<a href="#ref-greene">2003</a>, sec. 13.5)</span> for estimation strategies with panel data and time-invariant covariates.</p>
+<p>One final note: <span class="citation">Arellano (<a href="#ref-Arellano:1987jx">1987</a>)</span> shows that the cluster-robust variance matrix estimator can be used with fixed effects. <span class="citation">Cameron and Miller (<a href="#ref-Cameron:2015ud">2015</a>)</span> recommend doing so, at least when the number of groups is large.</p>
 </div>
-<div id="appendix-implementation-in-r-1" class="section level2" number="12.5">
+<div id="appendix-implementation-in-r-1" class="section level2">
 <h2><span class="header-section-number">12.5</span> Appendix: Implementation in R</h2>
 <p>The methods introduced here can be implemented via the <strong>plm</strong> package.</p>
-<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb333-1"><a href="panel.html#cb333-1"></a><span class="kw">library</span>(<span class="st">&quot;plm&quot;</span>)</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;plm&quot;</span>)</code></pre></div>
 <p>We will use the <code>Produc</code> dataset from <strong>plm</strong>, a riveting collection of economic statistics about the U.S. states from 1970 to 1986.</p>
-<div class="sourceCode" id="cb334"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb334-1"><a href="panel.html#cb334-1"></a><span class="kw">data</span>(Produc, <span class="dt">package =</span> <span class="st">&quot;plm&quot;</span>)</span>
-<span id="cb334-2"><a href="panel.html#cb334-2"></a><span class="kw">head</span>(Produc)</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(Produc, <span class="dt">package =</span> <span class="st">&quot;plm&quot;</span>)
+<span class="kw">head</span>(Produc)</code></pre></div>
 <pre><code>##     state year region     pcap     hwy   water    util       pc   gsp    emp
 ## 1 ALABAMA 1970      6 15032.67 7325.80 1655.68 6051.20 35793.80 28418 1010.5
 ## 2 ALABAMA 1971      6 15501.94 7525.94 1721.02 6254.98 37299.91 29375 1021.9
@@ -424,9 +362,9 @@ asymptotically has a <span class="math inline">\(\chi^2\)</span> distribution wi
 ## 6   7.7</code></pre>
 <p>The functions in <strong>plm</strong> assume that your data are organized like <code>Produc</code>, with the grouping variable in the first column and the identification variable (time, in the case of panel data) in the second column. See the <strong>plm</strong> package vignette on how to get datasets not organized this way into line.</p>
 <p>We will treat unemployment (<code>unemp</code>) as our response and public capital stock (<code>pcap</code>) and private capital stock (<code>pc</code>) as our covariates. As a benchmark, let’s use OLS.</p>
-<div class="sourceCode" id="cb336"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb336-1"><a href="panel.html#cb336-1"></a>fit_ols &lt;-<span class="st"> </span><span class="kw">lm</span>(unemp <span class="op">~</span><span class="st"> </span>pcap <span class="op">+</span><span class="st"> </span>pc,</span>
-<span id="cb336-2"><a href="panel.html#cb336-2"></a>              <span class="dt">data =</span> Produc)</span>
-<span id="cb336-3"><a href="panel.html#cb336-3"></a><span class="kw">summary</span>(fit_ols)</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_ols &lt;-<span class="st"> </span><span class="kw">lm</span>(unemp <span class="op">~</span><span class="st"> </span>pcap <span class="op">+</span><span class="st"> </span>pc,
+              <span class="dt">data =</span> Produc)
+<span class="kw">summary</span>(fit_ols)</code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = unemp ~ pcap + pc, data = Produc)
@@ -447,10 +385,10 @@ asymptotically has a <span class="math inline">\(\chi^2\)</span> distribution wi
 ## Multiple R-squared:  0.03516,    Adjusted R-squared:  0.03279 
 ## F-statistic: 14.81 on 2 and 813 DF,  p-value: 4.795e-07</code></pre>
 <p>The “pooling” estimator implemented by <code>plm()</code> ought to give us the same results.</p>
-<div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb338-1"><a href="panel.html#cb338-1"></a>fit_pooling &lt;-<span class="st"> </span><span class="kw">plm</span>(unemp <span class="op">~</span><span class="st"> </span>pcap <span class="op">+</span><span class="st"> </span>pc,</span>
-<span id="cb338-2"><a href="panel.html#cb338-2"></a>                   <span class="dt">data =</span> Produc,</span>
-<span id="cb338-3"><a href="panel.html#cb338-3"></a>                   <span class="dt">model =</span> <span class="st">&quot;pooling&quot;</span>)</span>
-<span id="cb338-4"><a href="panel.html#cb338-4"></a><span class="kw">summary</span>(fit_pooling)</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_pooling &lt;-<span class="st"> </span><span class="kw">plm</span>(unemp <span class="op">~</span><span class="st"> </span>pcap <span class="op">+</span><span class="st"> </span>pc,
+                   <span class="dt">data =</span> Produc,
+                   <span class="dt">model =</span> <span class="st">&quot;pooling&quot;</span>)
+<span class="kw">summary</span>(fit_pooling)</code></pre></div>
 <pre><code>## Pooling Model
 ## 
 ## Call:
@@ -475,11 +413,11 @@ asymptotically has a <span class="math inline">\(\chi^2\)</span> distribution wi
 ## R-Squared:      0.035162
 ## Adj. R-Squared: 0.032788
 ## F-statistic: 14.8141 on 2 and 813 DF, p-value: 4.7947e-07</code></pre>
-<p>We can obtain the cluster-robust variance matrix estimate via <code>vcovHC()</code>. Make sure to specify <code>method = "arellano"</code> so as to get the usual estimator. It is not entirely clear to me which of the various finite-sample adjustments corresponds to the defaults in Stata.</p>
-<div class="sourceCode" id="cb340"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb340-1"><a href="panel.html#cb340-1"></a>crvm_pooling &lt;-<span class="st"> </span><span class="kw">vcovHC</span>(fit_pooling,</span>
-<span id="cb340-2"><a href="panel.html#cb340-2"></a>                       <span class="dt">method =</span> <span class="st">&quot;arellano&quot;</span>,</span>
-<span id="cb340-3"><a href="panel.html#cb340-3"></a>                       <span class="dt">type =</span> <span class="st">&quot;HC1&quot;</span>)</span>
-<span id="cb340-4"><a href="panel.html#cb340-4"></a><span class="kw">summary</span>(fit_pooling, <span class="dt">vcov =</span> crvm_pooling)</span></code></pre></div>
+<p>We can obtain the cluster-robust variance matrix estimate via <code>vcovHC()</code>. Make sure to specify <code>method = &quot;arellano&quot;</code> so as to get the usual estimator. It is not entirely clear to me which of the various finite-sample adjustments corresponds to the defaults in Stata.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">crvm_pooling &lt;-<span class="st"> </span><span class="kw">vcovHC</span>(fit_pooling,
+                       <span class="dt">method =</span> <span class="st">&quot;arellano&quot;</span>,
+                       <span class="dt">type =</span> <span class="st">&quot;HC1&quot;</span>)
+<span class="kw">summary</span>(fit_pooling, <span class="dt">vcov =</span> crvm_pooling)</code></pre></div>
 <pre><code>## Pooling Model
 ## 
 ## Note: Coefficient variance-covariance matrix supplied: crvm_pooling
@@ -506,12 +444,12 @@ asymptotically has a <span class="math inline">\(\chi^2\)</span> distribution wi
 ## R-Squared:      0.035162
 ## Adj. R-Squared: 0.032788
 ## F-statistic: 6.45144 on 2 and 47 DF, p-value: 0.0033441</code></pre>
-<p>Notice that our <span class="math inline">\(t\)</span>-statistics are cut in more than half, even though our variables have within-group variation (unlike <span class="citation">Moulton (<a href="#ref-Moulton:1990bl" role="doc-biblioref">1990</a>)</span>’s example).</p>
+<p>Notice that our <span class="math inline">\(t\)</span>-statistics are cut in more than half, even though our variables have within-group variation (unlike <span class="citation">Moulton (<a href="#ref-Moulton:1990bl">1990</a>)</span>’s example).</p>
 <p>We can also use <code>plm()</code> to estimate a random-effects model.</p>
-<div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb342-1"><a href="panel.html#cb342-1"></a>fit_random &lt;-<span class="st"> </span><span class="kw">plm</span>(unemp <span class="op">~</span><span class="st"> </span>pcap <span class="op">+</span><span class="st"> </span>pc,</span>
-<span id="cb342-2"><a href="panel.html#cb342-2"></a>                  <span class="dt">data =</span> Produc,</span>
-<span id="cb342-3"><a href="panel.html#cb342-3"></a>                  <span class="dt">model =</span> <span class="st">&quot;random&quot;</span>)</span>
-<span id="cb342-4"><a href="panel.html#cb342-4"></a><span class="kw">summary</span>(fit_random)</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_random &lt;-<span class="st"> </span><span class="kw">plm</span>(unemp <span class="op">~</span><span class="st"> </span>pcap <span class="op">+</span><span class="st"> </span>pc,
+                  <span class="dt">data =</span> Produc,
+                  <span class="dt">model =</span> <span class="st">&quot;random&quot;</span>)
+<span class="kw">summary</span>(fit_random)</code></pre></div>
 <pre><code>## Oneway (individual) effect Random Effect Model 
 ##    (Swamy-Arora&#39;s transformation)
 ## 
@@ -543,11 +481,11 @@ asymptotically has a <span class="math inline">\(\chi^2\)</span> distribution wi
 ## R-Squared:      0.042399
 ## Adj. R-Squared: 0.040043
 ## Chisq: 35.9967 on 2 DF, p-value: 1.5256e-08</code></pre>
-<p>And, finally, a fixed-effects model, which <code>plm()</code> calls the <code>"within"</code> model.</p>
-<div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb344-1"><a href="panel.html#cb344-1"></a>fit_fixed &lt;-<span class="st"> </span><span class="kw">plm</span>(unemp <span class="op">~</span><span class="st"> </span>pcap <span class="op">+</span><span class="st"> </span>pc,</span>
-<span id="cb344-2"><a href="panel.html#cb344-2"></a>                 <span class="dt">data =</span> Produc,</span>
-<span id="cb344-3"><a href="panel.html#cb344-3"></a>                 <span class="dt">model =</span> <span class="st">&quot;within&quot;</span>)</span>
-<span id="cb344-4"><a href="panel.html#cb344-4"></a><span class="kw">summary</span>(fit_fixed)</span></code></pre></div>
+<p>And, finally, a fixed-effects model, which <code>plm()</code> calls the <code>&quot;within&quot;</code> model.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_fixed &lt;-<span class="st"> </span><span class="kw">plm</span>(unemp <span class="op">~</span><span class="st"> </span>pcap <span class="op">+</span><span class="st"> </span>pc,
+                 <span class="dt">data =</span> Produc,
+                 <span class="dt">model =</span> <span class="st">&quot;within&quot;</span>)
+<span class="kw">summary</span>(fit_fixed)</code></pre></div>
 <pre><code>## Oneway (individual) effect Within Model
 ## 
 ## Call:
@@ -572,7 +510,7 @@ asymptotically has a <span class="math inline">\(\chi^2\)</span> distribution wi
 ## Adj. R-Squared: 0.088906
 ## F-statistic: 64.2646 on 2 and 766 DF, p-value: &lt; 2.22e-16</code></pre>
 <p>We can extract the fixed-effect estimates themselves via <code>fixef()</code>.</p>
-<div class="sourceCode" id="cb346"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb346-1"><a href="panel.html#cb346-1"></a><span class="kw">fixef</span>(fit_fixed)</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fixef</span>(fit_fixed)</code></pre></div>
 <pre><code>##        ALABAMA        ARIZONA       ARKANSAS     CALIFORNIA       COLORADO 
 ##     3.76390190     3.20123239     5.02097974   -24.35181563     1.90688506 
 ##    CONNECTICUT       DELAWARE        FLORIDA        GEORGIA          IDAHO 
@@ -593,12 +531,12 @@ asymptotically has a <span class="math inline">\(\chi^2\)</span> distribution wi
 ##   -11.16138400     4.23354024     5.62449576    -0.96096398     1.08075707 
 ##  WEST_VIRGINIA      WISCONSIN        WYOMING 
 ##     6.94076391     0.19197087     3.79896918</code></pre>
-<p>If we wanted to include time dummies as well, we could specify <code>effect = "twoways"</code> in the fitting function.</p>
-<div class="sourceCode" id="cb348"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb348-1"><a href="panel.html#cb348-1"></a>fit_fixed_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">plm</span>(unemp <span class="op">~</span><span class="st"> </span>pcap <span class="op">+</span><span class="st"> </span>pc,</span>
-<span id="cb348-2"><a href="panel.html#cb348-2"></a>                   <span class="dt">data =</span> Produc,</span>
-<span id="cb348-3"><a href="panel.html#cb348-3"></a>                   <span class="dt">effect =</span> <span class="st">&quot;twoways&quot;</span>,</span>
-<span id="cb348-4"><a href="panel.html#cb348-4"></a>                   <span class="dt">model =</span> <span class="st">&quot;within&quot;</span>)</span>
-<span id="cb348-5"><a href="panel.html#cb348-5"></a><span class="kw">summary</span>(fit_fixed_<span class="dv">2</span>)</span></code></pre></div>
+<p>If we wanted to include time dummies as well, we could specify <code>effect = &quot;twoways&quot;</code> in the fitting function.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_fixed_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">plm</span>(unemp <span class="op">~</span><span class="st"> </span>pcap <span class="op">+</span><span class="st"> </span>pc,
+                   <span class="dt">data =</span> Produc,
+                   <span class="dt">effect =</span> <span class="st">&quot;twoways&quot;</span>,
+                   <span class="dt">model =</span> <span class="st">&quot;within&quot;</span>)
+<span class="kw">summary</span>(fit_fixed_<span class="dv">2</span>)</code></pre></div>
 <pre><code>## Twoways effects Within Model
 ## 
 ## Call:
@@ -623,7 +561,7 @@ asymptotically has a <span class="math inline">\(\chi^2\)</span> distribution wi
 ## R-Squared:      0.016355
 ## Adj. R-Squared: -0.068894
 ## F-statistic: 6.23517 on 2 and 750 DF, p-value: 0.0020624</code></pre>
-<div class="sourceCode" id="cb350"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb350-1"><a href="panel.html#cb350-1"></a><span class="kw">fixef</span>(fit_fixed_<span class="dv">2</span>, <span class="dt">effect =</span> <span class="st">&quot;time&quot;</span>)</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fixef</span>(fit_fixed_<span class="dv">2</span>, <span class="dt">effect =</span> <span class="st">&quot;time&quot;</span>)</code></pre></div>
 <pre><code>##     1970     1971     1972     1973     1974     1975     1976     1977 
 ## 3.554848 4.282335 3.771045 3.193486 3.831850 6.516024 5.457664 4.936477 
 ##     1978     1979     1980     1981     1982     1983     1984     1985 
@@ -631,7 +569,7 @@ asymptotically has a <span class="math inline">\(\chi^2\)</span> distribution wi
 ##     1986 
 ## 5.350387</code></pre>
 <p><code>phtest()</code> implements the Hausman test. Remember that the null hypothesis is that both estimators are consistent; if we reject it, then the random effects estimator is inconsistent and we must use fixed effects.</p>
-<div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb352-1"><a href="panel.html#cb352-1"></a><span class="kw">phtest</span>(fit_random, fit_fixed)</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">phtest</span>(fit_random, fit_fixed)</code></pre></div>
 <pre><code>## 
 ##  Hausman Test
 ## 
@@ -644,7 +582,7 @@ asymptotically has a <span class="math inline">\(\chi^2\)</span> distribution wi
 <h3>References</h3>
 <div id="refs" class="references">
 <div id="ref-Arellano:1987jx">
-<p>Arellano, M. 1987. “Practitioners’ Corner: Computing Robust Standard Errors for Within-groups Estimators.” <em>Oxford Bulletin of Economics and Statistics</em> 49 (4): 431–34.</p>
+<p>Arellano, M. 1987. “Practitioners Corner: Computing Robust Standard Errors for Within-groups Estimators.” <em>Oxford Bulletin of Economics and Statistics</em> 49 (4): 431–34.</p>
 </div>
 <div id="ref-Beck:1995hm">
 <p>Beck, Nathaniel, and Jonathan N Katz. 1995. “What to do (and Not to Do) with Time-Series Cross-Section Data.” <em>American Political Science Review</em> 89 (03): 634–47.</p>
@@ -680,9 +618,9 @@ asymptotically has a <span class="math inline">\(\chi^2\)</span> distribution wi
 <div class="footnotes">
 <hr />
 <ol start="31">
-<li id="fn31"><p>Why did I leave out national characteristics, like inflation or the national unemployment rate? In a single-election study, these are constant. While they might shape variation <em>across</em> elections, they cannot be linked to variation <em>within</em> a single election.<a href="panel.html#fnref31" class="footnote-back">↩︎</a></p></li>
-<li id="fn32"><p>Everything we do here would go through if we allowed the number of observations to vary across groups, but the notation would get uglier. In the panel data context we say that the panels are <em>balanced</em> if the number of observations is the same for each group and <em>unbalanced</em> otherwise.<a href="panel.html#fnref32" class="footnote-back">↩︎</a></p></li>
-<li id="fn33"><p>When I taught this class last year, I simulated a dataset with a single covariate, <span class="math inline">\(N = 1{,}000\)</span>, and <span class="math inline">\(J = 1{,}000\)</span>, meaning the fixed effects regression entailed estimating <span class="math inline">\(1{,}001\)</span> parameters from <span class="math inline">\(1{,}000{,}000\)</span> observations. It took less than two minutes to run on my not-especially-powerful laptop. That said, should you ever have <span class="math inline">\(N\)</span> another order of magnitude above that, the computational tricks given in the textbook treatments will once again be of use.<a href="panel.html#fnref33" class="footnote-back">↩︎</a></p></li>
+<li id="fn31"><p>Why did I leave out national characteristics, like inflation or the national unemployment rate? In a single-election study, these are constant. While they might shape variation <em>across</em> elections, they cannot be linked to variation <em>within</em> a single election.<a href="panel.html#fnref31">↩</a></p></li>
+<li id="fn32"><p>Everything we do here would go through if we allowed the number of observations to vary across groups, but the notation would get uglier. In the panel data context we say that the panels are <em>balanced</em> if the number of observations is the same for each group and <em>unbalanced</em> otherwise.<a href="panel.html#fnref32">↩</a></p></li>
+<li id="fn33"><p>When I taught this class last year, I simulated a dataset with a single covariate, <span class="math inline">\(N = 1{,}000\)</span>, and <span class="math inline">\(J = 1{,}000\)</span>, meaning the fixed effects regression entailed estimating <span class="math inline">\(1{,}001\)</span> parameters from <span class="math inline">\(1{,}000{,}000\)</span> observations. It took less than two minutes to run on my not-especially-powerful laptop. That said, should you ever have <span class="math inline">\(N\)</span> another order of magnitude above that, the computational tricks given in the textbook treatments will once again be of use.<a href="panel.html#fnref33">↩</a></p></li>
 </ol>
 </div>
             </section>
@@ -746,7 +684,7 @@ gitbook.start({
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    var src = "true";
+    var src = "";
     if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))

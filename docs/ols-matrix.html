@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="" xml:lang="">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
 <head>
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>7 Reintroduction to the Linear Model | Practical Data Analysis for Political Scientists</title>
   <meta name="description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right." />
-  <meta name="generator" content="bookdown 0.17.2 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
 
   <meta property="og:title" content="7 Reintroduction to the Linear Model | Practical Data Analysis for Political Scientists" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Brenton Kenkel" />
 
 
-<meta name="date" content="2020-02-03" />
+<meta name="date" content="2020-02-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,6 @@
   
 <link rel="prev" href="matrix.html"/>
 <link rel="next" href="specification.html"/>
-<script src="libs/header-attrs-2.1/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -54,67 +53,41 @@
 
 
 <style type="text/css">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -134,64 +107,56 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> About This Book</a></li>
-<li class="chapter" data-level="2" data-path="programming.html"><a href="programming.html"><i class="fa fa-check"></i><b>2</b> Principles of Programming</a>
-<ul>
+<li class="chapter" data-level="2" data-path="programming.html"><a href="programming.html"><i class="fa fa-check"></i><b>2</b> Principles of Programming</a><ul>
 <li class="chapter" data-level="2.1" data-path="programming.html"><a href="programming.html#write-programs-for-people-not-computers"><i class="fa fa-check"></i><b>2.1</b> Write Programs for People, Not Computers</a></li>
 <li class="chapter" data-level="2.2" data-path="programming.html"><a href="programming.html#let-the-computer-do-the-work"><i class="fa fa-check"></i><b>2.2</b> Let the Computer Do the Work</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>3</b> Working with Data</a>
-<ul>
+<li class="chapter" data-level="3" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>3</b> Working with Data</a><ul>
 <li class="chapter" data-level="3.1" data-path="data.html"><a href="data.html#loading"><i class="fa fa-check"></i><b>3.1</b> Loading</a></li>
 <li class="chapter" data-level="3.2" data-path="data.html"><a href="data.html#tidying"><i class="fa fa-check"></i><b>3.2</b> Tidying</a></li>
 <li class="chapter" data-level="3.3" data-path="data.html"><a href="data.html#transforming-and-aggregating"><i class="fa fa-check"></i><b>3.3</b> Transforming and Aggregating</a></li>
 <li class="chapter" data-level="3.4" data-path="data.html"><a href="data.html#merging"><i class="fa fa-check"></i><b>3.4</b> Merging</a></li>
 <li class="chapter" data-level="3.5" data-path="data.html"><a href="data.html#appendix-creating-the-example-data"><i class="fa fa-check"></i><b>3.5</b> Appendix: Creating the Example Data</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="visualization.html"><a href="visualization.html"><i class="fa fa-check"></i><b>4</b> Data Visualization</a>
-<ul>
+<li class="chapter" data-level="4" data-path="visualization.html"><a href="visualization.html"><i class="fa fa-check"></i><b>4</b> Data Visualization</a><ul>
 <li class="chapter" data-level="4.1" data-path="visualization.html"><a href="visualization.html#basic-plots"><i class="fa fa-check"></i><b>4.1</b> Basic Plots</a></li>
 <li class="chapter" data-level="4.2" data-path="visualization.html"><a href="visualization.html#saving-plots"><i class="fa fa-check"></i><b>4.2</b> Saving Plots</a></li>
 <li class="chapter" data-level="4.3" data-path="visualization.html"><a href="visualization.html#faceting"><i class="fa fa-check"></i><b>4.3</b> Faceting</a></li>
 <li class="chapter" data-level="4.4" data-path="visualization.html"><a href="visualization.html#aesthetics"><i class="fa fa-check"></i><b>4.4</b> Aesthetics</a></li>
 <li class="chapter" data-level="4.5" data-path="visualization.html"><a href="visualization.html#appendix-creating-the-example-data-1"><i class="fa fa-check"></i><b>4.5</b> Appendix: Creating the Example Data</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="bivariate.html"><a href="bivariate.html"><i class="fa fa-check"></i><b>5</b> Bivariate Regression</a>
-<ul>
+<li class="chapter" data-level="5" data-path="bivariate.html"><a href="bivariate.html"><i class="fa fa-check"></i><b>5</b> Bivariate Regression</a><ul>
 <li class="chapter" data-level="5.1" data-path="bivariate.html"><a href="bivariate.html#probability"><i class="fa fa-check"></i><b>5.1</b> Probability Refresher</a></li>
 <li class="chapter" data-level="5.2" data-path="bivariate.html"><a href="bivariate.html#the-linear-model"><i class="fa fa-check"></i><b>5.2</b> The Linear Model</a></li>
 <li class="chapter" data-level="5.3" data-path="bivariate.html"><a href="bivariate.html#least-squares"><i class="fa fa-check"></i><b>5.3</b> Least Squares</a></li>
 <li class="chapter" data-level="5.4" data-path="bivariate.html"><a href="bivariate.html#properties"><i class="fa fa-check"></i><b>5.4</b> Properties</a></li>
 <li class="chapter" data-level="5.5" data-path="bivariate.html"><a href="bivariate.html#appendix-regression-in-r"><i class="fa fa-check"></i><b>5.5</b> Appendix: Regression in R</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="matrix.html"><a href="matrix.html"><i class="fa fa-check"></i><b>6</b> Matrix Algebra: A Crash Course</a>
-<ul>
+<li class="chapter" data-level="6" data-path="matrix.html"><a href="matrix.html"><i class="fa fa-check"></i><b>6</b> Matrix Algebra: A Crash Course</a><ul>
 <li class="chapter" data-level="6.1" data-path="matrix.html"><a href="matrix.html#vector-operations"><i class="fa fa-check"></i><b>6.1</b> Vector Operations</a></li>
 <li class="chapter" data-level="6.2" data-path="matrix.html"><a href="matrix.html#matrix-operations"><i class="fa fa-check"></i><b>6.2</b> Matrix Operations</a></li>
 <li class="chapter" data-level="6.3" data-path="matrix.html"><a href="matrix.html#matrix-inversion"><i class="fa fa-check"></i><b>6.3</b> Matrix Inversion</a></li>
 <li class="chapter" data-level="6.4" data-path="matrix.html"><a href="matrix.html#solving-linear-systems"><i class="fa fa-check"></i><b>6.4</b> Solving Linear Systems</a></li>
 <li class="chapter" data-level="6.5" data-path="matrix.html"><a href="matrix.html#appendix-matrices-in-r"><i class="fa fa-check"></i><b>6.5</b> Appendix: Matrices in R</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="ols-matrix.html"><a href="ols-matrix.html"><i class="fa fa-check"></i><b>7</b> Reintroduction to the Linear Model</a>
-<ul>
+<li class="chapter" data-level="7" data-path="ols-matrix.html"><a href="ols-matrix.html"><i class="fa fa-check"></i><b>7</b> Reintroduction to the Linear Model</a><ul>
 <li class="chapter" data-level="7.1" data-path="ols-matrix.html"><a href="ols-matrix.html#the-linear-model-in-matrix-form"><i class="fa fa-check"></i><b>7.1</b> The Linear Model in Matrix Form</a></li>
 <li class="chapter" data-level="7.2" data-path="ols-matrix.html"><a href="ols-matrix.html#the-ols-estimator"><i class="fa fa-check"></i><b>7.2</b> The OLS Estimator</a></li>
 <li class="chapter" data-level="7.3" data-path="ols-matrix.html"><a href="ols-matrix.html#vector-valued-random-variables"><i class="fa fa-check"></i><b>7.3</b> Vector-Valued Random Variables</a></li>
 <li class="chapter" data-level="7.4" data-path="ols-matrix.html"><a href="ols-matrix.html#properties-of-ols"><i class="fa fa-check"></i><b>7.4</b> Properties of OLS</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="specification.html"><a href="specification.html"><i class="fa fa-check"></i><b>8</b> Specification Issues</a>
-<ul>
+<li class="chapter" data-level="8" data-path="specification.html"><a href="specification.html"><i class="fa fa-check"></i><b>8</b> Specification Issues</a><ul>
 <li class="chapter" data-level="8.1" data-path="specification.html"><a href="specification.html#categorical-variables"><i class="fa fa-check"></i><b>8.1</b> Categorical Variables</a></li>
 <li class="chapter" data-level="8.2" data-path="specification.html"><a href="specification.html#interaction-terms"><i class="fa fa-check"></i><b>8.2</b> Interaction Terms</a></li>
-<li class="chapter" data-level="8.3" data-path="specification.html"><a href="specification.html#quadratic-and-logarithmic-terms"><i class="fa fa-check"></i><b>8.3</b> Quadratic and Logarithmic Terms</a></li>
-<li class="chapter" data-level="8.4" data-path="specification.html"><a href="specification.html#appendix-nonstandard-specifications-in-r"><i class="fa fa-check"></i><b>8.4</b> Appendix: Nonstandard Specifications in R</a>
-<ul>
-<li class="chapter" data-level="8.4.1" data-path="specification.html"><a href="specification.html#categorical-variables-1"><i class="fa fa-check"></i><b>8.4.1</b> Categorical Variables</a></li>
-<li class="chapter" data-level="8.4.2" data-path="specification.html"><a href="specification.html#interaction-terms-1"><i class="fa fa-check"></i><b>8.4.2</b> Interaction Terms</a></li>
-<li class="chapter" data-level="8.4.3" data-path="specification.html"><a href="specification.html#quadratic-and-logarithmic-models"><i class="fa fa-check"></i><b>8.4.3</b> Quadratic and Logarithmic Models</a></li>
+<li class="chapter" data-level="8.3" data-path="specification.html"><a href="specification.html#quadratic-terms"><i class="fa fa-check"></i><b>8.3</b> Quadratic Terms</a></li>
+<li class="chapter" data-level="8.4" data-path="specification.html"><a href="specification.html#logarithmic-models"><i class="fa fa-check"></i><b>8.4</b> Logarithmic Models</a></li>
+<li class="chapter" data-level="8.5" data-path="specification.html"><a href="specification.html#appendix-nonstandard-specifications-in-r"><i class="fa fa-check"></i><b>8.5</b> Appendix: Nonstandard Specifications in R</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="specification.html"><a href="specification.html#categorical-variables-1"><i class="fa fa-check"></i><b>8.5.1</b> Categorical Variables</a></li>
+<li class="chapter" data-level="8.5.2" data-path="specification.html"><a href="specification.html#interaction-terms-1"><i class="fa fa-check"></i><b>8.5.2</b> Interaction Terms</a></li>
+<li class="chapter" data-level="8.5.3" data-path="specification.html"><a href="specification.html#quadratic-and-logarithmic-models"><i class="fa fa-check"></i><b>8.5.3</b> Quadratic and Logarithmic Models</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="inference.html"><a href="inference.html"><i class="fa fa-check"></i><b>9</b> Drawing Inferences</a>
-<ul>
+<li class="chapter" data-level="9" data-path="inference.html"><a href="inference.html"><i class="fa fa-check"></i><b>9</b> Drawing Inferences</a><ul>
 <li class="chapter" data-level="9.1" data-path="inference.html"><a href="inference.html#the-basics-of-hypothesis-testing"><i class="fa fa-check"></i><b>9.1</b> The Basics of Hypothesis Testing</a></li>
 <li class="chapter" data-level="9.2" data-path="inference.html"><a href="inference.html#variance-of-ols"><i class="fa fa-check"></i><b>9.2</b> Variance of OLS</a></li>
 <li class="chapter" data-level="9.3" data-path="inference.html"><a href="inference.html#single-variable-hypotheses"><i class="fa fa-check"></i><b>9.3</b> Single Variable Hypotheses</a></li>
@@ -199,27 +164,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="9.5" data-path="inference.html"><a href="inference.html#appendix-full-derivation-of-ols-variance"><i class="fa fa-check"></i><b>9.5</b> Appendix: Full Derivation of OLS Variance</a></li>
 <li class="chapter" data-level="9.6" data-path="inference.html"><a href="inference.html#appendix-regression-inference-in-r"><i class="fa fa-check"></i><b>9.6</b> Appendix: Regression Inference in R</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="crisis.html"><a href="crisis.html"><i class="fa fa-check"></i><b>10</b> The Statistical Crisis in Science</a>
-<ul>
+<li class="chapter" data-level="10" data-path="crisis.html"><a href="crisis.html"><i class="fa fa-check"></i><b>10</b> The Statistical Crisis in Science</a><ul>
 <li class="chapter" data-level="10.1" data-path="crisis.html"><a href="crisis.html#publication-bias"><i class="fa fa-check"></i><b>10.1</b> Publication Bias</a></li>
 <li class="chapter" data-level="10.2" data-path="crisis.html"><a href="crisis.html#p-hacking"><i class="fa fa-check"></i><b>10.2</b> <span class="math inline">\(p\)</span>-Hacking</a></li>
 <li class="chapter" data-level="10.3" data-path="crisis.html"><a href="crisis.html#what-to-do"><i class="fa fa-check"></i><b>10.3</b> What to Do</a></li>
 <li class="chapter" data-level="10.4" data-path="crisis.html"><a href="crisis.html#appendix-r-simulation"><i class="fa fa-check"></i><b>10.4</b> Appendix: R Simulation</a></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="nonspherical.html"><a href="nonspherical.html"><i class="fa fa-check"></i><b>11</b> Non-Spherical Errors</a>
-<ul>
+<li class="chapter" data-level="11" data-path="nonspherical.html"><a href="nonspherical.html"><i class="fa fa-check"></i><b>11</b> Non-Spherical Errors</a><ul>
 <li class="chapter" data-level="11.1" data-path="nonspherical.html"><a href="nonspherical.html#generalized-least-squares"><i class="fa fa-check"></i><b>11.1</b> Generalized Least Squares</a></li>
 <li class="chapter" data-level="11.2" data-path="nonspherical.html"><a href="nonspherical.html#detecting-heteroskedasticity"><i class="fa fa-check"></i><b>11.2</b> Detecting Heteroskedasticity</a></li>
 <li class="chapter" data-level="11.3" data-path="nonspherical.html"><a href="nonspherical.html#heteroskedasticity-of-unknown-form"><i class="fa fa-check"></i><b>11.3</b> Heteroskedasticity of Unknown Form</a></li>
-<li class="chapter" data-level="11.4" data-path="nonspherical.html"><a href="nonspherical.html#appendix-implementation-in-r"><i class="fa fa-check"></i><b>11.4</b> Appendix: Implementation in R</a>
-<ul>
+<li class="chapter" data-level="11.4" data-path="nonspherical.html"><a href="nonspherical.html#appendix-implementation-in-r"><i class="fa fa-check"></i><b>11.4</b> Appendix: Implementation in R</a><ul>
 <li class="chapter" data-level="11.4.1" data-path="nonspherical.html"><a href="nonspherical.html#generalized-least-squares-1"><i class="fa fa-check"></i><b>11.4.1</b> Generalized Least Squares</a></li>
 <li class="chapter" data-level="11.4.2" data-path="nonspherical.html"><a href="nonspherical.html#breusch-pagan-test"><i class="fa fa-check"></i><b>11.4.2</b> Breusch-Pagan Test</a></li>
 <li class="chapter" data-level="11.4.3" data-path="nonspherical.html"><a href="nonspherical.html#heteroskedasticity-consistent-standard-errors"><i class="fa fa-check"></i><b>11.4.3</b> Heteroskedasticity-Consistent Standard Errors</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="12" data-path="panel.html"><a href="panel.html"><i class="fa fa-check"></i><b>12</b> Clustered and Panel Data</a>
-<ul>
+<li class="chapter" data-level="12" data-path="panel.html"><a href="panel.html"><i class="fa fa-check"></i><b>12</b> Clustered and Panel Data</a><ul>
 <li class="chapter" data-level="12.1" data-path="panel.html"><a href="panel.html#the-linear-model-with-grouped-data"><i class="fa fa-check"></i><b>12.1</b> The Linear Model with Grouped Data</a></li>
 <li class="chapter" data-level="12.2" data-path="panel.html"><a href="panel.html#clustered-standard-errors"><i class="fa fa-check"></i><b>12.2</b> Clustered Standard Errors</a></li>
 <li class="chapter" data-level="12.3" data-path="panel.html"><a href="panel.html#random-effects"><i class="fa fa-check"></i><b>12.3</b> Random Effects</a></li>
@@ -247,66 +208,49 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="ols-matrix" class="section level1" number="7">
+<div id="ols-matrix" class="section level1">
 <h1><span class="header-section-number">7</span> Reintroduction to the Linear Model</h1>
 <p>Having learned some matrix algebra, let us now return to the world of statistics. We are going to take what we learned about regression and ordinary least squares in the bivariate case, then generalize it to a setting with potentially many variables. To make that task feasible, we will rely on the tools of matrix algebra that we learned last week.</p>
-<div id="the-linear-model-in-matrix-form" class="section level2" number="7.1">
+<div id="the-linear-model-in-matrix-form" class="section level2">
 <h2><span class="header-section-number">7.1</span> The Linear Model in Matrix Form</h2>
-<p>We have a sequence of observations indexed by <span class="math inline">\(n \in \{1, \ldots, N\}\)</span>. Each observation consists of a response, <span class="math inline">\(Y_n\)</span>, a real number; and a vector of <span class="math inline">\(K\)</span> covariates,
-<span class="math display">\[
+<p>We have a sequence of observations indexed by <span class="math inline">\(n \in \{1, \ldots, N\}\)</span>. Each observation consists of a response, <span class="math inline">\(Y_n\)</span>, a real number; and a vector of <span class="math inline">\(K\)</span> covariates, <span class="math display">\[
 \mathbf{x}_n = \begin{pmatrix}
   x_{n1} \\
   x_{n2} \\
   \vdots \\
   x_{nK}
 \end{pmatrix}.
-\]</span>
-Just like in bivariate regression, our goal is to estimate the conditional expectation of the response given the covariates, <span class="math inline">\(E[Y_n \,|\, \mathbf{x}_n]\)</span>. To make that task feasible, we will assume the relationship is linear,
-<span class="math display">\[
+\]</span> Just like in bivariate regression, our goal is to estimate the conditional expectation of the response given the covariates, <span class="math inline">\(E[Y_n \,|\, \mathbf{x}_n]\)</span>. To make that task feasible, we will assume the relationship is linear, <span class="math display">\[
 E[Y_n \,|\, \mathbf{x}_n] = \beta \cdot \mathbf{x}_n,
-\]</span>
-where <span class="math inline">\(\beta\)</span> is the <span class="math inline">\(K \times 1\)</span> vector of coefficients,
-<span class="math display">\[
+\]</span> where <span class="math inline">\(\beta\)</span> is the <span class="math inline">\(K \times 1\)</span> vector of coefficients, <span class="math display">\[
 \beta = \begin{pmatrix}
   \beta_1 \\
   \beta_2 \\
   \vdots \\
   \beta_K
 \end{pmatrix}.
-\]</span>
-Our data model is
-<span class="math display">\[
+\]</span> Our data model is <span class="math display">\[
 Y_n = \beta \cdot \mathbf{x}_n + \epsilon_n,
-\]</span>
-where <span class="math inline">\(\epsilon_n\)</span> is “white noise” error that is uncorrelated with the covariates. (More on this in a second.)</p>
-<p>This data model looks a little bit different than our bivariate linear model, which you’ll recall was
-<span class="math display">\[
+\]</span> where <span class="math inline">\(\epsilon_n\)</span> is “white noise” error that is uncorrelated with the covariates. (More on this in a second.)</p>
+<p>This data model looks a little bit different than our bivariate linear model, which you’ll recall was <span class="math display">\[
 Y_n = \alpha + \beta x_n + \epsilon_n.
-\]</span>
-What happened to <span class="math inline">\(\alpha\)</span>, the intercept? When working with the multivariate linear model, it will make our lives easiest to treat the intercept like any other coefficient. Specifically, we will assume <span class="math inline">\(x_{n1} = 1\)</span> for all <span class="math inline">\(n\)</span>, and we will treat <span class="math inline">\(\beta_1\)</span> as the intercept. With <span class="math inline">\(K = 2\)</span>, our multivariate model becomes
-<span class="math display">\[
+\]</span> What happened to <span class="math inline">\(\alpha\)</span>, the intercept? When working with the multivariate linear model, it will make our lives easiest to treat the intercept like any other coefficient. Specifically, we will assume <span class="math inline">\(x_{n1} = 1\)</span> for all <span class="math inline">\(n\)</span>, and we will treat <span class="math inline">\(\beta_1\)</span> as the intercept. With <span class="math inline">\(K = 2\)</span>, our multivariate model becomes <span class="math display">\[
 \begin{aligned}
 Y_n &amp;= \beta \cdot \mathbf{x}_n + \epsilon_n \\
 &amp;= \begin{pmatrix} \beta_1 \\ \beta_2 \end{pmatrix} \cdot \begin{pmatrix} 1 \\ x_{n2} \end{pmatrix} + \epsilon_n \\
 &amp;= \beta_1 + \beta_2 x_{n2} + \epsilon_n,
 \end{aligned}
-\]</span>
-which is the same as our bivariate regression model, replacing the intercept <span class="math inline">\(\alpha\)</span> with <span class="math inline">\(\beta_1\)</span>, the slope <span class="math inline">\(\beta\)</span> with <span class="math inline">\(\beta_2\)</span>, and the covariate <span class="math inline">\(x_n\)</span> with <span class="math inline">\(x_{n2}\)</span>.</p>
-<p>If we were to stack up all of our data, we would have <span class="math inline">\(N\)</span> equations,
-<span class="math display">\[
+\]</span> which is the same as our bivariate regression model, replacing the intercept <span class="math inline">\(\alpha\)</span> with <span class="math inline">\(\beta_1\)</span>, the slope <span class="math inline">\(\beta\)</span> with <span class="math inline">\(\beta_2\)</span>, and the covariate <span class="math inline">\(x_n\)</span> with <span class="math inline">\(x_{n2}\)</span>.</p>
+<p>If we were to stack up all of our data, we would have <span class="math inline">\(N\)</span> equations, <span class="math display">\[
 \begin{aligned}
 Y_1 &amp;= \beta \cdot \mathbf{x}_1 + \epsilon_1, \\
 Y_2 &amp;= \beta \cdot \mathbf{x}_2 + \epsilon_2, \\
 &amp;\vdots \\
 Y_N &amp;= \beta \cdot \mathbf{x}_N + \epsilon_N.
 \end{aligned}
-\]</span>
-Like any system of linear equations, we can write this one more easily in matrix form. Let <span class="math inline">\(\mathbf{Y}\)</span> be the <span class="math inline">\(N \times 1\)</span> vector that collects the response,
-<span class="math display">\[
+\]</span> Like any system of linear equations, we can write this one more easily in matrix form. Let <span class="math inline">\(\mathbf{Y}\)</span> be the <span class="math inline">\(N \times 1\)</span> vector that collects the response, <span class="math display">\[
 \mathbf{Y} = \begin{pmatrix} Y_1 \\ Y_2 \\ \vdots \\ Y_N \end{pmatrix}.
-\]</span>
-Let <span class="math inline">\(\mathbf{X}\)</span> be the <span class="math inline">\(N \times K\)</span> matrix that collects the covariates,
-<span class="math display">\[
+\]</span> Let <span class="math inline">\(\mathbf{X}\)</span> be the <span class="math inline">\(N \times K\)</span> matrix that collects the covariates, <span class="math display">\[
 \mathbf{X} =
 \begin{bmatrix}
   x_{11} &amp; x_{12} &amp; \cdots &amp; x_{1K} \\
@@ -321,13 +265,9 @@ Let <span class="math inline">\(\mathbf{X}\)</span> be the <span class="math inl
   \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
   1 &amp; x_{N2} &amp; \cdots &amp; x_{NK}
 \end{bmatrix}.
-\]</span>
-The <span class="math inline">\(n\)</span>’th row of <span class="math inline">\(\mathbf{X}\)</span>, which we will write <span class="math inline">\(\mathbf{x}_n\)</span> (lowercase), contains the covariates for the <span class="math inline">\(n\)</span>’th observation. The <span class="math inline">\(k\)</span>’th column of <span class="math inline">\(\mathbf{X}\)</span>, which we will write <span class="math inline">\(\mathbf{X}_k\)</span> (uppercase), contains the value of the <span class="math inline">\(k\)</span>’th covariate for every observation. Finally, we will collect the error terms in an <span class="math inline">\(N \times 1\)</span> vector,
-<span class="math display">\[
+\]</span> The <span class="math inline">\(n\)</span>’th row of <span class="math inline">\(\mathbf{X}\)</span>, which we will write <span class="math inline">\(\mathbf{x}_n\)</span> (lowercase), contains the covariates for the <span class="math inline">\(n\)</span>’th observation. The <span class="math inline">\(k\)</span>’th column of <span class="math inline">\(\mathbf{X}\)</span>, which we will write <span class="math inline">\(\mathbf{X}_k\)</span> (uppercase), contains the value of the <span class="math inline">\(k\)</span>’th covariate for every observation. Finally, we will collect the error terms in an <span class="math inline">\(N \times 1\)</span> vector, <span class="math display">\[
 \epsilon = \begin{pmatrix} \epsilon_1 \\ \epsilon_2 \\ \vdots \\ \epsilon_N \end{pmatrix}.
-\]</span>
-We can now write a model of the full data,
-<span class="math display">\[
+\]</span> We can now write a model of the full data, <span class="math display">\[
 \mathbf{Y} = \mathbf{X} \beta + \epsilon.
 \]</span></p>
 <p>It is worth pausing to clarify what is known and unknown here.</p>
@@ -337,53 +277,36 @@ We can now write a model of the full data,
 <li><p>The error term <span class="math inline">\(\epsilon\)</span> is also unknown. We can think of each observation of <span class="math inline">\(Y_n\)</span> as being a combination of “signal”, <span class="math inline">\(\mathbf{x}_n \cdot \beta\)</span>, and “noise”, <span class="math inline">\(\epsilon_n\)</span>. The fundamental problem is that we don’t know exactly what the signal is and what the noise is.</p></li>
 </ul>
 </div>
-<div id="the-ols-estimator" class="section level2" number="7.2">
+<div id="the-ols-estimator" class="section level2">
 <h2><span class="header-section-number">7.2</span> The OLS Estimator</h2>
-<p>Given a linear model along the lines described above, the formula for the OLS estimate of <span class="math inline">\(\beta\)</span> is <span class="math display">\[\hat{\beta}_{\text{OLS}} = (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top \mathbf{Y}.\]</span>
-What I want to convince you of now is that if we start in the same place as we did with bivariate regression—that we want to find coefficients that minimize the sum of squared residuals—then we will end up with this formula.</p>
-<p>Consider the linear model with three covariates,
-<span class="math display">\[
+<p>Given a linear model along the lines described above, the formula for the OLS estimate of <span class="math inline">\(\beta\)</span> is <span class="math display">\[\hat{\beta}_{{\text{OLS}}} = (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top \mathbf{Y}.\]</span> What I want to convince you of now is that if we start in the same place as we did with bivariate regression—that we want to find coefficients that minimize the sum of squared residuals—then we will end up with this formula.</p>
+<p>Consider the linear model with three covariates, <span class="math display">\[
 Y_n = \beta_r r_n + \beta_s s_n + \beta_t t_n + \epsilon_n.
-\]</span>
-Let’s do like we did with bivariate regression, and imagine estimating the parameters of the model by least squares. Let <span class="math inline">\((b_r, b_s, b_t)\)</span> denote an estimate of the parameters.<a href="#fn22" class="footnote-ref" id="fnref22"><sup>22</sup></a> We will set up the sum of squared errors as a function of the parameters,
-<span class="math display">\[
-\mathop{\rm SSE}\nolimits(b_r, b_s, b_t)
+\]</span> Let’s do like we did with bivariate regression, and imagine estimating the parameters of the model by least squares. Let <span class="math inline">\((b_r, b_s, b_t)\)</span> denote an estimate of the parameters.<a href="#fn22" class="footnoteRef" id="fnref22"><sup>22</sup></a> We will set up the sum of squared errors as a function of the parameters, <span class="math display">\[
+{\mathop{\rm SSE}\nolimits}(b_r, b_s, b_t)
 = \sum_n (Y_n - b_r r_n - b_s s_n - b_t t_n)^2.
 \]</span></p>
-<p>Just as we did to derive the bivariate OLS estimator, let’s begin by taking the partial derivative of the SSE with respect to the coefficient on <span class="math inline">\(r\)</span>, then equalizing it to zero.
-<span class="math display">\[
-\frac{\partial \mathop{\rm SSE}\nolimits}{\partial b_r}
+<p>Just as we did to derive the bivariate OLS estimator, let’s begin by taking the partial derivative of the SSE with respect to the coefficient on <span class="math inline">\(r\)</span>, then equalizing it to zero. <span class="math display">\[
+\frac{\partial {\mathop{\rm SSE}\nolimits}}{\partial b_r}
 = -2 \sum_n r_n (Y_n - b_r r_n - b_s s_n - b_t t_n)
 = 0.
-\]</span>
-Dividing each side by <span class="math inline">\(-2\)</span> and rearranging terms gives us
-<span class="math display">\[
+\]</span> Dividing each side by <span class="math inline">\(-2\)</span> and rearranging terms gives us <span class="math display">\[
 \sum_n r_n (b_r r_n + b_s s_n + b_t t_n) = \sum_n r_n Y_n.
-\]</span>
-We can break up the left-hand sum into three individual sums to get
-<span class="math display">\[
+\]</span> We can break up the left-hand sum into three individual sums to get <span class="math display">\[
 \left( \sum_n r_n^2 \right) b_r + \left( \sum_n r_n s_n \right) b_s + \left( \sum_n r_n t_n \right) b_t = \sum_n r_n Y_n,
-\]</span>
-which is a linear condition for our proposed coefficient estimates, <span class="math inline">\((b_r, b_s, b_n)\)</span>.
-If we go through the same steps with <span class="math inline">\(\partial \mathop{\rm SSE}\nolimits/ \partial b_s\)</span> and <span class="math inline">\(\partial \mathop{\rm SSE}\nolimits/ \partial b_t\)</span>, we obtain the linear system
-<span class="math display">\[
+\]</span> which is a linear condition for our proposed coefficient estimates, <span class="math inline">\((b_r, b_s, b_n)\)</span>. If we go through the same steps with <span class="math inline">\(\partial {\mathop{\rm SSE}\nolimits}/ \partial b_s\)</span> and <span class="math inline">\(\partial {\mathop{\rm SSE}\nolimits}/ \partial b_t\)</span>, we obtain the linear system <span class="math display">\[
 \begin{aligned}
 \left( \sum_n r_n^2 \right) b_r + \left( \sum_n r_n s_n \right) b_s + \left( \sum_n r_n t_n \right) b_t &amp;= \sum_n r_n Y_n, \\
 \left( \sum_n r_n s_n \right) b_r + \left( \sum_n s_n^2 \right) b_s + \left( \sum_n s_n t_n \right) b_t &amp;= \sum_n s_n Y_n, \\
 \left( \sum_n r_n t_n \right) b_r + \left( \sum_n s_n t_n \right) b_s + \left( \sum_n t_n^2 \right) b_t &amp;= \sum_n t_n Y_n.
 \end{aligned}
-\]</span>
-This is a linear system of three equations in three unknowns, namely the coefficient estimates <span class="math inline">\((b_r, b_s, b_t)\)</span>.
-You’ll remember from last week that we can write linear systems in terms of matrix algebra, and then use matrix inversion to solve these systems.
-Once we solve this system, we’ll have the coefficient estimates that minimize the sum of squared residuals.
-Let’s write it up in the form <span class="math inline">\(\mathbf{A} \mathbf{b} = \mathbf{c}\)</span>, where:</p>
+\]</span> This is a linear system of three equations in three unknowns, namely the coefficient estimates <span class="math inline">\((b_r, b_s, b_t)\)</span>. You’ll remember from last week that we can write linear systems in terms of matrix algebra, and then use matrix inversion to solve these systems. Once we solve this system, we’ll have the coefficient estimates that minimize the sum of squared residuals. Let’s write it up in the form <span class="math inline">\(\mathbf{A} \mathbf{b} = \mathbf{c}\)</span>, where:</p>
 <ul>
 <li><span class="math inline">\(\mathbf{A}\)</span> is the <span class="math inline">\(3 \times 3\)</span> matrix of coefficients (known)</li>
 <li><span class="math inline">\(\mathbf{b}\)</span> is the <span class="math inline">\(3 \times 1\)</span> vector we’re trying to solve for (unknown for now, will give us the OLS formula once we’ve solved the system)</li>
 <li><span class="math inline">\(\mathbf{c}\)</span> is the <span class="math inline">\(3 \times 1\)</span> vector containing the value of each of three equations we are solving for (known)</li>
 </ul>
-<p>The matrix form of our system of equations, divided into these three components, is as follows
-<span class="math display">\[
+<p>The matrix form of our system of equations, divided into these three components, is as follows <span class="math display">\[
 \underbrace{\begin{bmatrix}
 \sum_n r_n^2 &amp; \sum_n r_n s_n &amp; \sum_n r_n t_n \\
 \sum_n r_n s_n &amp; \sum_n s_n^2 &amp; \sum_n s_n t_n \\
@@ -397,11 +320,7 @@ b_r \\ b_s \\ b_t
 \sum_n r_n Y_n \\ \sum_n s_n Y_n \\ \sum_n t_n Y_n
 \end{bmatrix}}_{\mathbf{c}}.
 \]</span></p>
-<p>Now before we go on, let’s think about where we want to end up.
-Remember I claimed the OLS formula is <span class="math inline">\(\hat{\beta}_{\text{OLS}} = (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top \mathbf{Y}\)</span>.
-Let’s take a closer look at each portion of this formula.
-For our example here with the three variables <span class="math inline">\(r\)</span>, <span class="math inline">\(s\)</span>, and <span class="math inline">\(t\)</span>, we have
-<span class="math display">\[
+<p>Now before we go on, let’s think about where we want to end up. Remember I claimed the OLS formula is <span class="math inline">\(\hat{\beta}_{{\text{OLS}}} = (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top \mathbf{Y}\)</span>. Let’s take a closer look at each portion of this formula. For our example here with the three variables <span class="math inline">\(r\)</span>, <span class="math inline">\(s\)</span>, and <span class="math inline">\(t\)</span>, we have <span class="math display">\[
 \mathbf{X} = \begin{bmatrix}
 r_1 &amp; s_1 &amp; t_1 \\
 r_2 &amp; s_2 &amp; t_2 \\
@@ -411,10 +330,7 @@ r_N &amp; s_N &amp; t_N
 \mathbf{Y} = \begin{bmatrix}
 Y_1 \\ Y_2 \\ \vdots \\ Y_N
 \end{bmatrix}.
-\]</span>
-Since <span class="math inline">\(\mathbf{X}\)</span> is <span class="math inline">\(N \times 3\)</span> and <span class="math inline">\(\mathbf{Y}\)</span> is <span class="math inline">\(N \times 1\)</span>, if we want to multiply them, we need to take the transpose of <span class="math inline">\(\mathbf{X}\)</span>.
-Doing so, we yield
-<span class="math display">\[
+\]</span> Since <span class="math inline">\(\mathbf{X}\)</span> is <span class="math inline">\(N \times 3\)</span> and <span class="math inline">\(\mathbf{Y}\)</span> is <span class="math inline">\(N \times 1\)</span>, if we want to multiply them, we need to take the transpose of <span class="math inline">\(\mathbf{X}\)</span>. Doing so, we yield <span class="math display">\[
 \begin{aligned}
 \mathbf{X}^\top \mathbf{Y}
 &amp;= \begin{bmatrix}
@@ -433,11 +349,7 @@ t_1 Y_1 + t_2 Y_2 + \cdots + t_N y_N \\
 \sum_n r_n Y_n \\ \sum_n s_n Y_n \\ \sum_n t_n Y_n
 \end{bmatrix}.
 \end{aligned}
-\]</span>
-This is precisely what we have on the right-hand side of our system of equations above!
-In other words, we have <span class="math inline">\(\mathbf{c} = \mathbf{X}^\top \mathbf{Y}\)</span>.
-Looking at the other portion of what I have claimed is the OLS formula, notice that
-<span class="math display">\[
+\]</span> This is precisely what we have on the right-hand side of our system of equations above! In other words, we have <span class="math inline">\(\mathbf{c} = \mathbf{X}^\top \mathbf{Y}\)</span>. Looking at the other portion of what I have claimed is the OLS formula, notice that <span class="math display">\[
 \begin{aligned}
 \mathbf{X}^\top \mathbf{X}
 &amp;= \begin{bmatrix}
@@ -461,50 +373,35 @@ r_1 t_1 + \cdots + r_N t_N &amp; s_1 t_1 + \cdots + s_N t_N &amp; t_1^2 + \cdots
 \sum_n r_n t_n &amp; \sum_n s_n t_n &amp; \sum_n t_n^2
 \end{bmatrix}
 \end{aligned}
-\]</span>
-This is exactly the matrix of coefficients from our system of equations: <span class="math inline">\(\mathbf{A} = \mathbf{X}^\top \mathbf{X}\)</span>.</p>
-<p>We’re now in position to derive the formula for the OLS estimator.
-Starting from the premise that we wanted to choose <span class="math inline">\(\mathbf{b}\)</span> to minimize the sum of squared residuals, we ended up with the system of equations
-<span class="math display">\[
+\]</span> This is exactly the matrix of coefficients from our system of equations: <span class="math inline">\(\mathbf{A} = \mathbf{X}^\top \mathbf{X}\)</span>.</p>
+<p>We’re now in position to derive the formula for the OLS estimator. Starting from the premise that we wanted to choose <span class="math inline">\(\mathbf{b}\)</span> to minimize the sum of squared residuals, we ended up with the system of equations <span class="math display">\[
 \underbrace{(\mathbf{X}^\top \mathbf{X})}_{\mathbf{A}} \mathbf{b} = \underbrace{\mathbf{X}^\top \mathbf{Y}}_{\mathbf{c}}.
-\]</span>
-So to solve for <span class="math inline">\(\mathbf{b}\)</span>, we’d like to “divide” each side by <span class="math inline">\(\mathbf{X}^\top \mathbf{X}\)</span>.
-In terms of matrix algebra, this means multiplying each side on the left by <span class="math inline">\((\mathbf{X}^\top \mathbf{X})^{-1}\)</span>.
-Altogether, this gives us the formula
-<span class="math display">\[
+\]</span> So to solve for <span class="math inline">\(\mathbf{b}\)</span>, we’d like to “divide” each side by <span class="math inline">\(\mathbf{X}^\top \mathbf{X}\)</span>. In terms of matrix algebra, this means multiplying each side on the left by <span class="math inline">\((\mathbf{X}^\top \mathbf{X})^{-1}\)</span>. Altogether, this gives us the formula <span class="math display">\[
 \mathbf{b} = (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top \mathbf{Y}.
 \]</span></p>
-<p>Although we got here via the <span class="math inline">\(3 \times 3\)</span> case, this formula works for any number of covariates. The <em>OLS estimator</em> of the linear model coefficients from covariate matrix <span class="math inline">\(\mathbf{X}\)</span> and response vector <span class="math inline">\(\mathbf{Y}\)</span> is
-<span class="math display">\[
-\hat{\beta}_{\text{OLS}}(\mathbf{X}, \mathbf{Y})
+<p>Although we got here via the <span class="math inline">\(3 \times 3\)</span> case, this formula works for any number of covariates. The <em>OLS estimator</em> of the linear model coefficients from covariate matrix <span class="math inline">\(\mathbf{X}\)</span> and response vector <span class="math inline">\(\mathbf{Y}\)</span> is <span class="math display">\[
+\hat{\beta}_{{\text{OLS}}}(\mathbf{X}, \mathbf{Y})
 = (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top \mathbf{Y}.
 \]</span></p>
 <p>When you see this formula, your hackles should be raised. <em>Wait a minute</em>, you ought to be saying. <em>How do we know the inverse of <span class="math inline">\(\mathbf{X}^\top \mathbf{X}\)</span> exists?</em> That’s an excellent question! Luckily, there’s a simple condition: <span class="math inline">\(\mathbf{X}^\top \mathbf{X}\)</span> is invertible if and only if the columns of <span class="math inline">\(\mathbf{X}\)</span> are linearly independent.</p>
 <p>The linear independence condition isn’t just a technical thing that we need to satisfy. It goes to the heart of what we’re doing in linear regression. If the columns of <span class="math inline">\(\mathbf{X}\)</span> aren’t linearly independent, then the question you’re asking of OLS—to learn something about the coefficients from the data—is ill-defined.</p>
 <p>Imagine you have a linear dependency between two variables, so one is just a scalar multiple of the other. For example, a regression of a person’s weight on their height in inches and height in centimeters. Or a regression of whether it rains on temperature Fahrenheit and temperature Celsius. It is absurd to think that the relationship between temperature and rain might be different depending on how you measure it. But that’s exactly what you’re asking for when you run this regression—separate estimates for the effect of degrees Fahrenheit and the effect of degrees Celsius.</p>
 </div>
-<div id="vector-valued-random-variables" class="section level2" number="7.3">
+<div id="vector-valued-random-variables" class="section level2">
 <h2><span class="header-section-number">7.3</span> Vector-Valued Random Variables</h2>
 <!-- Add reminder on expectation, variance, their basic properties, law of iterated expectations -->
-<p>Before we can talk about the properties of OLS in the multivariate case, we need to refresh ourselves on how basic statistical operations (expected value and variance) translate when we’re dealing with vectors of random variables.
-This section will assume you are familiar with expected value and variance.
-If you feel shaky about those terms, go back to the probability refresher in Section <a href="bivariate.html#probability">5.1</a>.</p>
-<p>Let <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> be random variables with means <span class="math inline">\(\mu_A = E[A]\)</span> and <span class="math inline">\(\mu_B = E[B]\)</span> respectively. Let <span class="math inline">\(C\)</span> be the column vector whose first value is <span class="math inline">\(A\)</span> and whose second value is <span class="math inline">\(B\)</span>:
-<span class="math display">\[
+<p>Before we can talk about the properties of OLS in the multivariate case, we need to refresh ourselves on how basic statistical operations (expected value and variance) translate when we’re dealing with vectors of random variables. This section will assume you are familiar with expected value and variance. If you feel shaky about those terms, go back to the probability refresher in Section <a href="bivariate.html#probability">5.1</a>.</p>
+<p>Let <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> be random variables with means <span class="math inline">\(\mu_A = E[A]\)</span> and <span class="math inline">\(\mu_B = E[B]\)</span> respectively. Let <span class="math inline">\(C\)</span> be the column vector whose first value is <span class="math inline">\(A\)</span> and whose second value is <span class="math inline">\(B\)</span>: <span class="math display">\[
 C = \begin{pmatrix} A \\ B \end{pmatrix}.
-\]</span>
-As a function of random variables, <span class="math inline">\(C\)</span> is itself a random variable. Unlike those we’ve encountered before, though, it is a <em>vector-valued</em> random variable.</p>
-<p>Assume <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> take values in the finite sets <span class="math inline">\(\mathcal{A}\)</span> and <span class="math inline">\(\mathcal{B}\)</span> respectively. The expected value of <span class="math inline">\(C\)</span> is
-<span class="math display">\[
+\]</span> As a function of random variables, <span class="math inline">\(C\)</span> is itself a random variable. Unlike those we’ve encountered before, though, it is a <em>vector-valued</em> random variable.</p>
+<p>Assume <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> take values in the finite sets <span class="math inline">\(\mathcal{A}\)</span> and <span class="math inline">\(\mathcal{B}\)</span> respectively. The expected value of <span class="math inline">\(C\)</span> is <span class="math display">\[
 \begin{aligned}
 E[C]
 &amp;= \sum_{a \in \mathcal{A}} \sum_{b \in \mathcal{B}} \begin{pmatrix} a \\ b \end{pmatrix} \Pr(A = a, B = b) \\
 &amp;= \begin{pmatrix} \mu_A \\ \mu_B \end{pmatrix}.
 \end{aligned}
-\]</span>
-I encourage you to prove this on your own—the proof just relies on simple facts about vector addition and joint probability that we’ve already covered in this class. It is easiest to prove in the finite case, but it remains true that <span class="math inline">\(E[C] = (\mu_A, \mu_B)\)</span> in the more general case.</p>
-<p>You might expect the variance of <span class="math inline">\(C\)</span> to be a vector too. You would be wrong—it’s a <span class="math inline">\(2 \times 2\)</span> matrix.
-<span class="math display">\[
+\]</span> I encourage you to prove this on your own—the proof just relies on simple facts about vector addition and joint probability that we’ve already covered in this class. It is easiest to prove in the finite case, but it remains true that <span class="math inline">\(E[C] = (\mu_A, \mu_B)\)</span> in the more general case.</p>
+<p>You might expect the variance of <span class="math inline">\(C\)</span> to be a vector too. You would be wrong—it’s a <span class="math inline">\(2 \times 2\)</span> matrix. <span class="math display">\[
 \begin{aligned}
 V[C]
 &amp;= E\left[(C - E[C]) (C - E[C])^\top \right] \\
@@ -523,27 +420,20 @@ V[C]
   E[(A - \mu_A) (B - \mu_B)] &amp; E[(B - \mu_B)^2]
 \end{bmatrix} \\
 &amp;= \begin{bmatrix}
-  V[A] &amp; \mathop{\rm Cov}\nolimits[A, B] \\
-  \mathop{\rm Cov}\nolimits[A, B] &amp; V[B]
+  V[A] &amp; {\mathop{\rm Cov}\nolimits}[A, B] \\
+  {\mathop{\rm Cov}\nolimits}[A, B] &amp; V[B]
 \end{bmatrix}.
 \end{aligned}
-\]</span>
-This is what we call the <em>variance</em> matrix, or <em>variance-covariance matrix</em>, of a vector-valued random variable. The <span class="math inline">\(i\)</span>’th element along the main diagonal gives us the variance of the <span class="math inline">\(i\)</span>’th element of the vector. The <span class="math inline">\(ij\)</span>’th off-diagonal element gives us the covariance of the <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>’th elements. Consequently, since <span class="math inline">\(\mathop{\rm Cov}\nolimits[A, B] = \mathop{\rm Cov}\nolimits[B, A]\)</span>, the variance matrix is always symmetric.</p>
+\]</span> This is what we call the <em>variance</em> matrix, or <em>variance-covariance matrix</em>, of a vector-valued random variable. The <span class="math inline">\(i\)</span>’th element along the main diagonal gives us the variance of the <span class="math inline">\(i\)</span>’th element of the vector. The <span class="math inline">\(ij\)</span>’th off-diagonal element gives us the covariance of the <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>’th elements. Consequently, since <span class="math inline">\({\mathop{\rm Cov}\nolimits}[A, B] = {\mathop{\rm Cov}\nolimits}[B, A]\)</span>, the variance matrix is always symmetric.</p>
 </div>
-<div id="properties-of-ols" class="section level2" number="7.4">
+<div id="properties-of-ols" class="section level2">
 <h2><span class="header-section-number">7.4</span> Properties of OLS</h2>
 <!-- Should update this section to add proof that strict exogeneity implies zero correlation, and to apply the law of iterated expectations to OLS unbiasedness -->
-<p>Just like in the bivariate case, the “good” properties of OLS depend on whether the process that generated our data satisfies particular assumptions. The key assumption, which we call <em>strict exogeneity</em>, is
-<span class="math display">\[
+<p>Just like in the bivariate case, the “good” properties of OLS depend on whether the process that generated our data satisfies particular assumptions. The key assumption, which we call <em>strict exogeneity</em>, is <span class="math display">\[
 E[\epsilon \,|\, \mathbf{X}] = \mathbf{0}.
-\]</span>
-When we assume strict exogeneity, we are assuming the error term is uncorrelated with the covariates.
-To see why, let’s impose strict exogeneity, and calculate the covariance between the <span class="math inline">\(m\)</span>’th error term, <span class="math inline">\(\epsilon_m\)</span>, and the <span class="math inline">\(n\)</span>’th observation of the <span class="math inline">\(k\)</span>’th covariate, <span class="math inline">\(X_{nk}\)</span>.
-(<span class="math inline">\(m\)</span> and <span class="math inline">\(n\)</span> may be the same or different.)
-Assuming strict exogeneity holds, we have
-<span class="math display">\[
+\]</span> When we assume strict exogeneity, we are assuming the error term is uncorrelated with the covariates. To see why, let’s impose strict exogeneity, and calculate the covariance between the <span class="math inline">\(m\)</span>’th error term, <span class="math inline">\(\epsilon_m\)</span>, and the <span class="math inline">\(n\)</span>’th observation of the <span class="math inline">\(k\)</span>’th covariate, <span class="math inline">\(X_{nk}\)</span>. (<span class="math inline">\(m\)</span> and <span class="math inline">\(n\)</span> may be the same or different.) Assuming strict exogeneity holds, we have <span class="math display">\[
 \begin{aligned}
-\mathop{\rm Cov}\nolimits[\epsilon_m, X_{nk}]
+{\mathop{\rm Cov}\nolimits}[\epsilon_m, X_{nk}]
 &amp;= E[(\epsilon_m - E[\epsilon_m])(X_{nk} - E[X_{nk}])] \\
 &amp;= E[ \epsilon_m (X_{nk} - E[X_{nk}]) ] \\
 &amp;= E[ \epsilon_m X_{nk} ] - E [ \epsilon_m E[X_{nk}] ] \\
@@ -551,44 +441,36 @@ Assuming strict exogeneity holds, we have
 &amp;= E[ X_{nk} \underbrace{E[\epsilon_m \,|\, X_{nk}]}_{=0} ] \\
 &amp;= 0.
 \end{aligned}
-\]</span>
-Therefore, once we have assumed strict exogeneity, we have thereby assumed zero correlation between the covariates and the error term.</p>
+\]</span> Therefore, once we have assumed strict exogeneity, we have thereby assumed zero correlation between the covariates and the error term.</p>
 <p>Remember that the error for the <span class="math inline">\(n\)</span>’th observation, <span class="math inline">\(\epsilon_n\)</span>, collects everything that affects <span class="math inline">\(Y_n\)</span> but is not included in <span class="math inline">\(\mathbf{x}_n\)</span>. So what we’re saying when we impose strict exogeneity is either that there’s nothing else out there that affects <span class="math inline">\(\mathbf{Y}\)</span> besides <span class="math inline">\(\mathbf{X}\)</span> (unlikely!), or that anything else that affects <span class="math inline">\(\mathbf{Y}\)</span> is uncorrelated with <span class="math inline">\(\mathbf{X}\)</span> (also unlikely, but slightly less so!).</p>
-<p>In the ’90s and ’00s, as more data became available and computing power increased, political scientists labored under the delusion that the way to make strict exogeneity hold was to throw every covariate you could imagine into each regression. This approach was statistically illiterate <span class="citation">(Clarke <a href="#ref-clarke2005phantom" role="doc-biblioref">2005</a>)</span> and scholars have since begun to favor <em>design-based</em> approaches. The basic idea is to collect data with relatively little unobservable heterogeneity, whether through experiments or through careful observational work, rather than to try to eliminate it through endless controls. We’ll talk more about design when we get to causal inference, and it will be a major source of discussion in Stat III.</p>
-<p>For now, let us proceed imagining that strict exogeneity holds. Then, just as in the bivariate case, OLS is unbiased. In fact, it’s even easier to prove now. Momentarily treating the covariates <span class="math inline">\(\mathbf{X}\)</span> as fixed, strict exogeneity implies that
-<span class="math display">\[
+<p>In the ’90s and ’00s, as more data became available and computing power increased, political scientists labored under the delusion that the way to make strict exogeneity hold was to throw every covariate you could imagine into each regression. This approach was statistically illiterate <span class="citation">(Clarke <a href="#ref-clarke2005phantom">2005</a>)</span> and scholars have since begun to favor <em>design-based</em> approaches. The basic idea is to collect data with relatively little unobservable heterogeneity, whether through experiments or through careful observational work, rather than to try to eliminate it through endless controls. We’ll talk more about design when we get to causal inference, and it will be a major source of discussion in Stat III.</p>
+<p>For now, let us proceed imagining that strict exogeneity holds. Then, just as in the bivariate case, OLS is unbiased. In fact, it’s even easier to prove now. Momentarily treating the covariates <span class="math inline">\(\mathbf{X}\)</span> as fixed, strict exogeneity implies that <span class="math display">\[
 \begin{aligned}
 E[\mathbf{Y} \,|\, \mathbf{X}]
 &amp;= E[\mathbf{X} \beta + \epsilon \,|\, \mathbf{X}] \\
 &amp;= \mathbf{X} \beta + E[\epsilon \,|\, \mathbf{X}] \\
 &amp;= \mathbf{X} \beta.
 \end{aligned}
-\]</span>
-It follows that
-<span class="math display">\[
+\]</span> It follows that <span class="math display">\[
 \begin{aligned}
-E[\hat{\beta}_{\text{OLS}}(\mathbf{X}, \mathbf{Y}) \,|\, \mathbf{X}]
+E[\hat{\beta}_{{\text{OLS}}}(\mathbf{X}, \mathbf{Y}) \,|\, \mathbf{X}]
 &amp;= E[(\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top \mathbf{Y} \,|\, \mathbf{X}] \\
 &amp;= (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top E[\mathbf{Y} \,|\, \mathbf{X}] \\
 &amp;= (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top (\mathbf{X} \beta) \\
 &amp;= (\mathbf{X}^\top \mathbf{X})^{-1} (\mathbf{X}^\top \mathbf{X}) \beta \\
 &amp;= \beta.
 \end{aligned}
-\]</span>
-Finally, applying the law of iterated expectations, we have
-<span class="math display">\[
-E[\hat{\beta}_{\text{OLS}}] = E [ E[\hat{\beta}_{\text{OLS}} \,|\, \mathbf{X}] ] = E [ \beta ] = \beta,
-\]</span>
-which is the definition of unbiasedness.</p>
+\]</span> Finally, applying the law of iterated expectations, we have <span class="math display">\[
+E[\hat{\beta}_{{\text{OLS}}}] = E [ E[\hat{\beta}_{{\text{OLS}}} \,|\, \mathbf{X}] ] = E [ \beta ] = \beta,
+\]</span> which is the definition of unbiasedness.</p>
 <p>Unbiasedness is a small-sample property. No matter the sample size, if strict exogeneity holds, the OLS estimator is unbiased. OLS also has some asymptotic (or large-sample) properties under strict exogeneity that we won’t prove, but are worth mentioning:</p>
 <ul>
-<li><p>OLS is <em>consistent</em>. Informally, what this means is that as <span class="math inline">\(N\)</span> grows larger, the distribution of the OLS estimator becomes tighter around the population parameter <span class="math inline">\(\beta\)</span>. In other words, with a sufficiently large sample, it becomes highly unlikely that you will draw a sample <span class="math inline">\((\mathbf{X}, \mathbf{Y})\)</span> such that <span class="math inline">\(\hat{\beta}_{\text{OLS}}(\mathbf{X}, \mathbf{Y})\)</span> is far from the true value.</p>
+<li><p>OLS is <em>consistent</em>. Informally, what this means is that as <span class="math inline">\(N\)</span> grows larger, the distribution of the OLS estimator becomes tighter around the population parameter <span class="math inline">\(\beta\)</span>. In other words, with a sufficiently large sample, it becomes highly unlikely that you will draw a sample <span class="math inline">\((\mathbf{X}, \mathbf{Y})\)</span> such that <span class="math inline">\(\hat{\beta}_{{\text{OLS}}}(\mathbf{X}, \mathbf{Y})\)</span> is far from the true value.</p>
 <p>Of course, you can’t know that the OLS estimate from any particular sample is close to the truth. But you’re much more likely to get an estimate close to the truth if <span class="math inline">\(N = 100{,}000\)</span> than if <span class="math inline">\(N = 10\)</span>.</p></li>
-<li><p>OLS is <em>asymptotically normal</em>. Informally, what this is means is that if <span class="math inline">\(N\)</span> is large enough, the sampling distribution of <span class="math inline">\(\hat{\beta}_{\text{OLS}}\)</span> (i.e., its distribution across different possible samples) is roughly normal. This makes the computation of inferential statistics fairly simple in large samples.</p></li>
+<li><p>OLS is <em>asymptotically normal</em>. Informally, what this is means is that if <span class="math inline">\(N\)</span> is large enough, the sampling distribution of <span class="math inline">\(\hat{\beta}_{{\text{OLS}}}\)</span> (i.e., its distribution across different possible samples) is roughly normal. This makes the computation of inferential statistics fairly simple in large samples.</p></li>
 </ul>
 <p>Unbiasedness and consistency are nice, but frankly they’re kind of dime-a-dozen. Lots of estimators are unbiased and consistent. Why is OLS so ubiquitous? The reason is that it is <em>efficient</em>, at least under a particular condition on the error term. Unlike unbiasedness and consistency, efficiency is defined with reference to other estimators. Given some class or collection of estimators, one is efficient if it has the lowest standard errors—i.e., it is the least sensitive to sampling variation, and thereby the most likely to come close to the true parameter value.</p>
-<p>The condition we need to hold is that we have <em>spherical errors</em>:
-<span class="math display">\[
+<p>The condition we need to hold is that we have <em>spherical errors</em>: <span class="math display">\[
 V[\epsilon \,|\, \mathbf{X}] = \sigma^2 \mathbf{I}_N
 = \begin{bmatrix}
   \sigma^2 &amp; 0 &amp; \cdots &amp; 0 \\
@@ -596,8 +478,7 @@ V[\epsilon \,|\, \mathbf{X}] = \sigma^2 \mathbf{I}_N
   \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
   0 &amp; 0 &amp; \cdots &amp; \sigma^2
 \end{bmatrix}.
-\]</span>
-Spherical errors summarizes two important conditions:</p>
+\]</span> Spherical errors summarizes two important conditions:</p>
 <ul>
 <li><p>The variance of each <span class="math inline">\(\epsilon_n\)</span>—i.e., the expected “spread” of the points around the regression line—is the same for every observation. This is also known as <em>homoskedasticity</em>.</p></li>
 <li><p>For <span class="math inline">\(n \neq m\)</span>, there is no correlation between <span class="math inline">\(\epsilon_n\)</span> and <span class="math inline">\(\epsilon_m\)</span>. In other words, the fact that <span class="math inline">\(Y_n\)</span> lies above the regression line doesn’t tell us anything about whether <span class="math inline">\(Y_m\)</span> lies above or below the regression line. This is also known as <em>no autocorrelation</em>.</p></li>
@@ -623,7 +504,7 @@ Spherical errors summarizes two important conditions:</p>
 <div class="footnotes">
 <hr />
 <ol start="22">
-<li id="fn22"><p>I’m using <span class="math inline">\(b_k\)</span> instead of <span class="math inline">\(\hat{\beta}_k\)</span> simply because it’s exhausting to type all those <code>\hat{}</code>s.<a href="ols-matrix.html#fnref22" class="footnote-back">↩︎</a></p></li>
+<li id="fn22"><p>I’m using <span class="math inline">\(b_k\)</span> instead of <span class="math inline">\(\hat{\beta}_k\)</span> simply because it’s exhausting to type all those <code>\hat{}</code>s.<a href="ols-matrix.html#fnref22">↩</a></p></li>
 </ol>
 </div>
             </section>
@@ -687,7 +568,7 @@ gitbook.start({
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    var src = "true";
+    var src = "";
     if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))

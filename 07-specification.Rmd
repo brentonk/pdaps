@@ -276,7 +276,7 @@ $$
 $$
 
 
-## Quadratic and Logarithmic Terms
+## Quadratic Terms
 
 We use interaction terms when the marginal effect of one variable depends on the value of another variable.  But sometimes the marginal effect of a variable depends on its *own* value.  The most stark example is a "U-shaped" relationship, such as we expect between ideology and voter turnout.
 
@@ -321,25 +321,145 @@ $$
 
 * If $\beta_3$ is negative, that means the effect of Ideology decreases with the value of Ideology, representing an inverse-U-shaped relationship.
 
-* If $beta_3$ is zero, that means the effect of Ideology is constant.
+* If $\beta_3$ is zero, that means the effect of Ideology is constant.
 
-The other main way to model a nonlinear relationship in a single variable is with a logarithmic model.  Remember that, in the standard bivariate linear model,
+
+## Logarithmic Models
+
+The last common form of nonlinear specification is when we take the natural logarithm of a covariate, the response, or both.
+
+To set a baseline, let's remember the standard bivariate linear model,
 $$
-Y_n = \beta_1 + \beta_2 x_n + \epsilon_n,
+Y_n = \beta_1 + \beta_2 x_n + \epsilon_n.
 $$
-we say that a 1-unit difference in $x_n$ is associated with a $\beta_2$-unit difference in $Y_n$.  If we were to instead model the natural logarithm of the response,
+Under the standard model, we say that a 1-unit difference in $x_n$ is associated with a $\beta_2$-unit difference in $Y_n$.
+In other words, the so-called marginal effect of $x_n$ is the constant $\beta_2$.
+
+Now consider a specification in which we instead model $Y_n$ as a function of the natural logarithm of $x_n$:
 $$
-\log Y_n = \beta_1 + \beta_2 x_n + \epsilon_n,
+Y_n = \beta_1 + \beta_2 \log x_n + \epsilon_n.
 $$
-then we would say that a 1-unit difference in $x_n$ is associated with a $\beta_2$-*percent* difference in $Y_n$.  So, for example, if $x_n$ and $Y_n$ are exactly proportional to each other (tripling $x_n$ leads to a tripling of $Y_n$, for example), we would have $\beta_2 = 1$.  Conversely, if we were to model the response as a function of the natural logarithm of the covariate,
+As always, we can calculate the so-called marginal effect by taking the partial derivative:
 $$
-Y_n = \beta_1 + \beta_2 \log x_n + \epsilon_n,
+\pderiv{E[Y_n \,|\, x_n]}{x_n} = \frac{\beta_2}{x_n}.
 $$
-then we would say a 1-percent difference in $x_n$ is associated with a $\beta_2$-unit difference in $Y_n$.  Finally, in a full log-log model,
+This tells us that as $x_n$ grows larger, the magnitude of the so-called marginal effect diminishes, as in the following illustrations.
+
+```{r lin-log, echo=FALSE, message=FALSE}
+set.seed(242)
+data_lin_log <- tibble(
+  x = rexp(250, rate = 1 / 2),
+  y_pos = 0.1 + 10 * log(x) + rnorm(250, sd = 4),
+  y_neg = 0.1 - 10 * log(x) + rnorm(250, sd = 4)
+) %>%
+  gather(key = type, value = y, -x) %>%
+  mutate(type = dplyr::recode(type, y_pos = "beta_2 = 10", y_neg = "beta_2 = -10"))
+
+ggplot(data_lin_log, aes(x = x, y = y)) +
+  geom_point() +
+  facet_wrap(~ type) +
+  ggtitle("Regression of y on log(x)")
+```
+
+One way to interpret this kind of specification is that a 1 *percent* increase in $x_n$ is associated with a $\frac{\beta_2}{100}$ *unit* change in $Y_n$.
+To see why, we will rely on two fun facts: that $\log(a \times b) = \log a + \log b$ and that $\log(1 + x) \approx x$ for small $x$ (roughly $|x| < 0.1$).
+Now let $Y_n$ be the baseline value of the response, and let $Y_n'$ be the counterfactual value under a 1 percent increase in $x_n$.
+Then we have
 $$
-\log Y_n = \beta_1 + \beta_2 \log x_n + \epsilon_n,
+\begin{aligned}
+Y_n' - Y_n
+&= \beta_2 (\log(1.01 x_n) - \log x_n) \\
+&= \beta_2 (\log 1.01 + \log x_n - \log x_n) \\
+&= \beta_2 \log 1.01 \\
+&\approx 0.01 \beta_2.
+\end{aligned}
 $$
-we would say that a 1-percent difference in $x_n$ is associated with a $\beta_2$-percent difference in $Y_n$.
+
+Conversely, you may see a specification in which the response is logged and the covariate is not:
+$$
+\log Y_n = \beta_1 + \beta_2 x_n + \epsilon_n.
+$$
+For positive $\beta_2$, this means the so-called marginal effect of $x_n$ *increases* as $x_n$ grows large.
+Similarly, for negative $\beta_2$, this means the so-called marginal effect of $x_n$ increases as $x_n$ decreases.
+
+```{r log-lin, echo=FALSE, message=FALSE}
+set.seed(424)
+data_log_lin <- tibble(
+  x = rnorm(250, sd = 1.5),
+  pos = exp(0.1 + 0.5 * x + rnorm(250, sd = 0.25)),
+  neg = exp(0.1 - 0.5 * x + rnorm(250, sd = 0.25))
+) %>%
+  gather(key = type, value = y, -x) %>%
+  mutate(type = dplyr::recode(type, pos = "beta_2 = 0.5", neg = "beta_2 = -0.5"))
+
+ggplot(data_log_lin, aes(x = x, y = y)) +
+  geom_point() +
+  facet_wrap(~ type) +
+  ggtitle("Regression of log(y) on x")
+```
+
+To interpret this specification, we say that a 1 *unit* increase in $x_n$ is associated with a $100(e^{\beta_2} - 1)$ *percent* change in $Y_n$.
+For example, with a coefficient of $\beta_2 = 0.5$, we would say a 1 unit increase in $x_n$ is associated with a 65% increase in $Y_n$, as $e^{0.5} \approx 1.65$.
+To see why this is the case, let $Y_n$ be the baseline value of the response, and let $Y_n'$ be the counterfactual value under a 1 unit increase in $x_n$.
+Then, as observed by @angrist2015mastering [93--94], we have
+$$
+\log \frac{Y_n'}{Y_n} = \log Y_n' - \log Y_n = \beta_2,
+$$
+and therefore
+$$
+Y_n' = \exp(\beta_2) Y_n.
+$$
+Conveniently, for small values of $\beta_2$ (roughly $|\beta_2| < 0.1$), we have $\exp(\beta_2) - 1 \approx \beta_2$.
+For example, if $\beta_2 = -0.05$, then we would say that a 1 unit increase in $x_n$ is associated with a 5% decrease in $Y_n$.
+
+Last, consider the model in which the covariate and the response are both logged:
+$$
+\log Y_n = \beta_1 + \beta_2 \log X_n + \epsilon_n.
+$$
+
+```{r log-log, echo=FALSE, message=FALSE}
+set.seed(868)
+data_log_log <- tibble(
+  x = rexp(250, rate = 1 / 2),
+  pos = exp(0.1 + 0.1 * log(x) + rnorm(250, sd = 0.1)),
+  neg = exp(0.1 - 0.1 * log(x) + rnorm(250, sd = 0.1))
+) %>%
+  gather(key = type, value = y, -x) %>%
+  mutate(type = dplyr::recode(type, pos = "beta_2 = 0.1", neg = "beta_2 = -0.1"))
+
+ggplot(data_log_log, aes(x = x, y = y)) +
+  geom_point() +
+  facet_wrap(~ type) +
+  ggtitle("Regression of log(y) on log(x)")
+```
+
+In the last two specifications, we interpreted the term that was logged in terms of percentage changes.
+The same is true here: the log-log model relates percent changes in $x_n$ to percent changes in $Y_n$.
+Specifically, we say that a 1 percent increase in $x_n$ is associated with a $\beta_2$ percent change in $Y_n$.
+To see why, again let $Y_n$ be a baseline value, and let $Y_n'$ be the counterfactual if we increased $x_n$ by 1 percent.
+Then we have
+$$
+\begin{aligned}
+\log \frac{Y_n'}{Y_n}
+&= \beta_2 (\log(1.01 x_n) - \log x_n) \\
+&= (\log 1.01) \beta_2 \\
+&\approx 0.01 \beta_2,
+\end{aligned}
+$$
+which in turn gives us
+$$
+Y_n' \approx \exp(0.01 \beta_2) Y_n \approx (1 + 0.01 \beta_2) Y_n.
+$$
+For example, in the log-log model, a coefficient of $\beta_2 = 0.5$ means that a 1 percent increase in $x_n$ is associated with a 0.5 percent increase in $Y_n$.
+
+To summarize, here are the four possible logarithmic specifications and their interpretations:
+
+Response   | Covariate  | Interpretation
+--------   | ---------  | --------------
+$Y_n$      | $x_n$      | 1 unit increase in $x_n$ $\Rightarrow$ $\beta$ unit change in $Y_n$
+$Y_n$      | $\log x_n$ | 1 percent increase in $x_n$ $\Rightarrow$ $\beta / 100$ unit change in $Y_n$
+$\log Y_n$ | $x_n$      | 1 unit increase in $x_n$ $\Rightarrow$ $100(e^\beta - 1)$ percent change in $Y_n$
+$\log Y_n$ | $\log x_n$ | 1 percent increase in $x_n$ $\Rightarrow$ $\beta$ percent change in $Y_n$
 
 How do you decide which logarithmic model, if any, to use?
 

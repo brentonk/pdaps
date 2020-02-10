@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="" xml:lang="">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
 <head>
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>11 Non-Spherical Errors | Practical Data Analysis for Political Scientists</title>
   <meta name="description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right." />
-  <meta name="generator" content="bookdown 0.17.2 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
 
   <meta property="og:title" content="11 Non-Spherical Errors | Practical Data Analysis for Political Scientists" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Brenton Kenkel" />
 
 
-<meta name="date" content="2020-02-03" />
+<meta name="date" content="2020-02-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,6 @@
   
 <link rel="prev" href="crisis.html"/>
 <link rel="next" href="panel.html"/>
-<script src="libs/header-attrs-2.1/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -54,67 +53,41 @@
 
 
 <style type="text/css">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -134,64 +107,56 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> About This Book</a></li>
-<li class="chapter" data-level="2" data-path="programming.html"><a href="programming.html"><i class="fa fa-check"></i><b>2</b> Principles of Programming</a>
-<ul>
+<li class="chapter" data-level="2" data-path="programming.html"><a href="programming.html"><i class="fa fa-check"></i><b>2</b> Principles of Programming</a><ul>
 <li class="chapter" data-level="2.1" data-path="programming.html"><a href="programming.html#write-programs-for-people-not-computers"><i class="fa fa-check"></i><b>2.1</b> Write Programs for People, Not Computers</a></li>
 <li class="chapter" data-level="2.2" data-path="programming.html"><a href="programming.html#let-the-computer-do-the-work"><i class="fa fa-check"></i><b>2.2</b> Let the Computer Do the Work</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>3</b> Working with Data</a>
-<ul>
+<li class="chapter" data-level="3" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>3</b> Working with Data</a><ul>
 <li class="chapter" data-level="3.1" data-path="data.html"><a href="data.html#loading"><i class="fa fa-check"></i><b>3.1</b> Loading</a></li>
 <li class="chapter" data-level="3.2" data-path="data.html"><a href="data.html#tidying"><i class="fa fa-check"></i><b>3.2</b> Tidying</a></li>
 <li class="chapter" data-level="3.3" data-path="data.html"><a href="data.html#transforming-and-aggregating"><i class="fa fa-check"></i><b>3.3</b> Transforming and Aggregating</a></li>
 <li class="chapter" data-level="3.4" data-path="data.html"><a href="data.html#merging"><i class="fa fa-check"></i><b>3.4</b> Merging</a></li>
 <li class="chapter" data-level="3.5" data-path="data.html"><a href="data.html#appendix-creating-the-example-data"><i class="fa fa-check"></i><b>3.5</b> Appendix: Creating the Example Data</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="visualization.html"><a href="visualization.html"><i class="fa fa-check"></i><b>4</b> Data Visualization</a>
-<ul>
+<li class="chapter" data-level="4" data-path="visualization.html"><a href="visualization.html"><i class="fa fa-check"></i><b>4</b> Data Visualization</a><ul>
 <li class="chapter" data-level="4.1" data-path="visualization.html"><a href="visualization.html#basic-plots"><i class="fa fa-check"></i><b>4.1</b> Basic Plots</a></li>
 <li class="chapter" data-level="4.2" data-path="visualization.html"><a href="visualization.html#saving-plots"><i class="fa fa-check"></i><b>4.2</b> Saving Plots</a></li>
 <li class="chapter" data-level="4.3" data-path="visualization.html"><a href="visualization.html#faceting"><i class="fa fa-check"></i><b>4.3</b> Faceting</a></li>
 <li class="chapter" data-level="4.4" data-path="visualization.html"><a href="visualization.html#aesthetics"><i class="fa fa-check"></i><b>4.4</b> Aesthetics</a></li>
 <li class="chapter" data-level="4.5" data-path="visualization.html"><a href="visualization.html#appendix-creating-the-example-data-1"><i class="fa fa-check"></i><b>4.5</b> Appendix: Creating the Example Data</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="bivariate.html"><a href="bivariate.html"><i class="fa fa-check"></i><b>5</b> Bivariate Regression</a>
-<ul>
+<li class="chapter" data-level="5" data-path="bivariate.html"><a href="bivariate.html"><i class="fa fa-check"></i><b>5</b> Bivariate Regression</a><ul>
 <li class="chapter" data-level="5.1" data-path="bivariate.html"><a href="bivariate.html#probability"><i class="fa fa-check"></i><b>5.1</b> Probability Refresher</a></li>
 <li class="chapter" data-level="5.2" data-path="bivariate.html"><a href="bivariate.html#the-linear-model"><i class="fa fa-check"></i><b>5.2</b> The Linear Model</a></li>
 <li class="chapter" data-level="5.3" data-path="bivariate.html"><a href="bivariate.html#least-squares"><i class="fa fa-check"></i><b>5.3</b> Least Squares</a></li>
 <li class="chapter" data-level="5.4" data-path="bivariate.html"><a href="bivariate.html#properties"><i class="fa fa-check"></i><b>5.4</b> Properties</a></li>
 <li class="chapter" data-level="5.5" data-path="bivariate.html"><a href="bivariate.html#appendix-regression-in-r"><i class="fa fa-check"></i><b>5.5</b> Appendix: Regression in R</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="matrix.html"><a href="matrix.html"><i class="fa fa-check"></i><b>6</b> Matrix Algebra: A Crash Course</a>
-<ul>
+<li class="chapter" data-level="6" data-path="matrix.html"><a href="matrix.html"><i class="fa fa-check"></i><b>6</b> Matrix Algebra: A Crash Course</a><ul>
 <li class="chapter" data-level="6.1" data-path="matrix.html"><a href="matrix.html#vector-operations"><i class="fa fa-check"></i><b>6.1</b> Vector Operations</a></li>
 <li class="chapter" data-level="6.2" data-path="matrix.html"><a href="matrix.html#matrix-operations"><i class="fa fa-check"></i><b>6.2</b> Matrix Operations</a></li>
 <li class="chapter" data-level="6.3" data-path="matrix.html"><a href="matrix.html#matrix-inversion"><i class="fa fa-check"></i><b>6.3</b> Matrix Inversion</a></li>
 <li class="chapter" data-level="6.4" data-path="matrix.html"><a href="matrix.html#solving-linear-systems"><i class="fa fa-check"></i><b>6.4</b> Solving Linear Systems</a></li>
 <li class="chapter" data-level="6.5" data-path="matrix.html"><a href="matrix.html#appendix-matrices-in-r"><i class="fa fa-check"></i><b>6.5</b> Appendix: Matrices in R</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="ols-matrix.html"><a href="ols-matrix.html"><i class="fa fa-check"></i><b>7</b> Reintroduction to the Linear Model</a>
-<ul>
+<li class="chapter" data-level="7" data-path="ols-matrix.html"><a href="ols-matrix.html"><i class="fa fa-check"></i><b>7</b> Reintroduction to the Linear Model</a><ul>
 <li class="chapter" data-level="7.1" data-path="ols-matrix.html"><a href="ols-matrix.html#the-linear-model-in-matrix-form"><i class="fa fa-check"></i><b>7.1</b> The Linear Model in Matrix Form</a></li>
 <li class="chapter" data-level="7.2" data-path="ols-matrix.html"><a href="ols-matrix.html#the-ols-estimator"><i class="fa fa-check"></i><b>7.2</b> The OLS Estimator</a></li>
 <li class="chapter" data-level="7.3" data-path="ols-matrix.html"><a href="ols-matrix.html#vector-valued-random-variables"><i class="fa fa-check"></i><b>7.3</b> Vector-Valued Random Variables</a></li>
 <li class="chapter" data-level="7.4" data-path="ols-matrix.html"><a href="ols-matrix.html#properties-of-ols"><i class="fa fa-check"></i><b>7.4</b> Properties of OLS</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="specification.html"><a href="specification.html"><i class="fa fa-check"></i><b>8</b> Specification Issues</a>
-<ul>
+<li class="chapter" data-level="8" data-path="specification.html"><a href="specification.html"><i class="fa fa-check"></i><b>8</b> Specification Issues</a><ul>
 <li class="chapter" data-level="8.1" data-path="specification.html"><a href="specification.html#categorical-variables"><i class="fa fa-check"></i><b>8.1</b> Categorical Variables</a></li>
 <li class="chapter" data-level="8.2" data-path="specification.html"><a href="specification.html#interaction-terms"><i class="fa fa-check"></i><b>8.2</b> Interaction Terms</a></li>
-<li class="chapter" data-level="8.3" data-path="specification.html"><a href="specification.html#quadratic-and-logarithmic-terms"><i class="fa fa-check"></i><b>8.3</b> Quadratic and Logarithmic Terms</a></li>
-<li class="chapter" data-level="8.4" data-path="specification.html"><a href="specification.html#appendix-nonstandard-specifications-in-r"><i class="fa fa-check"></i><b>8.4</b> Appendix: Nonstandard Specifications in R</a>
-<ul>
-<li class="chapter" data-level="8.4.1" data-path="specification.html"><a href="specification.html#categorical-variables-1"><i class="fa fa-check"></i><b>8.4.1</b> Categorical Variables</a></li>
-<li class="chapter" data-level="8.4.2" data-path="specification.html"><a href="specification.html#interaction-terms-1"><i class="fa fa-check"></i><b>8.4.2</b> Interaction Terms</a></li>
-<li class="chapter" data-level="8.4.3" data-path="specification.html"><a href="specification.html#quadratic-and-logarithmic-models"><i class="fa fa-check"></i><b>8.4.3</b> Quadratic and Logarithmic Models</a></li>
+<li class="chapter" data-level="8.3" data-path="specification.html"><a href="specification.html#quadratic-terms"><i class="fa fa-check"></i><b>8.3</b> Quadratic Terms</a></li>
+<li class="chapter" data-level="8.4" data-path="specification.html"><a href="specification.html#logarithmic-models"><i class="fa fa-check"></i><b>8.4</b> Logarithmic Models</a></li>
+<li class="chapter" data-level="8.5" data-path="specification.html"><a href="specification.html#appendix-nonstandard-specifications-in-r"><i class="fa fa-check"></i><b>8.5</b> Appendix: Nonstandard Specifications in R</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="specification.html"><a href="specification.html#categorical-variables-1"><i class="fa fa-check"></i><b>8.5.1</b> Categorical Variables</a></li>
+<li class="chapter" data-level="8.5.2" data-path="specification.html"><a href="specification.html#interaction-terms-1"><i class="fa fa-check"></i><b>8.5.2</b> Interaction Terms</a></li>
+<li class="chapter" data-level="8.5.3" data-path="specification.html"><a href="specification.html#quadratic-and-logarithmic-models"><i class="fa fa-check"></i><b>8.5.3</b> Quadratic and Logarithmic Models</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="inference.html"><a href="inference.html"><i class="fa fa-check"></i><b>9</b> Drawing Inferences</a>
-<ul>
+<li class="chapter" data-level="9" data-path="inference.html"><a href="inference.html"><i class="fa fa-check"></i><b>9</b> Drawing Inferences</a><ul>
 <li class="chapter" data-level="9.1" data-path="inference.html"><a href="inference.html#the-basics-of-hypothesis-testing"><i class="fa fa-check"></i><b>9.1</b> The Basics of Hypothesis Testing</a></li>
 <li class="chapter" data-level="9.2" data-path="inference.html"><a href="inference.html#variance-of-ols"><i class="fa fa-check"></i><b>9.2</b> Variance of OLS</a></li>
 <li class="chapter" data-level="9.3" data-path="inference.html"><a href="inference.html#single-variable-hypotheses"><i class="fa fa-check"></i><b>9.3</b> Single Variable Hypotheses</a></li>
@@ -199,27 +164,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="9.5" data-path="inference.html"><a href="inference.html#appendix-full-derivation-of-ols-variance"><i class="fa fa-check"></i><b>9.5</b> Appendix: Full Derivation of OLS Variance</a></li>
 <li class="chapter" data-level="9.6" data-path="inference.html"><a href="inference.html#appendix-regression-inference-in-r"><i class="fa fa-check"></i><b>9.6</b> Appendix: Regression Inference in R</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="crisis.html"><a href="crisis.html"><i class="fa fa-check"></i><b>10</b> The Statistical Crisis in Science</a>
-<ul>
+<li class="chapter" data-level="10" data-path="crisis.html"><a href="crisis.html"><i class="fa fa-check"></i><b>10</b> The Statistical Crisis in Science</a><ul>
 <li class="chapter" data-level="10.1" data-path="crisis.html"><a href="crisis.html#publication-bias"><i class="fa fa-check"></i><b>10.1</b> Publication Bias</a></li>
 <li class="chapter" data-level="10.2" data-path="crisis.html"><a href="crisis.html#p-hacking"><i class="fa fa-check"></i><b>10.2</b> <span class="math inline">\(p\)</span>-Hacking</a></li>
 <li class="chapter" data-level="10.3" data-path="crisis.html"><a href="crisis.html#what-to-do"><i class="fa fa-check"></i><b>10.3</b> What to Do</a></li>
 <li class="chapter" data-level="10.4" data-path="crisis.html"><a href="crisis.html#appendix-r-simulation"><i class="fa fa-check"></i><b>10.4</b> Appendix: R Simulation</a></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="nonspherical.html"><a href="nonspherical.html"><i class="fa fa-check"></i><b>11</b> Non-Spherical Errors</a>
-<ul>
+<li class="chapter" data-level="11" data-path="nonspherical.html"><a href="nonspherical.html"><i class="fa fa-check"></i><b>11</b> Non-Spherical Errors</a><ul>
 <li class="chapter" data-level="11.1" data-path="nonspherical.html"><a href="nonspherical.html#generalized-least-squares"><i class="fa fa-check"></i><b>11.1</b> Generalized Least Squares</a></li>
 <li class="chapter" data-level="11.2" data-path="nonspherical.html"><a href="nonspherical.html#detecting-heteroskedasticity"><i class="fa fa-check"></i><b>11.2</b> Detecting Heteroskedasticity</a></li>
 <li class="chapter" data-level="11.3" data-path="nonspherical.html"><a href="nonspherical.html#heteroskedasticity-of-unknown-form"><i class="fa fa-check"></i><b>11.3</b> Heteroskedasticity of Unknown Form</a></li>
-<li class="chapter" data-level="11.4" data-path="nonspherical.html"><a href="nonspherical.html#appendix-implementation-in-r"><i class="fa fa-check"></i><b>11.4</b> Appendix: Implementation in R</a>
-<ul>
+<li class="chapter" data-level="11.4" data-path="nonspherical.html"><a href="nonspherical.html#appendix-implementation-in-r"><i class="fa fa-check"></i><b>11.4</b> Appendix: Implementation in R</a><ul>
 <li class="chapter" data-level="11.4.1" data-path="nonspherical.html"><a href="nonspherical.html#generalized-least-squares-1"><i class="fa fa-check"></i><b>11.4.1</b> Generalized Least Squares</a></li>
 <li class="chapter" data-level="11.4.2" data-path="nonspherical.html"><a href="nonspherical.html#breusch-pagan-test"><i class="fa fa-check"></i><b>11.4.2</b> Breusch-Pagan Test</a></li>
 <li class="chapter" data-level="11.4.3" data-path="nonspherical.html"><a href="nonspherical.html#heteroskedasticity-consistent-standard-errors"><i class="fa fa-check"></i><b>11.4.3</b> Heteroskedasticity-Consistent Standard Errors</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="12" data-path="panel.html"><a href="panel.html"><i class="fa fa-check"></i><b>12</b> Clustered and Panel Data</a>
-<ul>
+<li class="chapter" data-level="12" data-path="panel.html"><a href="panel.html"><i class="fa fa-check"></i><b>12</b> Clustered and Panel Data</a><ul>
 <li class="chapter" data-level="12.1" data-path="panel.html"><a href="panel.html#the-linear-model-with-grouped-data"><i class="fa fa-check"></i><b>12.1</b> The Linear Model with Grouped Data</a></li>
 <li class="chapter" data-level="12.2" data-path="panel.html"><a href="panel.html#clustered-standard-errors"><i class="fa fa-check"></i><b>12.2</b> Clustered Standard Errors</a></li>
 <li class="chapter" data-level="12.3" data-path="panel.html"><a href="panel.html#random-effects"><i class="fa fa-check"></i><b>12.3</b> Random Effects</a></li>
@@ -247,34 +208,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="nonspherical" class="section level1" number="11">
+<div id="nonspherical" class="section level1">
 <h1><span class="header-section-number">11</span> Non-Spherical Errors</h1>
-<p>In our consideration so far of the linear model,
-<span class="math display">\[
+<p>In our consideration so far of the linear model, <span class="math display">\[
 \mathbf{Y} = \mathbf{X} \beta + \epsilon,
-\]</span>
-we have focused on the ordinary least squares estimator,
-<span class="math display">\[
+\]</span> we have focused on the ordinary least squares estimator, <span class="math display">\[
 \hat{\beta}_{\text{OLS}} = (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top \mathbf{Y}.
-\]</span>
-We have seen that OLS is an unbiased and consistent estimator of the linear model parameters as long as we have strict exogeneity,
-<span class="math display">\[
+\]</span> We have seen that OLS is an unbiased and consistent estimator of the linear model parameters as long as we have strict exogeneity, <span class="math display">\[
 E[\epsilon \,|\, \mathbf{X}] = \mathbf{0}.
-\]</span>
-However, two more important properties of OLS depend on the assumption of spherical errors,
-<span class="math display">\[
+\]</span> However, two more important properties of OLS depend on the assumption of spherical errors, <span class="math display">\[
 V[\epsilon \,|\, \mathbf{X}] = \sigma^2 \mathbf{I} = \begin{bmatrix}
   \sigma^2 &amp; 0 &amp; \cdots &amp; 0 \\
   0 &amp; \sigma^2 &amp; \cdots &amp; 0 \\
   \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
   0 &amp; 0 &amp; \cdots &amp; \sigma^2
 \end{bmatrix}.
-\]</span>
-These properties are</p>
+\]</span> These properties are</p>
 <ol style="list-style-type: decimal">
 <li><p>That <span class="math inline">\(\hat{\beta}_{\text{OLS}}\)</span> is the minimum-variance unbiased linear estimator of <span class="math inline">\(\beta\)</span>; i.e., that OLS is BLUE.</p></li>
-<li><p>That the variance of OLS is given by the formula
-<span class="math display">\[
+<li><p>That the variance of OLS is given by the formula <span class="math display">\[
 V[\hat{\beta}_{\text{OLS}} \,|\, \mathbf{X}] = \sigma^2 (\mathbf{X}^\top \mathbf{X})^{-1}.
 \]</span></p></li>
 </ol>
@@ -293,10 +245,9 @@ V[\hat{\beta}_{\text{OLS}} \,|\, \mathbf{X}] = \sigma^2 (\mathbf{X}^\top \mathbf
 <p>Here’s what each of the three cases looks like in bivariate data.</p>
 <p><img src="pdaps_files/figure-html/plot-spherical-errors-1.png" width="672" /></p>
 <p>Autocorrelation usually arises in time series analysis, which is beyond the scope of this course, so we will focus primarily on heteroskedasticity.</p>
-<div id="generalized-least-squares" class="section level2" number="11.1">
+<div id="generalized-least-squares" class="section level2">
 <h2><span class="header-section-number">11.1</span> Generalized Least Squares</h2>
-<p>Suppose strict exogeneity holds, but spherical errors fails, with
-<span class="math display">\[
+<p>Suppose strict exogeneity holds, but spherical errors fails, with <span class="math display">\[
 V[\epsilon \,|\, \mathbf{X}]
 = \sigma^2 \Omega
 = \sigma^2 \begin{bmatrix}
@@ -305,28 +256,19 @@ V[\epsilon \,|\, \mathbf{X}]
   \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
   \omega_{1N} &amp; \omega_{2N} &amp; \cdots &amp; \omega_{NN}
 \end{bmatrix},
-\]</span>
-where <span class="math inline">\(\Omega\)</span> is known<a href="#fn29" class="footnote-ref" id="fnref29"><sup>29</sup></a> and <span class="math inline">\(\sigma^2\)</span> is unknown. In other words, we know the exact structure of heteroskedasticity and autocorrelation, up to a potentially unknown constant.</p>
-<p>We derived the OLS estimator by finding the <span class="math inline">\(\hat{\beta}\)</span> that minimizes the sum of squared errors,
-<span class="math display">\[
+\]</span> where <span class="math inline">\(\Omega\)</span> is known<a href="#fn29" class="footnoteRef" id="fnref29"><sup>29</sup></a> and <span class="math inline">\(\sigma^2\)</span> is unknown. In other words, we know the exact structure of heteroskedasticity and autocorrelation, up to a potentially unknown constant.</p>
+<p>We derived the OLS estimator by finding the <span class="math inline">\(\hat{\beta}\)</span> that minimizes the sum of squared errors, <span class="math display">\[
 \text{SSE}
 = \sum_n (Y_n - \mathbf{x}_n \cdot \hat{\beta})^2
 = (\mathbf{Y} - \mathbf{X} \hat{\beta})^\top (\mathbf{Y} - \mathbf{X} \hat{\beta}).
-\]</span>
-We derive its close cousin, the <em>generalized least squares</em>, or GLS, estimator, by minimizing the <em>weighted</em> sum of squared errors,
-<span class="math display">\[
+\]</span> We derive its close cousin, the <em>generalized least squares</em>, or GLS, estimator, by minimizing the <em>weighted</em> sum of squared errors, <span class="math display">\[
 \text{WSSE} = (\mathbf{Y} - \mathbf{X} \hat{\beta})^\top \Omega^{-1} (\mathbf{Y} - \mathbf{X} \hat{\beta}).
-\]</span>
-I’ll spare you the matrix calculus that follows, but suffice to say the resulting estimator is
-<span class="math display">\[
+\]</span> I’ll spare you the matrix calculus that follows, but suffice to say the resulting estimator is <span class="math display">\[
 \hat{\beta}_{\text{GLS}} = (\mathbf{X}^\top \Omega^{-1} \mathbf{X})^{-1} \mathbf{X}^\top \Omega^{-1} \mathbf{Y}.
-\]</span>
-It is easy to confirm that OLS is the special case of GLS with <span class="math inline">\(\Omega = \mathbf{I}\)</span>. Similar to the formula for OLS, the variance of GLS is
-<span class="math display">\[
+\]</span> It is easy to confirm that OLS is the special case of GLS with <span class="math inline">\(\Omega = \mathbf{I}\)</span>. Similar to the formula for OLS, the variance of GLS is <span class="math display">\[
 V[\hat{\beta}_{\text{GLS}} \,|\, \mathbf{X}] = \sigma^2 (\mathbf{X}^\top \Omega^{-1} \mathbf{X})^{-1}.
 \]</span></p>
-<p>Like OLS, GLS is unbiased and consistent as long as we have strict exogeneity. Even if we get <span class="math inline">\(\Omega\)</span> wrong—i.e., we misspecify the model of the error variance—GLS will still “work” in the sense of giving us an unbiased and consistent estimate of the coefficients. This is easy to confirm.
-<span class="math display">\[
+<p>Like OLS, GLS is unbiased and consistent as long as we have strict exogeneity. Even if we get <span class="math inline">\(\Omega\)</span> wrong—i.e., we misspecify the model of the error variance—GLS will still “work” in the sense of giving us an unbiased and consistent estimate of the coefficients. This is easy to confirm. <span class="math display">\[
 \begin{aligned}
 E [ \hat{\beta}_{\text{GLS}} \,|\, \mathbf{X} ]
 &amp;= E [ (\mathbf{X}^\top \Omega^{-1} \mathbf{X})^{-1} \mathbf{X}^\top \Omega^{-1} \mathbf{Y} \,|\, \mathbf{X} ] \\
@@ -335,28 +277,22 @@ E [ \hat{\beta}_{\text{GLS}} \,|\, \mathbf{X} ]
 &amp;= (\mathbf{X}^\top \Omega^{-1} \mathbf{X})^{-1} (\mathbf{X}^\top \Omega^{-1} \mathbf{X}) \beta \\
 &amp;= \beta.
 \end{aligned}
-\]</span>
-If we get <span class="math inline">\(\Omega\)</span> right, then GLS has two important additional properties.</p>
+\]</span> If we get <span class="math inline">\(\Omega\)</span> right, then GLS has two important additional properties.</p>
 <ol style="list-style-type: decimal">
-<li><p>Our estimate of the variance matrix,
-<span class="math display">\[
+<li><p>Our estimate of the variance matrix, <span class="math display">\[
 \hat{\Sigma} = \frac{\text{WSSE}}{N - K} (\mathbf{X}^\top \Omega^{-1} \mathbf{X})^{-1},
-\]</span>
-is valid for inference using the same methods we discussed in the OLS case.</p></li>
+\]</span> is valid for inference using the same methods we discussed in the OLS case.</p></li>
 <li><p>GLS is BLUE, per the Gauss-Markov theorem: there is no other unbiased linear estimator with lower standard errors.</p></li>
 </ol>
 <p>The first of these is pretty important; the second is just icing on the cake. The main problem with non-spherical errors is the threat they pose to inference from OLS. GLS fixes that—as long as we know <span class="math inline">\(\Omega\)</span>. More on this soon.</p>
-<p>An important special case of GLS is when there is heteroskedasticity but no autocorrelation, so that
-<span class="math display">\[
+<p>An important special case of GLS is when there is heteroskedasticity but no autocorrelation, so that <span class="math display">\[
 \Omega = \sigma^2 \begin{bmatrix}
   \omega_{11} &amp; 0 &amp; \cdots &amp; 0 \\
   0 &amp; \omega_{22} &amp; \cdots &amp; 0 \\
   \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
   0 &amp; 0 &amp; \cdots &amp; \omega_{NN}
 \end{bmatrix}.
-\]</span>
-This special case is called <em>weighted least squares</em>, since GLS gives us the same answer as if we ran OLS on the following “weighted” data:
-<span class="math display">\[
+\]</span> This special case is called <em>weighted least squares</em>, since GLS gives us the same answer as if we ran OLS on the following “weighted” data: <span class="math display">\[
 \mathbf{X}^* = \begin{bmatrix}
   x_{11} / \sqrt{\omega_{11}} &amp; x_{12} / \sqrt{\omega_{11}} &amp; \cdots &amp; x_{1K} / \sqrt{\omega_{11}} \\
   x_{21} / \sqrt{\omega_{22}} &amp; x_{22} / \sqrt{\omega_{22}} &amp; \cdots &amp; x_{2K} / \sqrt{\omega_{22}} \\
@@ -371,23 +307,22 @@ This special case is called <em>weighted least squares</em>, since GLS gives us 
 \end{bmatrix}.
 \]</span></p>
 </div>
-<div id="detecting-heteroskedasticity" class="section level2" number="11.2">
+<div id="detecting-heteroskedasticity" class="section level2">
 <h2><span class="header-section-number">11.2</span> Detecting Heteroskedasticity</h2>
 <p>If you don’t have prior knowledge of the variance structure of the error term, you may be interested in testing whether the homoskedasticity assumption of OLS is viable. In a bivariate regression model, you can usually detect heteroskedasticity via the eye test. Not so much when you have multiple covariates. In this case, you may want to formally test for heteroskedasticity.</p>
-<p>There are a few such tests, but we will just talk about the <em>Breusch-Pagan test</em>, which was developed by <span class="citation">Breusch and Pagan (<a href="#ref-breusch1980lagrange" role="doc-biblioref">1980</a>)</span> and refined by <span class="citation">Koenker and Bassett Jr (<a href="#ref-koenker1982robust" role="doc-biblioref">1982</a>)</span>. The null hypothesis of the test is that <span class="math inline">\(V[\epsilon_i \,|\, \mathbf{X}] = \sigma^2\)</span> for all <span class="math inline">\(i = 1, \ldots, N\)</span>. The test procedure is as follows.</p>
+<p>There are a few such tests, but we will just talk about the <em>Breusch-Pagan test</em>, which was developed by <span class="citation">Breusch and Pagan (<a href="#ref-breusch1980lagrange">1980</a>)</span> and refined by <span class="citation">Koenker and Bassett Jr (<a href="#ref-koenker1982robust">1982</a>)</span>. The null hypothesis of the test is that <span class="math inline">\(V[\epsilon_i \,|\, \mathbf{X}] = \sigma^2\)</span> for all <span class="math inline">\(i = 1, \ldots, N\)</span>. The test procedure is as follows.</p>
 <ol style="list-style-type: decimal">
 <li>Calculate the OLS estimate, <span class="math inline">\(\hat{\beta}_{\text{OLS}}\)</span>.</li>
 <li>Calculate the OLS residuals, <span class="math inline">\(\hat{e} = Y - \mathbf{X} \hat{\beta}_{\text{OLS}}\)</span>. Let <span class="math inline">\(\hat{u}\)</span> be the vector of squared residuals, <span class="math inline">\(\hat{u} = (\hat{e}_1^2, \ldots, \hat{e}_N^2)\)</span>.</li>
 <li>Run a regression of <span class="math inline">\(\hat{u}\)</span> on <span class="math inline">\(\mathbf{Z}\)</span>, an <span class="math inline">\(N \times q\)</span> matrix of covariates. Let <span class="math inline">\(R_{\hat{u}}^2\)</span> denote the <span class="math inline">\(R^2\)</span> of this regression.</li>
 <li>Reject the null hypothesis if <span class="math inline">\(N R_{\hat{u}}^2\)</span> exceeds the critical value for a <span class="math inline">\(\chi_{q - 1}^2\)</span> distribution.</li>
 </ol>
-<p>In the canonical version of this test, <span class="math inline">\(\mathbf{Z}\)</span> is equal to <span class="math inline">\(\mathbf{X}\)</span>. A more powerful version is the <em>White test</em> <span class="citation">(White <a href="#ref-white1980heteroskedasticity" role="doc-biblioref">1980</a>)</span>, in which <span class="math inline">\(\mathbf{Z}\)</span> contains each variable in <span class="math inline">\(\mathbf{X}\)</span> as well as all second-order terms (squares and interactions).</p>
+<p>In the canonical version of this test, <span class="math inline">\(\mathbf{Z}\)</span> is equal to <span class="math inline">\(\mathbf{X}\)</span>. A more powerful version is the <em>White test</em> <span class="citation">(H. White <a href="#ref-white1980heteroskedasticity">1980</a>)</span>, in which <span class="math inline">\(\mathbf{Z}\)</span> contains each variable in <span class="math inline">\(\mathbf{X}\)</span> as well as all second-order terms (squares and interactions).</p>
 </div>
-<div id="heteroskedasticity-of-unknown-form" class="section level2" number="11.3">
+<div id="heteroskedasticity-of-unknown-form" class="section level2">
 <h2><span class="header-section-number">11.3</span> Heteroskedasticity of Unknown Form</h2>
-<p>Suppose we know there is heteroskedasticity but we don’t trust ourselves to properly specify the error variances to run weighted least squares.<a href="#fn30" class="footnote-ref" id="fnref30"><sup>30</sup></a> Then we do not have an efficient estimator of <span class="math inline">\(\beta\)</span>. We might be all right with that, but we would really like to have a good estimator for the standard errors of the OLS estimator, so that we can test hypotheses about the coefficients. Happily, we can estimate the variance matrix of the OLS estimator consistently even in the presence of heteroskedasticity.</p>
-<p><em>White’s heteroskedasticity-consistent estimator</em> <span class="citation">(White <a href="#ref-white1980heteroskedasticity" role="doc-biblioref">1980</a>)</span> of the variance matrix starts by forming a diagonal matrix out of the squared residuals,
-<span class="math display">\[
+<p>Suppose we know there is heteroskedasticity but we don’t trust ourselves to properly specify the error variances to run weighted least squares.<a href="#fn30" class="footnoteRef" id="fnref30"><sup>30</sup></a> Then we do not have an efficient estimator of <span class="math inline">\(\beta\)</span>. We might be all right with that, but we would really like to have a good estimator for the standard errors of the OLS estimator, so that we can test hypotheses about the coefficients. Happily, we can estimate the variance matrix of the OLS estimator consistently even in the presence of heteroskedasticity.</p>
+<p><em>White’s heteroskedasticity-consistent estimator</em> <span class="citation">(H. White <a href="#ref-white1980heteroskedasticity">1980</a>)</span> of the variance matrix starts by forming a diagonal matrix out of the squared residuals, <span class="math display">\[
 \hat{\mathbf{U}}
 =
 \begin{bmatrix}
@@ -403,33 +338,28 @@ This special case is called <em>weighted least squares</em>, since GLS gives us 
 \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
 0 &amp; 0 &amp; \cdots &amp; \hat{e}_N^2
 \end{bmatrix}
-\]</span>
-This lets us form the “meat” of the “sandwich” that is White’s estimator of the OLS variance matrix:
-<span class="math display">\[
+\]</span> This lets us form the “meat” of the “sandwich” that is White’s estimator of the OLS variance matrix: <span class="math display">\[
 \hat{\Sigma}_{\text{HC}}
 =
 (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top \hat{\mathbf{U}} \mathbf{X} (\mathbf{X}^\top \mathbf{X})^{-1}.
-\]</span>
-You know I love proofs, but I am not even going to attempt to prove that this consistently estimates the (asymptotic) variance matrix of <span class="math inline">\(\hat{\beta}_{\text{OLS}}\)</span>. See <span class="citation">Greene (<a href="#ref-greene" role="doc-biblioref">2003</a>, 198–99)</span> for a sketch of the proof.</p>
-<p>White’s estimator is consistent but not unbiased, so we may want to apply a sort of bias correction in small samples. A popular choice is the so-called “HC1” estimator, which corrects for the number of parameters estimated the same way the usual OLS variance estimator does:
-<span class="math display">\[
+\]</span> You know I love proofs, but I am not even going to attempt to prove that this consistently estimates the (asymptotic) variance matrix of <span class="math inline">\(\hat{\beta}_{\text{OLS}}\)</span>. See <span class="citation">Greene (<a href="#ref-greene">2003</a>, 198–99)</span> for a sketch of the proof.</p>
+<p>White’s estimator is consistent but not unbiased, so we may want to apply a sort of bias correction in small samples. A popular choice is the so-called “HC1” estimator, which corrects for the number of parameters estimated the same way the usual OLS variance estimator does: <span class="math display">\[
 \hat{\Sigma}_{\text{HC1}} = \frac{N}{N - K} \hat{\Sigma}_{\text{HC}}
-\]</span>
-In this scheme, the standard White estimator is called the “HC” or “HC0” estimator. There are many other consistent estimators that apply some or other finite-sample correction; see <span class="citation">MacKinnon and White (<a href="#ref-mackinnon1985some" role="doc-biblioref">1985</a>)</span> for the gory details.</p>
-<p>Because of its association with the <code>, robust</code> option in Stata, people sometimes call the White estimator of the standard errors “robust standard errors”. Don’t do that. In your own work, if you estimate and report heteroskedasticity-consistent standard errors, report that you use the <span class="citation">White (<a href="#ref-white1980heteroskedasticity" role="doc-biblioref">1980</a>)</span> estimator of the standard errors, and specify which variant (HC0, HC1, and so on). Remember that your goal is to give others enough information to replicate your analysis even if they don’t have your code—“robust standard errors” has too many interpretations to accomplish that.</p>
+\]</span> In this scheme, the standard White estimator is called the “HC” or “HC0” estimator. There are many other consistent estimators that apply some or other finite-sample correction; see <span class="citation">MacKinnon and White (<a href="#ref-mackinnon1985some">1985</a>)</span> for the gory details.</p>
+<p>Because of its association with the <code>, robust</code> option in Stata, people sometimes call the White estimator of the standard errors “robust standard errors”. Don’t do that. In your own work, if you estimate and report heteroskedasticity-consistent standard errors, report that you use the <span class="citation">H. White (<a href="#ref-white1980heteroskedasticity">1980</a>)</span> estimator of the standard errors, and specify which variant (HC0, HC1, and so on). Remember that your goal is to give others enough information to replicate your analysis even if they don’t have your code—“robust standard errors” has too many interpretations to accomplish that.</p>
 <p>Finally, it is important to know that weighted least squares and heteroskedasticity-consistent standard errors are not mutually exclusive approaches. If you have a suspicion about the error variances that you think can improve the precision of the regression, but you are not totally comfortable with committing to WLS for inference, you can calculate heteroskedasticity-consistent standard errors for a WLS (or GLS) fit.</p>
 </div>
-<div id="appendix-implementation-in-r" class="section level2" number="11.4">
+<div id="appendix-implementation-in-r" class="section level2">
 <h2><span class="header-section-number">11.4</span> Appendix: Implementation in R</h2>
 <p>We’ll be using the following packages:</p>
-<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb307-1"><a href="nonspherical.html#cb307-1"></a><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</span>
-<span id="cb307-2"><a href="nonspherical.html#cb307-2"></a><span class="kw">library</span>(<span class="st">&quot;broom&quot;</span>)</span>
-<span id="cb307-3"><a href="nonspherical.html#cb307-3"></a><span class="kw">library</span>(<span class="st">&quot;car&quot;</span>)</span>
-<span id="cb307-4"><a href="nonspherical.html#cb307-4"></a><span class="kw">library</span>(<span class="st">&quot;lmtest&quot;</span>)</span>
-<span id="cb307-5"><a href="nonspherical.html#cb307-5"></a><span class="kw">library</span>(<span class="st">&quot;sandwich&quot;</span>)</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)
+<span class="kw">library</span>(<span class="st">&quot;broom&quot;</span>)
+<span class="kw">library</span>(<span class="st">&quot;car&quot;</span>)
+<span class="kw">library</span>(<span class="st">&quot;lmtest&quot;</span>)
+<span class="kw">library</span>(<span class="st">&quot;sandwich&quot;</span>)</code></pre></div>
 <p>We will use data from the <strong>car</strong> package on professors’ salaries. This is a topic that, ideally, will be of great concern to you in 5ish years.</p>
-<div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb308-1"><a href="nonspherical.html#cb308-1"></a><span class="kw">data</span>(Salaries)</span>
-<span id="cb308-2"><a href="nonspherical.html#cb308-2"></a><span class="kw">head</span>(Salaries)</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(Salaries)
+<span class="kw">head</span>(Salaries)</code></pre></div>
 <pre><code>##        rank discipline yrs.since.phd yrs.service  sex salary
 ## 1      Prof          B            19          18 Male 139750
 ## 2      Prof          B            20          16 Male 173200
@@ -437,30 +367,26 @@ In this scheme, the standard White estimator is called the “HC” or “HC0”
 ## 4      Prof          B            45          39 Male 115000
 ## 5      Prof          B            40          41 Male 141500
 ## 6 AssocProf          B             6           6 Male  97000</code></pre>
-<div id="generalized-least-squares-1" class="section level3" number="11.4.1">
+<div id="generalized-least-squares-1" class="section level3">
 <h3><span class="header-section-number">11.4.1</span> Generalized Least Squares</h3>
 <p>Let us model a professor’s salary as a function of the number of years since she received her PhD. If we glance at the data, we see obvious heteroskedasticity.</p>
-<div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb310-1"><a href="nonspherical.html#cb310-1"></a><span class="kw">ggplot</span>(Salaries, <span class="kw">aes</span>(<span class="dt">x =</span> yrs.since.phd, <span class="dt">y =</span> salary)) <span class="op">+</span></span>
-<span id="cb310-2"><a href="nonspherical.html#cb310-2"></a><span class="st">    </span><span class="kw">geom_point</span>()</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(Salaries, <span class="kw">aes</span>(<span class="dt">x =</span> yrs.since.phd, <span class="dt">y =</span> salary)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_point</span>()</code></pre></div>
 <p><img src="pdaps_files/figure-html/salaries-plot-hetero-1.png" width="672" /></p>
 <p>There is much more variation in the salaries of professors 30+ years into their careers than in those who are fresh out of grad school. If we want the most precise model of the relationship between years since PhD and salary, we might want to place more weight on early-career professors and less on late-career professors.</p>
-<p>Remember that weighted least squares is the special case of GLS where the off-diagonal elements of <span class="math inline">\(\Omega\)</span> are zero (i.e., there is heteroskedasticity but no autocorrelation):
-<span class="math display">\[
+<p>Remember that weighted least squares is the special case of GLS where the off-diagonal elements of <span class="math inline">\(\Omega\)</span> are zero (i.e., there is heteroskedasticity but no autocorrelation): <span class="math display">\[
 \Omega = \sigma^2 \begin{bmatrix}
   \omega_{11} &amp; 0 &amp; \cdots &amp; 0 \\
   0 &amp; \omega_{22} &amp; \cdots &amp; 0 \\
   \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
   0 &amp; 0 &amp; \cdots &amp; \omega_{NN}
 \end{bmatrix}.
-\]</span>
-To run weighted least squares in R, we just use the <code>weights</code> argument to the <code>lm()</code> function. As an example, let’s set
-<span class="math display">\[
+\]</span> To run weighted least squares in R, we just use the <code>weights</code> argument to the <code>lm()</code> function. As an example, let’s set <span class="math display">\[
 \omega_{nn} = \frac{1}{\text{Years Since PhD}_n}
-\]</span>
-for each observation <span class="math inline">\(n\)</span>, to place the greatest weight on early-career observations. We will first run a baseline OLS model, then compare to the weighted model.</p>
-<div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb311-1"><a href="nonspherical.html#cb311-1"></a>ols_salaries &lt;-<span class="st"> </span><span class="kw">lm</span>(salary <span class="op">~</span><span class="st"> </span>yrs.since.phd <span class="op">+</span><span class="st"> </span>yrs.service,</span>
-<span id="cb311-2"><a href="nonspherical.html#cb311-2"></a>                   <span class="dt">data =</span> Salaries)</span>
-<span id="cb311-3"><a href="nonspherical.html#cb311-3"></a><span class="kw">summary</span>(ols_salaries)</span></code></pre></div>
+\]</span> for each observation <span class="math inline">\(n\)</span>, to place the greatest weight on early-career observations. We will first run a baseline OLS model, then compare to the weighted model.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ols_salaries &lt;-<span class="st"> </span><span class="kw">lm</span>(salary <span class="op">~</span><span class="st"> </span>yrs.since.phd <span class="op">+</span><span class="st"> </span>yrs.service,
+                   <span class="dt">data =</span> Salaries)
+<span class="kw">summary</span>(ols_salaries)</code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = salary ~ yrs.since.phd + yrs.service, data = Salaries)
@@ -480,10 +406,10 @@ for each observation <span class="math inline">\(n\)</span>, to place the greate
 ## Residual standard error: 27360 on 394 degrees of freedom
 ## Multiple R-squared:  0.1883, Adjusted R-squared:  0.1842 
 ## F-statistic: 45.71 on 2 and 394 DF,  p-value: &lt; 2.2e-16</code></pre>
-<div class="sourceCode" id="cb313"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb313-1"><a href="nonspherical.html#cb313-1"></a>wls_salaries &lt;-<span class="st"> </span><span class="kw">lm</span>(salary <span class="op">~</span><span class="st"> </span>yrs.since.phd <span class="op">+</span><span class="st"> </span>yrs.service,</span>
-<span id="cb313-2"><a href="nonspherical.html#cb313-2"></a>                   <span class="dt">weights =</span> <span class="dv">1</span> <span class="op">/</span><span class="st"> </span>yrs.since.phd,</span>
-<span id="cb313-3"><a href="nonspherical.html#cb313-3"></a>                   <span class="dt">data =</span> Salaries)</span>
-<span id="cb313-4"><a href="nonspherical.html#cb313-4"></a><span class="kw">summary</span>(wls_salaries)</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wls_salaries &lt;-<span class="st"> </span><span class="kw">lm</span>(salary <span class="op">~</span><span class="st"> </span>yrs.since.phd <span class="op">+</span><span class="st"> </span>yrs.service,
+                   <span class="dt">weights =</span> <span class="dv">1</span> <span class="op">/</span><span class="st"> </span>yrs.since.phd,
+                   <span class="dt">data =</span> Salaries)
+<span class="kw">summary</span>(wls_salaries)</code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = salary ~ yrs.since.phd + yrs.service, data = Salaries, 
@@ -508,19 +434,19 @@ for each observation <span class="math inline">\(n\)</span>, to place the greate
 <p>Which model is better, OLS or WLS? It depends on whether our weights correspond to the true relative variance in the error term. In this case, we’ve specified a pretty aggressive weighting scheme—a professor with 1 year of service gets double the weight of a professor with 2 years of service. An alternative weighting scheme would give us different results. The “best” model is the one that best corresponds to the true <span class="math inline">\(\Omega\)</span>, which unfortunately is hard to know in advance. The best we can do is apply theory and judgment in a thoughtful way.</p>
 <p>In the (relatively unlikely) event that you are pre-specifying <span class="math inline">\(\Omega\)</span> with autocorrelations, you can use the <code>lm.gls()</code> function from the <strong>MASS</strong> package. The <code>gls()</code> function from the <strong>nlme</strong> package performs <em>feasible</em> generalized least squares, whereby we write <span class="math inline">\(\Omega\)</span> as a function of a few parameters, estimate those parameters, and run the subsequent GLS model.</p>
 </div>
-<div id="breusch-pagan-test" class="section level3" number="11.4.2">
+<div id="breusch-pagan-test" class="section level3">
 <h3><span class="header-section-number">11.4.2</span> Breusch-Pagan Test</h3>
 <p>We already used the “eye test” to confirm the presence of heteroskedasticity in the relationship we are modeling, but let’s see how we would use the Breusch-Pagan test to confirm our suspicion. For this we use the <code>bptest()</code> function from the <strong>lmtest</strong> package.</p>
-<div class="sourceCode" id="cb315"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb315-1"><a href="nonspherical.html#cb315-1"></a><span class="kw">bptest</span>(ols_salaries)</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">bptest</span>(ols_salaries)</code></pre></div>
 <pre><code>## 
 ##  studentized Breusch-Pagan test
 ## 
 ## data:  ols_salaries
 ## BP = 49.864, df = 2, p-value = 1.486e-11</code></pre>
 <p>By default, <code>bptest()</code> uses the same variables as in the original regression in the regression of the squared residuals. To perform the White test, we can use an extra argument to <code>bptest()</code> to specify a different model formula.</p>
-<div class="sourceCode" id="cb317"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb317-1"><a href="nonspherical.html#cb317-1"></a><span class="kw">bptest</span>(ols_salaries,</span>
-<span id="cb317-2"><a href="nonspherical.html#cb317-2"></a>       <span class="op">~</span><span class="st"> </span>yrs.since.phd <span class="op">*</span><span class="st"> </span>yrs.service <span class="op">+</span><span class="st"> </span><span class="kw">I</span>(yrs.since.phd<span class="op">^</span><span class="dv">2</span>) <span class="op">+</span><span class="st"> </span><span class="kw">I</span>(yrs.service<span class="op">^</span><span class="dv">2</span>),</span>
-<span id="cb317-3"><a href="nonspherical.html#cb317-3"></a>       <span class="dt">data =</span> Salaries)</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">bptest</span>(ols_salaries,
+       <span class="op">~</span><span class="st"> </span>yrs.since.phd <span class="op">*</span><span class="st"> </span>yrs.service <span class="op">+</span><span class="st"> </span><span class="kw">I</span>(yrs.since.phd<span class="op">^</span><span class="dv">2</span>) <span class="op">+</span><span class="st"> </span><span class="kw">I</span>(yrs.service<span class="op">^</span><span class="dv">2</span>),
+       <span class="dt">data =</span> Salaries)</code></pre></div>
 <pre><code>## 
 ##  studentized Breusch-Pagan test
 ## 
@@ -528,18 +454,18 @@ for each observation <span class="math inline">\(n\)</span>, to place the greate
 ## BP = 60.486, df = 5, p-value = 9.644e-12</code></pre>
 <p>In this case, regardless of which test we use, we reject the null hypothesis of homoskedasticity.</p>
 </div>
-<div id="heteroskedasticity-consistent-standard-errors" class="section level3" number="11.4.3">
+<div id="heteroskedasticity-consistent-standard-errors" class="section level3">
 <h3><span class="header-section-number">11.4.3</span> Heteroskedasticity-Consistent Standard Errors</h3>
 <p>To calculate the White estimator and its friends in R, we use the <code>vcovHC()</code> function from the <strong>sandwich</strong> package.</p>
-<div class="sourceCode" id="cb319"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb319-1"><a href="nonspherical.html#cb319-1"></a>vcv0 &lt;-<span class="st"> </span><span class="kw">vcovHC</span>(ols_salaries, <span class="dt">type =</span> <span class="st">&quot;HC0&quot;</span>)</span>
-<span id="cb319-2"><a href="nonspherical.html#cb319-2"></a>vcv0</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vcv0 &lt;-<span class="st"> </span><span class="kw">vcovHC</span>(ols_salaries, <span class="dt">type =</span> <span class="st">&quot;HC0&quot;</span>)
+vcv0</code></pre></div>
 <pre><code>##               (Intercept) yrs.since.phd yrs.service
 ## (Intercept)     5809136.7    -340724.37   111807.54
 ## yrs.since.phd   -340724.4      77168.04   -75508.41
 ## yrs.service      111807.5     -75508.41    91090.58</code></pre>
-<p>To use HC1 (or another one of the finite-sample corrections to the ordinary White estimate), change the <code>type</code> argument to, e.g., <code>type = "HC1"</code>. See <code>?vcovHC</code> for all the options.</p>
+<p>To use HC1 (or another one of the finite-sample corrections to the ordinary White estimate), change the <code>type</code> argument to, e.g., <code>type = &quot;HC1&quot;</code>. See <code>?vcovHC</code> for all the options.</p>
 <p>To create a “regression table” using our new “robust” standard errors, we can use the <code>coeftest()</code> function from the <strong>lmtest</strong> package.</p>
-<div class="sourceCode" id="cb321"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb321-1"><a href="nonspherical.html#cb321-1"></a><span class="kw">coeftest</span>(ols_salaries)  <span class="co"># Original table</span></span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">coeftest</span>(ols_salaries)  <span class="co"># Original table</span></code></pre></div>
 <pre><code>## 
 ## t test of coefficients:
 ## 
@@ -549,7 +475,7 @@ for each observation <span class="math inline">\(n\)</span>, to place the greate
 ## yrs.service    -629.10     254.47 -2.4722   0.01385 *  
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb323-1"><a href="nonspherical.html#cb323-1"></a><span class="kw">coeftest</span>(ols_salaries, <span class="dt">vcov =</span> vcv0)  <span class="co"># With corrected SEs</span></span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">coeftest</span>(ols_salaries, <span class="dt">vcov =</span> vcv0)  <span class="co"># With corrected SEs</span></code></pre></div>
 <pre><code>## 
 ## t test of coefficients:
 ## 
@@ -560,7 +486,7 @@ for each observation <span class="math inline">\(n\)</span>, to place the greate
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>Just like ordinary regression tables, the ones made by <code>coeftest()</code> can be “swept” into data frames using the tools in <strong>broom</strong>:</p>
-<div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb325-1"><a href="nonspherical.html#cb325-1"></a><span class="kw">tidy</span>(<span class="kw">coeftest</span>(ols_salaries, <span class="dt">vcov =</span> vcv0))</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tidy</span>(<span class="kw">coeftest</span>(ols_salaries, <span class="dt">vcov =</span> vcv0))</code></pre></div>
 <pre><code>## # A tibble: 3 x 5
 ##   term          estimate std.error statistic   p.value
 ##   &lt;chr&gt;            &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
@@ -568,10 +494,10 @@ for each observation <span class="math inline">\(n\)</span>, to place the greate
 ## 2 yrs.since.phd    1563.      278.      5.63 3.50e-  8
 ## 3 yrs.service      -629.      302.     -2.08 3.78e-  2</code></pre>
 <p>You may also want to use the White-estimated standard errors to conduct Wald tests of linear hypotheses. You can do that by supplying the relevant estimated variance matrix to the <code>vcov</code> argument of <code>linearHypothesis()</code>:</p>
-<div class="sourceCode" id="cb327"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb327-1"><a href="nonspherical.html#cb327-1"></a><span class="kw">linearHypothesis</span>(ols_salaries,</span>
-<span id="cb327-2"><a href="nonspherical.html#cb327-2"></a>                 <span class="kw">c</span>(<span class="st">&quot;yrs.since.phd = 1500&quot;</span>, <span class="st">&quot;yrs.service = -500&quot;</span>),</span>
-<span id="cb327-3"><a href="nonspherical.html#cb327-3"></a>                 <span class="dt">vcov =</span> vcv0,</span>
-<span id="cb327-4"><a href="nonspherical.html#cb327-4"></a>                 <span class="dt">test =</span> <span class="st">&quot;Chisq&quot;</span>)</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">linearHypothesis</span>(ols_salaries,
+                 <span class="kw">c</span>(<span class="st">&quot;yrs.since.phd = 1500&quot;</span>, <span class="st">&quot;yrs.service = -500&quot;</span>),
+                 <span class="dt">vcov =</span> vcv0,
+                 <span class="dt">test =</span> <span class="st">&quot;Chisq&quot;</span>)</code></pre></div>
 <pre><code>## Linear hypothesis test
 ## 
 ## Hypothesis:
@@ -587,8 +513,8 @@ for each observation <span class="math inline">\(n\)</span>, to place the greate
 ## 1    396                     
 ## 2    394  2 0.3166     0.8536</code></pre>
 <p>Finally, remember how earlier we talked about how the WLS estimates are only as good as the weights you choose. If they’re not the true weights, then WLS is not efficient and the standard error estimator is inconsistent. We can’t fix the first problem, but we can fix the second. To wit, you can estimate heteroskedasticity-consistent standard errors for WLS models too.</p>
-<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb329-1"><a href="nonspherical.html#cb329-1"></a>vcv0_wls &lt;-<span class="st"> </span><span class="kw">vcovHC</span>(wls_salaries, <span class="dt">type =</span> <span class="st">&quot;HC0&quot;</span>)</span>
-<span id="cb329-2"><a href="nonspherical.html#cb329-2"></a><span class="kw">coeftest</span>(wls_salaries)  <span class="co"># Original</span></span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vcv0_wls &lt;-<span class="st"> </span><span class="kw">vcovHC</span>(wls_salaries, <span class="dt">type =</span> <span class="st">&quot;HC0&quot;</span>)
+<span class="kw">coeftest</span>(wls_salaries)  <span class="co"># Original</span></code></pre></div>
 <pre><code>## 
 ## t test of coefficients:
 ## 
@@ -598,7 +524,7 @@ for each observation <span class="math inline">\(n\)</span>, to place the greate
 ## yrs.service    -288.93     264.64 -1.0918    0.2756    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb331-1"><a href="nonspherical.html#cb331-1"></a><span class="kw">coeftest</span>(wls_salaries, <span class="dt">vcov =</span> vcv0_wls)  <span class="co"># Corrected</span></span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">coeftest</span>(wls_salaries, <span class="dt">vcov =</span> vcv0_wls)  <span class="co"># Corrected</span></code></pre></div>
 <pre><code>## 
 ## t test of coefficients:
 ## 
@@ -616,26 +542,26 @@ for each observation <span class="math inline">\(n\)</span>, to place the greate
 <h3>References</h3>
 <div id="refs" class="references">
 <div id="ref-breusch1980lagrange">
-<p>Breusch, Trevor Stanley, and Adrian Rodney Pagan. 1980. “The Lagrange Multiplier Test and Its Applications to Model Specification in Econometrics.” <em>The Review of Economic Studies</em> 47 (1): 239–53.</p>
+<p>Breusch, Trevor Stanley, and Adrian Rodney Pagan. 1980. “The Lagrange Multiplier Test and Its Applications to Model Specification in Econometrics.” <em>The Review of Economic Studies</em> 47 (1). JSTOR: 239–53.</p>
 </div>
 <div id="ref-greene">
 <p>Greene, William H. 2003. <em>Econometric Analysis</em>. 5th ed. Prentice Hall.</p>
 </div>
 <div id="ref-koenker1982robust">
-<p>Koenker, Roger, and Gilbert Bassett Jr. 1982. “Robust Tests for Heteroscedasticity Based on Regression Quantiles.” <em>Econometrica: Journal of the Econometric Society</em>, 43–61.</p>
+<p>Koenker, Roger, and Gilbert Bassett Jr. 1982. “Robust Tests for Heteroscedasticity Based on Regression Quantiles.” <em>Econometrica: Journal of the Econometric Society</em>. JSTOR, 43–61.</p>
 </div>
 <div id="ref-mackinnon1985some">
-<p>MacKinnon, James G, and Halbert White. 1985. “Some Heteroskedasticity-Consistent Covariance Matrix Estimators with Improved Finite Sample Properties.” <em>Journal of Econometrics</em> 29 (3): 305–25.</p>
+<p>MacKinnon, James G, and Halbert White. 1985. “Some Heteroskedasticity-Consistent Covariance Matrix Estimators with Improved Finite Sample Properties.” <em>Journal of Econometrics</em> 29 (3). Elsevier: 305–25.</p>
 </div>
 <div id="ref-white1980heteroskedasticity">
-<p>White, Halbert. 1980. “A Heteroskedasticity-Consistent Covariance Matrix Estimator and a Direct Test for Heteroskedasticity.” <em>Econometrica: Journal of the Econometric Society</em>, 817–38.</p>
+<p>White, Halbert. 1980. “A Heteroskedasticity-Consistent Covariance Matrix Estimator and a Direct Test for Heteroskedasticity.” <em>Econometrica: Journal of the Econometric Society</em>. JSTOR, 817–38.</p>
 </div>
 </div>
 <div class="footnotes">
 <hr />
 <ol start="29">
-<li id="fn29"><p>Like any variance matrix, <span class="math inline">\(\Omega\)</span> must be symmetric and positive definite. An <span class="math inline">\(N \times N\)</span> matrix <span class="math inline">\(\mathbf{A}\)</span> is positive definite if, for any <span class="math inline">\(N \times 1\)</span> vector <span class="math inline">\(\mathbf{c} \neq \mathbf{0}\)</span>, the scalar <span class="math inline">\(\mathbf{c}^\top \mathbf{A} \mathbf{c} &gt; 0\)</span>. Positive definiteness implies, among other things, that every diagonal entry of <span class="math inline">\(\Omega\)</span> is positive and that <span class="math inline">\(\Omega\)</span> is invertible.<a href="nonspherical.html#fnref29" class="footnote-back">↩︎</a></p></li>
-<li id="fn30"><p>There is an in-between solution known as <em>feasible generalized least squares</em>, whereby we estimate <span class="math inline">\(\Omega\)</span> from the data. This requires placing some structure on <span class="math inline">\(\Omega\)</span>, and the resulting estimator will be consistent but not unbiased.<a href="nonspherical.html#fnref30" class="footnote-back">↩︎</a></p></li>
+<li id="fn29"><p>Like any variance matrix, <span class="math inline">\(\Omega\)</span> must be symmetric and positive definite. An <span class="math inline">\(N \times N\)</span> matrix <span class="math inline">\(\mathbf{A}\)</span> is positive definite if, for any <span class="math inline">\(N \times 1\)</span> vector <span class="math inline">\(\mathbf{c} \neq \mathbf{0}\)</span>, the scalar <span class="math inline">\(\mathbf{c}^\top \mathbf{A} \mathbf{c} &gt; 0\)</span>. Positive definiteness implies, among other things, that every diagonal entry of <span class="math inline">\(\Omega\)</span> is positive and that <span class="math inline">\(\Omega\)</span> is invertible.<a href="nonspherical.html#fnref29">↩</a></p></li>
+<li id="fn30"><p>There is an in-between solution known as <em>feasible generalized least squares</em>, whereby we estimate <span class="math inline">\(\Omega\)</span> from the data. This requires placing some structure on <span class="math inline">\(\Omega\)</span>, and the resulting estimator will be consistent but not unbiased.<a href="nonspherical.html#fnref30">↩</a></p></li>
 </ol>
 </div>
             </section>
@@ -699,7 +625,7 @@ gitbook.start({
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    var src = "true";
+    var src = "";
     if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
