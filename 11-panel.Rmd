@@ -20,11 +20,11 @@ Some state characteristics that might affect vote choice are difficult or imposs
 
 [^national]: Why did I leave out national characteristics, like inflation or the national unemployment rate?  In a single-election study, these are constant.  While they might shape variation *across* elections, they cannot be linked to variation *within* a single election.
 
-If we are not careful in dealing with grouped data, unobserved heterogeneity can be a major problem.  The spherical errors assumption is usually not tenable for grouped data, since observations will be correlated with others in the same group.  OLS will therefore be inefficient and yield invalid inferences, as we saw last week.  Even worse, if group-level sources of unobserved heterogeneity are correlated with individual characteristics---if, say, younger voters are more likely to live in cosmopolitan states---OLS may also be biased and inconsistent.
+If we are not careful in dealing with grouped data, unobserved heterogeneity can be a major problem.  The spherical errors assumption is usually not tenable for grouped data, since observations will be correlated with others in the same group.  OLS will therefore be inefficient and yield invalid inferences.  Even worse, if group-level sources of unobserved heterogeneity are correlated with individual characteristics---if, say, younger voters are more likely to live in cosmopolitan states---OLS may also be biased and inconsistent.
 
 On the other hand, if we deal with grouped data properly, we can enhance the credibility of our inferences.  We can eliminate the influence of variation *across* groups, allowing us to focus on the comparisons *within* groups that we are usually most interested in.
 
-Before we get started, a note of caution.  One week allows us just enough time to scratch the surface of how to analyze grouped data.  If you work with grouped data in your dissertation or other research, you should think carefully about your data structure and potential sources of unobserved heterogeneity.  The methods we discuss this week may not solve your problems.  As further references, I recommend @Wooldridge:2002vr and @gelman2006data.
+Before we get started, a note of caution.  We only have enough time to scratch the surface of how to analyze grouped data.  If you work with grouped data in your dissertation or other research, you should think carefully about your data structure and potential sources of unobserved heterogeneity.  The methods we discuss this week may not solve your problems.  As further references, I recommend @Wooldridge:2002vr and @gelman2006data.
 
 
 ## The Linear Model with Grouped Data
@@ -58,7 +58,7 @@ $$
 \mathbf{Y} = \mathbf{X} \beta + \epsilon.
 $$
 
-You may look at this equation and think, "This looks like something we've used OLS on.  What's wrong with OLS?"  Two reasons.  First, at a minimum, we are unlikely to have spherical errors in grouped data.  Observations in the same group---students in the same classroom, voters in the same state, LAPOP respondents in the same country---are likely to have residual correlation.  There are unmeasured factors that commonly affect their responses.  As in any non-spherical error model, this means OLS will yield invalid inferences.  Moreover, because we are talking about autocorrelation and not just heteroskedasticity, the standard error correction that we encountered last week won't do the trick.
+You may look at this equation and think, "This looks like something we've used OLS on.  What's wrong with OLS?"  Two reasons.  First, at a minimum, we are unlikely to have spherical errors in grouped data.  Observations in the same group---students in the same classroom, voters in the same state, LAPOP respondents in the same country---are likely to have residual correlation.  There are unmeasured factors that commonly affect their responses.  As in any non-spherical error model, this means OLS will yield invalid inferences.  Moreover, because we are talking about autocorrelation and not just heteroskedasticity, White's heteroskedasticity-consistent standard errors won't do the trick.
 
 Second, depending on the nature of the group-specific effects, we may also have a failure of strict exogeneity.  I hope I have impressed on you by now that this is a major problem.  To see why we have a failure of strict exogeneity, let us return to the example of voters living in states with cosmopolitan versus traditional cultures.  If we cannot measure cosmopolitanism (as I am assuming), then it ends up in the error term of our model:
 $$
@@ -72,7 +72,10 @@ $$
 We will proceed from the easiest problems to the hardest.  We will first consider a standard error correction and an efficiency improvement for the case where errors are correlated within groups but strict exogeneity still holds.  We will then identify an unbiased estimator in the case where strict exogeneity fails.
 
 
-## Clustered Standard Errors
+## Autocorrelation within Groups
+
+\providecommand{\Cor}{\mathop{\rm Cor}\nolimits}
+\providecommand{\se}{\mathop{\rm se}\nolimits}
 
 Imagine the following policy experiment.  The federal government randomly selects half of the states to receive a grant intended to improve high school education, while the other half do not receive it.  We observe some indicator of educational quality (e.g., graduation rates) at the school district level, where school districts are grouped within states.  So our model looks like
 $$
@@ -82,7 +85,121 @@ We want to know whether receiving the grant affected quality.  What we cannot me
 
 This is one example of the general phenomenon Moulton [-@Moulton:1986kw; -@Moulton:1990bl] identifies---that there is often substantial correlation in the random errors within groups, especially when we are looking at the effects of variables that only vary at the group level.  One way I think about it is that, with grouped data and group-level covariates, the effective number of observations is less than the nominal number of observations.  If we use the OLS standard errors, we are pretending to have more data than we really do.
 
-Luckily, we can correct these "clustered" errors in a manner similar to what we did last week with heteroskedasticity of unknown form.  The most we can assume on $\Omega = V[\epsilon \,|\, \mathbf{X}]$ is
+Let's see a bit more formally why autocorrelation within groups would cause us to overstate the effective sample size.
+Imagine we have $N = 4$ observations organized into $G = 2$ groups, with the groups being the first two and last two observations respectively.
+Furthermore, let's assume we have a single covariate that varies across groups but not within them (e.g., a random treatment assigned at the group level), so that our data matrix looks like
+$$
+\mathbf{X} = \begin{bmatrix}
+1 & x_1 \\
+1 & x_1 \\
+1 & x_2 \\
+1 & x_2
+\end{bmatrix}.
+$$
+Finally, assume the errors are homoskedastic but are autocorrelated within groups:
+
+*   $V[\epsilon_n] = \sigma^2$ for all $n$.
+*   $\Cor[\epsilon_1, \epsilon_2] = \Cor[\epsilon_3, \epsilon_4] = \rho$.
+*   $\Cor[\epsilon_n, \epsilon_m] = 0$ for all other $n, m$ pairs.
+
+Then we can write the variance matrix of the error term as $V[\epsilon \,|\, \mathbf{X}] = \sigma^2 \Omega$, where
+$$
+\Omega = \begin{bmatrix}
+1 & \rho & 0 & 0 \\
+\rho & 1 & 0 & 0 \\
+0 & 0 & 1 & \rho \\
+0 & 0 & \rho & 1
+\end{bmatrix}.
+$$
+
+<!-- You'll remember from past problem sets that -->
+<!-- $$ -->
+<!-- \mathbf{X}^\top \mathbf{X} = N \begin{bmatrix} -->
+<!-- 1 & \bar{x} \\ -->
+<!-- \bar{x} & \overline{x^2} -->
+<!-- \end{bmatrix}, -->
+<!-- $$ -->
+<!-- where $\bar{x} = \frac{1}{2} (x_1 + x_2)$ and $\overline{x^2} = \frac{1}{2} (x_1^2 + x_2^2)$. -->
+<!-- You'll also remember that this implies -->
+<!-- $$ -->
+<!-- (\mathbf{X}^\top \mathbf{X})^{-1} = \frac{1}{N V(x)} \begin{bmatrix} -->
+<!-- \overline{x^2} & - \bar{x} \\ -->
+<!-- - \bar{x} & 1 -->
+<!-- \end{bmatrix}, -->
+<!-- $$ -->
+<!-- where $V(x) = \overline{x^2} - \bar{x}^2$, the sample variance. -->
+
+The OLS formula for the variance of the coefficients is $V[\hat{\beta} \,|\, \mathbf{X}] = \sigma^2 (\mathbf{X}^\top \mathbf{X})^{-1}$.
+However, we know that this formula is not appropriate in this case because the spherical errors assumption does not hold.
+Remember that for a general error structure $V[\epsilon \,|\, \mathbf{X}] = \sigma^2 \Omega$, the true variance of the OLS estimator is
+$$
+V[\hat{\beta} \,|\, \mathbf{X}]
+= \sigma^2 \underbrace{(\mathbf{X}^\top \mathbf{X})^{-1}}_{\text{bread}} \underbrace{\mathbf{X}^\top \Omega \mathbf{X}}_{\text{meat}} \underbrace{(\mathbf{X}^\top \mathbf{X})^{-1}}_{\text{bread}}.
+$$
+In the present case, the "meat" of the above expression is
+$$
+\begin{aligned}
+\mathbf{X}^\top \Omega \mathbf{X}
+&= \begin{bmatrix}
+1 & 1 & 1 & 1 \\
+x_1 & x_1 & x_2 & x_2
+\end{bmatrix}
+\begin{bmatrix}
+1 & \rho & 0 & 0 \\
+\rho & 1 & 0 & 0 \\
+0 & 0 & 1 & \rho \\
+0 & 0 & \rho & 1
+\end{bmatrix}
+\begin{bmatrix}
+1 & x_1 \\
+1 & x_1 \\
+1 & x_2 \\
+1 & x_2
+\end{bmatrix} \\
+&= \begin{bmatrix}
+1 + \rho & 1 + \rho & 1 + \rho & 1 + \rho \\
+(1 + \rho) x_1 & (1 + \rho) x_1 & (1 + \rho) x_2 & (1 + \rho) x_2
+\end{bmatrix}
+\begin{bmatrix}
+1 & x_1 \\
+1 & x_1 \\
+1 & x_2 \\
+1 & x_2
+\end{bmatrix} \\
+&= (1 + \rho) \begin{bmatrix}
+1 & 1 & 1 & 1 \\
+x_1 & x_1 & x_2 & x_2
+\end{bmatrix}
+\begin{bmatrix}
+1 & x_1 \\
+1 & x_1 \\
+1 & x_2 \\
+1 & x_2
+\end{bmatrix} \\
+&= (1 + \rho) \mathbf{X}^\top \mathbf{X}.
+\end{aligned}
+$$
+Therefore, we have
+$$
+\begin{aligned}
+V[\hat{\beta} \,|\, \mathbf{X}]
+&= \sigma^2 (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top \Omega \mathbf{X} (\mathbf{X}^\top \mathbf{X})^{-1} \\
+&= \sigma^2 (\mathbf{X}^\top \mathbf{X})^{-1} [(1 - \rho) \mathbf{X}^\top \mathbf{X}] (\mathbf{X}^\top \mathbf{X})^{-1} \\
+&= \sigma^2 (1 - \rho) (\mathbf{X}^\top \mathbf{X})^{-1}.
+\end{aligned}
+$$
+In other words, if we use the OLS formula in the presence of grouped autocorrelation, our standard errors will be too small by a factor of $\sqrt{1 - \rho}$.
+
+This is a special case of the *Moulton factor* (see MHE 8.2.1).
+If all groups have $m$ observations, the covariate varies only at the group level, errors are homoskedastic, and the within-group correlation is $\rho$ for all groups, then the OLS standard error calculation will underestimate the true standard errors by a factor of $\sqrt{1 + (m - 1) \rho}$.
+If for some reason we were certain the homoskedasticity assumption held *and* we knew $\rho$, then we could simply correct the OLS standard errors by applying this formula.
+More broadly, if we knew the exact structure of heteroskedasticity and autocorrelation, we could obtain an efficient estimate of $\beta$ and proper standard errors by using GLS.
+Usually, however, this option will not be available to us.
+
+
+## Clustered Standard Errors
+
+Luckily, we can correct "clustered" errors in a manner similar to what we did when encountering heteroskedasticity of unknown form.  The most we can assume on $\Omega = V[\epsilon \,|\, \mathbf{X}]$ is
 
 *   Heteroskedasticity of unknown form, within and across groups.
 
@@ -100,6 +217,7 @@ $$
 \end{bmatrix},
 $$
 where each $\Omega_g$ is a symmetric $N \times N$ matrix.  These may differ from each other---each group may have its own special autocorrelation structure.
+Notice that this is more general than the assumptions under which we obtained the Moulton factor above.
 
 If we knew $\Omega$ exactly, we could use GLS to efficiently estimate $\beta$ and obtain correct standard errors.  That is unlikely.  Instead, we will use OLS to obtain our coefficient estimates, then we will correct the standard errors so as to be approximately correct in large samples.  The *cluster-robust variance estimator* is
 $$

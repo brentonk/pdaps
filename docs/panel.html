@@ -24,7 +24,7 @@
 <meta name="author" content="Brenton Kenkel" />
 
 
-<meta name="date" content="2020-02-10" />
+<meta name="date" content="2020-02-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -182,10 +182,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul></li>
 <li class="chapter" data-level="12" data-path="panel.html"><a href="panel.html"><i class="fa fa-check"></i><b>12</b> Clustered and Panel Data</a><ul>
 <li class="chapter" data-level="12.1" data-path="panel.html"><a href="panel.html#the-linear-model-with-grouped-data"><i class="fa fa-check"></i><b>12.1</b> The Linear Model with Grouped Data</a></li>
-<li class="chapter" data-level="12.2" data-path="panel.html"><a href="panel.html#clustered-standard-errors"><i class="fa fa-check"></i><b>12.2</b> Clustered Standard Errors</a></li>
-<li class="chapter" data-level="12.3" data-path="panel.html"><a href="panel.html#random-effects"><i class="fa fa-check"></i><b>12.3</b> Random Effects</a></li>
-<li class="chapter" data-level="12.4" data-path="panel.html"><a href="panel.html#fixed-effects"><i class="fa fa-check"></i><b>12.4</b> Fixed Effects</a></li>
-<li class="chapter" data-level="12.5" data-path="panel.html"><a href="panel.html#appendix-implementation-in-r-1"><i class="fa fa-check"></i><b>12.5</b> Appendix: Implementation in R</a></li>
+<li class="chapter" data-level="12.2" data-path="panel.html"><a href="panel.html#autocorrelation-within-groups"><i class="fa fa-check"></i><b>12.2</b> Autocorrelation within Groups</a></li>
+<li class="chapter" data-level="12.3" data-path="panel.html"><a href="panel.html#clustered-standard-errors"><i class="fa fa-check"></i><b>12.3</b> Clustered Standard Errors</a></li>
+<li class="chapter" data-level="12.4" data-path="panel.html"><a href="panel.html#random-effects"><i class="fa fa-check"></i><b>12.4</b> Random Effects</a></li>
+<li class="chapter" data-level="12.5" data-path="panel.html"><a href="panel.html#fixed-effects"><i class="fa fa-check"></i><b>12.5</b> Fixed Effects</a></li>
+<li class="chapter" data-level="12.6" data-path="panel.html"><a href="panel.html#appendix-implementation-in-r-1"><i class="fa fa-check"></i><b>12.6</b> Appendix: Implementation in R</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -223,9 +224,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><p><em>State</em> characteristics<a href="#fn31" class="footnoteRef" id="fnref31"><sup>31</sup></a> like the unemployment rate, undocumented population, and exposure to trade with China.</p></li>
 </ol>
 <p>Some state characteristics that might affect vote choice are difficult or impossible to measure. For example, some states have a more cosmopolitan culture, while others have a more traditional culture. A 50-year-old white man living in Connecticut is, we would expect, less likely to have voted for Trump than a 50-year-old white man living in Alabama. This is <em>unobserved heterogeneity</em>—characteristics that we do not observe, and therefore cannot control for, but which affect the response.</p>
-<p>If we are not careful in dealing with grouped data, unobserved heterogeneity can be a major problem. The spherical errors assumption is usually not tenable for grouped data, since observations will be correlated with others in the same group. OLS will therefore be inefficient and yield invalid inferences, as we saw last week. Even worse, if group-level sources of unobserved heterogeneity are correlated with individual characteristics—if, say, younger voters are more likely to live in cosmopolitan states—OLS may also be biased and inconsistent.</p>
+<p>If we are not careful in dealing with grouped data, unobserved heterogeneity can be a major problem. The spherical errors assumption is usually not tenable for grouped data, since observations will be correlated with others in the same group. OLS will therefore be inefficient and yield invalid inferences. Even worse, if group-level sources of unobserved heterogeneity are correlated with individual characteristics—if, say, younger voters are more likely to live in cosmopolitan states—OLS may also be biased and inconsistent.</p>
 <p>On the other hand, if we deal with grouped data properly, we can enhance the credibility of our inferences. We can eliminate the influence of variation <em>across</em> groups, allowing us to focus on the comparisons <em>within</em> groups that we are usually most interested in.</p>
-<p>Before we get started, a note of caution. One week allows us just enough time to scratch the surface of how to analyze grouped data. If you work with grouped data in your dissertation or other research, you should think carefully about your data structure and potential sources of unobserved heterogeneity. The methods we discuss this week may not solve your problems. As further references, I recommend <span class="citation">Wooldridge (<a href="#ref-Wooldridge:2002vr">2002</a>)</span> and <span class="citation">Gelman and Hill (<a href="#ref-gelman2006data">2006</a>)</span>.</p>
+<p>Before we get started, a note of caution. We only have enough time to scratch the surface of how to analyze grouped data. If you work with grouped data in your dissertation or other research, you should think carefully about your data structure and potential sources of unobserved heterogeneity. The methods we discuss this week may not solve your problems. As further references, I recommend <span class="citation">Wooldridge (<a href="#ref-Wooldridge:2002vr">2002</a>)</span> and <span class="citation">Gelman and Hill (<a href="#ref-gelman2006data">2006</a>)</span>.</p>
 <div id="the-linear-model-with-grouped-data" class="section level2">
 <h2><span class="header-section-number">12.1</span> The Linear Model with Grouped Data</h2>
 <p>We need to change our notation a bit to reflect the arrangement of observations into groups. Let there be <span class="math inline">\(G\)</span> groups indexed by <span class="math inline">\(g = 1, \ldots, G\)</span>. Within each group, we have <span class="math inline">\(N\)</span> observations indexed by <span class="math inline">\(n = 1, \ldots, N\)</span>.<a href="#fn32" class="footnoteRef" id="fnref32"><sup>32</sup></a> (In the special case of panel data, where each group is a unit observed over time, the standard notation is to use <span class="math inline">\(t = 1, \ldots, T\)</span> instead.)</p>
@@ -256,7 +257,7 @@ Y_{gn} = \mathbf{x}_{gn} \cdot \beta + \epsilon_{gn},
 \]</span> we end up with the familiar matrix equation <span class="math display">\[
 \mathbf{Y} = \mathbf{X} \beta + \epsilon.
 \]</span></p>
-<p>You may look at this equation and think, “This looks like something we’ve used OLS on. What’s wrong with OLS?” Two reasons. First, at a minimum, we are unlikely to have spherical errors in grouped data. Observations in the same group—students in the same classroom, voters in the same state, LAPOP respondents in the same country—are likely to have residual correlation. There are unmeasured factors that commonly affect their responses. As in any non-spherical error model, this means OLS will yield invalid inferences. Moreover, because we are talking about autocorrelation and not just heteroskedasticity, the standard error correction that we encountered last week won’t do the trick.</p>
+<p>You may look at this equation and think, “This looks like something we’ve used OLS on. What’s wrong with OLS?” Two reasons. First, at a minimum, we are unlikely to have spherical errors in grouped data. Observations in the same group—students in the same classroom, voters in the same state, LAPOP respondents in the same country—are likely to have residual correlation. There are unmeasured factors that commonly affect their responses. As in any non-spherical error model, this means OLS will yield invalid inferences. Moreover, because we are talking about autocorrelation and not just heteroskedasticity, White’s heteroskedasticity-consistent standard errors won’t do the trick.</p>
 <p>Second, depending on the nature of the group-specific effects, we may also have a failure of strict exogeneity. I hope I have impressed on you by now that this is a major problem. To see why we have a failure of strict exogeneity, let us return to the example of voters living in states with cosmopolitan versus traditional cultures. If we cannot measure cosmopolitanism (as I am assuming), then it ends up in the error term of our model: <span class="math display">\[
 \epsilon_{gn} = \text{Cosmpolitanism}_g + \text{Other Stuff}_{gn}.
 \]</span> But we know that younger and more educated voters are more likely to live in cosmopolitan areas. So if our covariate matrix includes age and education, we have <span class="math display">\[
@@ -264,13 +265,106 @@ E[\epsilon \,|\, \mathbf{X}] \neq \mathbf{0}.
 \]</span></p>
 <p>We will proceed from the easiest problems to the hardest. We will first consider a standard error correction and an efficiency improvement for the case where errors are correlated within groups but strict exogeneity still holds. We will then identify an unbiased estimator in the case where strict exogeneity fails.</p>
 </div>
-<div id="clustered-standard-errors" class="section level2">
-<h2><span class="header-section-number">12.2</span> Clustered Standard Errors</h2>
+<div id="autocorrelation-within-groups" class="section level2">
+<h2><span class="header-section-number">12.2</span> Autocorrelation within Groups</h2>
 <p>Imagine the following policy experiment. The federal government randomly selects half of the states to receive a grant intended to improve high school education, while the other half do not receive it. We observe some indicator of educational quality (e.g., graduation rates) at the school district level, where school districts are grouped within states. So our model looks like <span class="math display">\[
 \text{Quality}_{gn} = \beta_1 + \beta_2 \text{Grant}_g + \epsilon_{gn}.
 \]</span> We want to know whether receiving the grant affected quality. What we cannot measure is how well the states used the money. If some states used it better than others, then we would expect the error term to be correlated across school districts within the state. In a state where the money was used wisely, we would expect most of the schools to do “better than expected”—to have positive residuals, in the language of regression. Conversely, in a state where the money was squandered, we would expect most of the schools to do worse than we would otherwise predict.</p>
 <p>This is one example of the general phenomenon Moulton <span class="citation">(<a href="#ref-Moulton:1986kw">1986</a>; <a href="#ref-Moulton:1990bl">1990</a>)</span> identifies—that there is often substantial correlation in the random errors within groups, especially when we are looking at the effects of variables that only vary at the group level. One way I think about it is that, with grouped data and group-level covariates, the effective number of observations is less than the nominal number of observations. If we use the OLS standard errors, we are pretending to have more data than we really do.</p>
-<p>Luckily, we can correct these “clustered” errors in a manner similar to what we did last week with heteroskedasticity of unknown form. The most we can assume on <span class="math inline">\(\Omega = V[\epsilon \,|\, \mathbf{X}]\)</span> is</p>
+<p>Let’s see a bit more formally why autocorrelation within groups would cause us to overstate the effective sample size. Imagine we have <span class="math inline">\(N = 4\)</span> observations organized into <span class="math inline">\(G = 2\)</span> groups, with the groups being the first two and last two observations respectively. Furthermore, let’s assume we have a single covariate that varies across groups but not within them (e.g., a random treatment assigned at the group level), so that our data matrix looks like <span class="math display">\[
+\mathbf{X} = \begin{bmatrix}
+1 &amp; x_1 \\
+1 &amp; x_1 \\
+1 &amp; x_2 \\
+1 &amp; x_2
+\end{bmatrix}.
+\]</span> Finally, assume the errors are homoskedastic but are autocorrelated within groups:</p>
+<ul>
+<li><span class="math inline">\(V[\epsilon_n] = \sigma^2\)</span> for all <span class="math inline">\(n\)</span>.</li>
+<li><span class="math inline">\({\mathop{\rm Cor}\nolimits}[\epsilon_1, \epsilon_2] = {\mathop{\rm Cor}\nolimits}[\epsilon_3, \epsilon_4] = \rho\)</span>.</li>
+<li><span class="math inline">\({\mathop{\rm Cor}\nolimits}[\epsilon_n, \epsilon_m] = 0\)</span> for all other <span class="math inline">\(n, m\)</span> pairs.</li>
+</ul>
+<p>Then we can write the variance matrix of the error term as <span class="math inline">\(V[\epsilon \,|\, \mathbf{X}] = \sigma^2 \Omega\)</span>, where <span class="math display">\[
+\Omega = \begin{bmatrix}
+1 &amp; \rho &amp; 0 &amp; 0 \\
+\rho &amp; 1 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 1 &amp; \rho \\
+0 &amp; 0 &amp; \rho &amp; 1
+\end{bmatrix}.
+\]</span></p>
+<!-- You'll remember from past problem sets that -->
+<!-- $$ -->
+<!-- \mathbf{X}^\top \mathbf{X} = N \begin{bmatrix} -->
+<!-- 1 & \bar{x} \\ -->
+<!-- \bar{x} & \overline{x^2} -->
+<!-- \end{bmatrix}, -->
+<!-- $$ -->
+<!-- where $\bar{x} = \frac{1}{2} (x_1 + x_2)$ and $\overline{x^2} = \frac{1}{2} (x_1^2 + x_2^2)$. -->
+<!-- You'll also remember that this implies -->
+<!-- $$ -->
+<!-- (\mathbf{X}^\top \mathbf{X})^{-1} = \frac{1}{N V(x)} \begin{bmatrix} -->
+<!-- \overline{x^2} & - \bar{x} \\ -->
+<!-- - \bar{x} & 1 -->
+<!-- \end{bmatrix}, -->
+<!-- $$ -->
+<!-- where $V(x) = \overline{x^2} - \bar{x}^2$, the sample variance. -->
+<p>The OLS formula for the variance of the coefficients is <span class="math inline">\(V[\hat{\beta} \,|\, \mathbf{X}] = \sigma^2 (\mathbf{X}^\top \mathbf{X})^{-1}\)</span>. However, we know that this formula is not appropriate in this case because the spherical errors assumption does not hold. Remember that for a general error structure <span class="math inline">\(V[\epsilon \,|\, \mathbf{X}] = \sigma^2 \Omega\)</span>, the true variance of the OLS estimator is <span class="math display">\[
+V[\hat{\beta} \,|\, \mathbf{X}]
+= \sigma^2 \underbrace{(\mathbf{X}^\top \mathbf{X})^{-1}}_{\text{bread}} \underbrace{\mathbf{X}^\top \Omega \mathbf{X}}_{\text{meat}} \underbrace{(\mathbf{X}^\top \mathbf{X})^{-1}}_{\text{bread}}.
+\]</span> In the present case, the “meat” of the above expression is <span class="math display">\[
+\begin{aligned}
+\mathbf{X}^\top \Omega \mathbf{X}
+&amp;= \begin{bmatrix}
+1 &amp; 1 &amp; 1 &amp; 1 \\
+x_1 &amp; x_1 &amp; x_2 &amp; x_2
+\end{bmatrix}
+\begin{bmatrix}
+1 &amp; \rho &amp; 0 &amp; 0 \\
+\rho &amp; 1 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 1 &amp; \rho \\
+0 &amp; 0 &amp; \rho &amp; 1
+\end{bmatrix}
+\begin{bmatrix}
+1 &amp; x_1 \\
+1 &amp; x_1 \\
+1 &amp; x_2 \\
+1 &amp; x_2
+\end{bmatrix} \\
+&amp;= \begin{bmatrix}
+1 + \rho &amp; 1 + \rho &amp; 1 + \rho &amp; 1 + \rho \\
+(1 + \rho) x_1 &amp; (1 + \rho) x_1 &amp; (1 + \rho) x_2 &amp; (1 + \rho) x_2
+\end{bmatrix}
+\begin{bmatrix}
+1 &amp; x_1 \\
+1 &amp; x_1 \\
+1 &amp; x_2 \\
+1 &amp; x_2
+\end{bmatrix} \\
+&amp;= (1 + \rho) \begin{bmatrix}
+1 &amp; 1 &amp; 1 &amp; 1 \\
+x_1 &amp; x_1 &amp; x_2 &amp; x_2
+\end{bmatrix}
+\begin{bmatrix}
+1 &amp; x_1 \\
+1 &amp; x_1 \\
+1 &amp; x_2 \\
+1 &amp; x_2
+\end{bmatrix} \\
+&amp;= (1 + \rho) \mathbf{X}^\top \mathbf{X}.
+\end{aligned}
+\]</span> Therefore, we have <span class="math display">\[
+\begin{aligned}
+V[\hat{\beta} \,|\, \mathbf{X}]
+&amp;= \sigma^2 (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top \Omega \mathbf{X} (\mathbf{X}^\top \mathbf{X})^{-1} \\
+&amp;= \sigma^2 (\mathbf{X}^\top \mathbf{X})^{-1} [(1 - \rho) \mathbf{X}^\top \mathbf{X}] (\mathbf{X}^\top \mathbf{X})^{-1} \\
+&amp;= \sigma^2 (1 - \rho) (\mathbf{X}^\top \mathbf{X})^{-1}.
+\end{aligned}
+\]</span> In other words, if we use the OLS formula in the presence of grouped autocorrelation, our standard errors will be too small by a factor of <span class="math inline">\(\sqrt{1 - \rho}\)</span>.</p>
+<p>This is a special case of the <em>Moulton factor</em> (see MHE 8.2.1). If all groups have <span class="math inline">\(m\)</span> observations, the covariate varies only at the group level, errors are homoskedastic, and the within-group correlation is <span class="math inline">\(\rho\)</span> for all groups, then the OLS standard error calculation will underestimate the true standard errors by a factor of <span class="math inline">\(\sqrt{1 + (m - 1) \rho}\)</span>. If for some reason we were certain the homoskedasticity assumption held <em>and</em> we knew <span class="math inline">\(\rho\)</span>, then we could simply correct the OLS standard errors by applying this formula. More broadly, if we knew the exact structure of heteroskedasticity and autocorrelation, we could obtain an efficient estimate of <span class="math inline">\(\beta\)</span> and proper standard errors by using GLS. Usually, however, this option will not be available to us.</p>
+</div>
+<div id="clustered-standard-errors" class="section level2">
+<h2><span class="header-section-number">12.3</span> Clustered Standard Errors</h2>
+<p>Luckily, we can correct “clustered” errors in a manner similar to what we did when encountering heteroskedasticity of unknown form. The most we can assume on <span class="math inline">\(\Omega = V[\epsilon \,|\, \mathbf{X}]\)</span> is</p>
 <ul>
 <li><p>Heteroskedasticity of unknown form, within and across groups.</p></li>
 <li><p>Autocorrelation of unknown form within groups.</p></li>
@@ -283,7 +377,7 @@ E[\epsilon \,|\, \mathbf{X}] \neq \mathbf{0}.
   \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
   \mathbf{0} &amp; \mathbf{0} &amp; \cdots &amp; \Omega_G
 \end{bmatrix},
-\]</span> where each <span class="math inline">\(\Omega_g\)</span> is a symmetric <span class="math inline">\(N \times N\)</span> matrix. These may differ from each other—each group may have its own special autocorrelation structure.</p>
+\]</span> where each <span class="math inline">\(\Omega_g\)</span> is a symmetric <span class="math inline">\(N \times N\)</span> matrix. These may differ from each other—each group may have its own special autocorrelation structure. Notice that this is more general than the assumptions under which we obtained the Moulton factor above.</p>
 <p>If we knew <span class="math inline">\(\Omega\)</span> exactly, we could use GLS to efficiently estimate <span class="math inline">\(\beta\)</span> and obtain correct standard errors. That is unlikely. Instead, we will use OLS to obtain our coefficient estimates, then we will correct the standard errors so as to be approximately correct in large samples. The <em>cluster-robust variance estimator</em> is <span class="math display">\[
 \hat{\Sigma}_{\text{CR}} =
 (\mathbf{X}^\top \mathbf{X})^{-1}
@@ -294,7 +388,7 @@ E[\epsilon \,|\, \mathbf{X}] \neq \mathbf{0}.
 <p>The earliest derivation of this estimator was <span class="citation">Liang and Zeger (<a href="#ref-Liang:1986gv">1986</a>)</span>, and that is whom you should cite when you use it. <span class="citation">Arellano (<a href="#ref-Arellano:1987jx">1987</a>)</span> derives the same estimator but is a bit easier to follow. As with White’s estimator, there are various finite-sample corrections to <span class="math inline">\(\hat{\Sigma}_{\text{CR}}\)</span> that you may want to use; we will not go through those here.</p>
 </div>
 <div id="random-effects" class="section level2">
-<h2><span class="header-section-number">12.3</span> Random Effects</h2>
+<h2><span class="header-section-number">12.4</span> Random Effects</h2>
 <p><em>The coverage and notation in this section and the next one closely follow <span class="citation">Johnston and DiNardo (<a href="#ref-Johnston:1997um">1997</a>, chap. 12)</span>.</em></p>
 <p>Just as Huber-White standard errors do not fix the inefficiency of OLS under heteroskedasticity, cluster-robust standard errors do not fix the inefficiency of OLS under within-group correlation. To get a handle on the efficiency problem, we will make further assumptions about the source of that correlation.</p>
 <p>We will assume each group <span class="math inline">\(g\)</span> has a (potentially) different intercept. We can incorporate this into our original model, <span class="math display">\[
@@ -323,7 +417,7 @@ Y_{gn} = \mathbf{x}_{gn} \cdot \beta + \epsilon_{gn},
 <p>See <span class="citation">Johnston and DiNardo (<a href="#ref-Johnston:1997um">1997</a>, 392–95)</span> for full formulas and details. FGLS is consistent but not unbiased, so the random effects model may not be a good idea in small samples. If our specification of the error structure is correct, it is asymptotically efficient—as the sample size increases, no other estimator has lower standard errors.</p>
 </div>
 <div id="fixed-effects" class="section level2">
-<h2><span class="header-section-number">12.4</span> Fixed Effects</h2>
+<h2><span class="header-section-number">12.5</span> Fixed Effects</h2>
 <p>What if the group-specific intercepts are correlated with the covariates? Then, in order to maintain strict exogeneity, we must pull them out of the error term and into the covariate matrix. This is easy to do—we can rewrite the full model as <span class="math display">\[
 \mathbf{Y} = \mathbf{X} \beta + \mathbf{D} \alpha + \eta,
 \]</span> where <span class="math inline">\(\alpha\)</span> is the <span class="math inline">\(G \times 1\)</span> vector of group-specific intercepts. This suggests that we run OLS on our covariates plus the full set of group membership indicators. (As with any set of indicators, we need to omit one category.) The first <span class="math inline">\(K\)</span> elements of this regression constitute the <em>fixed effects</em> estimator.</p>
@@ -340,7 +434,7 @@ H = (\hat{\beta}_{\text{RE}} - \hat{\beta}_{\text{FE}})^\top (\hat{\Sigma}_{\tex
 <p>One final note: <span class="citation">Arellano (<a href="#ref-Arellano:1987jx">1987</a>)</span> shows that the cluster-robust variance matrix estimator can be used with fixed effects. <span class="citation">Cameron and Miller (<a href="#ref-Cameron:2015ud">2015</a>)</span> recommend doing so, at least when the number of groups is large.</p>
 </div>
 <div id="appendix-implementation-in-r-1" class="section level2">
-<h2><span class="header-section-number">12.5</span> Appendix: Implementation in R</h2>
+<h2><span class="header-section-number">12.6</span> Appendix: Implementation in R</h2>
 <p>The methods introduced here can be implemented via the <strong>plm</strong> package.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;plm&quot;</span>)</code></pre></div>
 <p>We will use the <code>Produc</code> dataset from <strong>plm</strong>, a riveting collection of economic statistics about the U.S. states from 1970 to 1986.</p>
