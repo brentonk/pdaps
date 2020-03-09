@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Practical Data Analysis for Political Scientists</title>
+  <title>13 Binary Response Models | Practical Data Analysis for Political Scientists</title>
   <meta name="description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right." />
   <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Practical Data Analysis for Political Scientists" />
+  <meta property="og:title" content="13 Binary Response Models | Practical Data Analysis for Political Scientists" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="brentonk/pdaps" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Practical Data Analysis for Political Scientists" />
+  <meta name="twitter:title" content="13 Binary Response Models | Practical Data Analysis for Political Scientists" />
   
   <meta name="twitter:description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-<link rel="next" href="programming.html"/>
+<link rel="prev" href="panel.html"/>
+<link rel="next" href="references.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -213,25 +213,98 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Practical Data Analysis for Political Scientists</h1>
-<p class="author"><em>Brenton Kenkel</em></p>
-<p class="date"><em>2020-03-09</em></p>
+<div id="logit" class="section level1">
+<h1><span class="header-section-number">13</span> Binary Response Models</h1>
+<p>Many of the political phenomena we’d like to explain are dichotomous:</p>
+<ul>
+<li><p>Whether someone votes.</p></li>
+<li><p>Whether someones votes for a particular candidate.</p></li>
+<li><p>Whether war occurs.</p></li>
+</ul>
+<p>For a long time, the conventional wisdom among political scientists was that special statistical models were required to analyze binary responses like these. In this section of the course, we’ll discuss the reasoning behind this claim, work with the fancier statistical models that are purportedly necessary for binary responses, and discuss why the conventional wisdom about linear models might be wrong.</p>
+<div id="the-linear-probability-model" class="section level2">
+<h2><span class="header-section-number">13.1</span> The Linear Probability Model</h2>
+<p>So far when encountering binary responses, we have just modeled them as linear functions of covariates. For example, think of voting for Trump as a function of the years of education one has received: <span class="math display">\[
+\text{Trump}_n = \beta_0 + \beta_1 \text{Education}_n + \epsilon_n.
+\]</span> In this model, <span class="math inline">\(\beta_0\)</span> represents the probability that someone with zero years of education would vote for Trump, and <span class="math inline">\(\beta_1\)</span> is the marginal effect of an additional year of education.</p>
+<p>Suppose we yielded the following estimates from this model: <span class="math display">\[
+\text{Trump}_n = 1.4 - 0.075 \text{Education}_n + \epsilon_n.
+\]</span> Most Americans have between 8 and 16 years of formal education. According to this regression equation, we should expect about 80% of those with only an eighth-grade education to vote for Trump, while we should expect only 20% of those with a college degree to vote for Trump. These sound like reasonable numbers!</p>
+<p>The problem is, not <em>every</em> American’s educational attainment lies within this range. Some Americans only have four years of formal education, and this model would predict that 110% of them voted for Trump. Other Americans are crazy enough to pursue 20+ years of education, and this model would predict that –10% or fewer of them voted for Trump.</p>
+<p>This illustrates one problem with linear probability models: they can produce impossible predicted probabilities, outside the <span class="math inline">\([0, 1]\)</span> range that all probabilities must lie within. In practice, such predictions usually occur for observations far away from the central tendency of the data. (In fact, as you proved on a previous problem set, the predicted probability for an observation with an average value of all covariates must equal the sample proportion of 1s in the response.)</p>
+<p>We can see this problem in action when we draw the OLS line through the scatterplot of some (hypothetical) data on educational attainment and vote choice.</p>
+<p><img src="pdaps_files/figure-html/binary-scatterplot-1.png" width="672" /></p>
+<p>Another way to put all this is that the assumption of constant marginal effects doesn’t make sense for a binary response. If someone already has a 99% chance of voting for Trump, the most you could possibly raise their chance of voting for him is 1%. This puts a cap on the magnitude of the effect of any given variable. An intervention that raises an <em>average</em> voter’s chance of voting for Trump by 5% cannot possibly have the same effect on our hypothetical Trump die-hard. This is in contrast to settings with continuous outcomes. A job training program that raises an average person’s annual earnings by 2% is <em>unlikely</em> to have the same effect on Jeff Bezos, but it is at least <em>conceivable</em> it would do so.</p>
+<p>The idea behind logistic regression (and its close friend probit regression) is to model the conditional expectation in a way that gets around these issues. These models always produce sensible predicted probabilities, and they assume lower-magnitude marginal effects for observations at the extremes. Instead of regression lines, they draw nice curves like the one below.</p>
+<p><img src="pdaps_files/figure-html/binary-scatterplot-redux-1.png" width="672" /></p>
 </div>
-<div id="about-this-book" class="section level1">
-<h1><span class="header-section-number">1</span> About This Book</h1>
-<p>This book contains the course notes for <a href="http://bkenkel.com">Brenton Kenkel</a>’s course Statistics for Political Research II (PSCI 8357 at Vanderbilt University). It covers the basics of statistical modeling and programming with linear models, along with applications in R.</p>
-<p>This book is written in <a href="http://rmarkdown.rstudio.com">R Markdown</a> and published via <a href="https://bookdown.org">Bookdown</a> on <a href="https://pages.github.com">GitHub Pages</a>. You can find the R Markdown source files at <a href="https://github.com/brentonk/pdaps" class="uri">https://github.com/brentonk/pdaps</a>.</p>
-<p>This work is licensed under a <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</p>
+<div id="the-logistic-regression-model" class="section level2">
+<h2><span class="header-section-number">13.2</span> The Logistic Regression Model</h2>
+<p>For a binary response, <span class="math inline">\(Y_n \in \{0, 1\}\)</span>, we can think of the linear probability model as the following: <span class="math display">\[
+\Pr(Y_n = 1) = \mathbf{x}_n \cdot \beta.
+\]</span> Logistic regression replaces the linear formula on the right-hand side with a nonlinear S-curve, as illustrated above. The logistic regression model is <span class="math display">\[
+\Pr(Y_n = 1) = \frac{e^{\mathbf{x}_n \cdot \beta}}{1 + e^{\mathbf{x}_n \cdot \beta}} = \Lambda(\mathbf{x}_n \cdot \beta),
+\]</span> where <span class="math inline">\(\Lambda(z) = e^z / (1 + e^z)\)</span>.</p>
+<p>How did we get the above formula? We can tell a little story to provide a foundation for the logistic regression model. For each observation <span class="math inline">\(n = 1, \ldots, N\)</span>, let <span class="math inline">\(Y_n^*\)</span> denote the <em>latent</em> (unobservable) propensity to choose <span class="math inline">\(Y_n = 1\)</span>. We assume that the latent propensity follows a linear model, <span class="math display">\[
+Y_n^* = \mathbf{x}_n \cdot \beta + \epsilon_n,
+\]</span> where <span class="math inline">\(\epsilon_n\)</span> is independent and identically distributed across observations. Furthermore, assume <span class="math inline">\(\epsilon_n\)</span> has a logistic distribution, so that <span class="math inline">\(\Pr(\epsilon_n &lt; z) = \Lambda(z)\)</span> for all real numbers <span class="math inline">\(z\)</span>. Finally, we assume that we observe <span class="math inline">\(Y_n = 1\)</span> if and only if the latent propensity is non-negative: <span class="math display">\[
+Y_n = \begin{cases}
+0 &amp; Y_n^* &lt; 0, \\
+1 &amp; Y_n^* \geq 0.
+\end{cases}
+\]</span> The logistic regression model follows from this combination of assumptions.</p>
+<p>I hope you notice that the assumptions we’ve made on the latent propensity <span class="math inline">\(Y_n^*\)</span> are even stronger than the usual linear model assumptions. We assumed that <span class="math inline">\(\epsilon_n\)</span> was independent across observations, whereas the usual linear model allows for autocorrelation. We assumed that <span class="math inline">\(\epsilon_n\)</span> was identically distributed across observations, whereas the usual linear model allows for heteroskedasticity.<a href="#fn34" class="footnoteRef" id="fnref34"><sup>34</sup></a> Finally, we assumed that <span class="math inline">\(\epsilon_n\)</span> has a logistic distribution, whereas the usual linear model does not assume a specific distributional form for the error term. The verisimilitude of the S-curve comes at the cost of forcing us to make many more assumptions than we do with a linear model.</p>
+<p>Probit regression is the same as logistic regression, except we assume that the error term <span class="math inline">\(\epsilon_n\)</span> in the latent propensity equation has a standard normal distribution. This results in the model <span class="math display">\[
+\Pr(Y_n = 1) = \Phi(\mathbf{x}_n \cdot \beta),
+\]</span> where <span class="math inline">\(\Phi\)</span> is the standard normal CDF. In practice, logit and probit almost always yield nearly identical results in terms of predicted probabilities and marginal effects. From here on we will keep working with the logistic model, solely because the logistic CDF is easier to work with mathematically than the normal CDF.</p>
+<p>One of the nice things about the linear probability model is that it’s easy to calculate marginal effects. The estimated marginal effect of <span class="math inline">\(x_{nk}\)</span> on <span class="math inline">\(\Pr(Y_n = 1)\)</span> is simply its coefficient, <span class="math inline">\(\beta_k\)</span>. It is not so simple with logistic regression. First we need the derivative of the logistic CDF. Surely you remember the quotient rule, which gives us <span class="math display">\[
+\Lambda&#39;(z)
+= \frac{e^z (1 + e^z) - e^z (e^z)}{(1 + e^z)^2}
+= \frac{e^z}{1 + e^z} \times \frac{1}{1 + e^z}
+= \Lambda(z) [1 - \Lambda(z)].
+\]</span> And since you surely also remember the chain rule, you can calculate the marginal effect of <span class="math inline">\(x_{nk}\)</span> on <span class="math inline">\(\Pr(Y_n = 1)\)</span> as <span class="math display">\[
+\begin{aligned}
+\frac{\partial \Pr(Y_n = 1)}{x_{nk}}
+&amp;= \Lambda&#39;(\mathbf{x}_k \cdot \beta) \frac{\partial [\mathbf{x}_k \cdot \beta]}{x_{nk}} \\
+&amp;= \Lambda(\mathbf{x}_k \cdot \beta) [1 - \Lambda(\mathbf{x}_k \cdot \beta)] \beta_k \\
+&amp;= \Pr(Y_n = 1) \Pr(Y_n = 0) \beta_k.
+\end{aligned}
+\]</span> This gives us the properties we wanted—that the marginal effect of a variable is lowest in magnitude for those observations that are already highly likely or highly unlikely to have <span class="math inline">\(Y_n = 1\)</span>.</p>
+<ul>
+<li><p>If <span class="math inline">\(\Pr(Y_n = 1) \approx 0\)</span>, then the marginal effect of <span class="math inline">\(x_{nk}\)</span> is approximately zero.</p></li>
+<li><p>If <span class="math inline">\(\Pr(Y_n = 1) = 0.5\)</span>, then the marginal effect of <span class="math inline">\(x_{nk}\)</span> is <span class="math inline">\(\beta_k / 4\)</span>.</p></li>
+<li><p>If <span class="math inline">\(\Pr(Y_n = 1) \approx 1\)</span>, then the marginal effect of <span class="math inline">\(x_{nk}\)</span> is approximately zero.</p></li>
+</ul>
+<p>This gives us a helpful rule for making sense of logistic regression output. You can divide each coefficient by 4, and that gives you its marginal effect on an observation that’s at the 50-50 point.</p>
+<p><img src="pdaps_files/figure-html/logit-margeff-1.png" width="672" /></p>
+<p>Briefly — for a probit model, the marginal effect is <span class="math display">\[
+\frac{\partial \Pr(Y_n = 1)}{x_{nk}} = \phi(\mathbf{x}_n \cdot \beta) \beta_k,
+\]</span> where <span class="math inline">\(\phi\)</span> is the standard normal PDF. Since <span class="math inline">\(\phi(0) \approx 0.4\)</span>, the marginal effect for an observation at the 50-50 point is roughly 0.4 times its coefficient.</p>
+<p>For either logit or probit, if you want to calculate the average marginal effect of <span class="math inline">\(X_k\)</span> across your dataset, you may be tempted to calculate the marginal effect for an “average” observation—one with mean or median values for all the covariates. Resist the temptation. In both cases, the marginal effect is a nonlinear function of <span class="math inline">\(x_{nk}\)</span>, and a not-so-fun fact about nonlinear functions is that <span class="math inline">\(E[f(z)] \neq f(E[z])\)</span>. If you want the average marginal effect, you need to calculate it individually for each observation and then average them: <span class="math display">\[
+\text{average m.e. of $X_k$}
+= \frac{\beta_k}{N} \sum_{i=1}^N \Lambda(\mathbf{x}_n \cdot \beta) [1 - \Lambda(\mathbf{x}_n \cdot \beta)]
+\]</span></p>
+<p>For binary covariates, we will usually focus on the first difference rather than the marginal effect, as it doesn’t make much sense to take a derivative with respect to a dichotomous indicator. Assuming <span class="math inline">\(X_k\)</span> is binary, the first difference for the <span class="math inline">\(n\)</span>’th observation is <span class="math display">\[
+\Pr(Y_n = 1) - \Pr(Y_n = 0) =
+\Lambda(\tilde{\mathbf{x}}_n \cdot \tilde{\beta} + \beta_k)
+- \Lambda(\tilde{\mathbf{x}}_n \cdot \tilde{\beta}),
+\]</span> where <span class="math inline">\(\tilde{\mathbf{x}}_n\)</span> is the vector of all covariates but the <span class="math inline">\(k\)</span>’th, and <span class="math inline">\(\tilde{\beta}\)</span> is the vector of all coefficients but the <span class="math inline">\(k\)</span>’th. As with marginal effects, to calculate the average first difference across the data, you must calculate it for each observation individually and then average them—no shortcuts.</p>
 
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="34">
+<li id="fn34"><p>The differences actually go even further than allowing for heteroskedasticity. We can have a homoskedastic linear model where the error variances are the same but their full distributions are different. For example, in the usual linear model we could have <span class="math inline">\(\epsilon_1 \sim U[0, 1]\)</span> and <span class="math inline">\(\epsilon_2 \sim N(0, 1/12)\)</span>, so that <span class="math inline">\(V[\epsilon_1] = V[\epsilon_2] = 1/12\)</span> even though their distributions differ.<a href="logit.html#fnref34">↩</a></p></li>
+</ol>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="programming.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="panel.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -262,7 +335,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/index.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/12-logit.Rmd",
 "text": "Edit"
 },
 "history": {

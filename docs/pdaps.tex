@@ -112,7 +112,7 @@
 
 \title{Practical Data Analysis for Political Scientists}
 \author{Brenton Kenkel}
-\date{2020-02-24}
+\date{2020-03-09}
 
 \begin{document}
 \maketitle
@@ -1627,8 +1627,8 @@ function to locate the appropriate indicator names.
 ## 2    1A Arab World 2006   1.812406e+12   322452754      10.375058
 ## 3    1A Arab World 2007   1.895307e+12   330290716       9.846245
 ## 4    1A Arab World 2008   2.005661e+12   338395961       9.471168
-## 5    1W      World 2005   5.807794e+13  6512602867       5.603405
-## 6    1W      World 2006   6.062147e+13  6593623202       5.242480
+## 5    1W      World 2005   5.807791e+13  6512602867       5.603405
+## 6    1W      World 2006   6.062144e+13  6593623202       5.242480
 \end{verbatim}
 
 I want to get rid of the aggregates, like the ``Arab World'' and
@@ -2634,6 +2634,10 @@ analysis. The statistician Francis Anscombe found that OLS yields nearly
 identical regression lines for all four of the datasets in the following
 graph:
 
+\begin{verbatim}
+## `geom_smooth()` using formula 'y ~ x'
+\end{verbatim}
+
 \includegraphics{pdaps_files/figure-latex/anscombe-1.pdf}
 
 Unless your data all lie along a line, the regression line estimated by
@@ -2666,6 +2670,10 @@ the same units as \(Y\), and it is a measure of the spread of points
 around the regression line. If the residuals are roughly normally
 distributed, then we would expect roughly 95\% of the data to lie within
 \(\pm 2 \hat{\sigma}\) of the regression line.
+
+\begin{verbatim}
+## `geom_smooth()` using formula 'y ~ x'
+\end{verbatim}
 
 \includegraphics{pdaps_files/figure-latex/r2-examples-1.pdf}
 
@@ -3096,6 +3104,10 @@ One last note on plotting regression lines with ggplot. Use
 \end{Highlighting}
 \end{Shaded}
 
+\begin{verbatim}
+## `geom_smooth()` using formula 'y ~ x'
+\end{verbatim}
+
 \includegraphics{pdaps_files/figure-latex/ggplot-lm-1.pdf}
 
 To get rid of the confidence interval:
@@ -3107,6 +3119,10 @@ To get rid of the confidence interval:
 \StringTok{  }\KeywordTok{geom_smooth}\NormalTok{(}\DataTypeTok{method =} \StringTok{"lm"}\NormalTok{, }\DataTypeTok{se =} \OtherTok{FALSE}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+## `geom_smooth()` using formula 'y ~ x'
+\end{verbatim}
 
 \includegraphics{pdaps_files/figure-latex/ggplot-lm-no-se-1.pdf}
 
@@ -8264,25 +8280,25 @@ We can extract the fixed-effect estimates themselves via
 
 \begin{verbatim}
 ##        ALABAMA        ARIZONA       ARKANSAS     CALIFORNIA       COLORADO 
-##     3.76390190     3.20123239     5.02097974   -24.35181563     1.90688506 
+##       3.763902       3.201232       5.020980     -24.351816       1.906885 
 ##    CONNECTICUT       DELAWARE        FLORIDA        GEORGIA          IDAHO 
-##     2.22280135     5.72380647    -2.95038515     0.09097831     5.92621456 
+##       2.222801       5.723806      -2.950385       0.090978       5.926215 
 ##       ILLINOIS        INDIANA           IOWA         KANSAS       KENTUCKY 
-##    -7.48317601     1.49918053     1.17644552     1.25806219     2.48714955 
+##      -7.483176       1.499181       1.176446       1.258062       2.487150 
 ##      LOUISIANA          MAINE       MARYLAND  MASSACHUSETTS       MICHIGAN 
-##     2.39497673     6.13282282    -0.46942447    -0.08100837    -2.07326137 
+##       2.394977       6.132823      -0.469424      -0.081008      -2.073261 
 ##      MINNESOTA    MISSISSIPPI       MISSOURI        MONTANA       NEBRASKA 
-##    -0.91314571     4.79041144     0.57611152     5.39884219     1.03380417 
+##      -0.913146       4.790411       0.576112       5.398842       1.033804 
 ##         NEVADA  NEW_HAMPSHIRE     NEW_JERSEY     NEW_MEXICO       NEW_YORK 
-##     6.12192498     3.86714567    -0.47563204     5.87572182   -22.41693724 
+##       6.121925       3.867146      -0.475632       5.875722     -22.416937 
 ## NORTH_CAROLINA   NORTH_DAKOTA           OHIO       OKLAHOMA         OREGON 
-##     0.58884805     3.71498175    -5.20832691     2.21221015     4.91367118 
+##       0.588848       3.714982      -5.208327       2.212210       4.913671 
 ##   PENNSYLVANIA   RHODE_ISLAND SOUTH_CAROLINA   SOUTH_DAKOTA       TENNESSE 
-##    -6.74058995     6.04556085     3.89532471     2.94268669     1.08041506 
+##      -6.740590       6.045561       3.895325       2.942687       1.080415 
 ##          TEXAS           UTAH        VERMONT       VIRGINIA     WASHINGTON 
-##   -11.16138400     4.23354024     5.62449576    -0.96096398     1.08075707 
+##     -11.161384       4.233540       5.624496      -0.960964       1.080757 
 ##  WEST_VIRGINIA      WISCONSIN        WYOMING 
-##     6.94076391     0.19197087     3.79896918
+##       6.940764       0.191971       3.798969
 \end{verbatim}
 
 If we wanted to include time dummies as well, we could specify
@@ -8332,12 +8348,10 @@ If we wanted to include time dummies as well, we could specify
 \end{Shaded}
 
 \begin{verbatim}
-##     1970     1971     1972     1973     1974     1975     1976     1977 
-## 3.554848 4.282335 3.771045 3.193486 3.831850 6.516024 5.457664 4.936477 
-##     1978     1979     1980     1981     1982     1983     1984     1985 
-## 3.938072 3.823101 5.181434 5.667713 7.700509 7.684794 5.640131 5.486310 
-##     1986 
-## 5.350387
+##   1970   1971   1972   1973   1974   1975   1976   1977   1978   1979   1980 
+## 3.5548 4.2823 3.7710 3.1935 3.8319 6.5160 5.4577 4.9365 3.9381 3.8231 5.1814 
+##   1981   1982   1983   1984   1985   1986 
+## 5.6677 7.7005 7.6848 5.6401 5.4863 5.3504
 \end{verbatim}
 
 \texttt{phtest()} implements the Hausman test. Remember that the null
@@ -8359,6 +8373,218 @@ effects.
 ## chisq = 95.562, df = 2, p-value < 2.2e-16
 ## alternative hypothesis: one model is inconsistent
 \end{verbatim}
+
+\chapter{Binary Response Models}\label{logit}
+
+Many of the political phenomena we'd like to explain are dichotomous:
+
+\begin{itemize}
+\item
+  Whether someone votes.
+\item
+  Whether someones votes for a particular candidate.
+\item
+  Whether war occurs.
+\end{itemize}
+
+For a long time, the conventional wisdom among political scientists was
+that special statistical models were required to analyze binary
+responses like these. In this section of the course, we'll discuss the
+reasoning behind this claim, work with the fancier statistical models
+that are purportedly necessary for binary responses, and discuss why the
+conventional wisdom about linear models might be wrong.
+
+\section{The Linear Probability
+Model}\label{the-linear-probability-model}
+
+So far when encountering binary responses, we have just modeled them as
+linear functions of covariates. For example, think of voting for Trump
+as a function of the years of education one has received: \[
+\text{Trump}_n = \beta_0 + \beta_1 \text{Education}_n + \epsilon_n.
+\] In this model, \(\beta_0\) represents the probability that someone
+with zero years of education would vote for Trump, and \(\beta_1\) is
+the marginal effect of an additional year of education.
+
+Suppose we yielded the following estimates from this model: \[
+\text{Trump}_n = 1.4 - 0.075 \text{Education}_n + \epsilon_n.
+\] Most Americans have between 8 and 16 years of formal education.
+According to this regression equation, we should expect about 80\% of
+those with only an eighth-grade education to vote for Trump, while we
+should expect only 20\% of those with a college degree to vote for
+Trump. These sound like reasonable numbers!
+
+The problem is, not \emph{every} American's educational attainment lies
+within this range. Some Americans only have four years of formal
+education, and this model would predict that 110\% of them voted for
+Trump. Other Americans are crazy enough to pursue 20+ years of
+education, and this model would predict that --10\% or fewer of them
+voted for Trump.
+
+This illustrates one problem with linear probability models: they can
+produce impossible predicted probabilities, outside the \([0, 1]\) range
+that all probabilities must lie within. In practice, such predictions
+usually occur for observations far away from the central tendency of the
+data. (In fact, as you proved on a previous problem set, the predicted
+probability for an observation with an average value of all covariates
+must equal the sample proportion of 1s in the response.)
+
+We can see this problem in action when we draw the OLS line through the
+scatterplot of some (hypothetical) data on educational attainment and
+vote choice.
+
+\includegraphics{pdaps_files/figure-latex/binary-scatterplot-1.pdf}
+
+Another way to put all this is that the assumption of constant marginal
+effects doesn't make sense for a binary response. If someone already has
+a 99\% chance of voting for Trump, the most you could possibly raise
+their chance of voting for him is 1\%. This puts a cap on the magnitude
+of the effect of any given variable. An intervention that raises an
+\emph{average} voter's chance of voting for Trump by 5\% cannot possibly
+have the same effect on our hypothetical Trump die-hard. This is in
+contrast to settings with continuous outcomes. A job training program
+that raises an average person's annual earnings by 2\% is
+\emph{unlikely} to have the same effect on Jeff Bezos, but it is at
+least \emph{conceivable} it would do so.
+
+The idea behind logistic regression (and its close friend probit
+regression) is to model the conditional expectation in a way that gets
+around these issues. These models always produce sensible predicted
+probabilities, and they assume lower-magnitude marginal effects for
+observations at the extremes. Instead of regression lines, they draw
+nice curves like the one below.
+
+\includegraphics{pdaps_files/figure-latex/binary-scatterplot-redux-1.pdf}
+
+\section{The Logistic Regression
+Model}\label{the-logistic-regression-model}
+
+For a binary response, \(Y_n \in \{0, 1\}\), we can think of the linear
+probability model as the following: \[
+\Pr(Y_n = 1) = \mathbf{x}_n \cdot \beta.
+\] Logistic regression replaces the linear formula on the right-hand
+side with a nonlinear S-curve, as illustrated above. The logistic
+regression model is \[
+\Pr(Y_n = 1) = \frac{e^{\mathbf{x}_n \cdot \beta}}{1 + e^{\mathbf{x}_n \cdot \beta}} = \Lambda(\mathbf{x}_n \cdot \beta),
+\] where \(\Lambda(z) = e^z / (1 + e^z)\).
+
+How did we get the above formula? We can tell a little story to provide
+a foundation for the logistic regression model. For each observation
+\(n = 1, \ldots, N\), let \(Y_n^*\) denote the \emph{latent}
+(unobservable) propensity to choose \(Y_n = 1\). We assume that the
+latent propensity follows a linear model, \[
+Y_n^* = \mathbf{x}_n \cdot \beta + \epsilon_n,
+\] where \(\epsilon_n\) is independent and identically distributed
+across observations. Furthermore, assume \(\epsilon_n\) has a logistic
+distribution, so that \(\Pr(\epsilon_n < z) = \Lambda(z)\) for all real
+numbers \(z\). Finally, we assume that we observe \(Y_n = 1\) if and
+only if the latent propensity is non-negative: \[
+Y_n = \begin{cases}
+0 & Y_n^* < 0, \\
+1 & Y_n^* \geq 0.
+\end{cases}
+\] The logistic regression model follows from this combination of
+assumptions.
+
+I hope you notice that the assumptions we've made on the latent
+propensity \(Y_n^*\) are even stronger than the usual linear model
+assumptions. We assumed that \(\epsilon_n\) was independent across
+observations, whereas the usual linear model allows for autocorrelation.
+We assumed that \(\epsilon_n\) was identically distributed across
+observations, whereas the usual linear model allows for
+heteroskedasticity.\footnote{The differences actually go even further
+  than allowing for heteroskedasticity. We can have a homoskedastic
+  linear model where the error variances are the same but their full
+  distributions are different. For example, in the usual linear model we
+  could have \(\epsilon_1 \sim U[0, 1]\) and
+  \(\epsilon_2 \sim N(0, 1/12)\), so that
+  \(V[\epsilon_1] = V[\epsilon_2] = 1/12\) even though their
+  distributions differ.} Finally, we assumed that \(\epsilon_n\) has a
+logistic distribution, whereas the usual linear model does not assume a
+specific distributional form for the error term. The verisimilitude of
+the S-curve comes at the cost of forcing us to make many more
+assumptions than we do with a linear model.
+
+Probit regression is the same as logistic regression, except we assume
+that the error term \(\epsilon_n\) in the latent propensity equation has
+a standard normal distribution. This results in the model \[
+\Pr(Y_n = 1) = \Phi(\mathbf{x}_n \cdot \beta),
+\] where \(\Phi\) is the standard normal CDF. In practice, logit and
+probit almost always yield nearly identical results in terms of
+predicted probabilities and marginal effects. From here on we will keep
+working with the logistic model, solely because the logistic CDF is
+easier to work with mathematically than the normal CDF.
+
+One of the nice things about the linear probability model is that it's
+easy to calculate marginal effects. The estimated marginal effect of
+\(x_{nk}\) on \(\Pr(Y_n = 1)\) is simply its coefficient, \(\beta_k\).
+It is not so simple with logistic regression. First we need the
+derivative of the logistic CDF. Surely you remember the quotient rule,
+which gives us \[
+\Lambda'(z)
+= \frac{e^z (1 + e^z) - e^z (e^z)}{(1 + e^z)^2}
+= \frac{e^z}{1 + e^z} \times \frac{1}{1 + e^z}
+= \Lambda(z) [1 - \Lambda(z)].
+\] And since you surely also remember the chain rule, you can calculate
+the marginal effect of \(x_{nk}\) on \(\Pr(Y_n = 1)\) as \[
+\begin{aligned}
+\frac{\partial \Pr(Y_n = 1)}{x_{nk}}
+&= \Lambda'(\mathbf{x}_k \cdot \beta) \frac{\partial [\mathbf{x}_k \cdot \beta]}{x_{nk}} \\
+&= \Lambda(\mathbf{x}_k \cdot \beta) [1 - \Lambda(\mathbf{x}_k \cdot \beta)] \beta_k \\
+&= \Pr(Y_n = 1) \Pr(Y_n = 0) \beta_k.
+\end{aligned}
+\] This gives us the properties we wanted---that the marginal effect of
+a variable is lowest in magnitude for those observations that are
+already highly likely or highly unlikely to have \(Y_n = 1\).
+
+\begin{itemize}
+\item
+  If \(\Pr(Y_n = 1) \approx 0\), then the marginal effect of \(x_{nk}\)
+  is approximately zero.
+\item
+  If \(\Pr(Y_n = 1) = 0.5\), then the marginal effect of \(x_{nk}\) is
+  \(\beta_k / 4\).
+\item
+  If \(\Pr(Y_n = 1) \approx 1\), then the marginal effect of \(x_{nk}\)
+  is approximately zero.
+\end{itemize}
+
+This gives us a helpful rule for making sense of logistic regression
+output. You can divide each coefficient by 4, and that gives you its
+marginal effect on an observation that's at the 50-50 point.
+
+\includegraphics{pdaps_files/figure-latex/logit-margeff-1.pdf}
+
+Briefly --- for a probit model, the marginal effect is \[
+\frac{\partial \Pr(Y_n = 1)}{x_{nk}} = \phi(\mathbf{x}_n \cdot \beta) \beta_k,
+\] where \(\phi\) is the standard normal PDF. Since
+\(\phi(0) \approx 0.4\), the marginal effect for an observation at the
+50-50 point is roughly 0.4 times its coefficient.
+
+For either logit or probit, if you want to calculate the average
+marginal effect of \(X_k\) across your dataset, you may be tempted to
+calculate the marginal effect for an ``average'' observation---one with
+mean or median values for all the covariates. Resist the temptation. In
+both cases, the marginal effect is a nonlinear function of \(x_{nk}\),
+and a not-so-fun fact about nonlinear functions is that
+\(E[f(z)] \neq f(E[z])\). If you want the average marginal effect, you
+need to calculate it individually for each observation and then average
+them: \[
+\text{average m.e. of $X_k$}
+= \frac{\beta_k}{N} \sum_{i=1}^N \Lambda(\mathbf{x}_n \cdot \beta) [1 - \Lambda(\mathbf{x}_n \cdot \beta)]
+\]
+
+For binary covariates, we will usually focus on the first difference
+rather than the marginal effect, as it doesn't make much sense to take a
+derivative with respect to a dichotomous indicator. Assuming \(X_k\) is
+binary, the first difference for the \(n\)'th observation is \[
+\Pr(Y_n = 1) - \Pr(Y_n = 0) =
+\Lambda(\tilde{\mathbf{x}}_n \cdot \tilde{\beta} + \beta_k)
+- \Lambda(\tilde{\mathbf{x}}_n \cdot \tilde{\beta}),
+\] where \(\tilde{\mathbf{x}}_n\) is the vector of all covariates but
+the \(k\)'th, and \(\tilde{\beta}\) is the vector of all coefficients
+but the \(k\)'th. As with marginal effects, to calculate the average
+first difference across the data, you must calculate it for each
+observation individually and then average them---no shortcuts.
 
 \bibliography{book.bib,packages.bib,psci-8357.bib}
 

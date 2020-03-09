@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html lang="" xml:lang="">
 <head>
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>5 Bivariate Regression | Practical Data Analysis for Political Scientists</title>
   <meta name="description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right." />
-  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
 
   <meta property="og:title" content="5 Bivariate Regression | Practical Data Analysis for Political Scientists" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Brenton Kenkel" />
 
 
-<meta name="date" content="2020-02-24" />
+<meta name="date" content="2020-03-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -187,6 +187,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="12.4" data-path="panel.html"><a href="panel.html#random-effects"><i class="fa fa-check"></i><b>12.4</b> Random Effects</a></li>
 <li class="chapter" data-level="12.5" data-path="panel.html"><a href="panel.html#fixed-effects"><i class="fa fa-check"></i><b>12.5</b> Fixed Effects</a></li>
 <li class="chapter" data-level="12.6" data-path="panel.html"><a href="panel.html#appendix-implementation-in-r-1"><i class="fa fa-check"></i><b>12.6</b> Appendix: Implementation in R</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="logit.html"><a href="logit.html"><i class="fa fa-check"></i><b>13</b> Binary Response Models</a><ul>
+<li class="chapter" data-level="13.1" data-path="logit.html"><a href="logit.html#the-linear-probability-model"><i class="fa fa-check"></i><b>13.1</b> The Linear Probability Model</a></li>
+<li class="chapter" data-level="13.2" data-path="logit.html"><a href="logit.html#the-logistic-regression-model"><i class="fa fa-check"></i><b>13.2</b> The Logistic Regression Model</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -363,6 +367,7 @@ e_n(\hat{\alpha}, \hat{\beta}) = Y_n - \hat{\alpha} - \hat{\beta} X_n.
 \end{aligned}
 \]</span></p>
 <p>Regression is a convenient way to summarize the relationship between variables, but it is a complement to—not a substitute for—graphical analysis. The statistician Francis Anscombe found that OLS yields nearly identical regression lines for all four of the datasets in the following graph:</p>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
 <p><img src="pdaps_files/figure-html/anscombe-1.png" width="672" /></p>
 <p>Unless your data all lie along a line, the regression line estimated by OLS will not predict the data perfectly. Let the <em>residual sum of squares</em> be the squared error left over by OLS, <span class="math display">\[
 {\mathop{\rm RSS}\nolimits}= {\mathop{\rm SSE}\nolimits}(\hat{\alpha}_{\text{OLS}}, \hat{\beta}_{\text{OLS}}),
@@ -376,6 +381,7 @@ R^2 = 1 - \frac{{\mathop{\rm RSS}\nolimits}}{{\mathop{\rm TSS}\nolimits}}.
 = \frac{1}{N - 2} \sum_n e_n(\hat{\alpha}_{\text{OLS}}, \hat{\beta}_{\text{OLS}})^2
 = \frac{{\mathop{\rm RSS}\nolimits}}{N - 2}
 \]</span> Since bivariate regression uses two degrees of freedom (one for the intercept, one for the slope), we divide by <span class="math inline">\(N - 2\)</span> instead of the usual <span class="math inline">\(N - 1\)</span>. The most useful quantity is <span class="math inline">\(\hat{\sigma}\)</span>, the square root of the residual variance. <span class="math inline">\(\hat{\sigma}\)</span> is measured in the same units as <span class="math inline">\(Y\)</span>, and it is a measure of the spread of points around the regression line. If the residuals are roughly normally distributed, then we would expect roughly 95% of the data to lie within <span class="math inline">\(\pm 2 \hat{\sigma}\)</span> of the regression line.</p>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
 <p><img src="pdaps_files/figure-html/r2-examples-1.png" width="672" /></p>
 </div>
 <div id="properties" class="section level2">
@@ -583,11 +589,13 @@ my_data</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(Prestige, <span class="kw">aes</span>(<span class="dt">x =</span> education, <span class="dt">y =</span> prestige)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>)</code></pre></div>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
 <p><img src="pdaps_files/figure-html/ggplot-lm-1.png" width="672" /></p>
 <p>To get rid of the confidence interval:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(Prestige, <span class="kw">aes</span>(<span class="dt">x =</span> education, <span class="dt">y =</span> prestige)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">se =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
 <p><img src="pdaps_files/figure-html/ggplot-lm-no-se-1.png" width="672" /></p>
 
 </div>

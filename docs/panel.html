@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html lang="" xml:lang="">
 <head>
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>12 Clustered and Panel Data | Practical Data Analysis for Political Scientists</title>
   <meta name="description" content="These are the course notes for Brenton Kenkel’s course PSCI 8357: Statistics for Political Research II. They may or may not also be useful in their own right." />
-  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
 
   <meta property="og:title" content="12 Clustered and Panel Data | Practical Data Analysis for Political Scientists" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Brenton Kenkel" />
 
 
-<meta name="date" content="2020-02-24" />
+<meta name="date" content="2020-03-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="crisis.html"/>
-<link rel="next" href="references.html"/>
+<link rel="next" href="logit.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -187,6 +187,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="12.4" data-path="panel.html"><a href="panel.html#random-effects"><i class="fa fa-check"></i><b>12.4</b> Random Effects</a></li>
 <li class="chapter" data-level="12.5" data-path="panel.html"><a href="panel.html#fixed-effects"><i class="fa fa-check"></i><b>12.5</b> Fixed Effects</a></li>
 <li class="chapter" data-level="12.6" data-path="panel.html"><a href="panel.html#appendix-implementation-in-r-1"><i class="fa fa-check"></i><b>12.6</b> Appendix: Implementation in R</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="logit.html"><a href="logit.html"><i class="fa fa-check"></i><b>13</b> Binary Response Models</a><ul>
+<li class="chapter" data-level="13.1" data-path="logit.html"><a href="logit.html#the-linear-probability-model"><i class="fa fa-check"></i><b>13.1</b> The Linear Probability Model</a></li>
+<li class="chapter" data-level="13.2" data-path="logit.html"><a href="logit.html#the-logistic-regression-model"><i class="fa fa-check"></i><b>13.2</b> The Logistic Regression Model</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -606,25 +610,25 @@ H = (\hat{\beta}_{\text{RE}} - \hat{\beta}_{\text{FE}})^\top (\hat{\Sigma}_{\tex
 <p>We can extract the fixed-effect estimates themselves via <code>fixef()</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fixef</span>(fit_fixed)</code></pre></div>
 <pre><code>##        ALABAMA        ARIZONA       ARKANSAS     CALIFORNIA       COLORADO 
-##     3.76390190     3.20123239     5.02097974   -24.35181563     1.90688506 
+##       3.763902       3.201232       5.020980     -24.351816       1.906885 
 ##    CONNECTICUT       DELAWARE        FLORIDA        GEORGIA          IDAHO 
-##     2.22280135     5.72380647    -2.95038515     0.09097831     5.92621456 
+##       2.222801       5.723806      -2.950385       0.090978       5.926215 
 ##       ILLINOIS        INDIANA           IOWA         KANSAS       KENTUCKY 
-##    -7.48317601     1.49918053     1.17644552     1.25806219     2.48714955 
+##      -7.483176       1.499181       1.176446       1.258062       2.487150 
 ##      LOUISIANA          MAINE       MARYLAND  MASSACHUSETTS       MICHIGAN 
-##     2.39497673     6.13282282    -0.46942447    -0.08100837    -2.07326137 
+##       2.394977       6.132823      -0.469424      -0.081008      -2.073261 
 ##      MINNESOTA    MISSISSIPPI       MISSOURI        MONTANA       NEBRASKA 
-##    -0.91314571     4.79041144     0.57611152     5.39884219     1.03380417 
+##      -0.913146       4.790411       0.576112       5.398842       1.033804 
 ##         NEVADA  NEW_HAMPSHIRE     NEW_JERSEY     NEW_MEXICO       NEW_YORK 
-##     6.12192498     3.86714567    -0.47563204     5.87572182   -22.41693724 
+##       6.121925       3.867146      -0.475632       5.875722     -22.416937 
 ## NORTH_CAROLINA   NORTH_DAKOTA           OHIO       OKLAHOMA         OREGON 
-##     0.58884805     3.71498175    -5.20832691     2.21221015     4.91367118 
+##       0.588848       3.714982      -5.208327       2.212210       4.913671 
 ##   PENNSYLVANIA   RHODE_ISLAND SOUTH_CAROLINA   SOUTH_DAKOTA       TENNESSE 
-##    -6.74058995     6.04556085     3.89532471     2.94268669     1.08041506 
+##      -6.740590       6.045561       3.895325       2.942687       1.080415 
 ##          TEXAS           UTAH        VERMONT       VIRGINIA     WASHINGTON 
-##   -11.16138400     4.23354024     5.62449576    -0.96096398     1.08075707 
+##     -11.161384       4.233540       5.624496      -0.960964       1.080757 
 ##  WEST_VIRGINIA      WISCONSIN        WYOMING 
-##     6.94076391     0.19197087     3.79896918</code></pre>
+##       6.940764       0.191971       3.798969</code></pre>
 <p>If we wanted to include time dummies as well, we could specify <code>effect = &quot;twoways&quot;</code> in the fitting function.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_fixed_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">plm</span>(unemp <span class="op">~</span><span class="st"> </span>pcap <span class="op">+</span><span class="st"> </span>pc,
                    <span class="dt">data =</span> Produc,
@@ -656,12 +660,10 @@ H = (\hat{\beta}_{\text{RE}} - \hat{\beta}_{\text{FE}})^\top (\hat{\Sigma}_{\tex
 ## Adj. R-Squared: -0.068894
 ## F-statistic: 6.23517 on 2 and 750 DF, p-value: 0.0020624</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fixef</span>(fit_fixed_<span class="dv">2</span>, <span class="dt">effect =</span> <span class="st">&quot;time&quot;</span>)</code></pre></div>
-<pre><code>##     1970     1971     1972     1973     1974     1975     1976     1977 
-## 3.554848 4.282335 3.771045 3.193486 3.831850 6.516024 5.457664 4.936477 
-##     1978     1979     1980     1981     1982     1983     1984     1985 
-## 3.938072 3.823101 5.181434 5.667713 7.700509 7.684794 5.640131 5.486310 
-##     1986 
-## 5.350387</code></pre>
+<pre><code>##   1970   1971   1972   1973   1974   1975   1976   1977   1978   1979   1980 
+## 3.5548 4.2823 3.7710 3.1935 3.8319 6.5160 5.4577 4.9365 3.9381 3.8231 5.1814 
+##   1981   1982   1983   1984   1985   1986 
+## 5.6677 7.7005 7.6848 5.6401 5.4863 5.3504</code></pre>
 <p><code>phtest()</code> implements the Hausman test. Remember that the null hypothesis is that both estimators are consistent; if we reject it, then the random effects estimator is inconsistent and we must use fixed effects.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">phtest</span>(fit_random, fit_fixed)</code></pre></div>
 <pre><code>## 
@@ -723,7 +725,7 @@ H = (\hat{\beta}_{\text{RE}} - \hat{\beta}_{\text{FE}})^\top (\hat{\Sigma}_{\tex
         </div>
       </div>
 <a href="crisis.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="logit.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
