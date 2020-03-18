@@ -262,13 +262,24 @@ $$
 $$
 Since there is no autocorrelation across groups, $\Omega$ takes the same block-diagonal form as in our discussion of cluster-robust standard errors.
 
-If we knew $\sigma^2_\alpha$ and $\sigma^2_\eta$, we could estimate $\beta$ by GLS.  It is unlikely, however, that we would know these in advance.  Luckily, there is a compromise option available.  *Feasible GLS*, or FGLS, entails using a pair of first-stage regressions to estimate the variance of $\alpha$ and $\eta$, then plugging these into the GLS formula.  I won't go through all the math, but the basic idea is as follows.
+If we knew $\sigma^2_\alpha$ and $\sigma^2_\eta$, we could estimate $\beta$ by GLS.  It is unlikely, however, that we would know these in advance.  Luckily, there is a compromise option available.  *Feasible GLS*, or FGLS, entails using a pair of first-stage regressions to estimate the variance of $\alpha$ and $\eta$, then plugging these into the GLS formula.
 
-1.  Calculate the average response $\bar{Y}_g$ and average covariate vector $\bar{\mathbf{x}}_g$ for each group.  Estimate $\sigma^2_\alpha$, the *between-group variance*, using the residual variance of a regression of $\bar{\mathbf{Y}}$ on $\bar{\mathbf{X}}$.
+There are many ways to estimate these variances.
+In practice, this isn't a problem you'll need to worry about, since the variance estimates will be computed behind the scenes by your statistical software.
+But I think it's useful to have a basic understanding of what's going on when you use random effects, so here is one simple way to estimate $\sigma^2_\alpha$ and $\sigma^2_\eta$.
 
-2.  Estimate $\sigma^2_\eta$, the *within-group variance*, using the residual variance of a regression of $\mathbf{Y}$ on $\mathbf{X}$ and $\mathbf{D}$, the full set of group dummies.  We will see the importance of this regression very shortly.
+1.  Run OLS of $\mathbf{Y}$ on $\mathbf{X}$.
+    Let $\hat{\sigma}^2$ denote the estimated residual variance from this "pooled model"---so called because it ignores group-level variation, throwing all the observations into a single pool.
+    This is a consistent estimator of the total residual variance, $\sigma^2_\alpha + \sigma^2_\eta$.
+    
+2.  Run OLS of $\mathbf{Y}$ on $[\mathbf{X} \mathbf{D}]$, i.e., the covariates plus a set of group membership indicators.
+    This is the fixed effects regression, which we will talk about shortly.
+    Because the group membership indicators account for variation *across* groups, the remaining variation in this model solely represents variance *within* groups.
+    We can therefore let the estimated residual variance from this model be $\hat{\sigma}^2_\eta$, which is a consistent estimator of the within-group variance, $\sigma^2_\eta$.
 
-3.  Form the matrix $\hat{\Omega}$ by plugging $\hat{\sigma}^2_\alpha$ and $\hat{\sigma}^2_\eta$ into the formulas above, then run GLS using $\hat{\Omega}$ as the weighting matrix.
+3.  Estimate the between-group variance as $\hat{\sigma}^2_\alpha = \hat{\sigma}^2 - \hat{\sigma}^2_\eta$.
+
+4.  Form the matrix $\hat{\Omega}$ by plugging $\hat{\sigma}^2_\alpha$ and $\hat{\sigma}^2_\eta$ into the formulas above, then run GLS using $\hat{\Omega}$ as the weighting matrix.
 
 This gives us the *random effects estimator*,
 $$

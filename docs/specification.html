@@ -24,7 +24,7 @@
 <meta name="author" content="Brenton Kenkel" />
 
 
-<meta name="date" content="2020-03-09" />
+<meta name="date" content="2020-03-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,6 +33,7 @@
   
 <link rel="prev" href="ols-matrix.html"/>
 <link rel="next" href="inference.html"/>
+<script src="libs/header-attrs-2.1/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -53,41 +54,67 @@
 
 
 <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -107,56 +134,65 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> About This Book</a></li>
-<li class="chapter" data-level="2" data-path="programming.html"><a href="programming.html"><i class="fa fa-check"></i><b>2</b> Principles of Programming</a><ul>
+<li class="chapter" data-level="2" data-path="programming.html"><a href="programming.html"><i class="fa fa-check"></i><b>2</b> Principles of Programming</a>
+<ul>
 <li class="chapter" data-level="2.1" data-path="programming.html"><a href="programming.html#write-programs-for-people-not-computers"><i class="fa fa-check"></i><b>2.1</b> Write Programs for People, Not Computers</a></li>
 <li class="chapter" data-level="2.2" data-path="programming.html"><a href="programming.html#let-the-computer-do-the-work"><i class="fa fa-check"></i><b>2.2</b> Let the Computer Do the Work</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>3</b> Working with Data</a><ul>
+<li class="chapter" data-level="3" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>3</b> Working with Data</a>
+<ul>
 <li class="chapter" data-level="3.1" data-path="data.html"><a href="data.html#loading"><i class="fa fa-check"></i><b>3.1</b> Loading</a></li>
 <li class="chapter" data-level="3.2" data-path="data.html"><a href="data.html#tidying"><i class="fa fa-check"></i><b>3.2</b> Tidying</a></li>
 <li class="chapter" data-level="3.3" data-path="data.html"><a href="data.html#transforming-and-aggregating"><i class="fa fa-check"></i><b>3.3</b> Transforming and Aggregating</a></li>
 <li class="chapter" data-level="3.4" data-path="data.html"><a href="data.html#merging"><i class="fa fa-check"></i><b>3.4</b> Merging</a></li>
 <li class="chapter" data-level="3.5" data-path="data.html"><a href="data.html#appendix-creating-the-example-data"><i class="fa fa-check"></i><b>3.5</b> Appendix: Creating the Example Data</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="visualization.html"><a href="visualization.html"><i class="fa fa-check"></i><b>4</b> Data Visualization</a><ul>
+<li class="chapter" data-level="4" data-path="visualization.html"><a href="visualization.html"><i class="fa fa-check"></i><b>4</b> Data Visualization</a>
+<ul>
 <li class="chapter" data-level="4.1" data-path="visualization.html"><a href="visualization.html#basic-plots"><i class="fa fa-check"></i><b>4.1</b> Basic Plots</a></li>
 <li class="chapter" data-level="4.2" data-path="visualization.html"><a href="visualization.html#saving-plots"><i class="fa fa-check"></i><b>4.2</b> Saving Plots</a></li>
 <li class="chapter" data-level="4.3" data-path="visualization.html"><a href="visualization.html#faceting"><i class="fa fa-check"></i><b>4.3</b> Faceting</a></li>
 <li class="chapter" data-level="4.4" data-path="visualization.html"><a href="visualization.html#aesthetics"><i class="fa fa-check"></i><b>4.4</b> Aesthetics</a></li>
 <li class="chapter" data-level="4.5" data-path="visualization.html"><a href="visualization.html#appendix-creating-the-example-data-1"><i class="fa fa-check"></i><b>4.5</b> Appendix: Creating the Example Data</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="bivariate.html"><a href="bivariate.html"><i class="fa fa-check"></i><b>5</b> Bivariate Regression</a><ul>
+<li class="chapter" data-level="5" data-path="bivariate.html"><a href="bivariate.html"><i class="fa fa-check"></i><b>5</b> Bivariate Regression</a>
+<ul>
 <li class="chapter" data-level="5.1" data-path="bivariate.html"><a href="bivariate.html#probability"><i class="fa fa-check"></i><b>5.1</b> Probability Refresher</a></li>
 <li class="chapter" data-level="5.2" data-path="bivariate.html"><a href="bivariate.html#the-linear-model"><i class="fa fa-check"></i><b>5.2</b> The Linear Model</a></li>
 <li class="chapter" data-level="5.3" data-path="bivariate.html"><a href="bivariate.html#least-squares"><i class="fa fa-check"></i><b>5.3</b> Least Squares</a></li>
 <li class="chapter" data-level="5.4" data-path="bivariate.html"><a href="bivariate.html#properties"><i class="fa fa-check"></i><b>5.4</b> Properties</a></li>
 <li class="chapter" data-level="5.5" data-path="bivariate.html"><a href="bivariate.html#appendix-regression-in-r"><i class="fa fa-check"></i><b>5.5</b> Appendix: Regression in R</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="matrix.html"><a href="matrix.html"><i class="fa fa-check"></i><b>6</b> Matrix Algebra: A Crash Course</a><ul>
+<li class="chapter" data-level="6" data-path="matrix.html"><a href="matrix.html"><i class="fa fa-check"></i><b>6</b> Matrix Algebra: A Crash Course</a>
+<ul>
 <li class="chapter" data-level="6.1" data-path="matrix.html"><a href="matrix.html#vector-operations"><i class="fa fa-check"></i><b>6.1</b> Vector Operations</a></li>
 <li class="chapter" data-level="6.2" data-path="matrix.html"><a href="matrix.html#matrix-operations"><i class="fa fa-check"></i><b>6.2</b> Matrix Operations</a></li>
 <li class="chapter" data-level="6.3" data-path="matrix.html"><a href="matrix.html#matrix-inversion"><i class="fa fa-check"></i><b>6.3</b> Matrix Inversion</a></li>
 <li class="chapter" data-level="6.4" data-path="matrix.html"><a href="matrix.html#solving-linear-systems"><i class="fa fa-check"></i><b>6.4</b> Solving Linear Systems</a></li>
 <li class="chapter" data-level="6.5" data-path="matrix.html"><a href="matrix.html#appendix-matrices-in-r"><i class="fa fa-check"></i><b>6.5</b> Appendix: Matrices in R</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="ols-matrix.html"><a href="ols-matrix.html"><i class="fa fa-check"></i><b>7</b> Reintroduction to the Linear Model</a><ul>
+<li class="chapter" data-level="7" data-path="ols-matrix.html"><a href="ols-matrix.html"><i class="fa fa-check"></i><b>7</b> Reintroduction to the Linear Model</a>
+<ul>
 <li class="chapter" data-level="7.1" data-path="ols-matrix.html"><a href="ols-matrix.html#the-linear-model-in-matrix-form"><i class="fa fa-check"></i><b>7.1</b> The Linear Model in Matrix Form</a></li>
 <li class="chapter" data-level="7.2" data-path="ols-matrix.html"><a href="ols-matrix.html#the-ols-estimator"><i class="fa fa-check"></i><b>7.2</b> The OLS Estimator</a></li>
 <li class="chapter" data-level="7.3" data-path="ols-matrix.html"><a href="ols-matrix.html#vector-valued-random-variables"><i class="fa fa-check"></i><b>7.3</b> Vector-Valued Random Variables</a></li>
 <li class="chapter" data-level="7.4" data-path="ols-matrix.html"><a href="ols-matrix.html#properties-of-ols"><i class="fa fa-check"></i><b>7.4</b> Properties of OLS</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="specification.html"><a href="specification.html"><i class="fa fa-check"></i><b>8</b> Specification Issues</a><ul>
+<li class="chapter" data-level="8" data-path="specification.html"><a href="specification.html"><i class="fa fa-check"></i><b>8</b> Specification Issues</a>
+<ul>
 <li class="chapter" data-level="8.1" data-path="specification.html"><a href="specification.html#categorical-variables"><i class="fa fa-check"></i><b>8.1</b> Categorical Variables</a></li>
 <li class="chapter" data-level="8.2" data-path="specification.html"><a href="specification.html#interaction-terms"><i class="fa fa-check"></i><b>8.2</b> Interaction Terms</a></li>
 <li class="chapter" data-level="8.3" data-path="specification.html"><a href="specification.html#quadratic-terms"><i class="fa fa-check"></i><b>8.3</b> Quadratic Terms</a></li>
 <li class="chapter" data-level="8.4" data-path="specification.html"><a href="specification.html#logarithmic-models"><i class="fa fa-check"></i><b>8.4</b> Logarithmic Models</a></li>
-<li class="chapter" data-level="8.5" data-path="specification.html"><a href="specification.html#appendix-nonstandard-specifications-in-r"><i class="fa fa-check"></i><b>8.5</b> Appendix: Nonstandard Specifications in R</a><ul>
+<li class="chapter" data-level="8.5" data-path="specification.html"><a href="specification.html#appendix-nonstandard-specifications-in-r"><i class="fa fa-check"></i><b>8.5</b> Appendix: Nonstandard Specifications in R</a>
+<ul>
 <li class="chapter" data-level="8.5.1" data-path="specification.html"><a href="specification.html#categorical-variables-1"><i class="fa fa-check"></i><b>8.5.1</b> Categorical Variables</a></li>
 <li class="chapter" data-level="8.5.2" data-path="specification.html"><a href="specification.html#interaction-terms-1"><i class="fa fa-check"></i><b>8.5.2</b> Interaction Terms</a></li>
 <li class="chapter" data-level="8.5.3" data-path="specification.html"><a href="specification.html#quadratic-and-logarithmic-models"><i class="fa fa-check"></i><b>8.5.3</b> Quadratic and Logarithmic Models</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="inference.html"><a href="inference.html"><i class="fa fa-check"></i><b>9</b> Drawing Inferences</a><ul>
+<li class="chapter" data-level="9" data-path="inference.html"><a href="inference.html"><i class="fa fa-check"></i><b>9</b> Drawing Inferences</a>
+<ul>
 <li class="chapter" data-level="9.1" data-path="inference.html"><a href="inference.html#the-basics-of-hypothesis-testing"><i class="fa fa-check"></i><b>9.1</b> The Basics of Hypothesis Testing</a></li>
 <li class="chapter" data-level="9.2" data-path="inference.html"><a href="inference.html#variance-of-ols"><i class="fa fa-check"></i><b>9.2</b> Variance of OLS</a></li>
 <li class="chapter" data-level="9.3" data-path="inference.html"><a href="inference.html#single-variable-hypotheses"><i class="fa fa-check"></i><b>9.3</b> Single Variable Hypotheses</a></li>
@@ -164,23 +200,27 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="9.5" data-path="inference.html"><a href="inference.html#appendix-full-derivation-of-ols-variance"><i class="fa fa-check"></i><b>9.5</b> Appendix: Full Derivation of OLS Variance</a></li>
 <li class="chapter" data-level="9.6" data-path="inference.html"><a href="inference.html#appendix-regression-inference-in-r"><i class="fa fa-check"></i><b>9.6</b> Appendix: Regression Inference in R</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="nonspherical.html"><a href="nonspherical.html"><i class="fa fa-check"></i><b>10</b> Non-Spherical Errors</a><ul>
+<li class="chapter" data-level="10" data-path="nonspherical.html"><a href="nonspherical.html"><i class="fa fa-check"></i><b>10</b> Non-Spherical Errors</a>
+<ul>
 <li class="chapter" data-level="10.1" data-path="nonspherical.html"><a href="nonspherical.html#generalized-least-squares"><i class="fa fa-check"></i><b>10.1</b> Generalized Least Squares</a></li>
 <li class="chapter" data-level="10.2" data-path="nonspherical.html"><a href="nonspherical.html#detecting-heteroskedasticity"><i class="fa fa-check"></i><b>10.2</b> Detecting Heteroskedasticity</a></li>
 <li class="chapter" data-level="10.3" data-path="nonspherical.html"><a href="nonspherical.html#heteroskedasticity-of-unknown-form"><i class="fa fa-check"></i><b>10.3</b> Heteroskedasticity of Unknown Form</a></li>
-<li class="chapter" data-level="10.4" data-path="nonspherical.html"><a href="nonspherical.html#appendix-implementation-in-r"><i class="fa fa-check"></i><b>10.4</b> Appendix: Implementation in R</a><ul>
+<li class="chapter" data-level="10.4" data-path="nonspherical.html"><a href="nonspherical.html#appendix-implementation-in-r"><i class="fa fa-check"></i><b>10.4</b> Appendix: Implementation in R</a>
+<ul>
 <li class="chapter" data-level="10.4.1" data-path="nonspherical.html"><a href="nonspherical.html#generalized-least-squares-1"><i class="fa fa-check"></i><b>10.4.1</b> Generalized Least Squares</a></li>
 <li class="chapter" data-level="10.4.2" data-path="nonspherical.html"><a href="nonspherical.html#breusch-pagan-test"><i class="fa fa-check"></i><b>10.4.2</b> Breusch-Pagan Test</a></li>
 <li class="chapter" data-level="10.4.3" data-path="nonspherical.html"><a href="nonspherical.html#heteroskedasticity-consistent-standard-errors"><i class="fa fa-check"></i><b>10.4.3</b> Heteroskedasticity-Consistent Standard Errors</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="crisis.html"><a href="crisis.html"><i class="fa fa-check"></i><b>11</b> The Statistical Crisis in Science</a><ul>
+<li class="chapter" data-level="11" data-path="crisis.html"><a href="crisis.html"><i class="fa fa-check"></i><b>11</b> The Statistical Crisis in Science</a>
+<ul>
 <li class="chapter" data-level="11.1" data-path="crisis.html"><a href="crisis.html#publication-bias"><i class="fa fa-check"></i><b>11.1</b> Publication Bias</a></li>
 <li class="chapter" data-level="11.2" data-path="crisis.html"><a href="crisis.html#p-hacking"><i class="fa fa-check"></i><b>11.2</b> <span class="math inline">\(p\)</span>-Hacking</a></li>
 <li class="chapter" data-level="11.3" data-path="crisis.html"><a href="crisis.html#what-to-do"><i class="fa fa-check"></i><b>11.3</b> What to Do</a></li>
 <li class="chapter" data-level="11.4" data-path="crisis.html"><a href="crisis.html#appendix-r-simulation"><i class="fa fa-check"></i><b>11.4</b> Appendix: R Simulation</a></li>
 </ul></li>
-<li class="chapter" data-level="12" data-path="panel.html"><a href="panel.html"><i class="fa fa-check"></i><b>12</b> Clustered and Panel Data</a><ul>
+<li class="chapter" data-level="12" data-path="panel.html"><a href="panel.html"><i class="fa fa-check"></i><b>12</b> Clustered and Panel Data</a>
+<ul>
 <li class="chapter" data-level="12.1" data-path="panel.html"><a href="panel.html#the-linear-model-with-grouped-data"><i class="fa fa-check"></i><b>12.1</b> The Linear Model with Grouped Data</a></li>
 <li class="chapter" data-level="12.2" data-path="panel.html"><a href="panel.html#autocorrelation-within-groups"><i class="fa fa-check"></i><b>12.2</b> Autocorrelation within Groups</a></li>
 <li class="chapter" data-level="12.3" data-path="panel.html"><a href="panel.html#clustered-standard-errors"><i class="fa fa-check"></i><b>12.3</b> Clustered Standard Errors</a></li>
@@ -188,7 +228,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="12.5" data-path="panel.html"><a href="panel.html#fixed-effects"><i class="fa fa-check"></i><b>12.5</b> Fixed Effects</a></li>
 <li class="chapter" data-level="12.6" data-path="panel.html"><a href="panel.html#appendix-implementation-in-r-1"><i class="fa fa-check"></i><b>12.6</b> Appendix: Implementation in R</a></li>
 </ul></li>
-<li class="chapter" data-level="13" data-path="logit.html"><a href="logit.html"><i class="fa fa-check"></i><b>13</b> Binary Response Models</a><ul>
+<li class="chapter" data-level="13" data-path="logit.html"><a href="logit.html"><i class="fa fa-check"></i><b>13</b> Binary Response Models</a>
+<ul>
 <li class="chapter" data-level="13.1" data-path="logit.html"><a href="logit.html#the-linear-probability-model"><i class="fa fa-check"></i><b>13.1</b> The Linear Probability Model</a></li>
 <li class="chapter" data-level="13.2" data-path="logit.html"><a href="logit.html#the-logistic-regression-model"><i class="fa fa-check"></i><b>13.2</b> The Logistic Regression Model</a></li>
 </ul></li>
@@ -213,26 +254,35 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="specification" class="section level1">
+<div id="specification" class="section level1" number="8">
 <h1><span class="header-section-number">8</span> Specification Issues</h1>
 <p>I lied to you about the linear model last week. Like the grade-school teachers who told you everyone thought the world was flat before Columbus proved them wrong, I had good intentions—but it was a lie nonetheless.</p>
 <p>I claimed that the linear model assumed that the conditional expectation of the response was a linear function of the covariates. That is false. A data model is a linear model, can be estimated consistently and without bias by OLS, and all that good stuff, as long as it is linear in the <em>parameters</em>.</p>
-<p>For example, the following is a linear model. <span class="math display">\[
+<p>For example, the following is a linear model.
+<span class="math display">\[
 Y_n = \beta_1 + \beta_2 x_n + \beta_3 x_n^2 + \beta_4 x_n^7 + \epsilon_n.
-\]</span> The conditional expectation of <span class="math inline">\(Y_n\)</span> is a nonlinear function of <span class="math inline">\(x_n\)</span> (holding <span class="math inline">\(\beta\)</span> fixed) but a linear function of <span class="math inline">\(\beta\)</span> (holding <span class="math inline">\(x_n\)</span> fixed). Therefore, assuming strict exogeneity holds, OLS is an unbiased, consistent, asymptotically normal estimator of <span class="math inline">\(\beta\)</span>.</p>
-<p>The following is not a linear model. <span class="math display">\[
+\]</span>
+The conditional expectation of <span class="math inline">\(Y_n\)</span> is a nonlinear function of <span class="math inline">\(x_n\)</span> (holding <span class="math inline">\(\beta\)</span> fixed) but a linear function of <span class="math inline">\(\beta\)</span> (holding <span class="math inline">\(x_n\)</span> fixed). Therefore, assuming strict exogeneity holds, OLS is an unbiased, consistent, asymptotically normal estimator of <span class="math inline">\(\beta\)</span>.</p>
+<p>The following is not a linear model.
+<span class="math display">\[
 Y_n = 2^{\beta_1} + 2^{\beta_2} x_n + \epsilon_n.
-\]</span> Holding <span class="math inline">\(\beta\)</span> fixed, this is a linear function of the covariate <span class="math inline">\(x_n\)</span>. But, holding <span class="math inline">\(x_n\)</span> fixed, this is not a linear function of <span class="math inline">\(\beta\)</span>. OLS is not an appropriate estimator for the parameters of this model.</p>
+\]</span>
+Holding <span class="math inline">\(\beta\)</span> fixed, this is a linear function of the covariate <span class="math inline">\(x_n\)</span>. But, holding <span class="math inline">\(x_n\)</span> fixed, this is not a linear function of <span class="math inline">\(\beta\)</span>. OLS is not an appropriate estimator for the parameters of this model.</p>
 <p>This week, we will talk about linear models with non-standard covariate specifications—those that aren’t just a linear function of continuous variables.</p>
-<div id="categorical-variables" class="section level2">
+<div id="categorical-variables" class="section level2" number="8.1">
 <h2><span class="header-section-number">8.1</span> Categorical Variables</h2>
-<p>Using the linear model, we write the conditional expectation for the <span class="math inline">\(n\)</span>’th response as <span class="math display">\[
+<p>Using the linear model, we write the conditional expectation for the <span class="math inline">\(n\)</span>’th response as
+<span class="math display">\[
 E[Y_n \,|\, \mathbf{x}_n] = \mathbf{x}_n \cdot \beta + \epsilon_n,
-\]</span> where <span class="math inline">\(\mathbf{x}_n\)</span> is the vector of <span class="math inline">\(K\)</span> covariates (including the intercept) and <span class="math inline">\(\beta\)</span> is the vector of <span class="math inline">\(K\)</span> coefficients we wish to estimate.</p>
-<p>This makes sense with numerical variables, but not so much with categorical variables. For example, think of the relationship between party identification and one’s vote in the 2016 presidential election. Suppose our response variable is one’s vote (1 for Trump, 0 for non-Trump), and our party ID variable records whether the respondent is a Republican, Democrat, or independent. The resulting linear model equation, <span class="math display">\[
+\]</span>
+where <span class="math inline">\(\mathbf{x}_n\)</span> is the vector of <span class="math inline">\(K\)</span> covariates (including the intercept) and <span class="math inline">\(\beta\)</span> is the vector of <span class="math inline">\(K\)</span> coefficients we wish to estimate.</p>
+<p>This makes sense with numerical variables, but not so much with categorical variables. For example, think of the relationship between party identification and one’s vote in the 2016 presidential election. Suppose our response variable is one’s vote (1 for Trump, 0 for non-Trump), and our party ID variable records whether the respondent is a Republican, Democrat, or independent. The resulting linear model equation,
+<span class="math display">\[
 \text{Trump}_n = \beta_1 + \beta_2 \text{Party ID}_n + \epsilon_n,
-\]</span> doesn’t really make sense, because party ID isn’t a number.<a href="#fn23" class="footnoteRef" id="fnref23"><sup>23</sup></a></p>
-<p>To incorporate a categorical variable into the linear model, we break each category into its own binary variable. For example, with our party ID variable, we go from <span class="math display">\[
+\]</span>
+doesn’t really make sense, because party ID isn’t a number.<a href="#fn23" class="footnote-ref" id="fnref23"><sup>23</sup></a></p>
+<p>To incorporate a categorical variable into the linear model, we break each category into its own binary variable. For example, with our party ID variable, we go from
+<span class="math display">\[
 \text{Party ID} = \begin{pmatrix}
 \text{R} \\
 \text{R} \\
@@ -241,14 +291,20 @@ E[Y_n \,|\, \mathbf{x}_n] = \mathbf{x}_n \cdot \beta + \epsilon_n,
 \text{D} \\
 \text{D}
 \end{pmatrix}
-\]</span> to <span class="math display">\[
+\]</span>
+to
+<span class="math display">\[
 \text{Republican} = \begin{pmatrix} 1 \\ 1 \\ 0 \\ 0 \\ 0 \\ 0 \end{pmatrix},
 \text{Independent} = \begin{pmatrix} 0 \\ 0 \\ 1 \\ 1 \\ 0 \\ 0 \end{pmatrix},
 \text{Democratic} = \begin{pmatrix} 0 \\ 0 \\ 0 \\ 0 \\ 1 \\ 1 \end{pmatrix}.
-\]</span> These are called <em>dummy variables</em> or, preferably, <em>indicator variables</em>.</p>
-<p>Having turned our categorical variable into a set of indicators, you may be tempted to rewrite the model as <span class="math display">\[
+\]</span>
+These are called <em>dummy variables</em> or, preferably, <em>indicator variables</em>.</p>
+<p>Having turned our categorical variable into a set of indicators, you may be tempted to rewrite the model as
+<span class="math display">\[
 \text{Trump}_n = \beta_1 + \beta_2 \text{Republican}_n + \beta_3 \text{Independent}_n + \beta_4 \text{Democratic}_n + \epsilon_n.
-\]</span> But take a look at the matrix of covariates, or <em>design matrix</em>, that would result if we set up the model this way: <span class="math display">\[
+\]</span>
+But take a look at the matrix of covariates, or <em>design matrix</em>, that would result if we set up the model this way:
+<span class="math display">\[
 \mathbf{X} = \begin{bmatrix}
   1 &amp; 1 &amp; 0 &amp; 0 \\
   1 &amp; 1 &amp; 0 &amp; 0 \\
@@ -257,23 +313,32 @@ E[Y_n \,|\, \mathbf{x}_n] = \mathbf{x}_n \cdot \beta + \epsilon_n,
   1 &amp; 0 &amp; 0 &amp; 1 \\
   1 &amp; 0 &amp; 0 &amp; 1
 \end{bmatrix}
-\]</span> The columns of the design matrix are linearly dependent: the constant term is equal to the sum of three party ID indicators. (A useful exercise is to calculate <span class="math inline">\(\mathbf{X}^\top \mathbf{X}\)</span> and confirm that its columns are linearly dependent too.) This means we can’t include all three when estimating <span class="math inline">\(\beta\)</span> via OLS—we have to drop one category.</p>
+\]</span>
+The columns of the design matrix are linearly dependent: the constant term is equal to the sum of three party ID indicators. (A useful exercise is to calculate <span class="math inline">\(\mathbf{X}^\top \mathbf{X}\)</span> and confirm that its columns are linearly dependent too.) This means we can’t include all three when estimating <span class="math inline">\(\beta\)</span> via OLS—we have to drop one category.</p>
 <p>In one sense, which category we drop is immaterial—our regression will make the same predictions either way. However, in order to interpret the results of a regression on categorical variables, it is important that we know what the categories are, and which one has been dropped.</p>
-<p>For example, imagine we drop the Republican category, so we have the following linear model: <span class="math display">\[
+<p>For example, imagine we drop the Republican category, so we have the following linear model:
+<span class="math display">\[
 \text{Trump}_n = \beta_1 + \beta_2 \text{Independent}_n + \beta_3 \text{Democratic}_n + \epsilon_n.
-\]</span> For a Republican voter, the Independent and Democratic variables will both equal zero, so we will have <span class="math display">\[
+\]</span>
+For a Republican voter, the Independent and Democratic variables will both equal zero, so we will have
+<span class="math display">\[
 E[\text{Trump}_n \,|\, \text{Party ID}_n = \text{R}] = \beta_1.
-\]</span> In other words, the intercept will be the predicted probability that a Republican votes for Trump. For an Independent voter, we will have <span class="math display">\[
+\]</span>
+In other words, the intercept will be the predicted probability that a Republican votes for Trump. For an Independent voter, we will have
+<span class="math display">\[
 E[\text{Trump}_n \,|\, \text{Party ID}_n = \text{I}] = \beta_1 + \beta_2.
-\]</span> So the coefficient on the Independent indicator is not the predicted probability that an Independent votes for Trump. Instead, it is the <em>difference</em> in probability of a Trump vote between Independents and the baseline category (in this case, Republicans).</p>
+\]</span>
+So the coefficient on the Independent indicator is not the predicted probability that an Independent votes for Trump. Instead, it is the <em>difference</em> in probability of a Trump vote between Independents and the baseline category (in this case, Republicans).</p>
 <ul>
 <li><p>If Independents are less likely than Republicans to vote for Trump, the coefficient on Independent will be negative.</p></li>
 <li><p>If Independents are more likely than Republicans to vote for Trump, the coefficient on Independent will be positive.</p></li>
 <li><p>If Independents are equally likely as Republicans to vote for Trump, the coefficient on Independent will be zero.</p></li>
 </ul>
-<p>Similarly, for a Democratic voter, we have <span class="math display">\[
+<p>Similarly, for a Democratic voter, we have
+<span class="math display">\[
 E[\text{Trump}_n \,|\, \text{Party ID}_n = \text{D}] = \beta_1 + \beta_3.
-\]</span> The interpretation of the coefficient on Democratic is the same as for the coefficient on Independent.</p>
+\]</span>
+The interpretation of the coefficient on Democratic is the same as for the coefficient on Independent.</p>
 <p>Take a look at the following results of a hypothetical regression.</p>
 <table>
 <thead>
@@ -386,24 +451,30 @@ E[\text{Trump}_n \,|\, \text{Party ID}_n = \text{D}] = \beta_1 + \beta_3.
 </tbody>
 </table>
 <p>Remember what the coefficient of 0.002 on Age means: if we compared one voter to another who was otherwise identical (in this case, same Party ID) except five years older, we would expect the latter voter to have a 1% greater chance of voting for Trump.</p>
-<p>More specifically, we have three different regression lines—one for each group: <span class="math display">\[
+<p>More specifically, we have three different regression lines—one for each group:
+<span class="math display">\[
 \begin{aligned}
   E[\text{Trump}_n \,|\, \text{Party ID}_n = \text{R}, \text{Age}_n] &amp;= 0.8 + 0.002 \text{Age}_n, \\
   E[\text{Trump}_n \,|\, \text{Party ID}_n = \text{I}, \text{Age}_n] &amp;= 0.4 + 0.002 \text{Age}_n, \\
   E[\text{Trump}_n \,|\, \text{Party ID}_n = \text{D}, \text{Age}_n] &amp;= 0.05 + 0.002 \text{Age}_n.
 \end{aligned}
-\]</span> Notice that the slope is the same in each regression line. Only the intercept varies across groups. When we include a categorical variable in a regression model, it’s like allowing the intercept to differ across categories.</p>
+\]</span>
+Notice that the slope is the same in each regression line. Only the intercept varies across groups. When we include a categorical variable in a regression model, it’s like allowing the intercept to differ across categories.</p>
 </div>
-<div id="interaction-terms" class="section level2">
+<div id="interaction-terms" class="section level2" number="8.2">
 <h2><span class="header-section-number">8.2</span> Interaction Terms</h2>
-<p>When political scientists or economists describe their regression results, they will often talk about the marginal effects of different variables. Formally, the <em>marginal effect</em> of the <span class="math inline">\(k\)</span>’th covariate, <span class="math inline">\(x_{nk}\)</span>, is <span class="math display">\[
-{\frac{\partial{}E[Y_n \,|\, \mathbf{x}_n]}{\partial{}x_{nk}}},
-\]</span> the partial derivative of the conditional expectation with respect to the <span class="math inline">\(k\)</span>’th covariate.</p>
+<p>When political scientists or economists describe their regression results, they will often talk about the marginal effects of different variables. Formally, the <em>marginal effect</em> of the <span class="math inline">\(k\)</span>’th covariate, <span class="math inline">\(x_{nk}\)</span>, is
+<span class="math display">\[
+\frac{\partial{}E[Y_n \,|\, \mathbf{x}_n]}{\partial{}x_{nk}},
+\]</span>
+the partial derivative of the conditional expectation with respect to the <span class="math inline">\(k\)</span>’th covariate.</p>
 <p>The marginal effect answers the following question: Suppose we have two observations that differ in the <span class="math inline">\(k\)</span>’th covariate by one unit, but are otherwise identical. How much greater, or less, would we expect the response to be for the observation with the one-unit-greater value of <span class="math inline">\(x_{nk}\)</span>?</p>
 <p>If we were sure the relationship we were modeling were causal, we could phrase the above question more succinctly. We could ask: Given a one-unit change in the <span class="math inline">\(k\)</span>’th covariate, holding all else fixed, what change in the response should we expect? But we haven’t yet gotten to the point where we can make our claims causal. Hence I will often refer to <em>so-called marginal effects</em>, since I don’t want the “effect” terminology to deceive us into thinking we’re drawing causal inferences. So-called marginal effects are just a nice way to summarize the relationship between individual covariates and the conditional expectation.</p>
-<p>The bare-bones linear model has the (sometimes appealing, sometimes not) feature that it assumes constant marginal effects. For each covariate <span class="math inline">\(x_{nk}\)</span>, we have <span class="math display">\[
-{\frac{\partial{}E[Y_n \,|\, \mathbf{x}_n]}{\partial{}x_{nk}}} = \beta_k,
-\]</span> the coefficient on that covariate. This encodes two critical assumptions:</p>
+<p>The bare-bones linear model has the (sometimes appealing, sometimes not) feature that it assumes constant marginal effects. For each covariate <span class="math inline">\(x_{nk}\)</span>, we have
+<span class="math display">\[
+\frac{\partial{}E[Y_n \,|\, \mathbf{x}_n]}{\partial{}x_{nk}} = \beta_k,
+\]</span>
+the coefficient on that covariate. This encodes two critical assumptions:</p>
 <ol style="list-style-type: decimal">
 <li><p>The marginal effect of the <span class="math inline">\(k\)</span>’th covariate does not depend on the value of any other covariates.</p></li>
 <li><p>The marginal effect of the <span class="math inline">\(k\)</span>’th covariate does not depend on its own value.</p></li>
@@ -414,30 +485,36 @@ E[\text{Trump}_n \,|\, \text{Party ID}_n = \text{D}] = \beta_1 + \beta_3.
 <li><p>Imagine a study of individual voters’ turnout decisions, where we model turnout as a function of the voter’s ideology. Suppose ideology is measured on a 7-point scale, where 1 is most liberal and 7 is most conservative. We know the most ideologically extreme voters are the most likely to turn out. So, all else equal, we’d expect moving from 1 to 2 (very liberal to pretty liberal) to decrease one’s probability of voting, but we’d expect moving from 6 to 7 (pretty conservative to very conservative) to increase one’s probability of voting.</p></li>
 </ol>
 <p>Let’s start with the first case, where the (so-called) marginal effect of one variable depends on the value of another variable. To allow for this in our models, we include the product of the two covariates in our model.</p>
-<p>For example, suppose we are interested in whether the relationship between education and voting for Trump is different between whites and non-whites. We would include three terms in the model (plus an intercept): education, an indicator for white, and their product. <span class="math display">\[
+<p>For example, suppose we are interested in whether the relationship between education and voting for Trump is different between whites and non-whites. We would include three terms in the model (plus an intercept): education, an indicator for white, and their product.
+<span class="math display">\[
 \text{Trump}_n = \beta_1 + \beta_2 \text{Education}_n + \beta_3 \text{White}_n + \beta_4 (\text{Education}_n \times \text{White}_n) + \epsilon_n.
-\]</span> The so-called marginal effect of education is now <span class="math display">\[
-{\frac{\partial{}E[\text{Trump}_n \,|\, \mathbf{x}_n]}{\partial{}\text{Education}_n}}
+\]</span>
+The so-called marginal effect of education is now
+<span class="math display">\[
+\frac{\partial{}E[\text{Trump}_n \,|\, \mathbf{x}_n]}{\partial{}\text{Education}_n}
 = \beta_2 + \beta_4 \text{White}_n.
-\]</span> This equation tells us three things.</p>
+\]</span>
+This equation tells us three things.</p>
 <ul>
 <li><p><span class="math inline">\(\beta_2\)</span> is the marginal effect of education for non-white voters.</p></li>
 <li><p><span class="math inline">\(\beta_4\)</span> is the difference between the marginal effect of education for white voters and the effect for non-white voters.</p></li>
 <li><p><span class="math inline">\(\beta_2 + \beta_4\)</span> is the marginal effect of education for white voters.</p></li>
 </ul>
-<p>Another way to think of it is that we have two regression lines: <span class="math display">\[
+<p>Another way to think of it is that we have two regression lines:
+<span class="math display">\[
 \begin{aligned}
   E[\text{Trump}_n \,|\, \text{White}_n = 0, \text{Education}_n] &amp;= \beta_1 + \beta_2 \text{Education}_n, \\
   E[\text{Trump}_n \,|\, \text{White}_n = 1, \text{Education}_n] &amp;= (\beta_1 + \beta_3) + (\beta_2 + \beta_4) \text{Education}_n.
 \end{aligned}
-\]</span> We saw before that including a categorical variable is like allowing a different intercept for each category. Including an interaction with a categorical variable is like allowing a different slope for each category.</p>
+\]</span>
+We saw before that including a categorical variable is like allowing a different intercept for each category. Including an interaction with a categorical variable is like allowing a different slope for each category.</p>
 <p>At this point, you might ask, why not just run two separate regressions? I can think of at least two reasons not to.</p>
 <ul>
 <li><p>You might want to include other covariates whose effects you don’t think are dependent on race (e.g., age). If you ran separate regressions, you would estimate race-dependent effects for every covariate, at a potential loss of efficiency.</p></li>
 <li><p>You might want to formally test the hypothesis that the effect of education is equal for whites and non-whites. This is easiest to do if you have a single model. Next week we will talk about the tools you would need to undertake this sort of test.</p></li>
 </ul>
 <p>One frequent source of confusion with interaction terms is whether you need to include lower-order terms in the model. For example, if we are only interested in how the effect of education differs with race, why can’t we just include education and its product with race in the specification? The equations above give you the answer. Leaving the white indicator out of the model is like fixing <span class="math inline">\(\beta_3 = 0\)</span>. This means you’re forcing the regression lines for whites and non-whites to have the same intercept, which there’s no good reason to do.</p>
-<p>If you’re not yet persuaded on the necessity of including constitutive terms of interactions in your regressions, see <span class="citation">Braumoeller (<a href="#ref-braumoeller2004hypothesis">2004</a>)</span>.</p>
+<p>If you’re not yet persuaded on the necessity of including constitutive terms of interactions in your regressions, see <span class="citation">Braumoeller (<a href="#ref-braumoeller2004hypothesis" role="doc-biblioref">2004</a>)</span>.</p>
 <p>For an example of interaction terms, imagine the following example. Suppose education is measured in years of schooling.</p>
 <table>
 <thead>
@@ -497,30 +574,38 @@ E[\text{Trump}_n \,|\, \text{Party ID}_n = \text{D}] = \beta_1 + \beta_3.
 </tr>
 </tbody>
 </table>
-<p>One simple way to interpret the effect of each variable is to hold the other one fixed at various values. For example, for a 20-year-old, we have <span class="math display">\[
+<p>One simple way to interpret the effect of each variable is to hold the other one fixed at various values. For example, for a 20-year-old, we have
+<span class="math display">\[
 \begin{aligned}
 E[\text{Trump}_n \,|\, \text{Age}_n = 20, \text{Education}_n] &amp;= 0.44 - 0.16 \text{Education}_n,
 \end{aligned}
-\]</span> whereas for an 80-year-old, we have <span class="math display">\[
+\]</span>
+whereas for an 80-year-old, we have
+<span class="math display">\[
 \begin{aligned}
 E[\text{Trump}_n \,|\, \text{Age}_n = 80, \text{Education}_n] &amp;= 0.56 - 0.04 \text{Education}_n.
 \end{aligned}
-\]</span> These results would seem to imply that (1) older people have a higher baseline probability of voting for Trump, and (2) the magnitude of the negative relationship between education and voting for Trump is weaker for older voters.</p>
-<p>Always remember: when in doubt, take the partial derivative of <span class="math inline">\(Y_n\)</span> (or, more precisely, its conditional expectation) with respect to the variable you’re interested in. For example, here we have <span class="math display">\[
-{\frac{\partial{}E[\text{Trump}_n \,|\, \mathbf{x}_n]}{\partial{}\text{Education}_n}} = -0.02 + 0.0002 \text{Age}_n.
+\]</span>
+These results would seem to imply that (1) older people have a higher baseline probability of voting for Trump, and (2) the magnitude of the negative relationship between education and voting for Trump is weaker for older voters.</p>
+<p>Always remember: when in doubt, take the partial derivative of <span class="math inline">\(Y_n\)</span> (or, more precisely, its conditional expectation) with respect to the variable you’re interested in. For example, here we have
+<span class="math display">\[
+\frac{\partial{}E[\text{Trump}_n \,|\, \mathbf{x}_n]}{\partial{}\text{Education}_n} = -0.02 + 0.0002 \text{Age}_n.
 \]</span></p>
 </div>
-<div id="quadratic-terms" class="section level2">
+<div id="quadratic-terms" class="section level2" number="8.3">
 <h2><span class="header-section-number">8.3</span> Quadratic Terms</h2>
 <p>We use interaction terms when the marginal effect of one variable depends on the value of another variable. But sometimes the marginal effect of a variable depends on its <em>own</em> value. The most stark example is a “U-shaped” relationship, such as we expect between ideology and voter turnout.</p>
 <p><img src="pdaps_files/figure-html/u-shaped-1.png" width="672" /></p>
 <p>We call this kind of relationship <em>non-monotonic</em>, since it is neither increasing everywhere nor decreasing everywhere. However, even with a monotonic relationship, the marginal effect might depend on the value of the variable. (In other words, while every linear function is monotonic, not every monotonic function is linear.) For example, think of a hockey-stick shaped relationship.</p>
 <p><img src="pdaps_files/figure-html/hockey-stick-1.png" width="672" /></p>
 <p>If we model the relationship between years of education and voting for Trump as linear, then we impose the assumption that the difference between voters with 16 years of education and 12 years of education (college versus high-school graduates) is the same as between those with 24 and 20 years of education (got the PhD slowly versus got the PhD quickly). Depending on our sample and the goal of our study, that may not be a reasonable assumption (or approximation).</p>
-<p>We typically use quadratic models for non-monotonic relationships. In the example above, this would entail a regression model like <span class="math display">\[
+<p>We typically use quadratic models for non-monotonic relationships. In the example above, this would entail a regression model like
+<span class="math display">\[
 \text{Turnout}_n = \beta_1 + \beta_2 \text{Ideology}_n + \beta_3 \text{Ideology}_n^2 + \epsilon_n.
-\]</span> Under this model, the marginal effect of Ideology is <span class="math display">\[
-{\frac{\partial{}E[\text{Turnout}_n \,|\, \text{Ideology}_n]}{\partial{}\text{Ideology}_n}}
+\]</span>
+Under this model, the marginal effect of Ideology is
+<span class="math display">\[
+\frac{\partial{}E[\text{Turnout}_n \,|\, \text{Ideology}_n]}{\partial{}\text{Ideology}_n}
 = \beta_2 + 2 \beta_3 \text{Ideology}_n.
 \]</span></p>
 <ul>
@@ -529,19 +614,30 @@ E[\text{Trump}_n \,|\, \text{Age}_n = 80, \text{Education}_n] &amp;= 0.56 - 0.04
 <li><p>If <span class="math inline">\(\beta_3\)</span> is zero, that means the effect of Ideology is constant.</p></li>
 </ul>
 </div>
-<div id="logarithmic-models" class="section level2">
+<div id="logarithmic-models" class="section level2" number="8.4">
 <h2><span class="header-section-number">8.4</span> Logarithmic Models</h2>
 <p>The last common form of nonlinear specification is when we take the natural logarithm of a covariate, the response, or both.</p>
-<p>To set a baseline, let’s remember the standard bivariate linear model, <span class="math display">\[
+<p>To set a baseline, let’s remember the standard bivariate linear model,
+<span class="math display">\[
 Y_n = \beta_1 + \beta_2 x_n + \epsilon_n.
-\]</span> Under the standard model, we say that a 1-unit difference in <span class="math inline">\(x_n\)</span> is associated with a <span class="math inline">\(\beta_2\)</span>-unit difference in <span class="math inline">\(Y_n\)</span>. In other words, the so-called marginal effect of <span class="math inline">\(x_n\)</span> is the constant <span class="math inline">\(\beta_2\)</span>.</p>
-<p>Now consider a specification in which we instead model <span class="math inline">\(Y_n\)</span> as a function of the natural logarithm of <span class="math inline">\(x_n\)</span>: <span class="math display">\[
+\]</span>
+Under the standard model, we say that a 1-unit difference in <span class="math inline">\(x_n\)</span> is associated with a <span class="math inline">\(\beta_2\)</span>-unit difference in <span class="math inline">\(Y_n\)</span>.
+In other words, the so-called marginal effect of <span class="math inline">\(x_n\)</span> is the constant <span class="math inline">\(\beta_2\)</span>.</p>
+<p>Now consider a specification in which we instead model <span class="math inline">\(Y_n\)</span> as a function of the natural logarithm of <span class="math inline">\(x_n\)</span>:
+<span class="math display">\[
 Y_n = \beta_1 + \beta_2 \log x_n + \epsilon_n.
-\]</span> As always, we can calculate the so-called marginal effect by taking the partial derivative: <span class="math display">\[
-{\frac{\partial{}E[Y_n \,|\, x_n]}{\partial{}x_n}} = \frac{\beta_2}{x_n}.
-\]</span> This tells us that as <span class="math inline">\(x_n\)</span> grows larger, the magnitude of the so-called marginal effect diminishes, as in the following illustrations.</p>
+\]</span>
+As always, we can calculate the so-called marginal effect by taking the partial derivative:
+<span class="math display">\[
+\frac{\partial{}E[Y_n \,|\, x_n]}{\partial{}x_n} = \frac{\beta_2}{x_n}.
+\]</span>
+This tells us that as <span class="math inline">\(x_n\)</span> grows larger, the magnitude of the so-called marginal effect diminishes, as in the following illustrations.</p>
 <p><img src="pdaps_files/figure-html/lin-log-1.png" width="672" /></p>
-<p>One way to interpret this kind of specification is that a 1 <em>percent</em> increase in <span class="math inline">\(x_n\)</span> is associated with a <span class="math inline">\(\frac{\beta_2}{100}\)</span> <em>unit</em> change in <span class="math inline">\(Y_n\)</span>. To see why, we will rely on two fun facts: that <span class="math inline">\(\log(a \times b) = \log a + \log b\)</span> and that <span class="math inline">\(\log(1 + x) \approx x\)</span> for small <span class="math inline">\(x\)</span> (roughly <span class="math inline">\(|x| &lt; 0.1\)</span>). Now let <span class="math inline">\(Y_n\)</span> be the baseline value of the response, and let <span class="math inline">\(Y_n&#39;\)</span> be the counterfactual value under a 1 percent increase in <span class="math inline">\(x_n\)</span>. Then we have <span class="math display">\[
+<p>One way to interpret this kind of specification is that a 1 <em>percent</em> increase in <span class="math inline">\(x_n\)</span> is associated with a <span class="math inline">\(\frac{\beta_2}{100}\)</span> <em>unit</em> change in <span class="math inline">\(Y_n\)</span>.
+To see why, we will rely on two fun facts: that <span class="math inline">\(\log(a \times b) = \log a + \log b\)</span> and that <span class="math inline">\(\log(1 + x) \approx x\)</span> for small <span class="math inline">\(x\)</span> (roughly <span class="math inline">\(|x| &lt; 0.1\)</span>).
+Now let <span class="math inline">\(Y_n\)</span> be the baseline value of the response, and let <span class="math inline">\(Y_n&#39;\)</span> be the counterfactual value under a 1 percent increase in <span class="math inline">\(x_n\)</span>.
+Then we have
+<span class="math display">\[
 \begin{aligned}
 Y_n&#39; - Y_n
 &amp;= \beta_2 (\log(1.01 x_n) - \log x_n) \\
@@ -550,35 +646,55 @@ Y_n&#39; - Y_n
 &amp;\approx 0.01 \beta_2.
 \end{aligned}
 \]</span></p>
-<p>Conversely, you may see a specification in which the response is logged and the covariate is not: <span class="math display">\[
+<p>Conversely, you may see a specification in which the response is logged and the covariate is not:
+<span class="math display">\[
 \log Y_n = \beta_1 + \beta_2 x_n + \epsilon_n.
-\]</span> For positive <span class="math inline">\(\beta_2\)</span>, this means the so-called marginal effect of <span class="math inline">\(x_n\)</span> <em>increases</em> as <span class="math inline">\(x_n\)</span> grows large. Similarly, for negative <span class="math inline">\(\beta_2\)</span>, this means the so-called marginal effect of <span class="math inline">\(x_n\)</span> increases as <span class="math inline">\(x_n\)</span> decreases.</p>
+\]</span>
+For positive <span class="math inline">\(\beta_2\)</span>, this means the so-called marginal effect of <span class="math inline">\(x_n\)</span> <em>increases</em> as <span class="math inline">\(x_n\)</span> grows large.
+Similarly, for negative <span class="math inline">\(\beta_2\)</span>, this means the so-called marginal effect of <span class="math inline">\(x_n\)</span> increases as <span class="math inline">\(x_n\)</span> decreases.</p>
 <p><img src="pdaps_files/figure-html/log-lin-1.png" width="672" /></p>
-<p>To interpret this specification, we say that a 1 <em>unit</em> increase in <span class="math inline">\(x_n\)</span> is associated with a <span class="math inline">\(100(e^{\beta_2} - 1)\)</span> <em>percent</em> change in <span class="math inline">\(Y_n\)</span>. For example, with a coefficient of <span class="math inline">\(\beta_2 = 0.5\)</span>, we would say a 1 unit increase in <span class="math inline">\(x_n\)</span> is associated with a 65% increase in <span class="math inline">\(Y_n\)</span>, as <span class="math inline">\(e^{0.5} \approx 1.65\)</span>. To see why this is the case, let <span class="math inline">\(Y_n\)</span> be the baseline value of the response, and let <span class="math inline">\(Y_n&#39;\)</span> be the counterfactual value under a 1 unit increase in <span class="math inline">\(x_n\)</span>. Then, as observed by <span class="citation">Angrist and Pischke (<a href="#ref-angrist2015mastering">2015</a>, 93–94)</span>, we have <span class="math display">\[
+<p>To interpret this specification, we say that a 1 <em>unit</em> increase in <span class="math inline">\(x_n\)</span> is associated with a <span class="math inline">\(100(e^{\beta_2} - 1)\)</span> <em>percent</em> change in <span class="math inline">\(Y_n\)</span>.
+For example, with a coefficient of <span class="math inline">\(\beta_2 = 0.5\)</span>, we would say a 1 unit increase in <span class="math inline">\(x_n\)</span> is associated with a 65% increase in <span class="math inline">\(Y_n\)</span>, as <span class="math inline">\(e^{0.5} \approx 1.65\)</span>.
+To see why this is the case, let <span class="math inline">\(Y_n\)</span> be the baseline value of the response, and let <span class="math inline">\(Y_n&#39;\)</span> be the counterfactual value under a 1 unit increase in <span class="math inline">\(x_n\)</span>.
+Then, as observed by <span class="citation">Angrist and Pischke (<a href="#ref-angrist2015mastering" role="doc-biblioref">2015</a>, 93–94)</span>, we have
+<span class="math display">\[
 \log \frac{Y_n&#39;}{Y_n} = \log Y_n&#39; - \log Y_n = \beta_2,
-\]</span> and therefore <span class="math display">\[
+\]</span>
+and therefore
+<span class="math display">\[
 Y_n&#39; = \exp(\beta_2) Y_n.
-\]</span> Conveniently, for small values of <span class="math inline">\(\beta_2\)</span> (roughly <span class="math inline">\(|\beta_2| &lt; 0.1\)</span>), we have <span class="math inline">\(\exp(\beta_2) - 1 \approx \beta_2\)</span>. For example, if <span class="math inline">\(\beta_2 = -0.05\)</span>, then we would say that a 1 unit increase in <span class="math inline">\(x_n\)</span> is associated with a 5% decrease in <span class="math inline">\(Y_n\)</span>.</p>
-<p>Last, consider the model in which the covariate and the response are both logged: <span class="math display">\[
+\]</span>
+Conveniently, for small values of <span class="math inline">\(\beta_2\)</span> (roughly <span class="math inline">\(|\beta_2| &lt; 0.1\)</span>), we have <span class="math inline">\(\exp(\beta_2) - 1 \approx \beta_2\)</span>.
+For example, if <span class="math inline">\(\beta_2 = -0.05\)</span>, then we would say that a 1 unit increase in <span class="math inline">\(x_n\)</span> is associated with a 5% decrease in <span class="math inline">\(Y_n\)</span>.</p>
+<p>Last, consider the model in which the covariate and the response are both logged:
+<span class="math display">\[
 \log Y_n = \beta_1 + \beta_2 \log X_n + \epsilon_n.
 \]</span></p>
 <p><img src="pdaps_files/figure-html/log-log-1.png" width="672" /></p>
-<p>In the last two specifications, we interpreted the term that was logged in terms of percentage changes. The same is true here: the log-log model relates percent changes in <span class="math inline">\(x_n\)</span> to percent changes in <span class="math inline">\(Y_n\)</span>. Specifically, we say that a 1 percent increase in <span class="math inline">\(x_n\)</span> is associated with a <span class="math inline">\(\beta_2\)</span> percent change in <span class="math inline">\(Y_n\)</span>. To see why, again let <span class="math inline">\(Y_n\)</span> be a baseline value, and let <span class="math inline">\(Y_n&#39;\)</span> be the counterfactual if we increased <span class="math inline">\(x_n\)</span> by 1 percent. Then we have <span class="math display">\[
+<p>In the last two specifications, we interpreted the term that was logged in terms of percentage changes.
+The same is true here: the log-log model relates percent changes in <span class="math inline">\(x_n\)</span> to percent changes in <span class="math inline">\(Y_n\)</span>.
+Specifically, we say that a 1 percent increase in <span class="math inline">\(x_n\)</span> is associated with a <span class="math inline">\(\beta_2\)</span> percent change in <span class="math inline">\(Y_n\)</span>.
+To see why, again let <span class="math inline">\(Y_n\)</span> be a baseline value, and let <span class="math inline">\(Y_n&#39;\)</span> be the counterfactual if we increased <span class="math inline">\(x_n\)</span> by 1 percent.
+Then we have
+<span class="math display">\[
 \begin{aligned}
 \log \frac{Y_n&#39;}{Y_n}
 &amp;= \beta_2 (\log(1.01 x_n) - \log x_n) \\
 &amp;= (\log 1.01) \beta_2 \\
 &amp;\approx 0.01 \beta_2,
 \end{aligned}
-\]</span> which in turn gives us <span class="math display">\[
+\]</span>
+which in turn gives us
+<span class="math display">\[
 Y_n&#39; \approx \exp(0.01 \beta_2) Y_n \approx (1 + 0.01 \beta_2) Y_n.
-\]</span> For example, in the log-log model, a coefficient of <span class="math inline">\(\beta_2 = 0.5\)</span> means that a 1 percent increase in <span class="math inline">\(x_n\)</span> is associated with a 0.5 percent increase in <span class="math inline">\(Y_n\)</span>.</p>
+\]</span>
+For example, in the log-log model, a coefficient of <span class="math inline">\(\beta_2 = 0.5\)</span> means that a 1 percent increase in <span class="math inline">\(x_n\)</span> is associated with a 0.5 percent increase in <span class="math inline">\(Y_n\)</span>.</p>
 <p>To summarize, here are the four possible logarithmic specifications and their interpretations:</p>
-<table style="width:47%;">
+<table>
 <colgroup>
-<col width="12%" />
-<col width="13%" />
-<col width="20%" />
+<col width="25%" />
+<col width="29%" />
+<col width="45%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -615,22 +731,22 @@ Y_n&#39; \approx \exp(0.01 \beta_2) Y_n \approx (1 + 0.01 \beta_2) Y_n.
 <li><p>You may let theory be your guide—develop expectations, on the basis of your substantive knowledge, about whether the relevant changes in conditional expectation will be in terms of levels or proportions.</p></li>
 <li><p>Or you may be inductive—make scatterplots of all four possibilities, and choose the specification under which the relationship is closest to linear.</p></li>
 </ul>
-<p>A final note on logarithmic models. The logarithm of a number <span class="math inline">\(c \leq 0\)</span> does not exist. Therefore, a logarithmic model is only appropriate for a strictly positive response/covariate. For non-negative variables that include zeroes, some people try to “fix” this by doing <span class="math inline">\(\log(Y_n + 1)\)</span>, but in this situation it is generally better to follow the procedure advocated by <span class="citation">Burbidge, Magee, and Robb (<a href="#ref-burbidge1988alternative">1988</a>)</span>.</p>
+<p>A final note on logarithmic models. The logarithm of a number <span class="math inline">\(c \leq 0\)</span> does not exist. Therefore, a logarithmic model is only appropriate for a strictly positive response/covariate. For non-negative variables that include zeroes, some people try to “fix” this by doing <span class="math inline">\(\log(Y_n + 1)\)</span>, but in this situation it is generally better to follow the procedure advocated by <span class="citation">Burbidge, Magee, and Robb (<a href="#ref-burbidge1988alternative" role="doc-biblioref">1988</a>)</span>.</p>
 </div>
-<div id="appendix-nonstandard-specifications-in-r" class="section level2">
+<div id="appendix-nonstandard-specifications-in-r" class="section level2" number="8.5">
 <h2><span class="header-section-number">8.5</span> Appendix: Nonstandard Specifications in R</h2>
 <p>We will use the following packages:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)
-<span class="kw">library</span>(<span class="st">&quot;broom&quot;</span>)
-<span class="kw">library</span>(<span class="st">&quot;forcats&quot;</span>)
-<span class="kw">library</span>(<span class="st">&quot;interplot&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="specification.html#cb224-1"></a><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</span>
+<span id="cb224-2"><a href="specification.html#cb224-2"></a><span class="kw">library</span>(<span class="st">&quot;broom&quot;</span>)</span>
+<span id="cb224-3"><a href="specification.html#cb224-3"></a><span class="kw">library</span>(<span class="st">&quot;forcats&quot;</span>)</span>
+<span id="cb224-4"><a href="specification.html#cb224-4"></a><span class="kw">library</span>(<span class="st">&quot;interplot&quot;</span>)</span></code></pre></div>
 <p><strong>forcats</strong> contains convenience functions for <em>factors</em>, which are R’s way of representing categorical variables. <strong>interplot</strong> is for plotting marginal effects from interactive models.</p>
 <p>Once again, we will work with the occupational prestige data from the <strong>car</strong> package. We will also convert it to a tibble, so that it will more closely resemble the kind of data frame we would get had we read it in with <code>read_csv()</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;car&quot;</span>)
-<span class="kw">data</span>(Prestige)
-Prestige &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(Prestige)
-
-Prestige</code></pre></div>
+<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="specification.html#cb225-1"></a><span class="kw">library</span>(<span class="st">&quot;car&quot;</span>)</span>
+<span id="cb225-2"><a href="specification.html#cb225-2"></a><span class="kw">data</span>(Prestige)</span>
+<span id="cb225-3"><a href="specification.html#cb225-3"></a>Prestige &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(Prestige)</span>
+<span id="cb225-4"><a href="specification.html#cb225-4"></a></span>
+<span id="cb225-5"><a href="specification.html#cb225-5"></a>Prestige</span></code></pre></div>
 <pre><code>## # A tibble: 102 x 6
 ##   education income women prestige census type 
 ##       &lt;dbl&gt;  &lt;int&gt; &lt;dbl&gt;    &lt;dbl&gt;  &lt;int&gt; &lt;fct&gt;
@@ -640,10 +756,10 @@ Prestige</code></pre></div>
 ## 4      11.4   8865  9.11     56.8   1175 prof 
 ## 5      14.6   8403 11.7      73.5   2111 prof 
 ## # … with 97 more rows</code></pre>
-<div id="categorical-variables-1" class="section level3">
+<div id="categorical-variables-1" class="section level3" number="8.5.1">
 <h3><span class="header-section-number">8.5.1</span> Categorical Variables</h3>
 <p>You will notice that the <code>type</code> column of the prestige data is listed as a <code>&lt;fctr&gt;</code>, which stands for factor. A factor is R’s representation of a categorical variable. Let’s take a closer look.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Prestige<span class="op">$</span>type</code></pre></div>
+<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="specification.html#cb227-1"></a>Prestige<span class="op">$</span>type</span></code></pre></div>
 <pre><code>##   [1] prof prof prof prof prof prof prof prof prof prof prof prof prof prof prof
 ##  [16] prof prof prof prof prof prof prof prof prof prof prof prof bc   prof prof
 ##  [31] wc   prof wc   &lt;NA&gt; wc   wc   wc   wc   wc   wc   wc   wc   wc   wc   wc  
@@ -653,23 +769,23 @@ Prestige</code></pre></div>
 ##  [91] bc   bc   bc   bc   bc   prof bc   bc   bc   bc   bc   bc  
 ## Levels: bc prof wc</code></pre>
 <p>This looks kind of like—but isn’t quite—a character variable. The most noticeable difference is that R tells us its <em>levels</em>: the set of categories available. We can extract these directly with the <code>levels()</code> function.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">levels</span>(Prestige<span class="op">$</span>type)</code></pre></div>
+<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="specification.html#cb229-1"></a><span class="kw">levels</span>(Prestige<span class="op">$</span>type)</span></code></pre></div>
 <pre><code>## [1] &quot;bc&quot;   &quot;prof&quot; &quot;wc&quot;</code></pre>
 <p>This brings us to an important difference between <code>read.csv()</code> (with a dot, the built-in R function) and <code>read_csv()</code> (with an underscore, the tidyverse version). The old way, <code>read.csv()</code>, by default treats any column of character strings as a factor. The tidyverse way, <code>read_csv()</code>, never creates factors by default—you must make them explicitly.</p>
 <p>To create a factor variable, you can use the <code>factor()</code> function:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">example_vector &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">1</span>)
-
-<span class="kw">factor</span>(example_vector,  <span class="co"># vector to convert to factor</span>
-       <span class="dt">levels =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>,    <span class="co"># possible values of the vector</span>
-       <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;ONE&quot;</span>,
-                  <span class="st">&quot;two&quot;</span>,
-                  <span class="st">&quot;Three&quot;</span>,
-                  <span class="st">&quot;FOUR!&quot;</span>))  <span class="co"># label corresponding to each value</span></code></pre></div>
+<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb231-1"><a href="specification.html#cb231-1"></a>example_vector &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">1</span>)</span>
+<span id="cb231-2"><a href="specification.html#cb231-2"></a></span>
+<span id="cb231-3"><a href="specification.html#cb231-3"></a><span class="kw">factor</span>(example_vector,  <span class="co"># vector to convert to factor</span></span>
+<span id="cb231-4"><a href="specification.html#cb231-4"></a>       <span class="dt">levels =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>,    <span class="co"># possible values of the vector</span></span>
+<span id="cb231-5"><a href="specification.html#cb231-5"></a>       <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;ONE&quot;</span>,</span>
+<span id="cb231-6"><a href="specification.html#cb231-6"></a>                  <span class="st">&quot;two&quot;</span>,</span>
+<span id="cb231-7"><a href="specification.html#cb231-7"></a>                  <span class="st">&quot;Three&quot;</span>,</span>
+<span id="cb231-8"><a href="specification.html#cb231-8"></a>                  <span class="st">&quot;FOUR!&quot;</span>))  <span class="co"># label corresponding to each value</span></span></code></pre></div>
 <pre><code>## [1] FOUR! ONE   Three Three ONE  
 ## Levels: ONE two Three FOUR!</code></pre>
 <p>Returning to the prestige data, let’s run a regression of occupational prestige on occupational category.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_type &lt;-<span class="st"> </span><span class="kw">lm</span>(prestige <span class="op">~</span><span class="st"> </span>type, <span class="dt">data =</span> Prestige)
-fit_type</code></pre></div>
+<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="specification.html#cb233-1"></a>fit_type &lt;-<span class="st"> </span><span class="kw">lm</span>(prestige <span class="op">~</span><span class="st"> </span>type, <span class="dt">data =</span> Prestige)</span>
+<span id="cb233-2"><a href="specification.html#cb233-2"></a>fit_type</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = prestige ~ type, data = Prestige)
@@ -678,31 +794,31 @@ fit_type</code></pre></div>
 ## (Intercept)     typeprof       typewc  
 ##      35.527       32.321        6.716</code></pre>
 <p><code>lm()</code> automatically converts the factor into a set of indicators, and automatically omits one category from the design matrix. In particular, it omits whichever level is listed first (which may not be the first level to appear in the data!). If you want to have a different category omitted, you need to reorder the levels, placing the category you want to omit first. You can do that with <code>fct_relevel()</code> from the <strong>forcats</strong> package. Let’s make white-collar (<code>wc</code>) the omitted category.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Prestige<span class="op">$</span>type &lt;-<span class="st"> </span><span class="kw">fct_relevel</span>(Prestige<span class="op">$</span>type, <span class="st">&quot;wc&quot;</span>)
-<span class="kw">levels</span>(Prestige<span class="op">$</span>type)</code></pre></div>
+<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="specification.html#cb235-1"></a>Prestige<span class="op">$</span>type &lt;-<span class="st"> </span><span class="kw">fct_relevel</span>(Prestige<span class="op">$</span>type, <span class="st">&quot;wc&quot;</span>)</span>
+<span id="cb235-2"><a href="specification.html#cb235-2"></a><span class="kw">levels</span>(Prestige<span class="op">$</span>type)</span></code></pre></div>
 <pre><code>## [1] &quot;wc&quot;   &quot;bc&quot;   &quot;prof&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_type_relevel &lt;-<span class="st"> </span><span class="kw">lm</span>(prestige <span class="op">~</span><span class="st"> </span>type, <span class="dt">data =</span> Prestige)</code></pre></div>
+<div class="sourceCode" id="cb237"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb237-1"><a href="specification.html#cb237-1"></a>fit_type_relevel &lt;-<span class="st"> </span><span class="kw">lm</span>(prestige <span class="op">~</span><span class="st"> </span>type, <span class="dt">data =</span> Prestige)</span></code></pre></div>
 <p>We can confirm by checking out the model fit statistics that which category we omit makes no difference to the overall fit of the model, or the predicted values.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">glance</span>(fit_type)</code></pre></div>
+<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="specification.html#cb238-1"></a><span class="kw">glance</span>(fit_type)</span></code></pre></div>
 <pre><code>## # A tibble: 1 x 11
 ##   r.squared adj.r.squared sigma statistic  p.value    df logLik   AIC   BIC
 ##       &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 ## 1     0.698         0.691  9.50      110. 2.12e-25     3  -358.  724.  735.
 ## # … with 2 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">glance</span>(fit_type_relevel)  <span class="co"># Should be the same</span></code></pre></div>
+<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="specification.html#cb240-1"></a><span class="kw">glance</span>(fit_type_relevel)  <span class="co"># Should be the same</span></span></code></pre></div>
 <pre><code>## # A tibble: 1 x 11
 ##   r.squared adj.r.squared sigma statistic  p.value    df logLik   AIC   BIC
 ##       &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 ## 1     0.698         0.691  9.50      110. 2.12e-25     3  -358.  724.  735.
 ## # … with 2 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># fitted() extracts the fitted value for each observation</span>
-<span class="kw">all.equal</span>(<span class="kw">fitted</span>(fit_type), <span class="kw">fitted</span>(fit_type_relevel))</code></pre></div>
+<div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb242-1"><a href="specification.html#cb242-1"></a><span class="co"># fitted() extracts the fitted value for each observation</span></span>
+<span id="cb242-2"><a href="specification.html#cb242-2"></a><span class="kw">all.equal</span>(<span class="kw">fitted</span>(fit_type), <span class="kw">fitted</span>(fit_type_relevel))</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 <p>One more thing—it’s rare you should need to do this, but you can use <code>model.matrix()</code> to extract the design matrix for a fitted regression model.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">X &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(fit_type)
-<span class="kw">dim</span>(X)</code></pre></div>
+<div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb244-1"><a href="specification.html#cb244-1"></a>X &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(fit_type)</span>
+<span id="cb244-2"><a href="specification.html#cb244-2"></a><span class="kw">dim</span>(X)</span></code></pre></div>
 <pre><code>## [1] 98  3</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(X)</code></pre></div>
+<div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb246-1"><a href="specification.html#cb246-1"></a><span class="kw">head</span>(X)</span></code></pre></div>
 <pre><code>##   (Intercept) typeprof typewc
 ## 1           1        1      0
 ## 2           1        1      0
@@ -711,11 +827,11 @@ fit_type</code></pre></div>
 ## 5           1        1      0
 ## 6           1        1      0</code></pre>
 </div>
-<div id="interaction-terms-1" class="section level3">
+<div id="interaction-terms-1" class="section level3" number="8.5.2">
 <h3><span class="header-section-number">8.5.2</span> Interaction Terms</h3>
 <p>The syntax for an interactive model is pretty intuitive. Let’s look at the joint effect of education and income on occupational prestige.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_interactive &lt;-<span class="st"> </span><span class="kw">lm</span>(prestige <span class="op">~</span><span class="st"> </span>education <span class="op">*</span><span class="st"> </span>income, <span class="dt">data =</span> Prestige)
-fit_interactive</code></pre></div>
+<div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="specification.html#cb248-1"></a>fit_interactive &lt;-<span class="st"> </span><span class="kw">lm</span>(prestige <span class="op">~</span><span class="st"> </span>education <span class="op">*</span><span class="st"> </span>income, <span class="dt">data =</span> Prestige)</span>
+<span id="cb248-2"><a href="specification.html#cb248-2"></a>fit_interactive</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = prestige ~ education * income, data = Prestige)
@@ -725,15 +841,15 @@ fit_interactive</code></pre></div>
 ##       -2.207e+01         5.373e+00         3.944e-03        -1.961e-04</code></pre>
 <p>Notice that <code>lm()</code> automatically included the lower-order terms for us, so we didn’t have to remember which terms to put in. This is particularly useful when you are interacting with a categorical variable that has many categories, or when you are including higher-order interactions.</p>
 <p>If you want to plot the (so-called) marginal effect of education as a function of income, you can use the handy function from the <strong>interplot</strong> package.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">interplot</span>(fit_interactive, <span class="dt">var1 =</span> <span class="st">&quot;education&quot;</span>, <span class="dt">var2 =</span> <span class="st">&quot;income&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb250-1"><a href="specification.html#cb250-1"></a><span class="kw">interplot</span>(fit_interactive, <span class="dt">var1 =</span> <span class="st">&quot;education&quot;</span>, <span class="dt">var2 =</span> <span class="st">&quot;income&quot;</span>)</span></code></pre></div>
 <p><img src="pdaps_files/figure-html/interplot-1.png" width="672" /></p>
 <p>We see that the marginal effect of education on prestige is high for low-income occupations, but almost nil for an occupation that earns around $25,000/year. (The bars represent a confidence interval—of course, we haven’t done any inferential statistics yet.)</p>
 </div>
-<div id="quadratic-and-logarithmic-models" class="section level3">
+<div id="quadratic-and-logarithmic-models" class="section level3" number="8.5.3">
 <h3><span class="header-section-number">8.5.3</span> Quadratic and Logarithmic Models</h3>
 <p>The syntax for a quadratic model is a bit weird. You would think you could use a formula like <code>y ~ x + x^2</code>, but that won’t work. Instead, you have to write <code>y ~ x + I(x^2)</code>, as in the following example.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_quad &lt;-<span class="st"> </span><span class="kw">lm</span>(prestige <span class="op">~</span><span class="st"> </span>education <span class="op">+</span><span class="st"> </span><span class="kw">I</span>(education<span class="op">^</span><span class="dv">2</span>) <span class="op">+</span><span class="st"> </span>income, <span class="dt">data =</span> Prestige)
-fit_quad</code></pre></div>
+<div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb251-1"><a href="specification.html#cb251-1"></a>fit_quad &lt;-<span class="st"> </span><span class="kw">lm</span>(prestige <span class="op">~</span><span class="st"> </span>education <span class="op">+</span><span class="st"> </span><span class="kw">I</span>(education<span class="op">^</span><span class="dv">2</span>) <span class="op">+</span><span class="st"> </span>income, <span class="dt">data =</span> Prestige)</span>
+<span id="cb251-2"><a href="specification.html#cb251-2"></a>fit_quad</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = prestige ~ education + I(education^2) + income, 
@@ -743,15 +859,15 @@ fit_quad</code></pre></div>
 ##    (Intercept)       education  I(education^2)          income  
 ##      10.979513        0.774768        0.153730        0.001276</code></pre>
 <p>The easiest way to visualize the results of a quadratic model is to create a synthetic dataset, where you vary the relevant variable across its range while holding all the other variables fixed at the same value. Then plug the synthetic dataset into the model to get predicted values.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">synthetic_data &lt;-<span class="st"> </span><span class="kw">data_frame</span>(
-    <span class="dt">education =</span> <span class="kw">seq</span>(<span class="kw">min</span>(Prestige<span class="op">$</span>education),
-                    <span class="kw">max</span>(Prestige<span class="op">$</span>education),
-                    <span class="dt">length.out =</span> <span class="dv">100</span>),
-    <span class="dt">income =</span> <span class="kw">mean</span>(Prestige<span class="op">$</span>income)
-)
-
-synthetic_data &lt;-<span class="st"> </span><span class="kw">augment</span>(fit_quad, <span class="dt">newdata =</span> synthetic_data)
-<span class="kw">head</span>(synthetic_data)</code></pre></div>
+<div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb253-1"><a href="specification.html#cb253-1"></a>synthetic_data &lt;-<span class="st"> </span><span class="kw">data_frame</span>(</span>
+<span id="cb253-2"><a href="specification.html#cb253-2"></a>    <span class="dt">education =</span> <span class="kw">seq</span>(<span class="kw">min</span>(Prestige<span class="op">$</span>education),</span>
+<span id="cb253-3"><a href="specification.html#cb253-3"></a>                    <span class="kw">max</span>(Prestige<span class="op">$</span>education),</span>
+<span id="cb253-4"><a href="specification.html#cb253-4"></a>                    <span class="dt">length.out =</span> <span class="dv">100</span>),</span>
+<span id="cb253-5"><a href="specification.html#cb253-5"></a>    <span class="dt">income =</span> <span class="kw">mean</span>(Prestige<span class="op">$</span>income)</span>
+<span id="cb253-6"><a href="specification.html#cb253-6"></a>)</span>
+<span id="cb253-7"><a href="specification.html#cb253-7"></a></span>
+<span id="cb253-8"><a href="specification.html#cb253-8"></a>synthetic_data &lt;-<span class="st"> </span><span class="kw">augment</span>(fit_quad, <span class="dt">newdata =</span> synthetic_data)</span>
+<span id="cb253-9"><a href="specification.html#cb253-9"></a><span class="kw">head</span>(synthetic_data)</span></code></pre></div>
 <pre><code>## # A tibble: 6 x 4
 ##   education income .fitted .se.fit
 ##       &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
@@ -761,13 +877,13 @@ synthetic_data &lt;-<span class="st"> </span><span class="kw">augment</span>(fit
 ## 4      6.67  6798.    31.7    2.03
 ## 5      6.77  6798.    31.9    1.95
 ## 6      6.86  6798.    32.2    1.87</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(synthetic_data, <span class="kw">aes</span>(<span class="dt">x =</span> education, <span class="dt">y =</span> .fitted)) <span class="op">+</span>
-<span class="st">    </span><span class="kw">geom_line</span>()</code></pre></div>
+<div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb255-1"><a href="specification.html#cb255-1"></a><span class="kw">ggplot</span>(synthetic_data, <span class="kw">aes</span>(<span class="dt">x =</span> education, <span class="dt">y =</span> .fitted)) <span class="op">+</span></span>
+<span id="cb255-2"><a href="specification.html#cb255-2"></a><span class="st">    </span><span class="kw">geom_line</span>()</span></code></pre></div>
 <p><img src="pdaps_files/figure-html/plot-quadratic-1.png" width="672" /></p>
 <p>In this case, within the range spanned by the sample data, the estimated quadratic relationship is only barely nonlinear.</p>
 <p>Finally, to run a logarithmic model, just put <code>log()</code> around the variables you want to log.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_log &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="kw">log</span>(prestige) <span class="op">~</span><span class="st"> </span><span class="kw">log</span>(income) <span class="op">+</span><span class="st"> </span>education, <span class="dt">data =</span> Prestige)
-fit_log</code></pre></div>
+<div class="sourceCode" id="cb256"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb256-1"><a href="specification.html#cb256-1"></a>fit_log &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="kw">log</span>(prestige) <span class="op">~</span><span class="st"> </span><span class="kw">log</span>(income) <span class="op">+</span><span class="st"> </span>education, <span class="dt">data =</span> Prestige)</span>
+<span id="cb256-2"><a href="specification.html#cb256-2"></a>fit_log</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = log(prestige) ~ log(income) + education, data = Prestige)
@@ -786,16 +902,16 @@ fit_log</code></pre></div>
 <p>Angrist, Joshua D., and Jörn-Steffen Pischke. 2015. <em>Mastering ’Metrics: The Path from Cause to Effect</em>. Princeton University Press.</p>
 </div>
 <div id="ref-braumoeller2004hypothesis">
-<p>Braumoeller, Bear F. 2004. “Hypothesis Testing and Multiplicative Interaction Terms.” <em>International Organization</em> 58 (04). Cambridge University Press: 807–20.</p>
+<p>Braumoeller, Bear F. 2004. “Hypothesis Testing and Multiplicative Interaction Terms.” <em>International Organization</em> 58 (04): 807–20.</p>
 </div>
 <div id="ref-burbidge1988alternative">
-<p>Burbidge, John B, Lonnie Magee, and A Leslie Robb. 1988. “Alternative Transformations to Handle Extreme Values of the Dependent Variable.” <em>Journal of the American Statistical Association</em> 83 (401). Taylor &amp; Francis: 123–27.</p>
+<p>Burbidge, John B, Lonnie Magee, and A Leslie Robb. 1988. “Alternative Transformations to Handle Extreme Values of the Dependent Variable.” <em>Journal of the American Statistical Association</em> 83 (401): 123–27.</p>
 </div>
 </div>
 <div class="footnotes">
 <hr />
 <ol start="23">
-<li id="fn23"><p>Oldish-school political scientists, by which I mean just about anyone who got their PhD between 1990 and 2010, would now be clutching their pearls at the mere thought of using a linear model for vote choice. But so-called “binary dependent variable” models like logistic regression are at best overrated, as you read in <em>Mostly Harmless Econometrics</em>.<a href="specification.html#fnref23">↩</a></p></li>
+<li id="fn23"><p>Oldish-school political scientists, by which I mean just about anyone who got their PhD between 1990 and 2010, would now be clutching their pearls at the mere thought of using a linear model for vote choice. But so-called “binary dependent variable” models like logistic regression are at best overrated, as you read in <em>Mostly Harmless Econometrics</em>.<a href="specification.html#fnref23" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>
@@ -859,7 +975,7 @@ gitbook.start({
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    var src = "";
+    var src = "true";
     if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))

@@ -24,7 +24,7 @@
 <meta name="author" content="Brenton Kenkel" />
 
 
-<meta name="date" content="2020-03-09" />
+<meta name="date" content="2020-03-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,6 +33,7 @@
   
 <link rel="prev" href="panel.html"/>
 <link rel="next" href="references.html"/>
+<script src="libs/header-attrs-2.1/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -53,41 +54,67 @@
 
 
 <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -107,56 +134,65 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> About This Book</a></li>
-<li class="chapter" data-level="2" data-path="programming.html"><a href="programming.html"><i class="fa fa-check"></i><b>2</b> Principles of Programming</a><ul>
+<li class="chapter" data-level="2" data-path="programming.html"><a href="programming.html"><i class="fa fa-check"></i><b>2</b> Principles of Programming</a>
+<ul>
 <li class="chapter" data-level="2.1" data-path="programming.html"><a href="programming.html#write-programs-for-people-not-computers"><i class="fa fa-check"></i><b>2.1</b> Write Programs for People, Not Computers</a></li>
 <li class="chapter" data-level="2.2" data-path="programming.html"><a href="programming.html#let-the-computer-do-the-work"><i class="fa fa-check"></i><b>2.2</b> Let the Computer Do the Work</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>3</b> Working with Data</a><ul>
+<li class="chapter" data-level="3" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i><b>3</b> Working with Data</a>
+<ul>
 <li class="chapter" data-level="3.1" data-path="data.html"><a href="data.html#loading"><i class="fa fa-check"></i><b>3.1</b> Loading</a></li>
 <li class="chapter" data-level="3.2" data-path="data.html"><a href="data.html#tidying"><i class="fa fa-check"></i><b>3.2</b> Tidying</a></li>
 <li class="chapter" data-level="3.3" data-path="data.html"><a href="data.html#transforming-and-aggregating"><i class="fa fa-check"></i><b>3.3</b> Transforming and Aggregating</a></li>
 <li class="chapter" data-level="3.4" data-path="data.html"><a href="data.html#merging"><i class="fa fa-check"></i><b>3.4</b> Merging</a></li>
 <li class="chapter" data-level="3.5" data-path="data.html"><a href="data.html#appendix-creating-the-example-data"><i class="fa fa-check"></i><b>3.5</b> Appendix: Creating the Example Data</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="visualization.html"><a href="visualization.html"><i class="fa fa-check"></i><b>4</b> Data Visualization</a><ul>
+<li class="chapter" data-level="4" data-path="visualization.html"><a href="visualization.html"><i class="fa fa-check"></i><b>4</b> Data Visualization</a>
+<ul>
 <li class="chapter" data-level="4.1" data-path="visualization.html"><a href="visualization.html#basic-plots"><i class="fa fa-check"></i><b>4.1</b> Basic Plots</a></li>
 <li class="chapter" data-level="4.2" data-path="visualization.html"><a href="visualization.html#saving-plots"><i class="fa fa-check"></i><b>4.2</b> Saving Plots</a></li>
 <li class="chapter" data-level="4.3" data-path="visualization.html"><a href="visualization.html#faceting"><i class="fa fa-check"></i><b>4.3</b> Faceting</a></li>
 <li class="chapter" data-level="4.4" data-path="visualization.html"><a href="visualization.html#aesthetics"><i class="fa fa-check"></i><b>4.4</b> Aesthetics</a></li>
 <li class="chapter" data-level="4.5" data-path="visualization.html"><a href="visualization.html#appendix-creating-the-example-data-1"><i class="fa fa-check"></i><b>4.5</b> Appendix: Creating the Example Data</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="bivariate.html"><a href="bivariate.html"><i class="fa fa-check"></i><b>5</b> Bivariate Regression</a><ul>
+<li class="chapter" data-level="5" data-path="bivariate.html"><a href="bivariate.html"><i class="fa fa-check"></i><b>5</b> Bivariate Regression</a>
+<ul>
 <li class="chapter" data-level="5.1" data-path="bivariate.html"><a href="bivariate.html#probability"><i class="fa fa-check"></i><b>5.1</b> Probability Refresher</a></li>
 <li class="chapter" data-level="5.2" data-path="bivariate.html"><a href="bivariate.html#the-linear-model"><i class="fa fa-check"></i><b>5.2</b> The Linear Model</a></li>
 <li class="chapter" data-level="5.3" data-path="bivariate.html"><a href="bivariate.html#least-squares"><i class="fa fa-check"></i><b>5.3</b> Least Squares</a></li>
 <li class="chapter" data-level="5.4" data-path="bivariate.html"><a href="bivariate.html#properties"><i class="fa fa-check"></i><b>5.4</b> Properties</a></li>
 <li class="chapter" data-level="5.5" data-path="bivariate.html"><a href="bivariate.html#appendix-regression-in-r"><i class="fa fa-check"></i><b>5.5</b> Appendix: Regression in R</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="matrix.html"><a href="matrix.html"><i class="fa fa-check"></i><b>6</b> Matrix Algebra: A Crash Course</a><ul>
+<li class="chapter" data-level="6" data-path="matrix.html"><a href="matrix.html"><i class="fa fa-check"></i><b>6</b> Matrix Algebra: A Crash Course</a>
+<ul>
 <li class="chapter" data-level="6.1" data-path="matrix.html"><a href="matrix.html#vector-operations"><i class="fa fa-check"></i><b>6.1</b> Vector Operations</a></li>
 <li class="chapter" data-level="6.2" data-path="matrix.html"><a href="matrix.html#matrix-operations"><i class="fa fa-check"></i><b>6.2</b> Matrix Operations</a></li>
 <li class="chapter" data-level="6.3" data-path="matrix.html"><a href="matrix.html#matrix-inversion"><i class="fa fa-check"></i><b>6.3</b> Matrix Inversion</a></li>
 <li class="chapter" data-level="6.4" data-path="matrix.html"><a href="matrix.html#solving-linear-systems"><i class="fa fa-check"></i><b>6.4</b> Solving Linear Systems</a></li>
 <li class="chapter" data-level="6.5" data-path="matrix.html"><a href="matrix.html#appendix-matrices-in-r"><i class="fa fa-check"></i><b>6.5</b> Appendix: Matrices in R</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="ols-matrix.html"><a href="ols-matrix.html"><i class="fa fa-check"></i><b>7</b> Reintroduction to the Linear Model</a><ul>
+<li class="chapter" data-level="7" data-path="ols-matrix.html"><a href="ols-matrix.html"><i class="fa fa-check"></i><b>7</b> Reintroduction to the Linear Model</a>
+<ul>
 <li class="chapter" data-level="7.1" data-path="ols-matrix.html"><a href="ols-matrix.html#the-linear-model-in-matrix-form"><i class="fa fa-check"></i><b>7.1</b> The Linear Model in Matrix Form</a></li>
 <li class="chapter" data-level="7.2" data-path="ols-matrix.html"><a href="ols-matrix.html#the-ols-estimator"><i class="fa fa-check"></i><b>7.2</b> The OLS Estimator</a></li>
 <li class="chapter" data-level="7.3" data-path="ols-matrix.html"><a href="ols-matrix.html#vector-valued-random-variables"><i class="fa fa-check"></i><b>7.3</b> Vector-Valued Random Variables</a></li>
 <li class="chapter" data-level="7.4" data-path="ols-matrix.html"><a href="ols-matrix.html#properties-of-ols"><i class="fa fa-check"></i><b>7.4</b> Properties of OLS</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="specification.html"><a href="specification.html"><i class="fa fa-check"></i><b>8</b> Specification Issues</a><ul>
+<li class="chapter" data-level="8" data-path="specification.html"><a href="specification.html"><i class="fa fa-check"></i><b>8</b> Specification Issues</a>
+<ul>
 <li class="chapter" data-level="8.1" data-path="specification.html"><a href="specification.html#categorical-variables"><i class="fa fa-check"></i><b>8.1</b> Categorical Variables</a></li>
 <li class="chapter" data-level="8.2" data-path="specification.html"><a href="specification.html#interaction-terms"><i class="fa fa-check"></i><b>8.2</b> Interaction Terms</a></li>
 <li class="chapter" data-level="8.3" data-path="specification.html"><a href="specification.html#quadratic-terms"><i class="fa fa-check"></i><b>8.3</b> Quadratic Terms</a></li>
 <li class="chapter" data-level="8.4" data-path="specification.html"><a href="specification.html#logarithmic-models"><i class="fa fa-check"></i><b>8.4</b> Logarithmic Models</a></li>
-<li class="chapter" data-level="8.5" data-path="specification.html"><a href="specification.html#appendix-nonstandard-specifications-in-r"><i class="fa fa-check"></i><b>8.5</b> Appendix: Nonstandard Specifications in R</a><ul>
+<li class="chapter" data-level="8.5" data-path="specification.html"><a href="specification.html#appendix-nonstandard-specifications-in-r"><i class="fa fa-check"></i><b>8.5</b> Appendix: Nonstandard Specifications in R</a>
+<ul>
 <li class="chapter" data-level="8.5.1" data-path="specification.html"><a href="specification.html#categorical-variables-1"><i class="fa fa-check"></i><b>8.5.1</b> Categorical Variables</a></li>
 <li class="chapter" data-level="8.5.2" data-path="specification.html"><a href="specification.html#interaction-terms-1"><i class="fa fa-check"></i><b>8.5.2</b> Interaction Terms</a></li>
 <li class="chapter" data-level="8.5.3" data-path="specification.html"><a href="specification.html#quadratic-and-logarithmic-models"><i class="fa fa-check"></i><b>8.5.3</b> Quadratic and Logarithmic Models</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="inference.html"><a href="inference.html"><i class="fa fa-check"></i><b>9</b> Drawing Inferences</a><ul>
+<li class="chapter" data-level="9" data-path="inference.html"><a href="inference.html"><i class="fa fa-check"></i><b>9</b> Drawing Inferences</a>
+<ul>
 <li class="chapter" data-level="9.1" data-path="inference.html"><a href="inference.html#the-basics-of-hypothesis-testing"><i class="fa fa-check"></i><b>9.1</b> The Basics of Hypothesis Testing</a></li>
 <li class="chapter" data-level="9.2" data-path="inference.html"><a href="inference.html#variance-of-ols"><i class="fa fa-check"></i><b>9.2</b> Variance of OLS</a></li>
 <li class="chapter" data-level="9.3" data-path="inference.html"><a href="inference.html#single-variable-hypotheses"><i class="fa fa-check"></i><b>9.3</b> Single Variable Hypotheses</a></li>
@@ -164,23 +200,27 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="9.5" data-path="inference.html"><a href="inference.html#appendix-full-derivation-of-ols-variance"><i class="fa fa-check"></i><b>9.5</b> Appendix: Full Derivation of OLS Variance</a></li>
 <li class="chapter" data-level="9.6" data-path="inference.html"><a href="inference.html#appendix-regression-inference-in-r"><i class="fa fa-check"></i><b>9.6</b> Appendix: Regression Inference in R</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="nonspherical.html"><a href="nonspherical.html"><i class="fa fa-check"></i><b>10</b> Non-Spherical Errors</a><ul>
+<li class="chapter" data-level="10" data-path="nonspherical.html"><a href="nonspherical.html"><i class="fa fa-check"></i><b>10</b> Non-Spherical Errors</a>
+<ul>
 <li class="chapter" data-level="10.1" data-path="nonspherical.html"><a href="nonspherical.html#generalized-least-squares"><i class="fa fa-check"></i><b>10.1</b> Generalized Least Squares</a></li>
 <li class="chapter" data-level="10.2" data-path="nonspherical.html"><a href="nonspherical.html#detecting-heteroskedasticity"><i class="fa fa-check"></i><b>10.2</b> Detecting Heteroskedasticity</a></li>
 <li class="chapter" data-level="10.3" data-path="nonspherical.html"><a href="nonspherical.html#heteroskedasticity-of-unknown-form"><i class="fa fa-check"></i><b>10.3</b> Heteroskedasticity of Unknown Form</a></li>
-<li class="chapter" data-level="10.4" data-path="nonspherical.html"><a href="nonspherical.html#appendix-implementation-in-r"><i class="fa fa-check"></i><b>10.4</b> Appendix: Implementation in R</a><ul>
+<li class="chapter" data-level="10.4" data-path="nonspherical.html"><a href="nonspherical.html#appendix-implementation-in-r"><i class="fa fa-check"></i><b>10.4</b> Appendix: Implementation in R</a>
+<ul>
 <li class="chapter" data-level="10.4.1" data-path="nonspherical.html"><a href="nonspherical.html#generalized-least-squares-1"><i class="fa fa-check"></i><b>10.4.1</b> Generalized Least Squares</a></li>
 <li class="chapter" data-level="10.4.2" data-path="nonspherical.html"><a href="nonspherical.html#breusch-pagan-test"><i class="fa fa-check"></i><b>10.4.2</b> Breusch-Pagan Test</a></li>
 <li class="chapter" data-level="10.4.3" data-path="nonspherical.html"><a href="nonspherical.html#heteroskedasticity-consistent-standard-errors"><i class="fa fa-check"></i><b>10.4.3</b> Heteroskedasticity-Consistent Standard Errors</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="crisis.html"><a href="crisis.html"><i class="fa fa-check"></i><b>11</b> The Statistical Crisis in Science</a><ul>
+<li class="chapter" data-level="11" data-path="crisis.html"><a href="crisis.html"><i class="fa fa-check"></i><b>11</b> The Statistical Crisis in Science</a>
+<ul>
 <li class="chapter" data-level="11.1" data-path="crisis.html"><a href="crisis.html#publication-bias"><i class="fa fa-check"></i><b>11.1</b> Publication Bias</a></li>
 <li class="chapter" data-level="11.2" data-path="crisis.html"><a href="crisis.html#p-hacking"><i class="fa fa-check"></i><b>11.2</b> <span class="math inline">\(p\)</span>-Hacking</a></li>
 <li class="chapter" data-level="11.3" data-path="crisis.html"><a href="crisis.html#what-to-do"><i class="fa fa-check"></i><b>11.3</b> What to Do</a></li>
 <li class="chapter" data-level="11.4" data-path="crisis.html"><a href="crisis.html#appendix-r-simulation"><i class="fa fa-check"></i><b>11.4</b> Appendix: R Simulation</a></li>
 </ul></li>
-<li class="chapter" data-level="12" data-path="panel.html"><a href="panel.html"><i class="fa fa-check"></i><b>12</b> Clustered and Panel Data</a><ul>
+<li class="chapter" data-level="12" data-path="panel.html"><a href="panel.html"><i class="fa fa-check"></i><b>12</b> Clustered and Panel Data</a>
+<ul>
 <li class="chapter" data-level="12.1" data-path="panel.html"><a href="panel.html#the-linear-model-with-grouped-data"><i class="fa fa-check"></i><b>12.1</b> The Linear Model with Grouped Data</a></li>
 <li class="chapter" data-level="12.2" data-path="panel.html"><a href="panel.html#autocorrelation-within-groups"><i class="fa fa-check"></i><b>12.2</b> Autocorrelation within Groups</a></li>
 <li class="chapter" data-level="12.3" data-path="panel.html"><a href="panel.html#clustered-standard-errors"><i class="fa fa-check"></i><b>12.3</b> Clustered Standard Errors</a></li>
@@ -188,7 +228,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="12.5" data-path="panel.html"><a href="panel.html#fixed-effects"><i class="fa fa-check"></i><b>12.5</b> Fixed Effects</a></li>
 <li class="chapter" data-level="12.6" data-path="panel.html"><a href="panel.html#appendix-implementation-in-r-1"><i class="fa fa-check"></i><b>12.6</b> Appendix: Implementation in R</a></li>
 </ul></li>
-<li class="chapter" data-level="13" data-path="logit.html"><a href="logit.html"><i class="fa fa-check"></i><b>13</b> Binary Response Models</a><ul>
+<li class="chapter" data-level="13" data-path="logit.html"><a href="logit.html"><i class="fa fa-check"></i><b>13</b> Binary Response Models</a>
+<ul>
 <li class="chapter" data-level="13.1" data-path="logit.html"><a href="logit.html#the-linear-probability-model"><i class="fa fa-check"></i><b>13.1</b> The Linear Probability Model</a></li>
 <li class="chapter" data-level="13.2" data-path="logit.html"><a href="logit.html#the-logistic-regression-model"><i class="fa fa-check"></i><b>13.2</b> The Logistic Regression Model</a></li>
 </ul></li>
@@ -213,7 +254,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="logit" class="section level1">
+<div id="logit" class="section level1" number="13">
 <h1><span class="header-section-number">13</span> Binary Response Models</h1>
 <p>Many of the political phenomena we’d like to explain are dichotomous:</p>
 <ul>
@@ -221,81 +262,143 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><p>Whether someones votes for a particular candidate.</p></li>
 <li><p>Whether war occurs.</p></li>
 </ul>
-<p>For a long time, the conventional wisdom among political scientists was that special statistical models were required to analyze binary responses like these. In this section of the course, we’ll discuss the reasoning behind this claim, work with the fancier statistical models that are purportedly necessary for binary responses, and discuss why the conventional wisdom about linear models might be wrong.</p>
-<div id="the-linear-probability-model" class="section level2">
+<p>For a long time, the conventional wisdom among political scientists was that special statistical models were required to analyze binary responses like these.
+In this section of the course, we’ll discuss the reasoning behind this claim, work with the fancier statistical models that are purportedly necessary for binary responses, and discuss why the conventional wisdom about linear models might be wrong.</p>
+<div id="the-linear-probability-model" class="section level2" number="13.1">
 <h2><span class="header-section-number">13.1</span> The Linear Probability Model</h2>
-<p>So far when encountering binary responses, we have just modeled them as linear functions of covariates. For example, think of voting for Trump as a function of the years of education one has received: <span class="math display">\[
+<p>So far when encountering binary responses, we have just modeled them as linear functions of covariates.
+For example, think of voting for Trump as a function of the years of education one has received:
+<span class="math display">\[
 \text{Trump}_n = \beta_0 + \beta_1 \text{Education}_n + \epsilon_n.
-\]</span> In this model, <span class="math inline">\(\beta_0\)</span> represents the probability that someone with zero years of education would vote for Trump, and <span class="math inline">\(\beta_1\)</span> is the marginal effect of an additional year of education.</p>
-<p>Suppose we yielded the following estimates from this model: <span class="math display">\[
+\]</span>
+In this model, <span class="math inline">\(\beta_0\)</span> represents the probability that someone with zero years of education would vote for Trump, and <span class="math inline">\(\beta_1\)</span> is the marginal effect of an additional year of education.</p>
+<p>Suppose we yielded the following estimates from this model:
+<span class="math display">\[
 \text{Trump}_n = 1.4 - 0.075 \text{Education}_n + \epsilon_n.
-\]</span> Most Americans have between 8 and 16 years of formal education. According to this regression equation, we should expect about 80% of those with only an eighth-grade education to vote for Trump, while we should expect only 20% of those with a college degree to vote for Trump. These sound like reasonable numbers!</p>
-<p>The problem is, not <em>every</em> American’s educational attainment lies within this range. Some Americans only have four years of formal education, and this model would predict that 110% of them voted for Trump. Other Americans are crazy enough to pursue 20+ years of education, and this model would predict that –10% or fewer of them voted for Trump.</p>
-<p>This illustrates one problem with linear probability models: they can produce impossible predicted probabilities, outside the <span class="math inline">\([0, 1]\)</span> range that all probabilities must lie within. In practice, such predictions usually occur for observations far away from the central tendency of the data. (In fact, as you proved on a previous problem set, the predicted probability for an observation with an average value of all covariates must equal the sample proportion of 1s in the response.)</p>
+\]</span>
+Most Americans have between 8 and 16 years of formal education.
+According to this regression equation, we should expect about 80% of those with only an eighth-grade education to vote for Trump, while we should expect only 20% of those with a college degree to vote for Trump.
+These sound like reasonable numbers!</p>
+<p>The problem is, not <em>every</em> American’s educational attainment lies within this range.
+Some Americans only have four years of formal education, and this model would predict that 110% of them voted for Trump.
+Other Americans are crazy enough to pursue 20+ years of education, and this model would predict that –10% or fewer of them voted for Trump.</p>
+<p>This illustrates one problem with linear probability models: they can produce impossible predicted probabilities, outside the <span class="math inline">\([0, 1]\)</span> range that all probabilities must lie within.
+In practice, such predictions usually occur for observations far away from the central tendency of the data.
+(In fact, as you proved on a previous problem set, the predicted probability for an observation with an average value of all covariates must equal the sample proportion of 1s in the response.)</p>
 <p>We can see this problem in action when we draw the OLS line through the scatterplot of some (hypothetical) data on educational attainment and vote choice.</p>
 <p><img src="pdaps_files/figure-html/binary-scatterplot-1.png" width="672" /></p>
-<p>Another way to put all this is that the assumption of constant marginal effects doesn’t make sense for a binary response. If someone already has a 99% chance of voting for Trump, the most you could possibly raise their chance of voting for him is 1%. This puts a cap on the magnitude of the effect of any given variable. An intervention that raises an <em>average</em> voter’s chance of voting for Trump by 5% cannot possibly have the same effect on our hypothetical Trump die-hard. This is in contrast to settings with continuous outcomes. A job training program that raises an average person’s annual earnings by 2% is <em>unlikely</em> to have the same effect on Jeff Bezos, but it is at least <em>conceivable</em> it would do so.</p>
-<p>The idea behind logistic regression (and its close friend probit regression) is to model the conditional expectation in a way that gets around these issues. These models always produce sensible predicted probabilities, and they assume lower-magnitude marginal effects for observations at the extremes. Instead of regression lines, they draw nice curves like the one below.</p>
+<p>Another way to put all this is that the assumption of constant marginal effects doesn’t make sense for a binary response.
+If someone already has a 99% chance of voting for Trump, the most you could possibly raise their chance of voting for him is 1%.
+This puts a cap on the magnitude of the effect of any given variable.
+An intervention that raises an <em>average</em> voter’s chance of voting for Trump by 5% cannot possibly have the same effect on our hypothetical Trump die-hard.
+This is in contrast to settings with continuous outcomes.
+A job training program that raises an average person’s annual earnings by 2% is <em>unlikely</em> to have the same effect on Jeff Bezos, but it is at least <em>conceivable</em> it would do so.</p>
+<p>The idea behind logistic regression (and its close friend probit regression) is to model the conditional expectation in a way that gets around these issues.
+These models always produce sensible predicted probabilities, and they assume lower-magnitude marginal effects for observations at the extremes.
+Instead of regression lines, they draw nice curves like the one below.</p>
 <p><img src="pdaps_files/figure-html/binary-scatterplot-redux-1.png" width="672" /></p>
 </div>
-<div id="the-logistic-regression-model" class="section level2">
+<div id="the-logistic-regression-model" class="section level2" number="13.2">
 <h2><span class="header-section-number">13.2</span> The Logistic Regression Model</h2>
-<p>For a binary response, <span class="math inline">\(Y_n \in \{0, 1\}\)</span>, we can think of the linear probability model as the following: <span class="math display">\[
+<p>For a binary response, <span class="math inline">\(Y_n \in \{0, 1\}\)</span>, we can think of the linear probability model as the following:
+<span class="math display">\[
 \Pr(Y_n = 1) = \mathbf{x}_n \cdot \beta.
-\]</span> Logistic regression replaces the linear formula on the right-hand side with a nonlinear S-curve, as illustrated above. The logistic regression model is <span class="math display">\[
+\]</span>
+Logistic regression replaces the linear formula on the right-hand side with a nonlinear S-curve, as illustrated above.
+The logistic regression model is
+<span class="math display">\[
 \Pr(Y_n = 1) = \frac{e^{\mathbf{x}_n \cdot \beta}}{1 + e^{\mathbf{x}_n \cdot \beta}} = \Lambda(\mathbf{x}_n \cdot \beta),
-\]</span> where <span class="math inline">\(\Lambda(z) = e^z / (1 + e^z)\)</span>.</p>
-<p>How did we get the above formula? We can tell a little story to provide a foundation for the logistic regression model. For each observation <span class="math inline">\(n = 1, \ldots, N\)</span>, let <span class="math inline">\(Y_n^*\)</span> denote the <em>latent</em> (unobservable) propensity to choose <span class="math inline">\(Y_n = 1\)</span>. We assume that the latent propensity follows a linear model, <span class="math display">\[
+\]</span>
+where <span class="math inline">\(\Lambda(z) = e^z / (1 + e^z)\)</span>.</p>
+<p>How did we get the above formula?
+We can tell a little story to provide a foundation for the logistic regression model.
+For each observation <span class="math inline">\(n = 1, \ldots, N\)</span>, let <span class="math inline">\(Y_n^*\)</span> denote the <em>latent</em> (unobservable) propensity to choose <span class="math inline">\(Y_n = 1\)</span>.
+We assume that the latent propensity follows a linear model,
+<span class="math display">\[
 Y_n^* = \mathbf{x}_n \cdot \beta + \epsilon_n,
-\]</span> where <span class="math inline">\(\epsilon_n\)</span> is independent and identically distributed across observations. Furthermore, assume <span class="math inline">\(\epsilon_n\)</span> has a logistic distribution, so that <span class="math inline">\(\Pr(\epsilon_n &lt; z) = \Lambda(z)\)</span> for all real numbers <span class="math inline">\(z\)</span>. Finally, we assume that we observe <span class="math inline">\(Y_n = 1\)</span> if and only if the latent propensity is non-negative: <span class="math display">\[
+\]</span>
+where <span class="math inline">\(\epsilon_n\)</span> is independent and identically distributed across observations.
+Furthermore, assume <span class="math inline">\(\epsilon_n\)</span> has a logistic distribution, so that <span class="math inline">\(\Pr(\epsilon_n &lt; z) = \Lambda(z)\)</span> for all real numbers <span class="math inline">\(z\)</span>.
+Finally, we assume that we observe <span class="math inline">\(Y_n = 1\)</span> if and only if the latent propensity is non-negative:
+<span class="math display">\[
 Y_n = \begin{cases}
 0 &amp; Y_n^* &lt; 0, \\
 1 &amp; Y_n^* \geq 0.
 \end{cases}
-\]</span> The logistic regression model follows from this combination of assumptions.</p>
-<p>I hope you notice that the assumptions we’ve made on the latent propensity <span class="math inline">\(Y_n^*\)</span> are even stronger than the usual linear model assumptions. We assumed that <span class="math inline">\(\epsilon_n\)</span> was independent across observations, whereas the usual linear model allows for autocorrelation. We assumed that <span class="math inline">\(\epsilon_n\)</span> was identically distributed across observations, whereas the usual linear model allows for heteroskedasticity.<a href="#fn34" class="footnoteRef" id="fnref34"><sup>34</sup></a> Finally, we assumed that <span class="math inline">\(\epsilon_n\)</span> has a logistic distribution, whereas the usual linear model does not assume a specific distributional form for the error term. The verisimilitude of the S-curve comes at the cost of forcing us to make many more assumptions than we do with a linear model.</p>
-<p>Probit regression is the same as logistic regression, except we assume that the error term <span class="math inline">\(\epsilon_n\)</span> in the latent propensity equation has a standard normal distribution. This results in the model <span class="math display">\[
+\]</span>
+The logistic regression model follows from this combination of assumptions.</p>
+<p>I hope you notice that the assumptions we’ve made on the latent propensity <span class="math inline">\(Y_n^*\)</span> are even stronger than the usual linear model assumptions.
+We assumed that <span class="math inline">\(\epsilon_n\)</span> was independent across observations, whereas the usual linear model allows for autocorrelation.
+We assumed that <span class="math inline">\(\epsilon_n\)</span> was identically distributed across observations, whereas the usual linear model allows for heteroskedasticity.<a href="#fn34" class="footnote-ref" id="fnref34"><sup>34</sup></a>
+Finally, we assumed that <span class="math inline">\(\epsilon_n\)</span> has a logistic distribution, whereas the usual linear model does not assume a specific distributional form for the error term.
+The verisimilitude of the S-curve comes at the cost of forcing us to make many more assumptions than we do with a linear model.</p>
+<p>Probit regression is the same as logistic regression, except we assume that the error term <span class="math inline">\(\epsilon_n\)</span> in the latent propensity equation has a standard normal distribution.
+This results in the model
+<span class="math display">\[
 \Pr(Y_n = 1) = \Phi(\mathbf{x}_n \cdot \beta),
-\]</span> where <span class="math inline">\(\Phi\)</span> is the standard normal CDF. In practice, logit and probit almost always yield nearly identical results in terms of predicted probabilities and marginal effects. From here on we will keep working with the logistic model, solely because the logistic CDF is easier to work with mathematically than the normal CDF.</p>
-<p>One of the nice things about the linear probability model is that it’s easy to calculate marginal effects. The estimated marginal effect of <span class="math inline">\(x_{nk}\)</span> on <span class="math inline">\(\Pr(Y_n = 1)\)</span> is simply its coefficient, <span class="math inline">\(\beta_k\)</span>. It is not so simple with logistic regression. First we need the derivative of the logistic CDF. Surely you remember the quotient rule, which gives us <span class="math display">\[
+\]</span>
+where <span class="math inline">\(\Phi\)</span> is the standard normal CDF.
+In practice, logit and probit almost always yield nearly identical results in terms of predicted probabilities and marginal effects.
+From here on we will keep working with the logistic model, solely because the logistic CDF is easier to work with mathematically than the normal CDF.</p>
+<p>One of the nice things about the linear probability model is that it’s easy to calculate marginal effects.
+The estimated marginal effect of <span class="math inline">\(x_{nk}\)</span> on <span class="math inline">\(\Pr(Y_n = 1)\)</span> is simply its coefficient, <span class="math inline">\(\beta_k\)</span>.
+It is not so simple with logistic regression.
+First we need the derivative of the logistic CDF.
+Surely you remember the quotient rule, which gives us
+<span class="math display">\[
 \Lambda&#39;(z)
 = \frac{e^z (1 + e^z) - e^z (e^z)}{(1 + e^z)^2}
 = \frac{e^z}{1 + e^z} \times \frac{1}{1 + e^z}
 = \Lambda(z) [1 - \Lambda(z)].
-\]</span> And since you surely also remember the chain rule, you can calculate the marginal effect of <span class="math inline">\(x_{nk}\)</span> on <span class="math inline">\(\Pr(Y_n = 1)\)</span> as <span class="math display">\[
+\]</span>
+And since you surely also remember the chain rule, you can calculate the marginal effect of <span class="math inline">\(x_{nk}\)</span> on <span class="math inline">\(\Pr(Y_n = 1)\)</span> as
+<span class="math display">\[
 \begin{aligned}
 \frac{\partial \Pr(Y_n = 1)}{x_{nk}}
 &amp;= \Lambda&#39;(\mathbf{x}_k \cdot \beta) \frac{\partial [\mathbf{x}_k \cdot \beta]}{x_{nk}} \\
 &amp;= \Lambda(\mathbf{x}_k \cdot \beta) [1 - \Lambda(\mathbf{x}_k \cdot \beta)] \beta_k \\
 &amp;= \Pr(Y_n = 1) \Pr(Y_n = 0) \beta_k.
 \end{aligned}
-\]</span> This gives us the properties we wanted—that the marginal effect of a variable is lowest in magnitude for those observations that are already highly likely or highly unlikely to have <span class="math inline">\(Y_n = 1\)</span>.</p>
+\]</span>
+This gives us the properties we wanted—that the marginal effect of a variable is lowest in magnitude for those observations that are already highly likely or highly unlikely to have <span class="math inline">\(Y_n = 1\)</span>.</p>
 <ul>
 <li><p>If <span class="math inline">\(\Pr(Y_n = 1) \approx 0\)</span>, then the marginal effect of <span class="math inline">\(x_{nk}\)</span> is approximately zero.</p></li>
 <li><p>If <span class="math inline">\(\Pr(Y_n = 1) = 0.5\)</span>, then the marginal effect of <span class="math inline">\(x_{nk}\)</span> is <span class="math inline">\(\beta_k / 4\)</span>.</p></li>
 <li><p>If <span class="math inline">\(\Pr(Y_n = 1) \approx 1\)</span>, then the marginal effect of <span class="math inline">\(x_{nk}\)</span> is approximately zero.</p></li>
 </ul>
-<p>This gives us a helpful rule for making sense of logistic regression output. You can divide each coefficient by 4, and that gives you its marginal effect on an observation that’s at the 50-50 point.</p>
+<p>This gives us a helpful rule for making sense of logistic regression output.
+You can divide each coefficient by 4, and that gives you its marginal effect on an observation that’s at the 50-50 point.</p>
 <p><img src="pdaps_files/figure-html/logit-margeff-1.png" width="672" /></p>
-<p>Briefly — for a probit model, the marginal effect is <span class="math display">\[
+<p>Briefly — for a probit model, the marginal effect is
+<span class="math display">\[
 \frac{\partial \Pr(Y_n = 1)}{x_{nk}} = \phi(\mathbf{x}_n \cdot \beta) \beta_k,
-\]</span> where <span class="math inline">\(\phi\)</span> is the standard normal PDF. Since <span class="math inline">\(\phi(0) \approx 0.4\)</span>, the marginal effect for an observation at the 50-50 point is roughly 0.4 times its coefficient.</p>
-<p>For either logit or probit, if you want to calculate the average marginal effect of <span class="math inline">\(X_k\)</span> across your dataset, you may be tempted to calculate the marginal effect for an “average” observation—one with mean or median values for all the covariates. Resist the temptation. In both cases, the marginal effect is a nonlinear function of <span class="math inline">\(x_{nk}\)</span>, and a not-so-fun fact about nonlinear functions is that <span class="math inline">\(E[f(z)] \neq f(E[z])\)</span>. If you want the average marginal effect, you need to calculate it individually for each observation and then average them: <span class="math display">\[
+\]</span>
+where <span class="math inline">\(\phi\)</span> is the standard normal PDF.
+Since <span class="math inline">\(\phi(0) \approx 0.4\)</span>, the marginal effect for an observation at the 50-50 point is roughly 0.4 times its coefficient.</p>
+<p>For either logit or probit, if you want to calculate the average marginal effect of <span class="math inline">\(X_k\)</span> across your dataset, you may be tempted to calculate the marginal effect for an “average” observation—one with mean or median values for all the covariates.
+Resist the temptation.
+In both cases, the marginal effect is a nonlinear function of <span class="math inline">\(x_{nk}\)</span>, and a not-so-fun fact about nonlinear functions is that <span class="math inline">\(E[f(z)] \neq f(E[z])\)</span>.
+If you want the average marginal effect, you need to calculate it individually for each observation and then average them:
+<span class="math display">\[
 \text{average m.e. of $X_k$}
 = \frac{\beta_k}{N} \sum_{i=1}^N \Lambda(\mathbf{x}_n \cdot \beta) [1 - \Lambda(\mathbf{x}_n \cdot \beta)]
 \]</span></p>
-<p>For binary covariates, we will usually focus on the first difference rather than the marginal effect, as it doesn’t make much sense to take a derivative with respect to a dichotomous indicator. Assuming <span class="math inline">\(X_k\)</span> is binary, the first difference for the <span class="math inline">\(n\)</span>’th observation is <span class="math display">\[
+<p>For binary covariates, we will usually focus on the first difference rather than the marginal effect, as it doesn’t make much sense to take a derivative with respect to a dichotomous indicator.
+Assuming <span class="math inline">\(X_k\)</span> is binary, the first difference for the <span class="math inline">\(n\)</span>’th observation is
+<span class="math display">\[
 \Pr(Y_n = 1) - \Pr(Y_n = 0) =
 \Lambda(\tilde{\mathbf{x}}_n \cdot \tilde{\beta} + \beta_k)
 - \Lambda(\tilde{\mathbf{x}}_n \cdot \tilde{\beta}),
-\]</span> where <span class="math inline">\(\tilde{\mathbf{x}}_n\)</span> is the vector of all covariates but the <span class="math inline">\(k\)</span>’th, and <span class="math inline">\(\tilde{\beta}\)</span> is the vector of all coefficients but the <span class="math inline">\(k\)</span>’th. As with marginal effects, to calculate the average first difference across the data, you must calculate it for each observation individually and then average them—no shortcuts.</p>
+\]</span>
+where <span class="math inline">\(\tilde{\mathbf{x}}_n\)</span> is the vector of all covariates but the <span class="math inline">\(k\)</span>’th, and <span class="math inline">\(\tilde{\beta}\)</span> is the vector of all coefficients but the <span class="math inline">\(k\)</span>’th.
+As with marginal effects, to calculate the average first difference across the data, you must calculate it for each observation individually and then average them—no shortcuts.</p>
 
 </div>
 </div>
 <div class="footnotes">
 <hr />
 <ol start="34">
-<li id="fn34"><p>The differences actually go even further than allowing for heteroskedasticity. We can have a homoskedastic linear model where the error variances are the same but their full distributions are different. For example, in the usual linear model we could have <span class="math inline">\(\epsilon_1 \sim U[0, 1]\)</span> and <span class="math inline">\(\epsilon_2 \sim N(0, 1/12)\)</span>, so that <span class="math inline">\(V[\epsilon_1] = V[\epsilon_2] = 1/12\)</span> even though their distributions differ.<a href="logit.html#fnref34">↩</a></p></li>
+<li id="fn34"><p>The differences actually go even further than allowing for heteroskedasticity. We can have a homoskedastic linear model where the error variances are the same but their full distributions are different. For example, in the usual linear model we could have <span class="math inline">\(\epsilon_1 \sim U[0, 1]\)</span> and <span class="math inline">\(\epsilon_2 \sim N(0, 1/12)\)</span>, so that <span class="math inline">\(V[\epsilon_1] = V[\epsilon_2] = 1/12\)</span> even though their distributions differ.<a href="logit.html#fnref34" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>
@@ -359,7 +462,7 @@ gitbook.start({
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    var src = "";
+    var src = "true";
     if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
