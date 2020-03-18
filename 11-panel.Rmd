@@ -272,7 +272,7 @@ But I think it's useful to have a basic understanding of what's going on when yo
     Let $\hat{\sigma}^2$ denote the estimated residual variance from this "pooled model"---so called because it ignores group-level variation, throwing all the observations into a single pool.
     This is a consistent estimator of the total residual variance, $\sigma^2_\alpha + \sigma^2_\eta$.
     
-2.  Run OLS of $\mathbf{Y}$ on $[\mathbf{X} \mathbf{D}]$, i.e., the covariates plus a set of group membership indicators.
+2.  Run OLS of $\mathbf{Y}$ on $[\mathbf{X} \quad \mathbf{D}]$, i.e., the covariates plus a set of group membership indicators.
     This is the fixed effects regression, which we will talk about shortly.
     Because the group membership indicators account for variation *across* groups, the remaining variation in this model solely represents variance *within* groups.
     We can therefore let the estimated residual variance from this model be $\hat{\sigma}^2_\eta$, which is a consistent estimator of the within-group variance, $\sigma^2_\eta$.
