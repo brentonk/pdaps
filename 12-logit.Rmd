@@ -185,3 +185,364 @@ $$
 $$
 where $\tilde{\mathbf{x}}_n$ is the vector of all covariates but the $k$'th, and $\tilde{\beta}$ is the vector of all coefficients but the $k$'th.
 As with marginal effects, to calculate the average first difference across the data, you must calculate it for each observation individually and then average them---no shortcuts.
+
+
+## Maximum Likelihood Estimation
+
+Remember how we derived the ordinary least squares estimator for the linear model: we decided our goal was to minimize the sum of squared residuals, then we found the formula (the function of $\mathbf{X}$ and $\mathbf{Y}$) that accomplished this task.
+Even though we started with a geometrical purpose (minimizing squared errors), we saw that the resulting estimator had various good statistical properties, such as unbiasedness, consistency, and asymptotic normality.
+
+We typically don't use least squares estimators for nonlinear models like logistic regression.[^nls]
+Instead, we typically use *maximum likelihood estimation*.
+We won't go into the deeper mathematical details behind maximum likelihood estimation; for that I recommend @davidson1993estimation.
+
+[^nls]: You *can* estimate these models with least squares, such as via the nonlinear least functions `ns()` in R.  However, nonlinear least squares is inefficient relative to maximum likelihood estimation, and is usually no simpler to undertake computationally.
+
+What is important to know generally about maximum likelihood estimation, or MLE, is the following:
+
+*   To derive a maximum likelihood estimator, you must specify a *full probability model* for the process that generates your data.
+    This entails specifying distributional families for all random variables.
+    
+    What this means is most easily illustrated by contrast with the ordinary linear model.
+    With the linear model, when we wrote $Y_n = \mathbf{x}_n \cdot \beta + \epsilon_n$, all we assumed about $\epsilon_n$ was that it satisfied strict exogeneity and (sometimes) spherical errors.
+    We didn't assume it had a normal (or any other) distribution when we derived the OLS and GLS estimators.
+    But if we wanted to estimate the linear model via maximum likelihood, we would have to specify a distribution for the error term.[^maxlik-ols]
+    
+*   The general idea behind maximum likelihood estimation is to find the model parameters under which our observed data is most likely to have occurred.
+    If you draw a random sample of Democratic primary voters, and 68% of them tell you that they prefer Joe Biden over Bernie Sanders, it is *possible* that in fact Biden's support in the population is 10%, or that it's 90%.
+    However, we'd be much more likely to draw the sample that we did if the true population proportion is 68% than if it were 10% or 90%.
+    We will rely on this kind of reasoning to develop maximum likelihood estimators.
+    
+*   As long as your model of the data-generating process is correctly specified, the maximum likelihood estimator is *consistent*, *asymptotically normal*, and *asymptotically efficient*.
+    This means that in sufficiently large samples:
+    
+    *   The maximum likelihood estimate from any given sample is likely to be close to the population parameter value.
+    
+    *   The distribution of maximum likelihood estimates across samples is approximately normal.
+    
+    *   No other consistent estimator will have smaller standard errors.
+    
+[^maxlik-ols]: As it turns out, the OLS formula *is* the maximum likelihood estimator for the linear model if we assume $\epsilon_n$ is independent across observations and that each $\epsilon_n \sim N(0, \sigma^2)$.
+
+Maximum likelihood estimation is built around the *likelihood function*.
+Let $\mathbf{Z}$ denote the data we observe, and let $\theta$ denote the parameters we want to estimate.
+In the regression context, $\mathbf{Z}$ would consist of the response $\mathbf{Y}$ and the covariates $\mathbf{X}$, and $\theta$ would consist of the coefficients $\beta$.
+The likelihood function, which I'll denote $\ell(\theta, \mathbf{Z})$, is the probability that we would observe the given data, $\mathbf{Z}$, if the parameters of the model were $\theta$.
+The maximum likelihood estimator is the value of $\theta$ at which $\ell$ reaches its maximum, given the data $\mathbf{Z}$; it is the parameter value under which we have the highest chance of observing our actual data.
+In case this sounds either trivial or incomprehensible, let's make it concrete by working through some simple examples.
+
+### Properties of logarithms
+
+As you'll see below, we often run into the natural logarithm in maximum likelihood estimation.
+So let's briefly refresh ourselves on the most important properties of the natural logarithm.
+
+Remember that the natural logarithm is the inverse of the natural exponent.
+For all $s \in \mathbb{R}$ and $t > 0$,
+$$
+\log (t) = s \quad \Leftrightarrow \quad e^s = t,
+$$
+where $e$ is Euler's number, $e \approx 2.71828$.
+Exponents and logarithms have some helpful properties that will become second nature once you work with them enough.
+
+| Exponent Property | Logarithm Property |
+| ----------------- | ------------------ |
+| $e^{a + b} = e^a \cdot e^b$ | $\log (ab) = \log(a) + \log(b)$ |
+| $e^{a - b} = \frac{e^a}{e^b}$ | $\log (\frac{a}{b}) = \log(a) - \log(b)$ |
+| $e^{ab} = (e^a)^b$ | $\log (a^b) = b \log (a)$ |
+
+The natural logarithm plays a special role in differential calculus as well.
+Remember the power rule,
+$$
+\frac{d x^n}{d x} = n x^{n-1}.
+$$
+If we apply the power rule in reverse, we see that
+$$
+\begin{aligned}
+\frac{d}{dx} \left[ \frac{x^3}{3} \right] &= x^2, \\
+\frac{d}{dx} \left[ \frac{x^2}{2} \right] &= x^1, \\
+\frac{d}{dx} \left[ \frac{x^1}{1} \right] &= x^0 (= 1) \\
+\frac{d}{dx} \left[ \text{???} \vphantom{\frac{x^0}{0}} \right] &= x^{-1} (= \frac{1}{x}) \\
+\frac{d}{dx} \left[ \frac{x^{-1}}{-1} \right] &= x^{-2} (= \frac{1}{x^2}).
+\end{aligned}
+$$
+If we tried to fill in according to the pattern to find the function whose derivative is $x^{-1}$, we would end up with $\frac{x^0}{0}$, better known as $\frac{1}{0}$, which can't possibly be right.
+It turns out instead that the natural logarithm plays this role:
+$$
+\frac{d \log(x)}{dx} = \frac{1}{x}.
+$$
+
+We will often encounter expressions of the form $\log(f(x))$, where $f(x)$ is some differentiable function of $x$.
+In this case, applying the chain rule, we have
+$$
+\frac{d \log(f(x))}{dx} = \frac{\frac{d f(x)}{dx}}{f(x)}.
+$$
+This is another one of those operations that will become second nature over time.
+
+### Bernoulli trials
+
+Assume we observe a sequence of independent random variables $Z_1, \ldots, Z_N$, where each $Z_n \sim \text{Bernoulli}(p)$.
+Our goal is to estimate $p$, the population probability of a "success" $Z_n = 1$ as opposed to a "failure" $Z_n = 0$.
+
+Suppose we only had a single observation, $N = 1$.
+What would the likelihood function, $\ell(p, Z_1)$, look like?
+Well, there are two possible samples: $Z_1 = 0$ or $Z_1 = 1$.
+If the population parameter is $p$ and our observed sample is $Z_1 = 0$, the probability of observing this sample is $1 - p$.
+Conversely, if our observed sample is $Z_1 = 1$, the probability of observing this sample is $p$.
+Hence, the likelihood function is
+$$
+\ell(p, Z_1) = \begin{cases}
+1 - p & Z_1 = 0, \\
+p & Z_1 = 1.
+\end{cases}
+$$
+Now let's think about choosing $p$ to *maximize* the likelihood function.
+If $Z_1 = 0$, then the likelihood function is strictly decreasing in $p$, so we want to choose the smallest value possible: $p = 0$.
+If $Z_1 = 1$, we are have the opposite: the likelihood function is strictly increasing in $p$, and thus is maximized at $p = 1$.
+Altogether, we have the maximum likelihood estimator:
+$$
+\hat{p}_{\text{MLE}}(Z_1) = \begin{cases}
+0 & Z_1 = 0, \\
+1 & Z_1 = 1,
+\end{cases}
+$$
+or, more simply, $\hat{p}_{\text{MLE}}(Z_1) = Z_1$.
+
+Now let's think about the more general case, where $\mathbf{Z} = (Z_1, \ldots, Z_N)$.
+Since each observation is independent, the likelihood function is multiplicative:
+$$
+\ell(p, \mathbf{Z})
+= \Pr(Z = Z_1) \times \Pr(Z = Z_2) \times \cdots \times \Pr(Z = Z_N)
+= \prod_{n=1}^N \Pr(Z = Z_n).
+$$
+For those observations where $Z_n = 0$, the probability of observing this outcome is $1 - p$.
+For those where $Z_n = 1$, the probability is $p$.
+So we can further write
+$$
+\ell(p, \mathbf{Z})
+= \prod_{n : Y_N = 0} (1 - p) \prod_{n : Y_N = 1} p
+= (1 - p)^{N - N_1} p^{N_1},
+$$
+where $N_1$ is the number of successes, $N_1 = \sum_{n=1}^N Y_n$.
+
+We want to maximize $\ell$ with respect to $p$.
+That is, we want to find the value $\hat{p}$ such that
+$$
+\ell(\hat{p}, \mathbf{Z}) \geq \ell(p, \mathbf{Z}) \qquad \text{for all $p \in [0, 1]$.}
+$$
+This is a maximization problem.
+We solve maximization problems the same way we solved the minimization problem of OLS---by finding the point at which the derivative equals zero.
+Here, we want to find the point at which the derivative of the likelihood function with respect to $p$ equals zero.
+
+Taking derivatives of products is annoying.
+It's way easier to take derivatives of sums, because the derivative of the sum is the sum of the derivatives.
+Therefore, likelihood-based statistical methods usually work with the *log-likelihood*, the natural logarithm of the likelihood function.
+Because the logarithm is a strictly increasing function, it is maximized at the same point as the likelihood function.
+Consequently, we will look for the value $\hat{p}$ such that
+$$
+\log \ell(\hat{p}, \mathbf{Z}) \geq \log \ell(p, \mathbf{Z}) \qquad \text{for all $p \in [0, 1]$},
+$$
+which we will find by solving for $\hat{p}$ in
+$$
+\frac{\partial \log \ell(\hat{p}, \mathbf{Z})}{\partial p} = 0.
+$$
+
+For the Bernoulli problem, we have
+$$
+\begin{aligned}
+\log \ell(p, \mathbf{Z}) &= \log \left[ (1 - p)^{N - N_1} p^{N_1} \right] \\
+&= (N - N_1) \log(1 - p) + N_1 \log(p)
+\end{aligned}
+$$
+and therefore
+$$
+\begin{aligned}
+\frac{\partial \log \ell(p, \mathbf{Z})}{\partial p}
+&= \frac{-(N - N_1)}{1 - p} + \frac{N_1}{p}.
+\end{aligned}
+$$
+We solve for the maximum likelihood estimate by setting the above expression to equal zero, giving us the condition
+$$
+\begin{aligned}
+\frac{N_1}{\hat{p}} = \frac{N - N_1}{1 - \hat{p}}.
+&\quad\Leftrightarrow\quad N_1 - N_1 \hat{p} = N \hat{p} - N_1 \hat{p} \\
+&\quad\Leftrightarrow\quad \hat{p} = \frac{N_1}{N}.
+\end{aligned}
+$$
+Finally, therefore, the maximum likelihood estimator is the sample proportion of successes,
+$$
+\hat{p}_{\text{MLE}}(\mathbf{Z}) = \frac{\sum_{n=1}^N Z_n}{N}.
+$$
+
+All that seems like a *lot* of effort to come to the conclusion that we should estimate the parameter of the Bernoulli distribution via the sample proportion of successes.
+Didn't we already know that?
+Yes, we did, but this is a relatively easy example for working through the mechanics of deriving a maximum likelihood estimator.
+Additionally, we'll return to the Bernoulli example once we develop the maximum likelihood estimator for binary response models.
+Now, we'll turn to a less trivial example, where the maximum likelihood estimator will differ from what other estimation approaches would tell us to do.
+
+### Uniform draws
+
+Assume we observe a sequence of independent random variables $Z_1, \ldots, Z_N$, where each $Z_n \sim U[0, \theta]$.
+Our goal is to estimate $\theta$, the upper bound of the support of this uniform distribution.
+Remember that the probability density function of $U[0, \theta]$ is
+$$
+f_\theta(z) = \begin{cases}
+0 & z < 0, \\
+\frac{1}{\theta} & 0 \leq z \leq \theta, \\
+0 & z > \theta.
+\end{cases}
+$$
+
+```{r uniform-dens, echo=FALSE}
+dat_uniform <-
+  crossing(x = seq(-0.5, 5, by = 0.01),
+           theta = c(1, 2, 4)) %>%
+  mutate(dens = dunif(x, min = 0, max = theta),
+         theta = factor(theta))
+
+ggplot(dat_uniform, aes(x = x, y = dens)) +
+  geom_area(aes(colour = theta, fill = theta),
+            position = "identity", alpha = 0.25) +
+  scale_x_continuous("z") +
+  scale_y_continuous("Probability density") +
+  ggtitle("Density of U[0, theta]")
+```
+
+There is a simple unbiased estimator of $\theta$ available to us.
+Let $\bar{Z}$ denote our sample mean, $\bar{Z} = \frac{1}{N} \sum_{n=1}^N Z_n$.
+Then $\hat{\theta}_{\text{MM}}(\mathbf{Z}) = 2 \bar{Z}$ is an unbiased estimator of $\theta$.[^mm]
+This is true because (1) the population mean of $U[0, \theta]$ is $\frac{\theta}{2}$ and (2) the sample mean is an unbiased estimator of the population mean, and thus we have
+$$
+E[\hat{\theta}_{\text{MM}}(\mathbf{Z})]
+= E[2 \bar{Z}]
+= 2 E[\bar{Z}]
+= \theta.
+$$
+
+[^mm]: The "MM" subscript denotes the fact that $\hat{\theta}_{\text{MM}}$ is a *method of moments* estimator of $\theta$.  Like maximum likelihood estimation, the method of moments is a set of principles used to derive estimators.
+
+Here we see why an unbiased estimator is not always best.
+Suppose we observe the following data with $N = 3$:
+$$
+Z_1 = 1, \quad Z_2 = 2, \quad Z_3 = 9.
+$$
+We have the sample mean $\bar{Z} = 4$, so our unbiased estimate of the population parameter $\theta$ is $\hat{\theta}_{\text{MM}}(\mathbf{Z}) = 8$.
+But this is crazy, because this data cannot possibly have been drawn from $U[0, 8]$!
+If this were the true distribution, then it would be impossible to observe $Z_3 = 9$.
+
+Let's see how we would estimate $\theta$ via maximum likelihood.
+This time our data is continuous, so the likelihood function gives us the density of the data given the parameters:
+$$
+\begin{aligned}
+\ell(\theta, \mathbf{Z})
+&= f_\theta(Z_1) \times f_\theta(Z_2) \times \cdots \times f_\theta(Z_n) \\
+&= \prod_{n=1}^N f_\theta(Z_n).
+\end{aligned}
+$$
+Substituting in the definition of the $U[0, \theta]$ density from above, we have
+$$
+\ell(\theta, \mathbf{Z}) = \begin{cases}
+0 & \text{any $Z_n < 0$ or $Z_n > \theta$}, \\
+\frac{1}{\theta^N} & \text{all $0 \leq Z_n \leq \theta$}.
+\end{cases}
+$$
+This time, we don't even need to work with the log-likelihood or take derivatives to see that the likelihood will be maximized at $\theta = \max \{Z_1, \ldots, Z_N\}$.
+If we return to our example with $\mathbf{Z} = (1, 2, 9)$, the likelihood function looks like this:
+
+```{r lik-unif, echo=FALSE}
+tibble(theta = seq(0, 15, length.out = 501),
+       lik = if_else(theta < 9, 0, 1 / theta^3)) %>%
+  ggplot(aes(x = theta, y = lik)) +
+  geom_line() +
+  scale_x_continuous("theta", breaks = seq(0, 15, by = 3)) +
+  scale_y_continuous("likelihood") +
+  ggtitle("Likelihood function for uniform with Z = (1, 2, 9)")
+```
+
+Our maximum likelihood estimator for $\theta$ in this model is therefore
+$$
+\hat{\theta}_{\text{MLE}}(\mathbf{Z}) = \max \{ Z_1, \ldots, Z_N \}.
+$$
+This is a biased estimator.
+To see why, imagine taking numerous different samples from $U[0, \theta]$ and calculating the MLE for each of them.
+We will almost always have $\hat{\theta}_{\text{MLE}} < \theta$, and we will never have $\hat{\theta}_{\text{MLE}} > \theta$.
+Consequently, the MLE will on average underestimate the true value of $\theta$.
+Nonetheless, the MLE has two advantages over the unbiased estimator we considered.
+First, it will never yield an estimate that would be impossible given the observed data.
+Second, as our sample size grows large, even though the MLE is biased, it will on average be closer to the true $\theta$ than the unbiased estimate will be.
+This is because maximum likelihood estimation is asymptotically efficient.
+
+I want to stress one more important thing that this example highlights.
+However you choose to model the data-generating process, there are multiple distinct ways to estimate the parameters of that process.
+We already saw this in the linear model context, where OLS and GLS are distinct estimators of the same linear model, each of which is preferable in different circumstances.
+You may sometimes hear political scientists refer to "maximum likelihood models", but this is a misnomer: maximum likelihood is just one method among many to estimate the parameters of a fully specified statistical model.
+It happens to have quite good properties for doing so, and hence is usually the default choice, but that doesn't mean maximum likelihood is embedded in the definition of the model itself.
+
+### Logistic regression
+
+Now let's return to the logistic regression model.
+Here we observe a sequence of outcomes, $Y_1, \ldots, Y_N$, where each $Y_n \in \{0, 1\}$, and a sequence of covariate vectors, $\mathbf{x}_1, \ldots, \mathbf{x}_N$.
+Our goal is to estimate $\beta$, the coefficients associated with each entry in $\mathbf{x}_n$.
+
+Remember that under the logistic regression model,
+$$
+\Pr(Y_n = 1 \,|\, \mathbf{x}_n)
+= \frac{e^{\mathbf{x}_n \cdot \beta}}{1 + e^{\mathbf{x}_n \cdot \beta}}
+= \Lambda(\mathbf{x}_n \cdot \beta).
+$$
+By the same token, $\Pr(Y_n = 0 \,|\, \mathbf{x}_n) = 1 - \Lambda(\mathbf{x}_n \cdot \beta)$.
+Following the same logic as in the case of a sequence of Bernoulli random variables, this means the likelihood function for the logistic regression model is a big ugly product,
+$$
+\ell(\beta, \mathbf{Y}, \mathbf{X})
+= \prod_{n : Y_n = 0} (1 - \Lambda(\mathbf{x}_n \cdot \beta)) \prod_{n : Y_n = 1} \Lambda(\mathbf{x}_n \cdot \beta).
+$$
+We will make this easier to work with by taking the log-likelihood,
+$$
+\begin{aligned}
+\log \ell(\beta, \mathbf{Y}, \mathbf{X})
+&= \sum_{n : Y_n = 0} \log (1 - \Lambda(\mathbf{x}_n \cdot \beta)) + \sum_{n : Y_n = 1} \log \Lambda (\mathbf{x}_n \cdot \beta) \\
+&= \sum_{n=1}^N \left[ \vphantom{\sum} (1 - Y_n) \log (1 - \Lambda(\mathbf{x}_n \cdot \beta)) + Y_n \log \Lambda (\mathbf{x}_n \cdot \beta) \right]
+\end{aligned}
+$$
+
+If you followed the Bernoulli example, you can guess what comes next.
+The log-likelihood is maximized at the point where its partial derivatives all equal zero, so you can't increase it further by moving in any direction.
+So what we'll do now is take the *gradient*, or the vector of all partial derivatives,
+$$
+\nabla \log \ell(\beta, \mathbf{Y}, \mathbf{X})
+= \left( \frac{\partial \log \ell(\beta, \mathbf{Y}, \mathbf{X})}{\partial \beta_1}, \cdots, \frac{\partial \log \ell(\beta, \mathbf{Y}, \mathbf{X})}{\partial \beta_K} \right).
+$$
+Then we'll find the maximum of the log-likelihood by setting $\nabla \log \ell(\beta, \mathbf{X}, \mathbf{Y}) = \mathbf{0}$ and solving for $\beta$ ($K$ equations in $K$ unknowns).
+
+Only there's one problem.
+If you try to do that, you can't explicitly solve for $\beta$ as a function of $\mathbf{X}$ and $\mathbf{Y}$.
+There's no way to finagle the condition such that $\beta$ is on one side and some function of $\mathbf{X}$ and $\mathbf{Y}$ are on the other side, the way we did to derive the OLS estimator.
+In other words, unlike with OLS and GLS, there's no formula that gives us the logistic regression coefficients.
+
+Then what is your statistical software doing when you run a logistic regression?
+It uses an *iterative* solver to come up with a best guess for the maximum likelihood estimate.
+Without going too deeply into the details, here is what an iterative solver does.
+
+1.  Start with an initial guess for $\hat{\beta}$.
+    For example, you might use the OLS coefficients.
+    
+2.  Repeat the following process until it terminates or you run out of patience:
+
+    a.  Check whether $\nabla \log \ell(\hat{\beta}, \mathbf{Y}, \mathbf{X}) \approx \mathbf{0}$.  If so, terminate.  Otherwise, continue.
+    
+    b.  Update your current guess about $\hat{\beta}$ by nudging it in the direction of quickest ascent, namely the gradient $\nabla \log \ell(\hat{\beta}, \mathbf{Y}, \mathbf{X})$.
+
+The standard errors are then calculated using the matrix of second partial derivatives of the log-likelihood.
+I will spare you the math here.
+The important thing to know about the standard errors is that they are only "correct", in the sense of properly estimating the degree of uncertainty in your model estimates, asymptotically.
+The logistic regression coefficients themselves are consistent but not unbiased, meaning they are only guaranteed to be reliable in sufficiently large samples, and the same is true of the inferential statistics.
+If you find yourself in the dubious situation of running a logistic regression on a very small sample---such as because a reviewer asked you do to so in an R&R, because surely you wouldn't do this voluntarily knowing what you know now---you should not rely on the default standard error computation when performing hypothesis tests.
+
+
+## Special Considerations
+
+### Separation
+
+### Clustered Standard Errors
+
+
+## Appendix: Implementation in R
