@@ -601,6 +601,20 @@ The marginal effect on a senator who would otherwise be 77-23 in favor is slight
 cf_gore * 0.77 * 0.23
 ```
 
+We can also do what I advised against doing, namely calculate the marginal effect for an "average" observation.
+Remember from the summary statistics above that the "average" senator is a non-Republican in whose state Gore got 45% of the vote.
+
+```{r logit-margeff-atmeans}
+iraq_at_mean <- data.frame(rep = FALSE,
+                           gorevote = mean(iraqVote$gorevote))
+pp_at_mean <- predict(fit_logit,
+                      newdata = iraq_at_mean,
+                      type = "response")
+pp_at_mean
+cf_gore * pp_at_mean * (1 - pp_at_mean)
+```
+
+Now let's finally do this the right way.
 We can calculate the individual marginal effects using the predicted probabilities.
 
 ```{r logit-indiv-margeff}
@@ -615,6 +629,7 @@ mean(margeff_gore)
 ```
 
 Notice that this is substantially smaller than our heuristics would have guessed, since many senators have a very high predicted probability of voting for the war (and thus a marginal effect close to zero).
+In particular, notice that the "average observation" method gives us almost double the true average marginal effect.
 
 It is a little more involved to do first differences for a categorical variable by hand.
 (Luckily, we will soon see a way to do all of these much more easily.

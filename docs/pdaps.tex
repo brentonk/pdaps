@@ -114,7 +114,7 @@
 
 \title{Practical Data Analysis for Political Scientists}
 \author{Brenton Kenkel}
-\date{2020-03-30}
+\date{2020-03-31}
 
 \begin{document}
 \maketitle
@@ -7355,6 +7355,37 @@ The marginal effect on a senator who would otherwise be 77-23 in favor is slight
 ## -0.0200507
 \end{verbatim}
 
+We can also do what I advised against doing, namely calculate the marginal effect for an ``average'' observation.
+Remember from the summary statistics above that the ``average'' senator is a non-Republican in whose state Gore got 45\% of the vote.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{iraq\_at\_mean \textless{}{-}}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{rep =} \OtherTok{FALSE}\NormalTok{,}
+                           \DataTypeTok{gorevote =} \KeywordTok{mean}\NormalTok{(iraqVote}\OperatorTok{$}\NormalTok{gorevote))}
+\NormalTok{pp\_at\_mean \textless{}{-}}\StringTok{ }\KeywordTok{predict}\NormalTok{(fit\_logit,}
+                      \DataTypeTok{newdata =}\NormalTok{ iraq\_at\_mean,}
+                      \DataTypeTok{type =} \StringTok{"response"}\NormalTok{)}
+\NormalTok{pp\_at\_mean}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        1 
+## 0.680854
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cf\_gore }\OperatorTok{*}\StringTok{ }\NormalTok{pp\_at\_mean }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{{-}}\StringTok{ }\NormalTok{pp\_at\_mean)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    gorevote 
+## -0.02460109
+\end{verbatim}
+
+Now let's finally do this the right way.
 We can calculate the individual marginal effects using the predicted probabilities.
 
 \begin{Shaded}
@@ -7384,6 +7415,7 @@ And our best estimate of the average marginal effect will be the average of the 
 \end{verbatim}
 
 Notice that this is substantially smaller than our heuristics would have guessed, since many senators have a very high predicted probability of voting for the war (and thus a marginal effect close to zero).
+In particular, notice that the ``average observation'' method gives us almost double the true average marginal effect.
 
 It is a little more involved to do first differences for a categorical variable by hand.
 (Luckily, we will soon see a way to do all of these much more easily.
