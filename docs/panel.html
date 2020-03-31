@@ -24,7 +24,7 @@
 <meta name="author" content="Brenton Kenkel" />
 
 
-<meta name="date" content="2020-03-23" />
+<meta name="date" content="2020-03-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -244,7 +244,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="13.4.1" data-path="logit.html"><a href="logit.html#separation"><i class="fa fa-check"></i><b>13.4.1</b> Separation</a></li>
 <li class="chapter" data-level="13.4.2" data-path="logit.html"><a href="logit.html#clustered-standard-errors-1"><i class="fa fa-check"></i><b>13.4.2</b> Clustered Standard Errors</a></li>
 </ul></li>
-<li class="chapter" data-level="13.5" data-path="logit.html"><a href="logit.html#appendix-implementation-in-r-2"><i class="fa fa-check"></i><b>13.5</b> Appendix: Implementation in R</a></li>
+<li class="chapter" data-level="13.5" data-path="logit.html"><a href="logit.html#appendix-implementation-in-r-2"><i class="fa fa-check"></i><b>13.5</b> Appendix: Implementation in R</a>
+<ul>
+<li class="chapter" data-level="13.5.1" data-path="logit.html"><a href="logit.html#logistic-regression-1"><i class="fa fa-check"></i><b>13.5.1</b> Logistic Regression</a></li>
+<li class="chapter" data-level="13.5.2" data-path="logit.html"><a href="logit.html#maximum-likelihood-estimation-1"><i class="fa fa-check"></i><b>13.5.2</b> Maximum Likelihood Estimation</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -544,10 +548,10 @@ asymptotically has a <span class="math inline">\(\chi^2\)</span> distribution wi
 <div id="appendix-implementation-in-r-1" class="section level2" number="12.6">
 <h2><span class="header-section-number">12.6</span> Appendix: Implementation in R</h2>
 <p>The methods introduced here can be implemented via the <strong>plm</strong> package.</p>
-<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb333-1"><a href="panel.html#cb333-1"></a><span class="kw">library</span>(<span class="st">&quot;plm&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb337-1"><a href="panel.html#cb337-1"></a><span class="kw">library</span>(<span class="st">&quot;plm&quot;</span>)</span></code></pre></div>
 <p>We will use the <code>Produc</code> dataset from <strong>plm</strong>, a riveting collection of economic statistics about the U.S. states from 1970 to 1986.</p>
-<div class="sourceCode" id="cb334"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb334-1"><a href="panel.html#cb334-1"></a><span class="kw">data</span>(Produc, <span class="dt">package =</span> <span class="st">&quot;plm&quot;</span>)</span>
-<span id="cb334-2"><a href="panel.html#cb334-2"></a><span class="kw">head</span>(Produc)</span></code></pre></div>
+<div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb338-1"><a href="panel.html#cb338-1"></a><span class="kw">data</span>(Produc, <span class="dt">package =</span> <span class="st">&quot;plm&quot;</span>)</span>
+<span id="cb338-2"><a href="panel.html#cb338-2"></a><span class="kw">head</span>(Produc)</span></code></pre></div>
 <pre><code>##     state year region     pcap     hwy   water    util       pc   gsp    emp
 ## 1 ALABAMA 1970      6 15032.67 7325.80 1655.68 6051.20 35793.80 28418 1010.5
 ## 2 ALABAMA 1971      6 15501.94 7525.94 1721.02 6254.98 37299.91 29375 1021.9
@@ -564,9 +568,9 @@ asymptotically has a <span class="math inline">\(\chi^2\)</span> distribution wi
 ## 6   7.7</code></pre>
 <p>The functions in <strong>plm</strong> assume that your data are organized like <code>Produc</code>, with the grouping variable in the first column and the identification variable (time, in the case of panel data) in the second column. See the <strong>plm</strong> package vignette on how to get datasets not organized this way into line.</p>
 <p>We will treat unemployment (<code>unemp</code>) as our response and public capital stock (<code>pcap</code>) and private capital stock (<code>pc</code>) as our covariates. As a benchmark, let’s use OLS.</p>
-<div class="sourceCode" id="cb336"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb336-1"><a href="panel.html#cb336-1"></a>fit_ols &lt;-<span class="st"> </span><span class="kw">lm</span>(unemp <span class="op">~</span><span class="st"> </span>pcap <span class="op">+</span><span class="st"> </span>pc,</span>
-<span id="cb336-2"><a href="panel.html#cb336-2"></a>              <span class="dt">data =</span> Produc)</span>
-<span id="cb336-3"><a href="panel.html#cb336-3"></a><span class="kw">summary</span>(fit_ols)</span></code></pre></div>
+<div class="sourceCode" id="cb340"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb340-1"><a href="panel.html#cb340-1"></a>fit_ols &lt;-<span class="st"> </span><span class="kw">lm</span>(unemp <span class="op">~</span><span class="st"> </span>pcap <span class="op">+</span><span class="st"> </span>pc,</span>
+<span id="cb340-2"><a href="panel.html#cb340-2"></a>              <span class="dt">data =</span> Produc)</span>
+<span id="cb340-3"><a href="panel.html#cb340-3"></a><span class="kw">summary</span>(fit_ols)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = unemp ~ pcap + pc, data = Produc)
@@ -587,10 +591,10 @@ asymptotically has a <span class="math inline">\(\chi^2\)</span> distribution wi
 ## Multiple R-squared:  0.03516,    Adjusted R-squared:  0.03279 
 ## F-statistic: 14.81 on 2 and 813 DF,  p-value: 4.795e-07</code></pre>
 <p>The “pooling” estimator implemented by <code>plm()</code> ought to give us the same results.</p>
-<div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb338-1"><a href="panel.html#cb338-1"></a>fit_pooling &lt;-<span class="st"> </span><span class="kw">plm</span>(unemp <span class="op">~</span><span class="st"> </span>pcap <span class="op">+</span><span class="st"> </span>pc,</span>
-<span id="cb338-2"><a href="panel.html#cb338-2"></a>                   <span class="dt">data =</span> Produc,</span>
-<span id="cb338-3"><a href="panel.html#cb338-3"></a>                   <span class="dt">model =</span> <span class="st">&quot;pooling&quot;</span>)</span>
-<span id="cb338-4"><a href="panel.html#cb338-4"></a><span class="kw">summary</span>(fit_pooling)</span></code></pre></div>
+<div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb342-1"><a href="panel.html#cb342-1"></a>fit_pooling &lt;-<span class="st"> </span><span class="kw">plm</span>(unemp <span class="op">~</span><span class="st"> </span>pcap <span class="op">+</span><span class="st"> </span>pc,</span>
+<span id="cb342-2"><a href="panel.html#cb342-2"></a>                   <span class="dt">data =</span> Produc,</span>
+<span id="cb342-3"><a href="panel.html#cb342-3"></a>                   <span class="dt">model =</span> <span class="st">&quot;pooling&quot;</span>)</span>
+<span id="cb342-4"><a href="panel.html#cb342-4"></a><span class="kw">summary</span>(fit_pooling)</span></code></pre></div>
 <pre><code>## Pooling Model
 ## 
 ## Call:
@@ -616,10 +620,10 @@ asymptotically has a <span class="math inline">\(\chi^2\)</span> distribution wi
 ## Adj. R-Squared: 0.032788
 ## F-statistic: 14.8141 on 2 and 813 DF, p-value: 4.7947e-07</code></pre>
 <p>We can obtain the cluster-robust variance matrix estimate via <code>vcovHC()</code>. Make sure to specify <code>method = "arellano"</code> so as to get the usual estimator. It is not entirely clear to me which of the various finite-sample adjustments corresponds to the defaults in Stata.</p>
-<div class="sourceCode" id="cb340"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb340-1"><a href="panel.html#cb340-1"></a>crvm_pooling &lt;-<span class="st"> </span><span class="kw">vcovHC</span>(fit_pooling,</span>
-<span id="cb340-2"><a href="panel.html#cb340-2"></a>                       <span class="dt">method =</span> <span class="st">&quot;arellano&quot;</span>,</span>
-<span id="cb340-3"><a href="panel.html#cb340-3"></a>                       <span class="dt">type =</span> <span class="st">&quot;HC1&quot;</span>)</span>
-<span id="cb340-4"><a href="panel.html#cb340-4"></a><span class="kw">summary</span>(fit_pooling, <span class="dt">vcov =</span> crvm_pooling)</span></code></pre></div>
+<div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb344-1"><a href="panel.html#cb344-1"></a>crvm_pooling &lt;-<span class="st"> </span><span class="kw">vcovHC</span>(fit_pooling,</span>
+<span id="cb344-2"><a href="panel.html#cb344-2"></a>                       <span class="dt">method =</span> <span class="st">&quot;arellano&quot;</span>,</span>
+<span id="cb344-3"><a href="panel.html#cb344-3"></a>                       <span class="dt">type =</span> <span class="st">&quot;HC1&quot;</span>)</span>
+<span id="cb344-4"><a href="panel.html#cb344-4"></a><span class="kw">summary</span>(fit_pooling, <span class="dt">vcov =</span> crvm_pooling)</span></code></pre></div>
 <pre><code>## Pooling Model
 ## 
 ## Note: Coefficient variance-covariance matrix supplied: crvm_pooling
@@ -648,10 +652,10 @@ asymptotically has a <span class="math inline">\(\chi^2\)</span> distribution wi
 ## F-statistic: 6.45144 on 2 and 47 DF, p-value: 0.0033441</code></pre>
 <p>Notice that our <span class="math inline">\(t\)</span>-statistics are cut in more than half, even though our variables have within-group variation (unlike <span class="citation">Moulton (<a href="#ref-Moulton:1990bl" role="doc-biblioref">1990</a>)</span>’s example).</p>
 <p>We can also use <code>plm()</code> to estimate a random-effects model.</p>
-<div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb342-1"><a href="panel.html#cb342-1"></a>fit_random &lt;-<span class="st"> </span><span class="kw">plm</span>(unemp <span class="op">~</span><span class="st"> </span>pcap <span class="op">+</span><span class="st"> </span>pc,</span>
-<span id="cb342-2"><a href="panel.html#cb342-2"></a>                  <span class="dt">data =</span> Produc,</span>
-<span id="cb342-3"><a href="panel.html#cb342-3"></a>                  <span class="dt">model =</span> <span class="st">&quot;random&quot;</span>)</span>
-<span id="cb342-4"><a href="panel.html#cb342-4"></a><span class="kw">summary</span>(fit_random)</span></code></pre></div>
+<div class="sourceCode" id="cb346"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb346-1"><a href="panel.html#cb346-1"></a>fit_random &lt;-<span class="st"> </span><span class="kw">plm</span>(unemp <span class="op">~</span><span class="st"> </span>pcap <span class="op">+</span><span class="st"> </span>pc,</span>
+<span id="cb346-2"><a href="panel.html#cb346-2"></a>                  <span class="dt">data =</span> Produc,</span>
+<span id="cb346-3"><a href="panel.html#cb346-3"></a>                  <span class="dt">model =</span> <span class="st">&quot;random&quot;</span>)</span>
+<span id="cb346-4"><a href="panel.html#cb346-4"></a><span class="kw">summary</span>(fit_random)</span></code></pre></div>
 <pre><code>## Oneway (individual) effect Random Effect Model 
 ##    (Swamy-Arora&#39;s transformation)
 ## 
@@ -684,10 +688,10 @@ asymptotically has a <span class="math inline">\(\chi^2\)</span> distribution wi
 ## Adj. R-Squared: 0.040043
 ## Chisq: 35.9967 on 2 DF, p-value: 1.5256e-08</code></pre>
 <p>And, finally, a fixed-effects model, which <code>plm()</code> calls the <code>"within"</code> model.</p>
-<div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb344-1"><a href="panel.html#cb344-1"></a>fit_fixed &lt;-<span class="st"> </span><span class="kw">plm</span>(unemp <span class="op">~</span><span class="st"> </span>pcap <span class="op">+</span><span class="st"> </span>pc,</span>
-<span id="cb344-2"><a href="panel.html#cb344-2"></a>                 <span class="dt">data =</span> Produc,</span>
-<span id="cb344-3"><a href="panel.html#cb344-3"></a>                 <span class="dt">model =</span> <span class="st">&quot;within&quot;</span>)</span>
-<span id="cb344-4"><a href="panel.html#cb344-4"></a><span class="kw">summary</span>(fit_fixed)</span></code></pre></div>
+<div class="sourceCode" id="cb348"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb348-1"><a href="panel.html#cb348-1"></a>fit_fixed &lt;-<span class="st"> </span><span class="kw">plm</span>(unemp <span class="op">~</span><span class="st"> </span>pcap <span class="op">+</span><span class="st"> </span>pc,</span>
+<span id="cb348-2"><a href="panel.html#cb348-2"></a>                 <span class="dt">data =</span> Produc,</span>
+<span id="cb348-3"><a href="panel.html#cb348-3"></a>                 <span class="dt">model =</span> <span class="st">&quot;within&quot;</span>)</span>
+<span id="cb348-4"><a href="panel.html#cb348-4"></a><span class="kw">summary</span>(fit_fixed)</span></code></pre></div>
 <pre><code>## Oneway (individual) effect Within Model
 ## 
 ## Call:
@@ -712,7 +716,7 @@ asymptotically has a <span class="math inline">\(\chi^2\)</span> distribution wi
 ## Adj. R-Squared: 0.088906
 ## F-statistic: 64.2646 on 2 and 766 DF, p-value: &lt; 2.22e-16</code></pre>
 <p>We can extract the fixed-effect estimates themselves via <code>fixef()</code>.</p>
-<div class="sourceCode" id="cb346"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb346-1"><a href="panel.html#cb346-1"></a><span class="kw">fixef</span>(fit_fixed)</span></code></pre></div>
+<div class="sourceCode" id="cb350"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb350-1"><a href="panel.html#cb350-1"></a><span class="kw">fixef</span>(fit_fixed)</span></code></pre></div>
 <pre><code>##        ALABAMA        ARIZONA       ARKANSAS     CALIFORNIA       COLORADO 
 ##       3.763902       3.201232       5.020980     -24.351816       1.906885 
 ##    CONNECTICUT       DELAWARE        FLORIDA        GEORGIA          IDAHO 
@@ -734,11 +738,11 @@ asymptotically has a <span class="math inline">\(\chi^2\)</span> distribution wi
 ##  WEST_VIRGINIA      WISCONSIN        WYOMING 
 ##       6.940764       0.191971       3.798969</code></pre>
 <p>If we wanted to include time dummies as well, we could specify <code>effect = "twoways"</code> in the fitting function.</p>
-<div class="sourceCode" id="cb348"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb348-1"><a href="panel.html#cb348-1"></a>fit_fixed_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">plm</span>(unemp <span class="op">~</span><span class="st"> </span>pcap <span class="op">+</span><span class="st"> </span>pc,</span>
-<span id="cb348-2"><a href="panel.html#cb348-2"></a>                   <span class="dt">data =</span> Produc,</span>
-<span id="cb348-3"><a href="panel.html#cb348-3"></a>                   <span class="dt">effect =</span> <span class="st">&quot;twoways&quot;</span>,</span>
-<span id="cb348-4"><a href="panel.html#cb348-4"></a>                   <span class="dt">model =</span> <span class="st">&quot;within&quot;</span>)</span>
-<span id="cb348-5"><a href="panel.html#cb348-5"></a><span class="kw">summary</span>(fit_fixed_<span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb352-1"><a href="panel.html#cb352-1"></a>fit_fixed_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">plm</span>(unemp <span class="op">~</span><span class="st"> </span>pcap <span class="op">+</span><span class="st"> </span>pc,</span>
+<span id="cb352-2"><a href="panel.html#cb352-2"></a>                   <span class="dt">data =</span> Produc,</span>
+<span id="cb352-3"><a href="panel.html#cb352-3"></a>                   <span class="dt">effect =</span> <span class="st">&quot;twoways&quot;</span>,</span>
+<span id="cb352-4"><a href="panel.html#cb352-4"></a>                   <span class="dt">model =</span> <span class="st">&quot;within&quot;</span>)</span>
+<span id="cb352-5"><a href="panel.html#cb352-5"></a><span class="kw">summary</span>(fit_fixed_<span class="dv">2</span>)</span></code></pre></div>
 <pre><code>## Twoways effects Within Model
 ## 
 ## Call:
@@ -763,13 +767,13 @@ asymptotically has a <span class="math inline">\(\chi^2\)</span> distribution wi
 ## R-Squared:      0.016355
 ## Adj. R-Squared: -0.068894
 ## F-statistic: 6.23517 on 2 and 750 DF, p-value: 0.0020624</code></pre>
-<div class="sourceCode" id="cb350"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb350-1"><a href="panel.html#cb350-1"></a><span class="kw">fixef</span>(fit_fixed_<span class="dv">2</span>, <span class="dt">effect =</span> <span class="st">&quot;time&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb354"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb354-1"><a href="panel.html#cb354-1"></a><span class="kw">fixef</span>(fit_fixed_<span class="dv">2</span>, <span class="dt">effect =</span> <span class="st">&quot;time&quot;</span>)</span></code></pre></div>
 <pre><code>##   1970   1971   1972   1973   1974   1975   1976   1977   1978   1979   1980 
 ## 3.5548 4.2823 3.7710 3.1935 3.8319 6.5160 5.4577 4.9365 3.9381 3.8231 5.1814 
 ##   1981   1982   1983   1984   1985   1986 
 ## 5.6677 7.7005 7.6848 5.6401 5.4863 5.3504</code></pre>
 <p><code>phtest()</code> implements the Hausman test. Remember that the null hypothesis is that both estimators are consistent; if we reject it, then the random effects estimator is inconsistent and we must use fixed effects.</p>
-<div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb352-1"><a href="panel.html#cb352-1"></a><span class="kw">phtest</span>(fit_random, fit_fixed)</span></code></pre></div>
+<div class="sourceCode" id="cb356"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb356-1"><a href="panel.html#cb356-1"></a><span class="kw">phtest</span>(fit_random, fit_fixed)</span></code></pre></div>
 <pre><code>## 
 ##  Hausman Test
 ## 

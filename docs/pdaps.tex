@@ -114,7 +114,7 @@
 
 \title{Practical Data Analysis for Political Scientists}
 \author{Brenton Kenkel}
-\date{2020-03-23}
+\date{2020-03-30}
 
 \begin{document}
 \maketitle
@@ -2088,6 +2088,10 @@ Combining these two results, we have the OLS estimators of the intercept and slo
 
 Regression is a convenient way to summarize the relationship between variables, but it is a complement to---not a substitute for---graphical analysis. The statistician Francis Anscombe found that OLS yields nearly identical regression lines for all four of the datasets in the following graph:
 
+\begin{verbatim}
+## `geom_smooth()` using formula 'y ~ x'
+\end{verbatim}
+
 \includegraphics{pdaps_files/figure-latex/anscombe-1.pdf}
 
 Unless your data all lie along a line, the regression line estimated by OLS will not predict the data perfectly. Let the \emph{residual sum of squares} be the squared error left over by OLS,
@@ -2111,6 +2115,10 @@ A statistic that is often more useful than \(R^2\) is the \emph{residual varianc
 = \frac{\mathop{\rm RSS}\nolimits}{N - 2}
 \]
 Since bivariate regression uses two degrees of freedom (one for the intercept, one for the slope), we divide by \(N - 2\) instead of the usual \(N - 1\). The most useful quantity is \(\hat{\sigma}\), the square root of the residual variance. \(\hat{\sigma}\) is measured in the same units as \(Y\), and it is a measure of the spread of points around the regression line. If the residuals are roughly normally distributed, then we would expect roughly 95\% of the data to lie within \(\pm 2 \hat{\sigma}\) of the regression line.
+
+\begin{verbatim}
+## `geom_smooth()` using formula 'y ~ x'
+\end{verbatim}
 
 \includegraphics{pdaps_files/figure-latex/r2-examples-1.pdf}
 
@@ -2480,6 +2488,10 @@ One last note on plotting regression lines with ggplot. Use \texttt{geom\_smooth
 \end{Highlighting}
 \end{Shaded}
 
+\begin{verbatim}
+## `geom_smooth()` using formula 'y ~ x'
+\end{verbatim}
+
 \includegraphics{pdaps_files/figure-latex/ggplot-lm-1.pdf}
 
 To get rid of the confidence interval:
@@ -2491,6 +2503,10 @@ To get rid of the confidence interval:
 \StringTok{  }\KeywordTok{geom\_smooth}\NormalTok{(}\DataTypeTok{method =} \StringTok{"lm"}\NormalTok{, }\DataTypeTok{se =} \OtherTok{FALSE}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+## `geom_smooth()` using formula 'y ~ x'
+\end{verbatim}
 
 \includegraphics{pdaps_files/figure-latex/ggplot-lm-no-se-1.pdf}
 
@@ -7197,6 +7213,287 @@ If you find yourself in the dubious situation of running a logistic regression o
 
 \hypertarget{appendix-implementation-in-r-2}{%
 \section{Appendix: Implementation in R}\label{appendix-implementation-in-r-2}}
+
+\hypertarget{logistic-regression-1}{%
+\subsection{Logistic Regression}\label{logistic-regression-1}}
+
+To illustrate logistic regression in R, we will use data from the \textbf{pscl} package on how senators voted on the 2002 resolution to authorize military force against Iraq.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(}\StringTok{"pscl"}\NormalTok{)}
+\KeywordTok{head}\NormalTok{(iraqVote)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   y state.abb             name  rep state.name gorevote
+## 1 1        AL  SESSIONS (R AL) TRUE    Alabama    41.59
+## 2 1        AL    SHELBY (R AL) TRUE    Alabama    41.59
+## 3 1        AK MURKOWSKI (R AK) TRUE     Alaska    27.67
+## 4 1        AK   STEVENS (R AK) TRUE     Alaska    27.67
+## 5 1        AZ       KYL (R AZ) TRUE    Arizona    44.67
+## 6 1        AZ    MCCAIN (R AZ) TRUE    Arizona    44.67
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(iraqVote)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        y          state.abb              name       rep         
+##  Min.   :0.00   AK     : 2   AKAKA (D HI)  : 1   Mode :logical  
+##  1st Qu.:1.00   AL     : 2   ALLARD (R CO) : 1   FALSE:51       
+##  Median :1.00   AR     : 2   ALLEN (R VA)  : 1   TRUE :49       
+##  Mean   :0.77   AZ     : 2   BAUCUS (D MT) : 1                  
+##  3rd Qu.:1.00   CA     : 2   BAYH (D IN)   : 1                  
+##  Max.   :1.00   CO     : 2   BENNETT (R UT): 1                  
+##                 (Other):88   (Other)       :94                  
+##   state.name           gorevote    
+##  Length:100         Min.   :26.34  
+##  Class :character   1st Qu.:40.91  
+##  Mode  :character   Median :46.22  
+##                     Mean   :45.23  
+##                     3rd Qu.:50.60  
+##                     Max.   :60.99  
+## 
+\end{verbatim}
+
+The poorly labeled \texttt{y} variable here is an indicator for voting in favor of the war.
+
+To run a logistic regression model in R, you simply use the \texttt{glm()} command (stands for \emph{generalized} linear model) much like you use \texttt{lm()} for ordinary or weighted least squares.
+The only difference is that you have to add the \texttt{family} argument to tell R to run a logistic regression.
+\texttt{glm()} runs all kinds of models; if you forget the \texttt{family} argument, it will run OLS by default.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit\_logit \textless{}{-}}\StringTok{ }\KeywordTok{glm}\NormalTok{(y }\OperatorTok{\textasciitilde{}}\StringTok{ }\NormalTok{rep }\OperatorTok{+}\StringTok{ }\NormalTok{gorevote,}
+                 \DataTypeTok{data =}\NormalTok{ iraqVote,}
+                 \DataTypeTok{family =} \KeywordTok{binomial}\NormalTok{(}\DataTypeTok{link =} \StringTok{"logit"}\NormalTok{))}
+\KeywordTok{summary}\NormalTok{(fit\_logit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## glm(formula = y ~ rep + gorevote, family = binomial(link = "logit"), 
+##     data = iraqVote)
+## 
+## Deviance Residuals: 
+##      Min        1Q    Median        3Q       Max  
+## -2.12054   0.07761   0.19676   0.59926   1.59277  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(>|z|)   
+## (Intercept)  5.87859    2.27506   2.584  0.00977 **
+## repTRUE      3.01881    1.07138   2.818  0.00484 **
+## gorevote    -0.11322    0.04508  -2.512  0.01201 * 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 107.855  on 99  degrees of freedom
+## Residual deviance:  71.884  on 97  degrees of freedom
+## AIC: 77.884
+## 
+## Number of Fisher Scoring iterations: 6
+\end{verbatim}
+
+To fit a probit model, you would instead use \texttt{binomial(link\ =\ "probit")}.
+
+In the summary output, the things about deviances can be safely ignored.
+The AIC is a general measure of model fit, which we may talk about in the unlikely event we get to talking about predictive modeling.
+Lower values of the AIC indicate better fit.
+The Fisher scoring iterations are the number of steps the fitting process took to reach the maximum of the log-likelihood function.
+
+You can extract the predicted probability of \(Y_n = 1\) for each observation according to the model using the \texttt{predict()\textquotesingle{}} function.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pp\_logit \textless{}{-}}\StringTok{ }\KeywordTok{predict}\NormalTok{(fit\_logit, }\DataTypeTok{type =} \StringTok{"response"}\NormalTok{)}
+\KeywordTok{head}\NormalTok{(pp\_logit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##         1         2         3         4         5         6 
+## 0.9850607 0.9850607 0.9968734 0.9968734 0.9789587 0.9789587
+\end{verbatim}
+
+If you don't use the \texttt{type\ =\ "response"} argument, then the function will instead return the latent propensity estimates, \(\mathbf{x}_n \cdot \hat{\beta}\), which are almost never what you want.
+
+We can use \texttt{predict()} to calculate average marginal effects and first differences ``by hand''.
+First let's use our heuristic to calculate the marginal effect of a state's Gore vote percentage in the 2000 election on a senator's probability of voting for the war, assuming that senator would otherwise be 50-50 on voting for the war.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cf\_gore \textless{}{-}}\StringTok{ }\KeywordTok{coef}\NormalTok{(fit\_logit)[}\StringTok{"gorevote"}\NormalTok{]}
+\NormalTok{cf\_gore }\OperatorTok{*}\StringTok{ }\FloatTok{0.25}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   gorevote 
+## -0.0283042
+\end{verbatim}
+
+Of course, we saw from the summary statistics that 77\% of senators voted for the war.
+The marginal effect on a senator who would otherwise be 77-23 in favor is slightly smaller in magnitude:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cf\_gore }\OperatorTok{*}\StringTok{ }\FloatTok{0.77} \OperatorTok{*}\StringTok{ }\FloatTok{0.23}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   gorevote 
+## -0.0200507
+\end{verbatim}
+
+We can calculate the individual marginal effects using the predicted probabilities.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{margeff\_gore \textless{}{-}}\StringTok{ }\NormalTok{cf\_gore }\OperatorTok{*}\StringTok{ }\NormalTok{pp\_logit }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{{-}}\StringTok{ }\NormalTok{pp\_logit)}
+\KeywordTok{head}\NormalTok{(margeff\_gore)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##             1             2             3             4             5 
+## -0.0016661114 -0.0016661114 -0.0003528739 -0.0003528739 -0.0023321078 
+##             6 
+## -0.0023321078
+\end{verbatim}
+
+And our best estimate of the average marginal effect will be the average of the individual marginal effects:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{mean}\NormalTok{(margeff\_gore)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -0.01343623
+\end{verbatim}
+
+Notice that this is substantially smaller than our heuristics would have guessed, since many senators have a very high predicted probability of voting for the war (and thus a marginal effect close to zero).
+
+It is a little more involved to do first differences for a categorical variable by hand.
+(Luckily, we will soon see a way to do all of these much more easily.
+But you should know how to do them the hard way too.)
+First let's create two synthetic datasets, one where every senator is a Republican and one where every one is a Democrat.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{iraq\_rep \textless{}{-}}\StringTok{ }\NormalTok{iraq\_dem \textless{}{-}}\StringTok{ }\NormalTok{iraqVote}
+\NormalTok{iraq\_rep}\OperatorTok{$}\NormalTok{rep \textless{}{-}}\StringTok{ }\OtherTok{TRUE}
+\NormalTok{iraq\_dem}\OperatorTok{$}\NormalTok{rep \textless{}{-}}\StringTok{ }\OtherTok{FALSE}
+\KeywordTok{head}\NormalTok{(iraq\_rep)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   y state.abb             name  rep state.name gorevote
+## 1 1        AL  SESSIONS (R AL) TRUE    Alabama    41.59
+## 2 1        AL    SHELBY (R AL) TRUE    Alabama    41.59
+## 3 1        AK MURKOWSKI (R AK) TRUE     Alaska    27.67
+## 4 1        AK   STEVENS (R AK) TRUE     Alaska    27.67
+## 5 1        AZ       KYL (R AZ) TRUE    Arizona    44.67
+## 6 1        AZ    MCCAIN (R AZ) TRUE    Arizona    44.67
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{head}\NormalTok{(iraq\_dem)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   y state.abb             name   rep state.name gorevote
+## 1 1        AL  SESSIONS (R AL) FALSE    Alabama    41.59
+## 2 1        AL    SHELBY (R AL) FALSE    Alabama    41.59
+## 3 1        AK MURKOWSKI (R AK) FALSE     Alaska    27.67
+## 4 1        AK   STEVENS (R AK) FALSE     Alaska    27.67
+## 5 1        AZ       KYL (R AZ) FALSE    Arizona    44.67
+## 6 1        AZ    MCCAIN (R AZ) FALSE    Arizona    44.67
+\end{verbatim}
+
+Now we can calculate the average first difference between Republicans and Democrats using the predicted probabilities for each of these synthetic datasets.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pp\_logit\_rep \textless{}{-}}\StringTok{ }\KeywordTok{predict}\NormalTok{(fit\_logit, }\DataTypeTok{newdata =}\NormalTok{ iraq\_rep, }\DataTypeTok{type =} \StringTok{"response"}\NormalTok{)}
+\NormalTok{pp\_logit\_dem \textless{}{-}}\StringTok{ }\KeywordTok{predict}\NormalTok{(fit\_logit, }\DataTypeTok{newdata =}\NormalTok{ iraq\_dem, }\DataTypeTok{type =} \StringTok{"response"}\NormalTok{)}
+\KeywordTok{mean}\NormalTok{(pp\_logit\_rep }\OperatorTok{{-}}\StringTok{ }\NormalTok{pp\_logit\_dem)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.317038
+\end{verbatim}
+
+We can calculate average marginal effects and first differences much more easily using the \textbf{margins} package.
+As a bonus, it calculates standard errors for us too.
+(We'll talk more about how to do this in the unit on computational methods.)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(}\StringTok{"margins"}\NormalTok{)}
+\NormalTok{meff\_logit \textless{}{-}}\StringTok{ }\KeywordTok{margins}\NormalTok{(fit\_logit)}
+\KeywordTok{summary}\NormalTok{(meff\_logit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    factor     AME     SE       z      p   lower   upper
+##  gorevote -0.0134 0.0043 -3.0949 0.0020 -0.0219 -0.0049
+##       rep  0.3170 0.0724  4.3768 0.0000  0.1751  0.4590
+\end{verbatim}
+
+So by going through all that trouble, we estimate a minus-1.3 percentage point marginal effect of Gore vote share and a 31 percentage point first difference due to being a Republican.
+Let's compare that to what we get from the linear probability model:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit\_lpm \textless{}{-}}\StringTok{ }\KeywordTok{lm}\NormalTok{(y }\OperatorTok{\textasciitilde{}}\StringTok{ }\NormalTok{rep }\OperatorTok{+}\StringTok{ }\NormalTok{gorevote, }\DataTypeTok{data =}\NormalTok{ iraqVote)}
+\KeywordTok{summary}\NormalTok{(fit\_lpm)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = y ~ rep + gorevote, data = iraqVote)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -0.7654 -0.1533  0.0509  0.2904  0.5707 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  1.174458   0.236256   4.971 2.87e-06 ***
+## repTRUE      0.316933   0.080493   3.937 0.000155 ***
+## gorevote    -0.012376   0.004715  -2.625 0.010072 *  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.3603 on 97 degrees of freedom
+## Multiple R-squared:  0.2888, Adjusted R-squared:  0.2742 
+## F-statistic:  19.7 on 2 and 97 DF,  p-value: 6.617e-08
+\end{verbatim}
+
+A minus-1.2 percentage point marginal effect of Gore vote share and a 32 percentage point first difference due to being a Republican.
+{[}Insert gif of the ``And that's why\ldots{}'' guy from \emph{Arrested Development}.{]}
+
+\hypertarget{maximum-likelihood-estimation-1}{%
+\subsection{Maximum Likelihood Estimation}\label{maximum-likelihood-estimation-1}}
 
   \bibliography{book.bib,packages.bib,psci-8357.bib}
 

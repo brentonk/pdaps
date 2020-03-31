@@ -546,3 +546,118 @@ If you find yourself in the dubious situation of running a logistic regression o
 
 
 ## Appendix: Implementation in R
+
+### Logistic Regression
+
+To illustrate logistic regression in R, we will use data from the **pscl** package on how senators voted on the 2002 resolution to authorize military force against Iraq.
+
+```{r iraq-data, message=FALSE}
+library("pscl")
+head(iraqVote)
+summary(iraqVote)
+```
+
+The poorly labeled `y` variable here is an indicator for voting in favor of the war.
+
+To run a logistic regression model in R, you simply use the `glm()` command (stands for *generalized* linear model) much like you use `lm()` for ordinary or weighted least squares.
+The only difference is that you have to add the `family` argument to tell R to run a logistic regression.
+`glm()` runs all kinds of models; if you forget the `family` argument, it will run OLS by default.
+
+```{r logit-fit}
+fit_logit <- glm(y ~ rep + gorevote,
+                 data = iraqVote,
+                 family = binomial(link = "logit"))
+summary(fit_logit)
+```
+
+To fit a probit model, you would instead use `binomial(link = "probit")`.
+
+In the summary output, the things about deviances can be safely ignored.
+The AIC is a general measure of model fit, which we may talk about in the unlikely event we get to talking about predictive modeling.
+Lower values of the AIC indicate better fit.
+The Fisher scoring iterations are the number of steps the fitting process took to reach the maximum of the log-likelihood function.
+
+You can extract the predicted probability of $Y_n = 1$ for each observation according to the model using the `predict()'` function.
+
+```{r logit-predict}
+pp_logit <- predict(fit_logit, type = "response")
+head(pp_logit)
+```
+
+If you don't use the `type = "response"` argument, then the function will instead return the latent propensity estimates, $\mathbf{x}_n \cdot \hat{\beta}$, which are almost never what you want.
+
+We can use `predict()` to calculate average marginal effects and first differences "by hand".
+First let's use our heuristic to calculate the marginal effect of a state's Gore vote percentage in the 2000 election on a senator's probability of voting for the war, assuming that senator would otherwise be 50-50 on voting for the war.
+
+```{r logit-margeff-heuristic}
+cf_gore <- coef(fit_logit)["gorevote"]
+cf_gore * 0.25
+```
+
+Of course, we saw from the summary statistics that 77% of senators voted for the war.
+The marginal effect on a senator who would otherwise be 77-23 in favor is slightly smaller in magnitude:
+
+```{r logit-margeff-heuristic-2}
+cf_gore * 0.77 * 0.23
+```
+
+We can calculate the individual marginal effects using the predicted probabilities.
+
+```{r logit-indiv-margeff}
+margeff_gore <- cf_gore * pp_logit * (1 - pp_logit)
+head(margeff_gore)
+```
+
+And our best estimate of the average marginal effect will be the average of the individual marginal effects:
+
+```{r logit-avg-margeff}
+mean(margeff_gore)
+```
+
+Notice that this is substantially smaller than our heuristics would have guessed, since many senators have a very high predicted probability of voting for the war (and thus a marginal effect close to zero).
+
+It is a little more involved to do first differences for a categorical variable by hand.
+(Luckily, we will soon see a way to do all of these much more easily.
+But you should know how to do them the hard way too.)
+First let's create two synthetic datasets, one where every senator is a Republican and one where every one is a Democrat.
+
+```{r logit-make-synth}
+iraq_rep <- iraq_dem <- iraqVote
+iraq_rep$rep <- TRUE
+iraq_dem$rep <- FALSE
+head(iraq_rep)
+head(iraq_dem)
+```
+
+Now we can calculate the average first difference between Republicans and Democrats using the predicted probabilities for each of these synthetic datasets.
+
+```{r logit-first-diff}
+pp_logit_rep <- predict(fit_logit, newdata = iraq_rep, type = "response")
+pp_logit_dem <- predict(fit_logit, newdata = iraq_dem, type = "response")
+mean(pp_logit_rep - pp_logit_dem)
+```
+
+We can calculate average marginal effects and first differences much more easily using the **margins** package.
+As a bonus, it calculates standard errors for us too.
+(We'll talk more about how to do this in the unit on computational methods.)
+
+```{r margins-pkg}
+library("margins")
+meff_logit <- margins(fit_logit)
+summary(meff_logit)
+```
+
+So by going through all that trouble, we estimate a minus-1.3 percentage point marginal effect of Gore vote share and a 31 percentage point first difference due to being a Republican.
+Let's compare that to what we get from the linear probability model:
+
+```{r logit-vs-lpm}
+fit_lpm <- lm(y ~ rep + gorevote, data = iraqVote)
+summary(fit_lpm)
+```
+
+A minus-1.2 percentage point marginal effect of Gore vote share and a 32 percentage point first difference due to being a Republican.
+[Insert gif of the "And that's why..." guy from *Arrested Development*.]
+
+
+
+### Maximum Likelihood Estimation
