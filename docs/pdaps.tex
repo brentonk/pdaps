@@ -114,7 +114,7 @@
 
 \title{Practical Data Analysis for Political Scientists}
 \author{Brenton Kenkel}
-\date{2020-03-31}
+\date{2020-04-06}
 
 \begin{document}
 \maketitle
@@ -7208,8 +7208,140 @@ If you find yourself in the dubious situation of running a logistic regression o
 \hypertarget{separation}{%
 \subsection{Separation}\label{separation}}
 
-\hypertarget{clustered-standard-errors-1}{%
-\subsection{Clustered Standard Errors}\label{clustered-standard-errors-1}}
+Sometimes you may have a covariate that perfectly predicts whether the outcome is a 0 or a 1.
+For example, on many contentious votes in Congress, whether a member votes yay or nay will be determined entirely by her partisanship.
+This phenomenon is called \emph{complete separation} (terminology from \citet{albert1984existence}), and it is a vexing problem for the maximum likelihood estimation of logistic regression models.
+
+Let's imagine a dataset where we have a single covariate \(X\), the response is 0 whenever \(X\) is negative, and the response is 1 whenever \(X\) is positive.
+
+\begin{verbatim}
+## # A tibble: 6 x 2
+##       y     x
+##   <dbl> <int>
+## 1     0    -3
+## 2     0    -2
+## 3     0    -1
+## 4     1     1
+## 5     1     2
+## 6     1     3
+\end{verbatim}
+
+Now let's imagine fitting a logistic regression model to this data: \(\Pr(Y = 1 | X) = \Lambda(X \cdot \beta)\).
+Because of the complete separation on \(X\), a maximum likelihood estimate does not exist.
+No matter how high \(\beta\) is, we can improve the likelihood by increasing it further.
+In effect, our estimate would be \(\hat{\beta} = \infty\).
+
+\includegraphics{pdaps_files/figure-latex/logit-sep-curves-1.pdf}
+
+If we try to actually fit a logistic regression to this data, we get nonsensical results.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit\_sep \textless{}{-}}\StringTok{ }\KeywordTok{glm}\NormalTok{(y }\OperatorTok{\textasciitilde{}}\StringTok{ }\NormalTok{x,}
+               \DataTypeTok{family =} \KeywordTok{binomial}\NormalTok{(}\DataTypeTok{link =} \StringTok{"logit"}\NormalTok{),}
+               \DataTypeTok{data =}\NormalTok{ separated\_data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(fit\_sep)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## glm(formula = y ~ x, family = binomial(link = "logit"), data = separated_data)
+## 
+## Deviance Residuals: 
+##          1           2           3           4           5           6  
+## -2.110e-08  -2.110e-08  -1.253e-05   1.253e-05   2.110e-08   2.110e-08  
+## 
+## Coefficients:
+##               Estimate Std. Error z value Pr(>|z|)
+## (Intercept) -9.002e-08  4.842e+04       0        1
+## x            2.327e+01  4.842e+04       0        1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 8.3178e+00  on 5  degrees of freedom
+## Residual deviance: 3.1384e-10  on 4  degrees of freedom
+## AIC: 4
+## 
+## Number of Fisher Scoring iterations: 24
+\end{verbatim}
+
+The warning ``fitted probabilities numerically 0 or 1 occurred'' is R's way of letting us know that there was complete separation, so the logistic regression results should not be trusted.
+
+A closely related but slightly less serious problem is \emph{quasicomplete separation}.
+Remember that complete separation is a perfect correlation between the covariate and the response: once I know \(X_n\), then I am sure about the corresponding \(Y_n\), and vice versa.
+Quasicomplete separation is when this holds partially, so that some values of \(X_n\) perfectly predict \(Y_n\) but others do not.
+
+Quasicomplete separation is best illustrated by example.
+In 2010, the Affordable Care Act passed the House by a 219-212 vote.
+Every Republican in the House voted against the bill, whereas Democrats were split 219-34.
+This means we would have quasicomplete separation in a logistic regression of ACA vote on partisanship.
+Once I know a member is a Republican, I would be certain they voted against.
+However, knowing a member is a Democrat does not by itself predict if they voted for or against the bill.
+So if I included an indicator for being a Republican in the model, its maximum likelihood estimate would not exist, as the likelihood would always improve as the coefficient approached \(- \infty\).
+However, I could use the variation among the Democratic members to estimate the effects of other variables, such as President Obama's vote share in the members' districts.
+
+It is an open question what to do in the presence of complete or quasicomplete separation.
+Sometimes separation is an indication that you're asking a question that the data can't reasonably answer.
+Alternatively, \citet{zorn2005solution} recommends using the bias-corrected logistic regression estimator developed by \citet{firth1993bias}.
+What you should \emph{not} do is report whatever numbers your statistical software spits out as if they were proper maximum likelihood estimates --- they are not.
+It is also usually a bad idea to simply remove the offending variable from your analysis, unless this variable is uncorrelated with your treatment of interest (in which case, why was it in your analysis to begin with?).
+
+\hypertarget{fixed-effects-1}{%
+\subsection{Fixed Effects}\label{fixed-effects-1}}
+
+There are a couple of issues with the use of fixed effects in logistic regression models.
+The first is that fixed effects are often a source of quasicomplete separation.
+For example, imagine that you have data on individuals grouped within households, and your response variable is whether each individual voted in the most recent election.
+You will have quasicomplete separation on the indicator for any household where every member voted or where no member voted.
+
+A second, more subtle problem concerns the consistency of fixed effects estimators for the logistic regression model.
+I said before that maximum likelihood estimators are guaranteed to be consistent.
+This is true when the number of parameters of the model is fixed even as the sample size grows.
+However, this is not necessarily true in the case of fixed effects.
+Again, imagine our example of individuals grouped within households.
+Collecting more data means surveying more households, which means including more household fixed effects in your regression model.
+The number of parameters to estimate grows with the sample size.
+Consequently, the maximum likelihood estimator is not consistent.
+This is an example of the \emph{incidental parameters problem}.
+
+The usual fix for the incidental parameters problem is to use the ``conditional logit'' estimator developed by \citet{chamberlain1980analysis}.
+Very loosely speaking, this is an alternative estimation approach that estimates the coefficients on the substantive parameters by examining only within-group variation.
+Another method is to simply use a linear probability model, in which fixed effects estimation is less problematic.
+\citet{beck2018estimating} compares these approaches.
+
+\hypertarget{autocorrelation-and-clustered-standard-errors}{%
+\subsection{Autocorrelation and Clustered Standard Errors}\label{autocorrelation-and-clustered-standard-errors}}
+
+We constructed the likelihood function for logistic regression under the assumption of independent and identically distributed observations.
+If there is correlation in the random noise across observations, then our likelihood function is wrong.
+Specifically, if there is autocorrelation between observations \(m\) and \(n\), then we have
+\[
+\Pr(Y_m = a, Y_n = b \,|\, \mathbf{x}_m, \mathbf{x}_n)
+\neq \Pr(Y_m = a \,|\, \mathbf{x}_m) \Pr(Y_n = b \,|\, \mathbf{x}_n).
+\]
+But we wrote out the likelihood function under the assumption that we could take the product this way.
+So if you suspect that you have autocorrelation and yet you run an ordinary logistic regression, you are not doing maximum likelihood estimation (because your likelihood function is wrong), and you cannot rely on its good properties like consistency anymore.
+
+There are special estimators tailored for binary response models with autocorrelation.
+These are typically complicated to estimate and interpret, and so they are well beyond the scope of this course.
+See \citet{huffer1998markov} or, for an introduction aimed at political scientists, \citet{ward2002location}.
+Alternatively, you may prefer to just use a linear probability model.
+
+Should you decide to go ahead and use the nominal logistic regression estimator even though it's not actually MLE in the presence of autocorrelation, there are software packages that will provide clustered standard error estimates.
+These follow the same kind of ``sandwich'' logic as the formula we derived for OLS \citep{Liang:1986gv}.
+In some cases the ordinary estimator may still be consistent, though it will not be efficient.
+This requires, very loosely speaking, that the average autocorrelation between observations go to zero as the sample size increases \citep{poirier1988probit}.\footnote{I thank Larry Bartels for drawing my attention to the reference here, in response to a question by a previous PSCI 8357 student.}
 
 \hypertarget{appendix-implementation-in-r-2}{%
 \section{Appendix: Implementation in R}\label{appendix-implementation-in-r-2}}
@@ -7526,6 +7658,133 @@ A minus-1.2 percentage point marginal effect of Gore vote share and a 32 percent
 
 \hypertarget{maximum-likelihood-estimation-1}{%
 \subsection{Maximum Likelihood Estimation}\label{maximum-likelihood-estimation-1}}
+
+You can build your own maximum likelihood estimators using the \textbf{maxLik} package.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(}\StringTok{"maxLik"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: miscTools
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Please cite the 'maxLik' package as:
+## Henningsen, Arne and Toomet, Ott (2011). maxLik: A package for maximum likelihood estimation in R. Computational Statistics 26(3), 443-458. DOI 10.1007/s00180-010-0217-1.
+## 
+## If you have questions, suggestions, or comments regarding the 'maxLik' package, please use a forum or 'tracker' at maxLik's R-Forge site:
+## https://r-forge.r-project.org/projects/maxlik/
+\end{verbatim}
+
+As a simple example, let's make a function that calculates the log-likelihood of the logistic regression model.
+This function will take three arguments:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \texttt{beta}: the coefficients to evaluate the log-likelihood at.
+\item
+  \texttt{y}: vector of responses (0s and 1s).
+\item
+  \texttt{x}: matrix of covariates (same number of rows as length of \texttt{y}).
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{loglik\_logit \textless{}{-}}\StringTok{ }\ControlFlowTok{function}\NormalTok{(beta, y, x) \{}
+  \CommentTok{\#\# Calculate the expected latent propensity for each observation}
+\NormalTok{  xb \textless{}{-}}\StringTok{ }\NormalTok{x }\OperatorTok{\%*\%}\StringTok{ }\NormalTok{beta}
+\NormalTok{  xb \textless{}{-}}\StringTok{ }\KeywordTok{drop}\NormalTok{(xb)  }\CommentTok{\# Convert from matrix to vector}
+
+  \CommentTok{\#\# Calculate predicted probabilities according to logit model}
+\NormalTok{  pp \textless{}{-}}\StringTok{ }\KeywordTok{plogis}\NormalTok{(xb)}
+
+  \CommentTok{\#\# Calculate likelihood for each individual observation}
+\NormalTok{  lik \textless{}{-}}\StringTok{ }\KeywordTok{ifelse}\NormalTok{(y }\OperatorTok{==}\StringTok{ }\DecValTok{0}\NormalTok{, }\DecValTok{1} \OperatorTok{{-}}\StringTok{ }\NormalTok{pp, pp)}
+
+  \CommentTok{\#\# Return log{-}likelihood}
+  \KeywordTok{sum}\NormalTok{(}\KeywordTok{log}\NormalTok{(lik))}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+We can use this with the \texttt{maxLik()} function to perform maximum likelihood estimation.
+We'll construct our \texttt{y} and \texttt{x} ``by hand'' from the Iraq vote data.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{y\_iraq \textless{}{-}}\StringTok{ }\NormalTok{iraqVote}\OperatorTok{$}\NormalTok{y}
+\KeywordTok{head}\NormalTok{(y\_iraq)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1 1 1 1 1 1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x\_iraq \textless{}{-}}\StringTok{ }\KeywordTok{cbind}\NormalTok{(}\DataTypeTok{intercept =} \DecValTok{1}\NormalTok{,}
+                \DataTypeTok{republican =} \KeywordTok{as.numeric}\NormalTok{(iraqVote}\OperatorTok{$}\NormalTok{rep),}
+                \DataTypeTok{gorevote =}\NormalTok{ iraqVote}\OperatorTok{$}\NormalTok{gorevote)}
+\end{Highlighting}
+\end{Shaded}
+
+The last thing we need is a set of starting values for the iterative process used to find the maximum of the likelihood function.
+We will use the OLS coefficients.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{beta\_start\_iraq \textless{}{-}}\StringTok{ }\KeywordTok{solve}\NormalTok{(}\KeywordTok{t}\NormalTok{(x\_iraq) }\OperatorTok{\%*\%}\StringTok{ }\NormalTok{x\_iraq, }\KeywordTok{t}\NormalTok{(x\_iraq) }\OperatorTok{\%*\%}\StringTok{ }\NormalTok{y\_iraq)}
+\NormalTok{beta\_start\_iraq \textless{}{-}}\StringTok{ }\KeywordTok{drop}\NormalTok{(beta\_start\_iraq)  }\CommentTok{\# Convert from matrix to vector}
+\NormalTok{beta\_start\_iraq}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   intercept  republican    gorevote 
+##  1.17445777  0.31693261 -0.01237552
+\end{verbatim}
+
+We can now estimate our hand-rolled logistic regression model.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{logit\_by\_hand \textless{}{-}}\StringTok{ }\KeywordTok{maxLik}\NormalTok{(}\DataTypeTok{logLik =}\NormalTok{ loglik\_logit,}
+                        \DataTypeTok{start =}\NormalTok{ beta\_start\_iraq,}
+                        \DataTypeTok{y =}\NormalTok{ y\_iraq,}
+                        \DataTypeTok{x =}\NormalTok{ x\_iraq)}
+\KeywordTok{summary}\NormalTok{(logit\_by\_hand)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## --------------------------------------------
+## Maximum Likelihood estimation
+## Newton-Raphson maximisation, 6 iterations
+## Return code 2: successive function values within tolerance limit
+## Log-Likelihood: -35.94215 
+## 3  free parameters
+## Estimates:
+##            Estimate Std. error t value Pr(> t)   
+## intercept   5.87857    2.28936   2.568 0.01024 * 
+## republican  3.01881    1.06651   2.831 0.00465 **
+## gorevote   -0.11322    0.04534  -2.497 0.01253 * 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## --------------------------------------------
+\end{verbatim}
+
+The coefficient estimates are exactly the same as what \texttt{glm()} gave us.
+The standard errors are slightly different, though not substantively so, because \texttt{glm()} and \texttt{maxLik()} use slightly different approximations to obtain standard error estimates.
+
+Of course, you would always want to use \texttt{glm()} instead of using your own home-cooked logistic regression estimator.
+However, should you ever find yourself needing to estimate a model that hasn't already been baked into R, \texttt{maxLik()} is an easy way to do so.
 
   \bibliography{book.bib,packages.bib,psci-8357.bib}
 

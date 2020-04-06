@@ -542,7 +542,131 @@ If you find yourself in the dubious situation of running a logistic regression o
 
 ### Separation
 
-### Clustered Standard Errors
+Sometimes you may have a covariate that perfectly predicts whether the outcome is a 0 or a 1.
+For example, on many contentious votes in Congress, whether a member votes yay or nay will be determined entirely by her partisanship.
+This phenomenon is called *complete separation* (terminology from @albert1984existence), and it is a vexing problem for the maximum likelihood estimation of logistic regression models.
+
+Let's imagine a dataset where we have a single covariate $X$, the response is 0 whenever $X$ is negative, and the response is 1 whenever $X$ is positive.
+
+```{r logit-sep-ex-data, echo=FALSE}
+separated_data <-
+  tibble(x = seq(-3, 3),
+         y = as.numeric(x > 0)) %>%
+  select(y, x) %>%
+  filter(x != 0)
+separated_data
+```
+
+Now let's imagine fitting a logistic regression model to this data: $\Pr(Y = 1 | X) = \Lambda(X \cdot \beta)$.
+Because of the complete separation on $X$, a maximum likelihood estimate does not exist.
+No matter how high $\beta$ is, we can improve the likelihood by increasing it further.
+In effect, our estimate would be $\hat{\beta} = \infty$.
+
+```{r logit-sep-curves, echo=FALSE}
+beta <- c(0.5, 1, 2, 4, 8)
+calc_lik <- function(b) {
+  pp <- plogis(separated_data$x * b)
+  l <- if_else(separated_data$y == 1, pp, 1 - pp)
+  prod(l)
+}
+lik <- map_dbl(beta, calc_lik)
+
+dat_curves <-
+  crossing(beta = beta,
+           x = seq(-3, 3, length.out = 101)) %>%
+  mutate(y = plogis(x * beta),
+         beta = factor(beta))
+
+dat_captions <-
+  tibble(beta = as.character(beta),
+         x = -1.5,
+         y = seq(0.525, 0.975, along = beta),
+         caption = str_glue("beta = {beta}, likelihood = {round(lik, 3)}"))
+
+ggplot(dat_curves, aes(x = x, y = y)) +
+  geom_line(aes(colour = beta)) +
+  geom_text(data = dat_captions,
+            aes(label = caption, colour = beta)) +
+  geom_point(data = separated_data)
+```
+
+If we try to actually fit a logistic regression to this data, we get nonsensical results.
+
+```{r logit-sep-run}
+fit_sep <- glm(y ~ x,
+               family = binomial(link = "logit"),
+               data = separated_data)
+summary(fit_sep)
+```
+
+The warning "fitted probabilities numerically 0 or 1 occurred" is R's way of letting us know that there was complete separation, so the logistic regression results should not be trusted.
+
+A closely related but slightly less serious problem is *quasicomplete separation*.
+Remember that complete separation is a perfect correlation between the covariate and the response: once I know $X_n$, then I am sure about the corresponding $Y_n$, and vice versa.
+Quasicomplete separation is when this holds partially, so that some values of $X_n$ perfectly predict $Y_n$ but others do not.
+
+Quasicomplete separation is best illustrated by example.
+In 2010, the Affordable Care Act passed the House by a 219-212 vote.
+Every Republican in the House voted against the bill, whereas Democrats were split 219-34.
+This means we would have quasicomplete separation in a logistic regression of ACA vote on partisanship.
+Once I know a member is a Republican, I would be certain they voted against.
+However, knowing a member is a Democrat does not by itself predict if they voted for or against the bill.
+So if I included an indicator for being a Republican in the model, its maximum likelihood estimate would not exist, as the likelihood would always improve as the coefficient approached $- \infty$.
+However, I could use the variation among the Democratic members to estimate the effects of other variables, such as President Obama's vote share in the members' districts.
+
+It is an open question what to do in the presence of complete or quasicomplete separation.
+Sometimes separation is an indication that you're asking a question that the data can't reasonably answer.
+Alternatively, @zorn2005solution recommends using the bias-corrected logistic regression estimator developed by @firth1993bias.
+What you should *not* do is report whatever numbers your statistical software spits out as if they were proper maximum likelihood estimates --- they are not.
+It is also usually a bad idea to simply remove the offending variable from your analysis, unless this variable is uncorrelated with your treatment of interest (in which case, why was it in your analysis to begin with?).
+
+
+### Fixed Effects
+
+There are a couple of issues with the use of fixed effects in logistic regression models.
+The first is that fixed effects are often a source of quasicomplete separation.
+For example, imagine that you have data on individuals grouped within households, and your response variable is whether each individual voted in the most recent election.
+You will have quasicomplete separation on the indicator for any household where every member voted or where no member voted.
+
+A second, more subtle problem concerns the consistency of fixed effects estimators for the logistic regression model.
+I said before that maximum likelihood estimators are guaranteed to be consistent.
+This is true when the number of parameters of the model is fixed even as the sample size grows.
+However, this is not necessarily true in the case of fixed effects.
+Again, imagine our example of individuals grouped within households.
+Collecting more data means surveying more households, which means including more household fixed effects in your regression model.
+The number of parameters to estimate grows with the sample size.
+Consequently, the maximum likelihood estimator is not consistent.
+This is an example of the *incidental parameters problem*.
+
+The usual fix for the incidental parameters problem is to use the "conditional logit" estimator developed by @chamberlain1980analysis.
+Very loosely speaking, this is an alternative estimation approach that estimates the coefficients on the substantive parameters by examining only within-group variation.
+Another method is to simply use a linear probability model, in which fixed effects estimation is less problematic.
+@beck2018estimating compares these approaches.
+
+
+### Autocorrelation and Clustered Standard Errors
+
+We constructed the likelihood function for logistic regression under the assumption of independent and identically distributed observations.
+If there is correlation in the random noise across observations, then our likelihood function is wrong.
+Specifically, if there is autocorrelation between observations $m$ and $n$, then we have
+$$
+\Pr(Y_m = a, Y_n = b \,|\, \mathbf{x}_m, \mathbf{x}_n)
+\neq \Pr(Y_m = a \,|\, \mathbf{x}_m) \Pr(Y_n = b \,|\, \mathbf{x}_n).
+$$
+But we wrote out the likelihood function under the assumption that we could take the product this way.
+So if you suspect that you have autocorrelation and yet you run an ordinary logistic regression, you are not doing maximum likelihood estimation (because your likelihood function is wrong), and you cannot rely on its good properties like consistency anymore.
+
+There are special estimators tailored for binary response models with autocorrelation.
+These are typically complicated to estimate and interpret, and so they are well beyond the scope of this course.
+See @huffer1998markov or, for an introduction aimed at political scientists, @ward2002location.
+Alternatively, you may prefer to just use a linear probability model.
+
+Should you decide to go ahead and use the nominal logistic regression estimator even though it's not actually MLE in the presence of autocorrelation, there are software packages that will provide clustered standard error estimates.
+These follow the same kind of "sandwich" logic as the formula we derived for OLS [@Liang:1986gv].
+In some cases the ordinary estimator may still be consistent, though it will not be efficient.
+This requires, very loosely speaking, that the average autocorrelation between observations go to zero as the sample size increases [@poirier1988probit].[^autocorrelated-logit]
+
+[^autocorrelated-logit]: I thank Larry Bartels for drawing my attention to the reference here, in response to a question by a previous PSCI 8357 student.
 
 
 ## Appendix: Implementation in R
@@ -676,3 +800,69 @@ A minus-1.2 percentage point marginal effect of Gore vote share and a 32 percent
 
 
 ### Maximum Likelihood Estimation
+
+You can build your own maximum likelihood estimators using the **maxLik** package.
+
+```{r maxlik}
+library("maxLik")
+```
+
+As a simple example, let's make a function that calculates the log-likelihood of the logistic regression model.
+This function will take three arguments:
+
+1.  `beta`: the coefficients to evaluate the log-likelihood at.
+2.  `y`: vector of responses (0s and 1s).
+3.  `x`: matrix of covariates (same number of rows as length of `y`).
+
+```{r fn-loglik-logit}
+loglik_logit <- function(beta, y, x) {
+  ## Calculate the expected latent propensity for each observation
+  xb <- x %*% beta
+  xb <- drop(xb)  # Convert from matrix to vector
+
+  ## Calculate predicted probabilities according to logit model
+  pp <- plogis(xb)
+
+  ## Calculate likelihood for each individual observation
+  lik <- ifelse(y == 0, 1 - pp, pp)
+
+  ## Return log-likelihood
+  sum(log(lik))
+}
+```
+
+We can use this with the `maxLik()` function to perform maximum likelihood estimation.
+We'll construct our `y` and `x` "by hand" from the Iraq vote data.
+
+```{r maxlik-ex-data}
+y_iraq <- iraqVote$y
+head(y_iraq)
+x_iraq <- cbind(intercept = 1,
+                republican = as.numeric(iraqVote$rep),
+                gorevote = iraqVote$gorevote)
+```
+
+The last thing we need is a set of starting values for the iterative process used to find the maximum of the likelihood function.
+We will use the OLS coefficients.
+
+```{r maxlik-start}
+beta_start_iraq <- solve(t(x_iraq) %*% x_iraq, t(x_iraq) %*% y_iraq)
+beta_start_iraq <- drop(beta_start_iraq)  # Convert from matrix to vector
+beta_start_iraq
+```
+
+We can now estimate our hand-rolled logistic regression model.
+
+```{r maxlik-logit-by-hand}
+logit_by_hand <- maxLik(logLik = loglik_logit,
+                        start = beta_start_iraq,
+                        y = y_iraq,
+                        x = x_iraq)
+summary(logit_by_hand)
+```
+
+The coefficient estimates are exactly the same as what `glm()` gave us.
+The standard errors are slightly different, though not substantively so, because `glm()` and `maxLik()` use slightly different approximations to obtain standard error estimates.
+
+Of course, you would always want to use `glm()` instead of using your own home-cooked logistic regression estimator.
+However, should you ever find yourself needing to estimate a model that hasn't already been baked into R, `maxLik()` is an easy way to do so.

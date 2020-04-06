@@ -24,7 +24,7 @@
 <meta name="author" content="Brenton Kenkel" />
 
 
-<meta name="date" content="2020-03-31" />
+<meta name="date" content="2020-04-06" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -242,7 +242,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="13.4" data-path="logit.html"><a href="logit.html#special-considerations"><i class="fa fa-check"></i><b>13.4</b> Special Considerations</a>
 <ul>
 <li class="chapter" data-level="13.4.1" data-path="logit.html"><a href="logit.html#separation"><i class="fa fa-check"></i><b>13.4.1</b> Separation</a></li>
-<li class="chapter" data-level="13.4.2" data-path="logit.html"><a href="logit.html#clustered-standard-errors-1"><i class="fa fa-check"></i><b>13.4.2</b> Clustered Standard Errors</a></li>
+<li class="chapter" data-level="13.4.2" data-path="logit.html"><a href="logit.html#fixed-effects-1"><i class="fa fa-check"></i><b>13.4.2</b> Fixed Effects</a></li>
+<li class="chapter" data-level="13.4.3" data-path="logit.html"><a href="logit.html#autocorrelation-and-clustered-standard-errors"><i class="fa fa-check"></i><b>13.4.3</b> Autocorrelation and Clustered Standard Errors</a></li>
 </ul></li>
 <li class="chapter" data-level="13.5" data-path="logit.html"><a href="logit.html#appendix-implementation-in-r-2"><i class="fa fa-check"></i><b>13.5</b> Appendix: Implementation in R</a>
 <ul>
@@ -276,10 +277,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <div id="refs" class="references hanging-indent">
 <div>
+<p>Albert, Adelin, and John A. Anderson. 1984. “On the Existence of Maximum Likelihood Estimates in Logistic Regression Models.” <em>Biometrika</em> 71 (1): 1–10.</p>
+</div>
+<div>
 <p>Angrist, Joshua D., and Jörn-Steffen Pischke. 2015. <em>Mastering ’Metrics: The Path from Cause to Effect</em>. Princeton University Press.</p>
 </div>
 <div>
 <p>Arellano, M. 1987. “Practitioners’ Corner: Computing Robust Standard Errors for Within-groups Estimators.” <em>Oxford Bulletin of Economics and Statistics</em> 49 (4): 431–34.</p>
+</div>
+<div>
+<p>Beck, Nathaniel. 2018. “Estimating Grouped Data Models with a Binary Dependent Variable and Fixed Effects: What Are the Issues?” <a href="http://arxiv.org/abs/1809.06505">http://arxiv.org/abs/1809.06505</a>.</p>
 </div>
 <div>
 <p>Beck, Nathaniel, and Jonathan N Katz. 1995. “What to do (and Not to Do) with Time-Series Cross-Section Data.” <em>American Political Science Review</em> 89 (03): 634–47.</p>
@@ -300,10 +307,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Cameron, A Colin, and Douglas L Miller. 2015. “A Practitioner’s Guide to Cluster-Robust Inference.” <em>Journal of Human Resources</em> 50 (2): 317–72.</p>
 </div>
 <div>
+<p>Chamberlain, Gary. 1980. “Analysis of Covariance with Qualitative Data.” <em>The Review of Economic Studies</em> 47 (1): 225–38.</p>
+</div>
+<div>
 <p>Clarke, Kevin A. 2005. “The Phantom Menace: Omitted Variable Bias in Econometric Research.” <em>Conflict Management and Peace Science</em> 22 (4): 341–52.</p>
 </div>
 <div>
 <p>Davidson, Russell, and James G. MacKinnon. 1993. <em>Estimation and Inference in Econometrics</em>. Oxford University Press.</p>
+</div>
+<div>
+<p>Firth, David. 1993. “Bias Reduction of Maximum Likelihood Estimates.” <em>Biometrika</em> 80 (1): 27–38.</p>
 </div>
 <div>
 <p>Gelman, Andrew, and Jennifer Hill. 2006. <em>Data Analysis Using Regression and Multilevel/Hierarchical Models</em>. Cambridge university press.</p>
@@ -313,6 +326,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div>
 <p>Hausman, J A. 1978. “Specification Tests in Econometrics.” <em>Econometrica</em> 46 (6): 1251.</p>
+</div>
+<div>
+<p>Huffer, Fred W, and Hulin Wu. 1998. “Markov Chain Monte Carlo for Autologistic Regression Models with Application to the Distribution of Plant Species.” <em>Biometrics</em>, 509–24.</p>
 </div>
 <div>
 <p>Ioannidis, John PA. 2005. “Why Most Published Research Findings Are False.” <em>PLos Med</em> 2 (8): e124.</p>
@@ -345,7 +361,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Open Science Collaboration. 2015. “Estimating the Reproducibility of Psychological Science.” <em>Science</em> 349 (6251): aac4716.</p>
 </div>
 <div>
+<p>Poirier, Dale J., and Paul A. Ruud. 1988. “Probit with Dependent Observations.” <em>The Review of Economic Studies</em> 55 (4): 593–614.</p>
+</div>
+<div>
 <p>Pritschet, Laura, Derek Powell, and Zachary Horne. 2016. “Marginally Significant Effects as Evidence for Hypotheses: Changing Attitudes over Four Decades.” <em>Psychological Science</em> 27 (7): 1036–42.</p>
+</div>
+<div>
+<p>Ward, Michael D, and Kristian Skrede Gleditsch. 2002. “Location, Location, Location: An Mcmc Approach to Modeling the Spatial Context of War and Peace.” <em>Political Analysis</em> 10 (3): 244–60.</p>
 </div>
 <div>
 <p>White, Halbert. 1980. “A Heteroskedasticity-Consistent Covariance Matrix Estimator and a Direct Test for Heteroskedasticity.” <em>Econometrica: Journal of the Econometric Society</em>, 817–38.</p>
@@ -362,8 +384,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div>
 <p>Young, Neal S, John PA Ioannidis, and Omar Al-Ubaydli. 2008. “Why Current Publication Practices May Distort Science.” <em>PLoS Med</em> 5 (10): e201.</p>
 </div>
+<div>
+<p>Zorn, Christopher. 2005. “A Solution to Separation in Binary Response Models.” <em>Political Analysis</em> 13 (2): 157–70.</p>
 </div>
 </div>
+</div>
+
 
 
 
