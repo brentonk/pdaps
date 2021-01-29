@@ -18,7 +18,7 @@ For the examples today, we'll be using a dataset with statistics about the fifty
 [^why-1977]: Why 1977?  Because it was easily available.  See the appendix to this chapter.
 
 ```{r get-state-data, message=FALSE}
-state_data <- read_csv("http://bkenkel.com/data/state-data.csv")
+state_data <- read_csv("http://bkenkel.com/files/state-data.csv")
 state_data
 ```
 

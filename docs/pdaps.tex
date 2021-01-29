@@ -109,12 +109,15 @@
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 \setcounter{secnumdepth}{5}
 \usepackage{booktabs}
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
 \usepackage[]{natbib}
 \bibliographystyle{apalike}
 
 \title{Practical Data Analysis for Political Scientists}
 \author{Brenton Kenkel}
-\date{2020-04-06}
+\date{2021-01-29}
 
 \begin{document}
 \maketitle
@@ -511,7 +514,7 @@ The R function \texttt{download.file()} is the easiest way to download files fro
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{download.file}\NormalTok{(}\DataTypeTok{url =} \StringTok{"http://bkenkel.com/data/untidy{-}data.csv"}\NormalTok{,}
+\KeywordTok{download.file}\NormalTok{(}\DataTypeTok{url =} \StringTok{"http://bkenkel.com/files/untidy{-}data.csv"}\NormalTok{,}
               \DataTypeTok{destfile =} \StringTok{"my{-}untidy{-}data.csv"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -526,7 +529,8 @@ Once you've got the file stored locally, use the utilities from the \textbf{read
 \end{Shaded}
 
 \begin{verbatim}
-## Parsed with column specification:
+## 
+## -- Column specification ---------------------------------------------------------------------------------------------------------------------------------
 ## cols(
 ##   country = col_character(),
 ##   gdp.2005 = col_double(),
@@ -550,7 +554,7 @@ FYI, you could also run \texttt{read\_csv()} directly on a URL, as in:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{read\_csv}\NormalTok{(}\StringTok{"http://bkenkel.com/data/untidy{-}data.csv"}\NormalTok{)}
+\KeywordTok{read\_csv}\NormalTok{(}\StringTok{"http://bkenkel.com/files/untidy{-}data.csv"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -671,6 +675,13 @@ So now we have country-year-variable data, with the year and variable convenient
 ## 4 AD      2008    3.68 0.0839 NA   
 ## 5 AE      2005  257.   4.59    3.12
 ## 6 AE      2006  283.   5.30    2.77
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: The `path` argument of `write_csv()` is deprecated as of readr 1.4.0.
+## Please use the `file` argument instead.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_warnings()` to see where this warning was generated.
 \end{verbatim}
 
 When using \texttt{spread()} on data that you didn't previously \texttt{gather()}, be sure to set the \texttt{fill} argument to tell it how to fill in empty cells. A simple example:
@@ -988,7 +999,7 @@ This seems sort of useless, until you combine it with the \texttt{group\_by()} f
 \begin{verbatim}
 ## # A tibble: 4 x 2
 ##   year  max_unemp
-##   <chr>     <dbl>
+## * <chr>     <dbl>
 ## 1 2005       37.2
 ## 2 2006       36.0
 ## 3 2007       34.9
@@ -1066,7 +1077,7 @@ Let's practice merging data with our cleaned-up country-year data. We'll take tw
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{latlong\_data \textless{}{-}}\StringTok{ }\KeywordTok{read\_csv}\NormalTok{(}\StringTok{"http://bkenkel.com/data/latlong.csv"}\NormalTok{)}
+\NormalTok{latlong\_data \textless{}{-}}\StringTok{ }\KeywordTok{read\_csv}\NormalTok{(}\StringTok{"http://bkenkel.com/files/latlong.csv"}\NormalTok{)}
 \NormalTok{latlong\_data}
 \end{Highlighting}
 \end{Shaded}
@@ -1085,7 +1096,7 @@ Let's practice merging data with our cleaned-up country-year data. We'll take tw
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{inflation\_data \textless{}{-}}\StringTok{ }\KeywordTok{read\_csv}\NormalTok{(}\StringTok{"http://bkenkel.com/data/inflation.csv"}\NormalTok{)}
+\NormalTok{inflation\_data \textless{}{-}}\StringTok{ }\KeywordTok{read\_csv}\NormalTok{(}\StringTok{"http://bkenkel.com/files/inflation.csv"}\NormalTok{)}
 \NormalTok{inflation\_data}
 \end{Highlighting}
 \end{Shaded}
@@ -1163,7 +1174,9 @@ From R's perspective, the character string \texttt{"1999"} is a very different t
 \end{Shaded}
 
 \begin{verbatim}
-## Error: Can't join on 'year' x 'year' because of incompatible types (numeric / character)
+## Error: Can't join on `x$year` x `y$year` because of incompatible types.
+## i `x$year` is of type <character>>.
+## i `y$year` is of type <double>>.
 \end{verbatim}
 
 To fix this, let's use \texttt{mutate()} to convert the \texttt{year} column of \texttt{clean\_data} to an integer. We probably should have done this in the first place---after all, having the year encoded as a character string would have thrown off plotting functions, statistical functions, or anything else where it would be more natural to treat the year like a number.
@@ -1224,13 +1237,13 @@ You might remember that \texttt{inflation\_data} contained some country-years no
 
 \begin{verbatim}
 ## # A tibble: 1,070 x 6
-##   country  year   gdp     pop unemp inflation
-##   <chr>   <dbl> <dbl>   <dbl> <dbl>     <dbl>
-## 1 AD       2004 NA    NA         NA        NA
-## 2 AD       2005  3.85  0.0789    NA        NA
-## 3 AD       2006  4.03  0.0810    NA        NA
-## 4 AD       2007  4.03  0.0827    NA        NA
-## 5 AD       2008  3.68  0.0839    NA        NA
+##   country  year    gdp    pop unemp inflation
+##   <chr>   <dbl>  <dbl>  <dbl> <dbl>     <dbl>
+## 1 AD       2005   3.85 0.0789 NA           NA
+## 2 AD       2006   4.03 0.0810 NA           NA
+## 3 AD       2007   4.03 0.0827 NA           NA
+## 4 AD       2008   3.68 0.0839 NA           NA
+## 5 AE       2005 257.   4.59    3.12        NA
 ## # ... with 1,065 more rows
 \end{verbatim}
 
@@ -1310,12 +1323,12 @@ Next, I download the relevant WDI data. I used the \texttt{WDIsearch()} function
 
 \begin{verbatim}
 ##   iso2c    country year NY.GDP.MKTP.KD SP.POP.TOTL SL.UEM.TOTL.ZS
-## 1    1A Arab World 2005   1.701829e+12   314965793      11.265624
-## 2    1A Arab World 2006   1.812406e+12   322452754      10.375058
-## 3    1A Arab World 2007   1.895307e+12   330290716       9.846245
-## 4    1A Arab World 2008   2.005661e+12   338395961       9.471168
-## 5    1W      World 2005   5.807791e+13  6512602867       5.603405
-## 6    1W      World 2006   6.062144e+13  6593623202       5.242480
+## 1    1A Arab World 2005   1.698907e+12   314965793      11.069919
+## 2    1A Arab World 2006   1.809364e+12   322452754      10.252186
+## 3    1A Arab World 2007   1.891216e+12   330290716       9.788912
+## 4    1A Arab World 2008   2.001119e+12   338395961       9.452786
+## 5    1W      World 2005   5.813634e+13  6511748367       5.901350
+## 6    1W      World 2006   6.068166e+13  6592734537       5.594115
 \end{verbatim}
 
 I want to get rid of the aggregates, like the ``Arab World'' and ``World'' we see here. As a rough tack at that, I'm going to exclude those so-called countries whose ISO codes don't appear in the \textbf{countrycode} package data.\footnote{\textbf{countrycode} is a very useful, albeit imperfect, package for converting between different country naming/coding schemes.}
@@ -1386,12 +1399,12 @@ With that out of the way, there's still some cleaning up to do. The magnitudes o
 
 \begin{verbatim}
 ##   country year        gdp      pop unemp
-## 1      AD 2005   3.851228 0.078867    NA
-## 2      AD 2006   4.025933 0.080993    NA
-## 3      AD 2007   4.027544 0.082684    NA
-## 4      AD 2008   3.681578 0.083862    NA
+## 1      AD 2005   3.697349 0.078867    NA
+## 2      AD 2006   3.875143 0.080993    NA
+## 3      AD 2007   3.935331 0.082684    NA
+## 4      AD 2008   3.716558 0.083862    NA
 ## 5      AE 2005 257.366939 4.588225 3.120
-## 6      AE 2006 282.684948 5.300174 2.773
+## 6      AE 2006 282.684948 5.300174 2.703
 \end{verbatim}
 
 Now I convert the data to ``long'' format.
@@ -1418,10 +1431,10 @@ Now I convert the data to ``long'' format.
 
 \begin{verbatim}
 ##   country year variable      value
-## 1      AD 2005      gdp   3.851228
-## 2      AD 2006      gdp   4.025933
-## 3      AD 2007      gdp   4.027544
-## 4      AD 2008      gdp   3.681578
+## 1      AD 2005      gdp   3.697349
+## 2      AD 2006      gdp   3.875143
+## 3      AD 2007      gdp   3.935331
+## 4      AD 2008      gdp   3.716558
 ## 5      AE 2005      gdp 257.366939
 ## 6      AE 2006      gdp 282.684948
 \end{verbatim}
@@ -1440,10 +1453,10 @@ I then smush \texttt{variable} and \texttt{year} into a single column, and drop 
 
 \begin{verbatim}
 ##   country      value var_year
-## 1      AD   3.851228 gdp.2005
-## 2      AD   4.025933 gdp.2006
-## 3      AD   4.027544 gdp.2007
-## 4      AD   3.681578 gdp.2008
+## 1      AD   3.697349 gdp.2005
+## 2      AD   3.875143 gdp.2006
+## 3      AD   3.935331 gdp.2007
+## 4      AD   3.716558 gdp.2008
 ## 5      AE 257.366939 gdp.2005
 ## 6      AE 282.684948 gdp.2006
 \end{verbatim}
@@ -1461,19 +1474,19 @@ Finally, I ``widen'' the data, so that each \texttt{var\_year} is a column of it
 
 \begin{verbatim}
 ##   country   gdp.2005   gdp.2006   gdp.2007   gdp.2008  pop.2005  pop.2006
-## 1      AD   3.851228   4.025933   4.027544   3.681578  0.078867  0.080993
+## 1      AD   3.697349   3.875143   3.935331   3.716558  0.078867  0.080993
 ## 2      AE 257.366939 282.684948 291.686739 300.996902  4.588225  5.300174
 ## 3      AF   9.164598   9.655583  10.990595  11.421974 25.654277 26.433049
-## 4      AG   1.148420   1.294597   1.414469   1.414043  0.081465  0.082704
-## 5      AL   9.223229   9.767407  10.351497  11.127856  3.011487  2.992547
-## 6      AM   7.667756   8.679746   9.873142  10.554389  2.981269  2.958307
+## 4      AG   1.149280   1.295332   1.415998   1.415795  0.081465  0.082704
+## 5      AL   9.223203   9.767379  10.351467  11.127824  3.011487  2.992547
+## 6      AM   7.666474   8.678449   9.867397  10.548247  2.981269  2.958307
 ##    pop.2007  pop.2008 unemp.2005 unemp.2006 unemp.2007 unemp.2008
 ## 1  0.082684  0.083862         NA         NA         NA         NA
-## 2  6.168838  7.089487      3.120      2.773      2.467      2.333
-## 3 27.100536 27.722276      2.942      2.825      2.128      2.494
+## 2  6.168838  7.089487      3.120      2.703      2.081      1.956
+## 3 27.100536 27.722276     11.429     11.224     11.046     10.985
 ## 4  0.084026  0.085397         NA         NA         NA         NA
-## 5  2.970017  2.947314     16.874     16.394     15.966     13.060
-## 6  2.932618  2.907618     10.800     10.281      9.812     16.368
+## 5  2.970017  2.947314     16.460     16.196     15.966     13.060
+## 6  2.932618  2.907618     10.393     10.090      9.812     13.475
 \end{verbatim}
 
 Now we have some ugly data. I save the output to upload to my website.
@@ -1504,8 +1517,11 @@ And here's how I made the second country-year dataset used in the merging sectio
 \end{Shaded}
 
 \begin{verbatim}
-## Warning: `as_data_frame()` is deprecated, use `as_tibble()` (but mind the new semantics).
-## This warning is displayed once per session.
+## Warning: `as_data_frame()` is deprecated as of tibble 2.0.0.
+## Please use `as_tibble()` instead.
+## The signature and semantics have changed, see `?as_tibble`.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_warnings()` to see where this warning was generated.
 \end{verbatim}
 
 \begin{Shaded}
@@ -1536,7 +1552,7 @@ For the examples today, we'll be using a dataset with statistics about the fifty
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{state\_data \textless{}{-}}\StringTok{ }\KeywordTok{read\_csv}\NormalTok{(}\StringTok{"http://bkenkel.com/data/state{-}data.csv"}\NormalTok{)}
+\NormalTok{state\_data \textless{}{-}}\StringTok{ }\KeywordTok{read\_csv}\NormalTok{(}\StringTok{"http://bkenkel.com/files/state{-}data.csv"}\NormalTok{)}
 \NormalTok{state\_data}
 \end{Highlighting}
 \end{Shaded}
@@ -1993,8 +2009,10 @@ Two important things about the estimation of conditional expectations before we 
   As a hypothetical example, suppose I told you that taking a particular drug made people happier on average. In other words, \(E[\text{Happiness} \,|\, \text{Drug}] > E[\text{Happiness} \,|\, \text{No Drug}]\). Sounds great! Then imagine the dose-response graph looked like this:
 
 \begin{verbatim}
-## Warning: `data_frame()` is deprecated, use `tibble()`.
-## This warning is displayed once per session.
+## Warning: `data_frame()` is deprecated as of tibble 1.1.0.
+## Please use `tibble()` instead.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_warnings()` to see where this warning was generated.
 \end{verbatim}
 
   \includegraphics{pdaps_files/figure-latex/happiness-drug-1.pdf}
@@ -2421,11 +2439,11 @@ The second is \texttt{glance()}, which provides a one-row data frame containing 
 \end{Shaded}
 
 \begin{verbatim}
-## # A tibble: 1 x 11
+## # A tibble: 1 x 12
 ##   r.squared adj.r.squared sigma statistic  p.value    df logLik   AIC   BIC
-##       <dbl>         <dbl> <dbl>     <dbl>    <dbl> <int>  <dbl> <dbl> <dbl>
-## 1     0.723         0.720  9.10      261. 1.29e-29     2  -369.  744.  752.
-## # ... with 2 more variables: deviance <dbl>, df.residual <int>
+##       <dbl>         <dbl> <dbl>     <dbl>    <dbl> <dbl>  <dbl> <dbl> <dbl>
+## 1     0.723         0.720  9.10      261. 1.29e-29     1  -369.  744.  752.
+## # ... with 3 more variables: deviance <dbl>, df.residual <int>, nobs <int>
 \end{verbatim}
 
 The third is \texttt{augment()}, which ``augments'' the original data---or new data you supply, as in \texttt{predict()}---with information from the model, such as predicted values.
@@ -2438,20 +2456,19 @@ The third is \texttt{augment()}, which ``augments'' the original data---or new d
 \end{Shaded}
 
 \begin{verbatim}
-## # A tibble: 10 x 10
-##    .rownames prestige education .fitted .se.fit .resid   .hat .sigma .cooksd
-##    <chr>        <dbl>     <dbl>   <dbl>   <dbl>  <dbl>  <dbl>  <dbl>   <dbl>
-##  1 gov.admi~     68.8      13.1    59.5   1.20    9.25 0.0173   9.10 9.24e-3
-##  2 general.~     69.1      12.3    55.0   1.03   14.1  0.0129   9.04 1.59e-2
-##  3 accounta~     63.4      12.8    57.7   1.13    5.67 0.0153   9.13 3.06e-3
-##  4 purchasi~     56.8      11.4    50.5   0.929   6.31 0.0104   9.13 2.56e-3
-##  5 chemists      73.5      14.6    67.6   1.57    5.86 0.0298   9.13 6.56e-3
-##  6 physicis~     77.6      15.6    73.1   1.86    4.49 0.0418   9.14 5.53e-3
-##  7 biologis~     72.6      15.1    70.2   1.70    2.44 0.0350   9.15 1.35e-3
-##  8 architec~     78.1      15.4    72.0   1.80    6.06 0.0392   9.13 9.41e-3
-##  9 civil.en~     73.1      14.5    67.1   1.55    5.99 0.0288   9.13 6.62e-3
-## 10 mining.e~     68.8      14.6    67.8   1.58    1.05 0.0301   9.15 2.12e-4
-## # ... with 1 more variable: .std.resid <dbl>
+## # A tibble: 10 x 9
+##    .rownames  prestige education .fitted .resid .std.resid   .hat .sigma .cooksd
+##    <chr>         <dbl>     <dbl>   <dbl>  <dbl>      <dbl>  <dbl>  <dbl>   <dbl>
+##  1 gov.admin~     68.8      13.1    59.5   9.25      1.03  0.0173   9.10 9.24e-3
+##  2 general.m~     69.1      12.3    55.0  14.1       1.56  0.0129   9.04 1.59e-2
+##  3 accountan~     63.4      12.8    57.7   5.67      0.628 0.0153   9.13 3.06e-3
+##  4 purchasin~     56.8      11.4    50.5   6.31      0.697 0.0104   9.13 2.56e-3
+##  5 chemists       73.5      14.6    67.6   5.86      0.653 0.0298   9.13 6.56e-3
+##  6 physicists     77.6      15.6    73.1   4.49      0.504 0.0418   9.14 5.53e-3
+##  7 biologists     72.6      15.1    70.2   2.44      0.272 0.0350   9.15 1.35e-3
+##  8 architects     78.1      15.4    72.0   6.06      0.679 0.0392   9.13 9.41e-3
+##  9 civil.eng~     73.1      14.5    67.1   5.99      0.668 0.0288   9.13 6.62e-3
+## 10 mining.en~     68.8      14.6    67.8   1.05      0.117 0.0301   9.15 2.12e-4
 \end{verbatim}
 
 \begin{Shaded}
@@ -2462,18 +2479,18 @@ The third is \texttt{augment()}, which ``augments'' the original data---or new d
 \end{Shaded}
 
 \begin{verbatim}
-## # A tibble: 9 x 3
-##   education .fitted .se.fit
-##       <int>   <dbl>   <dbl>
-## 1         8    32.2   1.28 
-## 2         9    37.5   1.07 
-## 3        10    42.9   0.934
-## 4        11    48.2   0.906
-## 5        12    53.6   0.994
-## 6        13    59.0   1.17 
-## 7        14    64.3   1.41 
-## 8        15    69.7   1.68 
-## 9        16    75.0   1.97
+## # A tibble: 9 x 2
+##   education .fitted
+##       <int>   <dbl>
+## 1         8    32.2
+## 2         9    37.5
+## 3        10    42.9
+## 4        11    48.2
+## 5        12    53.6
+## 6        13    59.0
+## 7        14    64.3
+## 8        15    69.7
+## 9        16    75.0
 \end{verbatim}
 
 Notice that you get back more information for the data used to fit the model than for newly supplied data. The most important is \texttt{.fitted}, the predicted value. See \texttt{?augment.lm} for what all the various output represents.
@@ -4318,11 +4335,11 @@ We can confirm by checking out the model fit statistics that which category we o
 \end{Shaded}
 
 \begin{verbatim}
-## # A tibble: 1 x 11
+## # A tibble: 1 x 12
 ##   r.squared adj.r.squared sigma statistic  p.value    df logLik   AIC   BIC
-##       <dbl>         <dbl> <dbl>     <dbl>    <dbl> <int>  <dbl> <dbl> <dbl>
-## 1     0.698         0.691  9.50      110. 2.12e-25     3  -358.  724.  735.
-## # ... with 2 more variables: deviance <dbl>, df.residual <int>
+##       <dbl>         <dbl> <dbl>     <dbl>    <dbl> <dbl>  <dbl> <dbl> <dbl>
+## 1     0.698         0.691  9.50      110. 2.12e-25     2  -358.  724.  735.
+## # ... with 3 more variables: deviance <dbl>, df.residual <int>, nobs <int>
 \end{verbatim}
 
 \begin{Shaded}
@@ -4332,11 +4349,11 @@ We can confirm by checking out the model fit statistics that which category we o
 \end{Shaded}
 
 \begin{verbatim}
-## # A tibble: 1 x 11
+## # A tibble: 1 x 12
 ##   r.squared adj.r.squared sigma statistic  p.value    df logLik   AIC   BIC
-##       <dbl>         <dbl> <dbl>     <dbl>    <dbl> <int>  <dbl> <dbl> <dbl>
-## 1     0.698         0.691  9.50      110. 2.12e-25     3  -358.  724.  735.
-## # ... with 2 more variables: deviance <dbl>, df.residual <int>
+##       <dbl>         <dbl> <dbl>     <dbl>    <dbl> <dbl>  <dbl> <dbl> <dbl>
+## 1     0.698         0.691  9.50      110. 2.12e-25     2  -358.  724.  735.
+## # ... with 3 more variables: deviance <dbl>, df.residual <int>, nobs <int>
 \end{verbatim}
 
 \begin{Shaded}
@@ -4455,15 +4472,15 @@ The easiest way to visualize the results of a quadratic model is to create a syn
 \end{Shaded}
 
 \begin{verbatim}
-## # A tibble: 6 x 4
-##   education income .fitted .se.fit
-##       <dbl>  <dbl>   <dbl>   <dbl>
-## 1      6.38  6798.    30.9    2.28
-## 2      6.48  6798.    31.1    2.20
-## 3      6.57  6798.    31.4    2.11
-## 4      6.67  6798.    31.7    2.03
-## 5      6.77  6798.    31.9    1.95
-## 6      6.86  6798.    32.2    1.87
+## # A tibble: 6 x 3
+##   education income .fitted
+##       <dbl>  <dbl>   <dbl>
+## 1      6.38  6798.    30.9
+## 2      6.48  6798.    31.1
+## 3      6.57  6798.    31.4
+## 4      6.67  6798.    31.7
+## 5      6.77  6798.    31.9
+## 6      6.86  6798.    32.2
 \end{verbatim}
 
 \begin{Shaded}
@@ -6664,9 +6681,9 @@ If we wanted to include time dummies as well, we could specify \texttt{effect\ =
 
 \begin{verbatim}
 ##   1970   1971   1972   1973   1974   1975   1976   1977   1978   1979   1980 
-## 3.5548 4.2823 3.7710 3.1935 3.8319 6.5160 5.4577 4.9365 3.9381 3.8231 5.1814 
+## 5.5480 6.2755 5.7642 5.1866 5.8250 8.5092 7.4508 6.9296 5.9312 5.8163 7.1746 
 ##   1981   1982   1983   1984   1985   1986 
-## 5.6677 7.7005 7.6848 5.6401 5.4863 5.3504
+## 7.6609 9.6937 9.6779 7.6333 7.4795 7.3435
 \end{verbatim}
 
 \texttt{phtest()} implements the Hausman test. Remember that the null hypothesis is that both estimators are consistent; if we reject it, then the random effects estimator is inconsistent and we must use fixed effects.
@@ -7767,7 +7784,7 @@ We can now estimate our hand-rolled logistic regression model.
 ## --------------------------------------------
 ## Maximum Likelihood estimation
 ## Newton-Raphson maximisation, 6 iterations
-## Return code 2: successive function values within tolerance limit
+## Return code 8: successive function values within relative tolerance limit (reltol)
 ## Log-Likelihood: -35.94215 
 ## 3  free parameters
 ## Estimates:

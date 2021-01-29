@@ -38,7 +38,7 @@ The first step in working with data is to acquire some data.  Depending on the n
 The R function `download.file()` is the easiest way to download files from URLs from within R.  Just specify where you're getting the file from and where you want it to go.  For the examples today, we'll use an "untidied" version of the World Development Indicators data from the World Bank that I've posted to my website.
 
 ```{r download}
-download.file(url = "http://bkenkel.com/data/untidy-data.csv",
+download.file(url = "http://bkenkel.com/files/untidy-data.csv",
               destfile = "my-untidy-data.csv")
 ```
 
@@ -56,7 +56,7 @@ Remember that each column of a data frame might be a different type, or more for
 FYI, you could also run `read_csv()` directly on a URL, as in:
 
 ```{r read-csv-url, eval=FALSE}
-read_csv("http://bkenkel.com/data/untidy-data.csv")
+read_csv("http://bkenkel.com/files/untidy-data.csv")
 ```
 
 However, in analyses intended for publication, it's usually preferable to download and save the raw data.  What's stored at a URL might change or disappear, and you'll need to have a hard copy of the raw data for replication purposes.
@@ -304,9 +304,9 @@ subject_response_data
 Let's practice merging data with our cleaned-up country-year data.  We'll take two datasets from my website: a country-level dataset with latitudes and longitudes, and a country-year--level dataset with inflation over time.
 
 ```{r get-supplemental-data, message=FALSE}
-latlong_data <- read_csv("http://bkenkel.com/data/latlong.csv")
+latlong_data <- read_csv("http://bkenkel.com/files/latlong.csv")
 latlong_data
-inflation_data <- read_csv("http://bkenkel.com/data/inflation.csv")
+inflation_data <- read_csv("http://bkenkel.com/files/inflation.csv")
 inflation_data
 ```
 
