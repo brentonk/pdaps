@@ -447,14 +447,14 @@ In this scheme, the standard White estimator is called the “HC” or “HC0”
 <div id="appendix-implementation-in-r" class="section level2" number="10.4">
 <h2><span class="header-section-number">10.4</span> Appendix: Implementation in R</h2>
 <p>We’ll be using the following packages:</p>
-<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="nonspherical.html#cb287-1" aria-hidden="true"></a><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</span>
-<span id="cb287-2"><a href="nonspherical.html#cb287-2" aria-hidden="true"></a><span class="kw">library</span>(<span class="st">&quot;broom&quot;</span>)</span>
-<span id="cb287-3"><a href="nonspherical.html#cb287-3" aria-hidden="true"></a><span class="kw">library</span>(<span class="st">&quot;car&quot;</span>)</span>
-<span id="cb287-4"><a href="nonspherical.html#cb287-4" aria-hidden="true"></a><span class="kw">library</span>(<span class="st">&quot;lmtest&quot;</span>)</span>
-<span id="cb287-5"><a href="nonspherical.html#cb287-5" aria-hidden="true"></a><span class="kw">library</span>(<span class="st">&quot;sandwich&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb284-1"><a href="nonspherical.html#cb284-1" aria-hidden="true"></a><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</span>
+<span id="cb284-2"><a href="nonspherical.html#cb284-2" aria-hidden="true"></a><span class="kw">library</span>(<span class="st">&quot;broom&quot;</span>)</span>
+<span id="cb284-3"><a href="nonspherical.html#cb284-3" aria-hidden="true"></a><span class="kw">library</span>(<span class="st">&quot;car&quot;</span>)</span>
+<span id="cb284-4"><a href="nonspherical.html#cb284-4" aria-hidden="true"></a><span class="kw">library</span>(<span class="st">&quot;lmtest&quot;</span>)</span>
+<span id="cb284-5"><a href="nonspherical.html#cb284-5" aria-hidden="true"></a><span class="kw">library</span>(<span class="st">&quot;sandwich&quot;</span>)</span></code></pre></div>
 <p>We will use data from the <strong>car</strong> package on professors’ salaries. This is a topic that, ideally, will be of great concern to you in 5ish years.</p>
-<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="nonspherical.html#cb288-1" aria-hidden="true"></a><span class="kw">data</span>(Salaries)</span>
-<span id="cb288-2"><a href="nonspherical.html#cb288-2" aria-hidden="true"></a><span class="kw">head</span>(Salaries)</span></code></pre></div>
+<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb285-1"><a href="nonspherical.html#cb285-1" aria-hidden="true"></a><span class="kw">data</span>(Salaries)</span>
+<span id="cb285-2"><a href="nonspherical.html#cb285-2" aria-hidden="true"></a><span class="kw">head</span>(Salaries)</span></code></pre></div>
 <pre><code>##        rank discipline yrs.since.phd yrs.service  sex salary
 ## 1      Prof          B            19          18 Male 139750
 ## 2      Prof          B            20          16 Male 173200
@@ -465,8 +465,8 @@ In this scheme, the standard White estimator is called the “HC” or “HC0”
 <div id="generalized-least-squares-1" class="section level3" number="10.4.1">
 <h3><span class="header-section-number">10.4.1</span> Generalized Least Squares</h3>
 <p>Let us model a professor’s salary as a function of the number of years since she received her PhD. If we glance at the data, we see obvious heteroskedasticity.</p>
-<div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb290-1"><a href="nonspherical.html#cb290-1" aria-hidden="true"></a><span class="kw">ggplot</span>(Salaries, <span class="kw">aes</span>(<span class="dt">x =</span> yrs.since.phd, <span class="dt">y =</span> salary)) <span class="op">+</span></span>
-<span id="cb290-2"><a href="nonspherical.html#cb290-2" aria-hidden="true"></a><span class="st">    </span><span class="kw">geom_point</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="nonspherical.html#cb287-1" aria-hidden="true"></a><span class="kw">ggplot</span>(Salaries, <span class="kw">aes</span>(<span class="dt">x =</span> yrs.since.phd, <span class="dt">y =</span> salary)) <span class="op">+</span></span>
+<span id="cb287-2"><a href="nonspherical.html#cb287-2" aria-hidden="true"></a><span class="st">    </span><span class="kw">geom_point</span>()</span></code></pre></div>
 <p><img src="pdaps_files/figure-html/salaries-plot-hetero-1.png" width="672" /></p>
 <p>There is much more variation in the salaries of professors 30+ years into their careers than in those who are fresh out of grad school. If we want the most precise model of the relationship between years since PhD and salary, we might want to place more weight on early-career professors and less on late-career professors.</p>
 <p>Remember that weighted least squares is the special case of GLS where the off-diagonal elements of <span class="math inline">\(\Omega\)</span> are zero (i.e., there is heteroskedasticity but no autocorrelation):
@@ -483,9 +483,9 @@ To run weighted least squares in R, we just use the <code>weights</code> argumen
 \omega_{nn} = \frac{1}{\text{Years Since PhD}_n}
 \]</span>
 for each observation <span class="math inline">\(n\)</span>, to place the greatest weight on early-career observations. We will first run a baseline OLS model, then compare to the weighted model.</p>
-<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="nonspherical.html#cb291-1" aria-hidden="true"></a>ols_salaries &lt;-<span class="st"> </span><span class="kw">lm</span>(salary <span class="op">~</span><span class="st"> </span>yrs.since.phd <span class="op">+</span><span class="st"> </span>yrs.service,</span>
-<span id="cb291-2"><a href="nonspherical.html#cb291-2" aria-hidden="true"></a>                   <span class="dt">data =</span> Salaries)</span>
-<span id="cb291-3"><a href="nonspherical.html#cb291-3" aria-hidden="true"></a><span class="kw">summary</span>(ols_salaries)</span></code></pre></div>
+<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="nonspherical.html#cb288-1" aria-hidden="true"></a>ols_salaries &lt;-<span class="st"> </span><span class="kw">lm</span>(salary <span class="op">~</span><span class="st"> </span>yrs.since.phd <span class="op">+</span><span class="st"> </span>yrs.service,</span>
+<span id="cb288-2"><a href="nonspherical.html#cb288-2" aria-hidden="true"></a>                   <span class="dt">data =</span> Salaries)</span>
+<span id="cb288-3"><a href="nonspherical.html#cb288-3" aria-hidden="true"></a><span class="kw">summary</span>(ols_salaries)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = salary ~ yrs.since.phd + yrs.service, data = Salaries)
@@ -505,10 +505,10 @@ for each observation <span class="math inline">\(n\)</span>, to place the greate
 ## Residual standard error: 27360 on 394 degrees of freedom
 ## Multiple R-squared:  0.1883, Adjusted R-squared:  0.1842 
 ## F-statistic: 45.71 on 2 and 394 DF,  p-value: &lt; 2.2e-16</code></pre>
-<div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb293-1"><a href="nonspherical.html#cb293-1" aria-hidden="true"></a>wls_salaries &lt;-<span class="st"> </span><span class="kw">lm</span>(salary <span class="op">~</span><span class="st"> </span>yrs.since.phd <span class="op">+</span><span class="st"> </span>yrs.service,</span>
-<span id="cb293-2"><a href="nonspherical.html#cb293-2" aria-hidden="true"></a>                   <span class="dt">weights =</span> <span class="dv">1</span> <span class="op">/</span><span class="st"> </span>yrs.since.phd,</span>
-<span id="cb293-3"><a href="nonspherical.html#cb293-3" aria-hidden="true"></a>                   <span class="dt">data =</span> Salaries)</span>
-<span id="cb293-4"><a href="nonspherical.html#cb293-4" aria-hidden="true"></a><span class="kw">summary</span>(wls_salaries)</span></code></pre></div>
+<div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb290-1"><a href="nonspherical.html#cb290-1" aria-hidden="true"></a>wls_salaries &lt;-<span class="st"> </span><span class="kw">lm</span>(salary <span class="op">~</span><span class="st"> </span>yrs.since.phd <span class="op">+</span><span class="st"> </span>yrs.service,</span>
+<span id="cb290-2"><a href="nonspherical.html#cb290-2" aria-hidden="true"></a>                   <span class="dt">weights =</span> <span class="dv">1</span> <span class="op">/</span><span class="st"> </span>yrs.since.phd,</span>
+<span id="cb290-3"><a href="nonspherical.html#cb290-3" aria-hidden="true"></a>                   <span class="dt">data =</span> Salaries)</span>
+<span id="cb290-4"><a href="nonspherical.html#cb290-4" aria-hidden="true"></a><span class="kw">summary</span>(wls_salaries)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = salary ~ yrs.since.phd + yrs.service, data = Salaries, 
@@ -536,16 +536,16 @@ for each observation <span class="math inline">\(n\)</span>, to place the greate
 <div id="breusch-pagan-test" class="section level3" number="10.4.2">
 <h3><span class="header-section-number">10.4.2</span> Breusch-Pagan Test</h3>
 <p>We already used the “eye test” to confirm the presence of heteroskedasticity in the relationship we are modeling, but let’s see how we would use the Breusch-Pagan test to confirm our suspicion. For this we use the <code>bptest()</code> function from the <strong>lmtest</strong> package.</p>
-<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb295-1"><a href="nonspherical.html#cb295-1" aria-hidden="true"></a><span class="kw">bptest</span>(ols_salaries)</span></code></pre></div>
+<div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb292-1"><a href="nonspherical.html#cb292-1" aria-hidden="true"></a><span class="kw">bptest</span>(ols_salaries)</span></code></pre></div>
 <pre><code>## 
 ##  studentized Breusch-Pagan test
 ## 
 ## data:  ols_salaries
 ## BP = 49.864, df = 2, p-value = 1.486e-11</code></pre>
 <p>By default, <code>bptest()</code> uses the same variables as in the original regression in the regression of the squared residuals. To perform the White test, we can use an extra argument to <code>bptest()</code> to specify a different model formula.</p>
-<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="nonspherical.html#cb297-1" aria-hidden="true"></a><span class="kw">bptest</span>(ols_salaries,</span>
-<span id="cb297-2"><a href="nonspherical.html#cb297-2" aria-hidden="true"></a>       <span class="op">~</span><span class="st"> </span>yrs.since.phd <span class="op">*</span><span class="st"> </span>yrs.service <span class="op">+</span><span class="st"> </span><span class="kw">I</span>(yrs.since.phd<span class="op">^</span><span class="dv">2</span>) <span class="op">+</span><span class="st"> </span><span class="kw">I</span>(yrs.service<span class="op">^</span><span class="dv">2</span>),</span>
-<span id="cb297-3"><a href="nonspherical.html#cb297-3" aria-hidden="true"></a>       <span class="dt">data =</span> Salaries)</span></code></pre></div>
+<div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb294-1"><a href="nonspherical.html#cb294-1" aria-hidden="true"></a><span class="kw">bptest</span>(ols_salaries,</span>
+<span id="cb294-2"><a href="nonspherical.html#cb294-2" aria-hidden="true"></a>       <span class="op">~</span><span class="st"> </span>yrs.since.phd <span class="op">*</span><span class="st"> </span>yrs.service <span class="op">+</span><span class="st"> </span><span class="kw">I</span>(yrs.since.phd<span class="op">^</span><span class="dv">2</span>) <span class="op">+</span><span class="st"> </span><span class="kw">I</span>(yrs.service<span class="op">^</span><span class="dv">2</span>),</span>
+<span id="cb294-3"><a href="nonspherical.html#cb294-3" aria-hidden="true"></a>       <span class="dt">data =</span> Salaries)</span></code></pre></div>
 <pre><code>## 
 ##  studentized Breusch-Pagan test
 ## 
@@ -556,15 +556,15 @@ for each observation <span class="math inline">\(n\)</span>, to place the greate
 <div id="heteroskedasticity-consistent-standard-errors" class="section level3" number="10.4.3">
 <h3><span class="header-section-number">10.4.3</span> Heteroskedasticity-Consistent Standard Errors</h3>
 <p>To calculate the White estimator and its friends in R, we use the <code>vcovHC()</code> function from the <strong>sandwich</strong> package.</p>
-<div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb299-1"><a href="nonspherical.html#cb299-1" aria-hidden="true"></a>vcv0 &lt;-<span class="st"> </span><span class="kw">vcovHC</span>(ols_salaries, <span class="dt">type =</span> <span class="st">&quot;HC0&quot;</span>)</span>
-<span id="cb299-2"><a href="nonspherical.html#cb299-2" aria-hidden="true"></a>vcv0</span></code></pre></div>
+<div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="nonspherical.html#cb296-1" aria-hidden="true"></a>vcv0 &lt;-<span class="st"> </span><span class="kw">vcovHC</span>(ols_salaries, <span class="dt">type =</span> <span class="st">&quot;HC0&quot;</span>)</span>
+<span id="cb296-2"><a href="nonspherical.html#cb296-2" aria-hidden="true"></a>vcv0</span></code></pre></div>
 <pre><code>##               (Intercept) yrs.since.phd yrs.service
 ## (Intercept)     5809136.7    -340724.37   111807.54
 ## yrs.since.phd   -340724.4      77168.04   -75508.41
 ## yrs.service      111807.5     -75508.41    91090.58</code></pre>
 <p>To use HC1 (or another one of the finite-sample corrections to the ordinary White estimate), change the <code>type</code> argument to, e.g., <code>type = "HC1"</code>. See <code>?vcovHC</code> for all the options.</p>
 <p>To create a “regression table” using our new “robust” standard errors, we can use the <code>coeftest()</code> function from the <strong>lmtest</strong> package.</p>
-<div class="sourceCode" id="cb301"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb301-1"><a href="nonspherical.html#cb301-1" aria-hidden="true"></a><span class="kw">coeftest</span>(ols_salaries)  <span class="co"># Original table</span></span></code></pre></div>
+<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="nonspherical.html#cb298-1" aria-hidden="true"></a><span class="kw">coeftest</span>(ols_salaries)  <span class="co"># Original table</span></span></code></pre></div>
 <pre><code>## 
 ## t test of coefficients:
 ## 
@@ -574,7 +574,7 @@ for each observation <span class="math inline">\(n\)</span>, to place the greate
 ## yrs.service    -629.10     254.47 -2.4722   0.01385 *  
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb303-1"><a href="nonspherical.html#cb303-1" aria-hidden="true"></a><span class="kw">coeftest</span>(ols_salaries, <span class="dt">vcov =</span> vcv0)  <span class="co"># With corrected SEs</span></span></code></pre></div>
+<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="nonspherical.html#cb300-1" aria-hidden="true"></a><span class="kw">coeftest</span>(ols_salaries, <span class="dt">vcov =</span> vcv0)  <span class="co"># With corrected SEs</span></span></code></pre></div>
 <pre><code>## 
 ## t test of coefficients:
 ## 
@@ -585,7 +585,7 @@ for each observation <span class="math inline">\(n\)</span>, to place the greate
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>Just like ordinary regression tables, the ones made by <code>coeftest()</code> can be “swept” into data frames using the tools in <strong>broom</strong>:</p>
-<div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb305-1"><a href="nonspherical.html#cb305-1" aria-hidden="true"></a><span class="kw">tidy</span>(<span class="kw">coeftest</span>(ols_salaries, <span class="dt">vcov =</span> vcv0))</span></code></pre></div>
+<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="nonspherical.html#cb302-1" aria-hidden="true"></a><span class="kw">tidy</span>(<span class="kw">coeftest</span>(ols_salaries, <span class="dt">vcov =</span> vcv0))</span></code></pre></div>
 <pre><code>## # A tibble: 3 x 5
 ##   term          estimate std.error statistic   p.value
 ##   &lt;chr&gt;            &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
@@ -593,10 +593,10 @@ for each observation <span class="math inline">\(n\)</span>, to place the greate
 ## 2 yrs.since.phd    1563.      278.      5.63 3.50e-  8
 ## 3 yrs.service      -629.      302.     -2.08 3.78e-  2</code></pre>
 <p>You may also want to use the White-estimated standard errors to conduct Wald tests of linear hypotheses. You can do that by supplying the relevant estimated variance matrix to the <code>vcov</code> argument of <code>linearHypothesis()</code>:</p>
-<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb307-1"><a href="nonspherical.html#cb307-1" aria-hidden="true"></a><span class="kw">linearHypothesis</span>(ols_salaries,</span>
-<span id="cb307-2"><a href="nonspherical.html#cb307-2" aria-hidden="true"></a>                 <span class="kw">c</span>(<span class="st">&quot;yrs.since.phd = 1500&quot;</span>, <span class="st">&quot;yrs.service = -500&quot;</span>),</span>
-<span id="cb307-3"><a href="nonspherical.html#cb307-3" aria-hidden="true"></a>                 <span class="dt">vcov =</span> vcv0,</span>
-<span id="cb307-4"><a href="nonspherical.html#cb307-4" aria-hidden="true"></a>                 <span class="dt">test =</span> <span class="st">&quot;Chisq&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="nonspherical.html#cb304-1" aria-hidden="true"></a><span class="kw">linearHypothesis</span>(ols_salaries,</span>
+<span id="cb304-2"><a href="nonspherical.html#cb304-2" aria-hidden="true"></a>                 <span class="kw">c</span>(<span class="st">&quot;yrs.since.phd = 1500&quot;</span>, <span class="st">&quot;yrs.service = -500&quot;</span>),</span>
+<span id="cb304-3"><a href="nonspherical.html#cb304-3" aria-hidden="true"></a>                 <span class="dt">vcov =</span> vcv0,</span>
+<span id="cb304-4"><a href="nonspherical.html#cb304-4" aria-hidden="true"></a>                 <span class="dt">test =</span> <span class="st">&quot;Chisq&quot;</span>)</span></code></pre></div>
 <pre><code>## Linear hypothesis test
 ## 
 ## Hypothesis:
@@ -612,8 +612,8 @@ for each observation <span class="math inline">\(n\)</span>, to place the greate
 ## 1    396                     
 ## 2    394  2 0.3166     0.8536</code></pre>
 <p>Finally, remember how earlier we talked about how the WLS estimates are only as good as the weights you choose. If they’re not the true weights, then WLS is not efficient and the standard error estimator is inconsistent. We can’t fix the first problem, but we can fix the second. To wit, you can estimate heteroskedasticity-consistent standard errors for WLS models too.</p>
-<div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb309-1"><a href="nonspherical.html#cb309-1" aria-hidden="true"></a>vcv0_wls &lt;-<span class="st"> </span><span class="kw">vcovHC</span>(wls_salaries, <span class="dt">type =</span> <span class="st">&quot;HC0&quot;</span>)</span>
-<span id="cb309-2"><a href="nonspherical.html#cb309-2" aria-hidden="true"></a><span class="kw">coeftest</span>(wls_salaries)  <span class="co"># Original</span></span></code></pre></div>
+<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="nonspherical.html#cb306-1" aria-hidden="true"></a>vcv0_wls &lt;-<span class="st"> </span><span class="kw">vcovHC</span>(wls_salaries, <span class="dt">type =</span> <span class="st">&quot;HC0&quot;</span>)</span>
+<span id="cb306-2"><a href="nonspherical.html#cb306-2" aria-hidden="true"></a><span class="kw">coeftest</span>(wls_salaries)  <span class="co"># Original</span></span></code></pre></div>
 <pre><code>## 
 ## t test of coefficients:
 ## 
@@ -623,7 +623,7 @@ for each observation <span class="math inline">\(n\)</span>, to place the greate
 ## yrs.service    -288.93     264.64 -1.0918    0.2756    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb311-1"><a href="nonspherical.html#cb311-1" aria-hidden="true"></a><span class="kw">coeftest</span>(wls_salaries, <span class="dt">vcov =</span> vcv0_wls)  <span class="co"># Corrected</span></span></code></pre></div>
+<div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb308-1"><a href="nonspherical.html#cb308-1" aria-hidden="true"></a><span class="kw">coeftest</span>(wls_salaries, <span class="dt">vcov =</span> vcv0_wls)  <span class="co"># Corrected</span></span></code></pre></div>
 <pre><code>## 
 ## t test of coefficients:
 ## 

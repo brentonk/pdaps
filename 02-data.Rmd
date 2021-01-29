@@ -84,58 +84,59 @@ Each row of `untidy_data` is a country.  In observational studies in comparative
 
 [^inference-purists]: Yes, this kind of huge cross-country analysis has fallen out of favor as we've become more attentive to causal inference.  But wait until later in the semester to worry about that!
 
-We'll use the **tidyr** package (again, part of **tidyverse**) to clean up this data.  The biggest problem right now is that each column, besides the country identifier, really encodes two pieces of information: the year of observation and the variable being observed.  To deal with this, we'll have to first transform the data from one untidy format to another.  We're going to use the `gather()` function to make each row a country-year-variable.
+We'll use the **tidyr** package (again, part of **tidyverse**) to clean up this data.  The biggest problem right now is that each column, besides the country identifier, really encodes two pieces of information: the year of observation and the variable being observed.  To deal with this, we'll have to first transform the data from one untidy format to another.  We're going to use the `pivot_longer()` function to make each row a country-year-variable.
 
-What `gather()` does is make a row for each entry from a set of columns.  It's probably easiest to understand it by seeing it in practice:
+What `pivot_longer()` does is make a row for each entry from a set of columns.  It's probably easiest to understand it by seeing it in practice:
 
-```{r gather}
-long_data <- gather(untidy_data,
-                    key = variable,
-                    value = number,
-                    gdp.2005:unemp.2008)
-head(long_data)
+```{r pivot-longer}
+long_data <- pivot_longer(untidy_data,
+                          cols = starts_with(c("gdp", "pop", "unemp")))
+long_data
 ```
 
-With the first argument, we told `gather()` to use the `untidy_data` data frame.  With the last argument, we told it the set of columns to "gather" together into a single column.  The `key` column specifies the name of the variable to store the "key" (original column name) in, and the `value` column specifies the name of the variable to store the associated value.  For example, the second row of `long_data` encodes what we previously saw as the `gdp.2005` column of `untidy_data`.
+The `cols` argument tells `pivot_longer()` which columns to collect.
+The code here specifies that it be all of the columns starting with "gdp", "pop", or "unemp".
+As it happens, we could have achieved the same result by using `cols = ends_with(c("2005", "2006", "2007", "2008"))`.
+To select all columns, we instead would have used `cols = everything()`.
+For additional ways of selecting columns, see the help page `?tidyselect::select_helpers`.
 
-Now we have a new problem, which is that `variable` encodes two pieces of information: the variable and the year of its observation.  **tidyr** provides the `separate()` function to solve that, splitting a single variable into two.
+Now we have a new problem, which is that the `name` column encodes two pieces of information: the variable and the year of its observation.  **tidyr** provides the `separate()` function to solve that, splitting a single variable into two.
 
 ```{r separate}
 long_data <- separate(long_data,
-                      col = variable,
+                      col = "name",
                       into = c("var", "year"))
-head(long_data)
+long_data
 ```
 
-So now we have country-year-variable data, with the year and variable conveniently stored in different columns.  To turn this into country-year data, we can use the `spread()` function, which is like the inverse of `gather()`.  `spread()` takes a key column and a value column, and turns each different key into a column of its own.
+So now we have country-year-variable data, with the year and variable conveniently stored in different columns.  To turn this into country-year data, we can use the `pivot_wider()` function, which is like the inverse of `pivot_longer()`.  `pivot_wider()` takes a key column and a value column, and turns each different key into a column of its own.
 
-```{r spread}
-clean_data <- spread(long_data,
-                     key = var,
-                     value = number)
-head(clean_data)
+```{r pivot-wider}
+clean_data <- pivot_wider(long_data,
+                          names_from = "var",
+                          values_from = "value")
+clean_data
 ```
 
 ```{r save-clean-data, echo=FALSE}
-write_csv(clean_data, path = "clean-data.csv")
+write_csv(clean_data, file = "clean-data.csv")
 ```
 
-
-When using `spread()` on data that you didn't previously `gather()`, be sure to set the `fill` argument to tell it how to fill in empty cells.  A simple example:
+When using `pivot_wider()` on data that you didn't previously `pivot_longer()`, be sure to set the `values_fill` argument to tell it how to fill in empty cells.  A simple example:
 
 ```{r make-test-data, echo=FALSE}
 test_data <- tribble(
-  ~id, ~k, ~v,
+  ~id, ~name, ~value,
   "brenton", "a", 10,
   "brenton", "b", 20,
   "patrick", "b", 5
 )
 ```
 
-```{r spread-fill}
+```{r values-fill}
 test_data
-spread(test_data, key = k, value = v)
-spread(test_data, key = k, value = v, fill = 100)
+pivot_wider(test_data, names_from = "name", values_from = "value")
+pivot_wider(test_data, names_from = "name", values_from = "value", values_fill = 0)
 ```
 
 One more important note on **tidyverse** semantics.  It includes a fabulous feature called the *pipe*, `%>%`, which makes it easy to string together a truly mind-boggling number of commands.
@@ -158,29 +159,25 @@ The key thing about the **tidyverse** functions is that each of them takes a dat
 
 ```{r pipe}
 untidy_data %>%
-  gather(key = variable,
-         value = number,
-         gdp.2005:unemp.2008) %>%
-  separate(col = variable,
+  pivot_longer(cols = starts_with(c("gdp", "pop", "unemp"))) %>%
+  separate(col = "name",
            into = c("var", "year")) %>%
-  spread(key = var,
-         value = number)
+  pivot_wider(names_from = "var",
+              values_from = "value")
 ```
 
 Without the pipe, if we wanted to run all those commands together, we would have to write:
 
 ```{r pipeless, eval=FALSE}
-spread(separate(gather(untidy_data,
-                       key = variable,
-                       value = number,
-                       gdp.2005:unemp.2008),
-                col = variable,
-                into = c("var", "year")),
-       key = var,
-       value = number)
+pivot_wider(separate(pivot_longer(untidy_data,
+                                  cols = starts_with(c("gdp", "pop", "unemp"))),
+                     col = "name",
+                     into = c("var", "year")),
+            names_from = "var",
+            values_from = "value")
 ```
 
-Sad!
+Going back to last week's dictum of "write programs for people": even though this would have the same computational result, it's much harder for a human (your future self or a coauthor) to parse what the code is trying to do.
 
 
 ## Transforming and Aggregating
@@ -217,8 +214,8 @@ clean_data %>%
   select(-pop)
 ```
 
-You can also select columns based on how their names start or end, or with even more complex criteria.
-See `?select_helpers`.
+As we saw above, you can also select columns based on how their names start or end, or with even more complex criteria.
+See `?tidyselect::select_helpers`.
 
 ```{r select-helpers}
 untidy_data %>%
@@ -391,7 +388,6 @@ First I load the necessary packages.
 library("tidyverse")
 library("WDI")
 library("countrycode")
-library("stringr")
 ```
 
 Next, I download the relevant WDI data.  I used the `WDIsearch()` function to locate the appropriate indicator names.
@@ -404,7 +400,8 @@ dat_raw <- WDI(country = "all",
                start = 2005,
                end = 2008)
 
-head(dat_raw)
+dat_raw <- as_tibble(dat_raw)  # convert to tidyverse data frame
+dat_raw
 ```
 
 I want to get rid of the aggregates, like the "Arab World" and "World" we see here.  As a rough tack at that, I'm going to exclude those so-called countries whose ISO codes don't appear in the **countrycode** package data.[^countrycode]
@@ -436,43 +433,41 @@ dat_countries <- dat_countries %>%
   mutate(gdp = gdp / 1e9,
          pop = pop / 1e6)
 
-head(dat_countries)
+dat_countries
 ```
 
 Now I convert the data to "long" format.
 
 ```{r wdi-to-long}
 dat_countries_long <- dat_countries %>%
-  gather(key = variable,
-         value = value,
-         gdp:unemp)
+  pivot_longer(cols = gdp:unemp)
 
-head(dat_countries_long)
+dat_countries_long
 ```
 
-I then smush `variable` and `year` into a single column, and drop the individual components.
+I then smush `name` and `year` into a single column, and drop the individual components.
 
 ```{r wdi-smush}
 dat_countries_long <- dat_countries_long %>%
-  mutate(var_year = paste(variable, year, sep = ".")) %>%
-  select(-variable, -year)
+  mutate(var_year = paste(name, year, sep = ".")) %>%
+  select(-name, -year)
 
-head(dat_countries_long)
+dat_countries_long
 ```
 
 Finally, I "widen" the data, so that each `var_year` is a column of its own.
 
 ```{r wdi-widen}
 dat_countries_wide <- dat_countries_long %>%
-  spread(key = var_year, value = value)
+  pivot_wider(names_from = "var_year", values_from = "value")
 
-head(dat_countries_wide)
+dat_countries_wide
 ```
 
 Now we have some ugly data.  I save the output to upload to my website.
 
 ```{r wdi-save}
-write_csv(dat_countries_wide, path = "untidy-data.csv")
+write_csv(dat_countries_wide, file = "untidy-data.csv")
 ```
 
 And here's how I made the second country-year dataset used in the merging section.  The country dataset with latitudes and longitudes is from <https://developers.google.com/public-data/docs/canonical/countries_csv>.
@@ -483,7 +478,7 @@ dat_2 <-
       indicator = "FP.CPI.TOTL.ZG",
       start = 2004,
       end = 2008) %>%
-  as_data_frame() %>%
+  as_tibble() %>%
   select(country = iso2c,
          year,
          inflation = FP.CPI.TOTL.ZG) %>%

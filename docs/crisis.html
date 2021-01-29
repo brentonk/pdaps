@@ -356,24 +356,24 @@ Y_n = 1 + 0.5 X_n + \epsilon_n,
 \]</span>
 where <span class="math inline">\(X_n\)</span> is uniformly distributed on <span class="math inline">\([0, 1]\)</span> and <span class="math inline">\(\epsilon_n\)</span> is normally distributed with mean zero and variance one.</p>
 <p>We can use the random number generation functions in R to draw a sample from this population model. Let’s draw a sample of <span class="math inline">\(N = 50\)</span> observations.</p>
-<div class="sourceCode" id="cb313"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb313-1"><a href="crisis.html#cb313-1" aria-hidden="true"></a>n_obs &lt;-<span class="st"> </span><span class="dv">50</span></span>
-<span id="cb313-2"><a href="crisis.html#cb313-2" aria-hidden="true"></a>x &lt;-<span class="st"> </span><span class="kw">runif</span>(n_obs, <span class="dt">min =</span> <span class="dv">0</span>, <span class="dt">max =</span> <span class="dv">1</span>)</span>
-<span id="cb313-3"><a href="crisis.html#cb313-3" aria-hidden="true"></a>y &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span>x <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(n_obs, <span class="dt">mean =</span> <span class="dv">0</span>, <span class="dt">sd =</span> <span class="dv">1</span>)</span>
-<span id="cb313-4"><a href="crisis.html#cb313-4" aria-hidden="true"></a><span class="kw">plot</span>(x, y)</span></code></pre></div>
+<div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb310-1"><a href="crisis.html#cb310-1" aria-hidden="true"></a>n_obs &lt;-<span class="st"> </span><span class="dv">50</span></span>
+<span id="cb310-2"><a href="crisis.html#cb310-2" aria-hidden="true"></a>x &lt;-<span class="st"> </span><span class="kw">runif</span>(n_obs, <span class="dt">min =</span> <span class="dv">0</span>, <span class="dt">max =</span> <span class="dv">1</span>)</span>
+<span id="cb310-3"><a href="crisis.html#cb310-3" aria-hidden="true"></a>y &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span>x <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(n_obs, <span class="dt">mean =</span> <span class="dv">0</span>, <span class="dt">sd =</span> <span class="dv">1</span>)</span>
+<span id="cb310-4"><a href="crisis.html#cb310-4" aria-hidden="true"></a><span class="kw">plot</span>(x, y)</span></code></pre></div>
 <p><img src="pdaps_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 <p>We know the true slope is non-zero, though with such a small effect and such a small sample it’s hard to tell from the scatterplot.</p>
 <p>We can run a regression of <span class="math inline">\(Y\)</span> on <span class="math inline">\(X\)</span> and extract the estimated slope and its <span class="math inline">\(p\)</span>-value (for a test of <span class="math inline">\(H_0 : \beta = 0\)</span>).</p>
-<div class="sourceCode" id="cb314"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb314-1"><a href="crisis.html#cb314-1" aria-hidden="true"></a><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</span>
-<span id="cb314-2"><a href="crisis.html#cb314-2" aria-hidden="true"></a><span class="kw">library</span>(<span class="st">&quot;broom&quot;</span>)</span>
-<span id="cb314-3"><a href="crisis.html#cb314-3" aria-hidden="true"></a></span>
-<span id="cb314-4"><a href="crisis.html#cb314-4" aria-hidden="true"></a>fit &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x)</span>
-<span id="cb314-5"><a href="crisis.html#cb314-5" aria-hidden="true"></a><span class="kw">tidy</span>(fit)  <span class="co"># Full regression table</span></span></code></pre></div>
+<div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb311-1"><a href="crisis.html#cb311-1" aria-hidden="true"></a><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</span>
+<span id="cb311-2"><a href="crisis.html#cb311-2" aria-hidden="true"></a><span class="kw">library</span>(<span class="st">&quot;broom&quot;</span>)</span>
+<span id="cb311-3"><a href="crisis.html#cb311-3" aria-hidden="true"></a></span>
+<span id="cb311-4"><a href="crisis.html#cb311-4" aria-hidden="true"></a>fit &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x)</span>
+<span id="cb311-5"><a href="crisis.html#cb311-5" aria-hidden="true"></a><span class="kw">tidy</span>(fit)  <span class="co"># Full regression table</span></span></code></pre></div>
 <pre><code>## # A tibble: 2 x 5
 ##   term        estimate std.error statistic  p.value
 ##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
 ## 1 (Intercept)    1.22      0.289     4.22  0.000108
 ## 2 x              0.177     0.460     0.386 0.702</code></pre>
-<div class="sourceCode" id="cb316"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb316-1"><a href="crisis.html#cb316-1" aria-hidden="true"></a><span class="kw">tidy</span>(fit)[<span class="dv">2</span>, <span class="kw">c</span>(<span class="st">&quot;estimate&quot;</span>, <span class="st">&quot;p.value&quot;</span>)]  <span class="co"># Parts we want</span></span></code></pre></div>
+<div class="sourceCode" id="cb313"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb313-1"><a href="crisis.html#cb313-1" aria-hidden="true"></a><span class="kw">tidy</span>(fit)[<span class="dv">2</span>, <span class="kw">c</span>(<span class="st">&quot;estimate&quot;</span>, <span class="st">&quot;p.value&quot;</span>)]  <span class="co"># Parts we want</span></span></code></pre></div>
 <pre><code>## # A tibble: 1 x 2
 ##   estimate p.value
 ##      &lt;dbl&gt;   &lt;dbl&gt;
@@ -384,53 +384,53 @@ where <span class="math inline">\(X_n\)</span> is uniformly distributed on <span
 <li><p>If only the statistically significant results were made public, what we infer from the published body of evidence?</p></li>
 </ol>
 <p>To make that task a bit simpler, let’s write a function that collects everything we just did: generates a sample of size <code>n_obs</code>, runs a regression of <span class="math inline">\(Y\)</span> on <span class="math inline">\(X\)</span>, and spits back the estimated slope and its <span class="math inline">\(p\)</span>-value.</p>
-<div class="sourceCode" id="cb318"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb318-1"><a href="crisis.html#cb318-1" aria-hidden="true"></a>draw_slope_and_p &lt;-<span class="st"> </span><span class="cf">function</span>(n_obs) {</span>
-<span id="cb318-2"><a href="crisis.html#cb318-2" aria-hidden="true"></a>    x &lt;-<span class="st"> </span><span class="kw">runif</span>(n_obs, <span class="dt">min =</span> <span class="dv">0</span>, <span class="dt">max =</span> <span class="dv">1</span>)</span>
-<span id="cb318-3"><a href="crisis.html#cb318-3" aria-hidden="true"></a>    y &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span>x <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(n_obs, <span class="dt">mean =</span> <span class="dv">0</span>, <span class="dt">sd =</span> <span class="dv">1</span>)</span>
-<span id="cb318-4"><a href="crisis.html#cb318-4" aria-hidden="true"></a>    fit &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x)</span>
-<span id="cb318-5"><a href="crisis.html#cb318-5" aria-hidden="true"></a>    out &lt;-<span class="st"> </span><span class="kw">tidy</span>(fit)[<span class="dv">2</span>, <span class="kw">c</span>(<span class="st">&quot;estimate&quot;</span>, <span class="st">&quot;p.value&quot;</span>)]</span>
-<span id="cb318-6"><a href="crisis.html#cb318-6" aria-hidden="true"></a>    <span class="kw">as.numeric</span>(out)  <span class="co"># Convert data frame to vector</span></span>
-<span id="cb318-7"><a href="crisis.html#cb318-7" aria-hidden="true"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb315"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb315-1"><a href="crisis.html#cb315-1" aria-hidden="true"></a>draw_slope_and_p &lt;-<span class="st"> </span><span class="cf">function</span>(n_obs) {</span>
+<span id="cb315-2"><a href="crisis.html#cb315-2" aria-hidden="true"></a>    x &lt;-<span class="st"> </span><span class="kw">runif</span>(n_obs, <span class="dt">min =</span> <span class="dv">0</span>, <span class="dt">max =</span> <span class="dv">1</span>)</span>
+<span id="cb315-3"><a href="crisis.html#cb315-3" aria-hidden="true"></a>    y &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span>x <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(n_obs, <span class="dt">mean =</span> <span class="dv">0</span>, <span class="dt">sd =</span> <span class="dv">1</span>)</span>
+<span id="cb315-4"><a href="crisis.html#cb315-4" aria-hidden="true"></a>    fit &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x)</span>
+<span id="cb315-5"><a href="crisis.html#cb315-5" aria-hidden="true"></a>    out &lt;-<span class="st"> </span><span class="kw">tidy</span>(fit)[<span class="dv">2</span>, <span class="kw">c</span>(<span class="st">&quot;estimate&quot;</span>, <span class="st">&quot;p.value&quot;</span>)]</span>
+<span id="cb315-6"><a href="crisis.html#cb315-6" aria-hidden="true"></a>    <span class="kw">as.numeric</span>(out)  <span class="co"># Convert data frame to vector</span></span>
+<span id="cb315-7"><a href="crisis.html#cb315-7" aria-hidden="true"></a>}</span></code></pre></div>
 <p>Since this function is drawing random numbers, it will return different results every time we run it.</p>
-<div class="sourceCode" id="cb319"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb319-1"><a href="crisis.html#cb319-1" aria-hidden="true"></a><span class="kw">draw_slope_and_p</span>(<span class="dv">50</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb316"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb316-1"><a href="crisis.html#cb316-1" aria-hidden="true"></a><span class="kw">draw_slope_and_p</span>(<span class="dv">50</span>)</span></code></pre></div>
 <pre><code>## [1] 0.3873035 0.3692928</code></pre>
-<div class="sourceCode" id="cb321"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb321-1"><a href="crisis.html#cb321-1" aria-hidden="true"></a><span class="kw">draw_slope_and_p</span>(<span class="dv">50</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb318"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb318-1"><a href="crisis.html#cb318-1" aria-hidden="true"></a><span class="kw">draw_slope_and_p</span>(<span class="dv">50</span>)</span></code></pre></div>
 <pre><code>## [1] 0.212866 0.674392</code></pre>
 <p>Now what we want to do is to run this function a whole bunch of times, say 1,000. That lets us imagine what would happen if 1,000 different labs each took a different sample of size <span class="math inline">\(N = 50\)</span> from the population, estimated the slope of the regression line, and tested against the null hypothesis that the slope is zero. To do that, we can use the <code>replicate()</code> function, which is a convenient way to run the same function repeatedly.</p>
-<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb323-1"><a href="crisis.html#cb323-1" aria-hidden="true"></a>results_<span class="dv">50</span> &lt;-<span class="st"> </span><span class="kw">replicate</span>(<span class="dv">1000</span>, <span class="kw">draw_slope_and_p</span>(<span class="dv">50</span>))</span>
-<span id="cb323-2"><a href="crisis.html#cb323-2" aria-hidden="true"></a><span class="kw">dim</span>(results_<span class="dv">50</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb320"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb320-1"><a href="crisis.html#cb320-1" aria-hidden="true"></a>results_<span class="dv">50</span> &lt;-<span class="st"> </span><span class="kw">replicate</span>(<span class="dv">1000</span>, <span class="kw">draw_slope_and_p</span>(<span class="dv">50</span>))</span>
+<span id="cb320-2"><a href="crisis.html#cb320-2" aria-hidden="true"></a><span class="kw">dim</span>(results_<span class="dv">50</span>)</span></code></pre></div>
 <pre><code>## [1]    2 1000</code></pre>
 <p>This gives us a <span class="math inline">\(2 \times 1000\)</span> matrix. Each column is a separate run of <code>draw_slope_and_p()</code>. The first row is the estimated slope; the second row is the associated <span class="math inline">\(p\)</span>-value.</p>
 <p>First let’s check how often we rejected the null hypothesis. The null hypothesis is false, so we would ideally always reject it. However, we have a small effect size and each individual sample is small, so the effect is hard to detect in any given sample—we will often fail to reject the null hypothesis. Let’s see exactly how often.</p>
-<div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb325-1"><a href="crisis.html#cb325-1" aria-hidden="true"></a><span class="co"># Proportion of p-values at or below 0.05</span></span>
-<span id="cb325-2"><a href="crisis.html#cb325-2" aria-hidden="true"></a>sig_<span class="dv">50</span> &lt;-<span class="st"> </span>results_<span class="dv">50</span>[<span class="dv">2</span>, ] <span class="op">&lt;=</span><span class="st"> </span><span class="fl">0.05</span></span>
-<span id="cb325-3"><a href="crisis.html#cb325-3" aria-hidden="true"></a><span class="kw">mean</span>(sig_<span class="dv">50</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb322"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb322-1"><a href="crisis.html#cb322-1" aria-hidden="true"></a><span class="co"># Proportion of p-values at or below 0.05</span></span>
+<span id="cb322-2"><a href="crisis.html#cb322-2" aria-hidden="true"></a>sig_<span class="dv">50</span> &lt;-<span class="st"> </span>results_<span class="dv">50</span>[<span class="dv">2</span>, ] <span class="op">&lt;=</span><span class="st"> </span><span class="fl">0.05</span></span>
+<span id="cb322-3"><a href="crisis.html#cb322-3" aria-hidden="true"></a><span class="kw">mean</span>(sig_<span class="dv">50</span>)</span></code></pre></div>
 <pre><code>## [1] 0.16</code></pre>
 <p>So the power of our study is not great—most of the time, we’re failing to reject the null hypothesis.</p>
 <p>Let’s see what the average estimated slope is across the full set of samples.</p>
-<div class="sourceCode" id="cb327"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb327-1"><a href="crisis.html#cb327-1" aria-hidden="true"></a><span class="kw">mean</span>(results_<span class="dv">50</span>[<span class="dv">1</span>, ])</span></code></pre></div>
+<div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb324-1"><a href="crisis.html#cb324-1" aria-hidden="true"></a><span class="kw">mean</span>(results_<span class="dv">50</span>[<span class="dv">1</span>, ])</span></code></pre></div>
 <pre><code>## [1] 0.5205715</code></pre>
 <p>This is pretty close to the true value, reflecting the fact that OLS is unbiased. If all 1,000 studies were made public, we would ultimately infer—correctly—that the population slope is roughly 0.5.</p>
 <p>But what if we only saw the small fraction of studies whose results were statistically significant?</p>
-<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb329-1"><a href="crisis.html#cb329-1" aria-hidden="true"></a><span class="co"># Restrict to columns where p &lt;= 0.05</span></span>
-<span id="cb329-2"><a href="crisis.html#cb329-2" aria-hidden="true"></a><span class="kw">mean</span>(results_<span class="dv">50</span>[<span class="dv">1</span>, sig_<span class="dv">50</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb326"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb326-1"><a href="crisis.html#cb326-1" aria-hidden="true"></a><span class="co"># Restrict to columns where p &lt;= 0.05</span></span>
+<span id="cb326-2"><a href="crisis.html#cb326-2" aria-hidden="true"></a><span class="kw">mean</span>(results_<span class="dv">50</span>[<span class="dv">1</span>, sig_<span class="dv">50</span>])</span></code></pre></div>
 <pre><code>## [1] 1.210619</code></pre>
 <p>We might be tempted to trust these studies more, since they are the ones that correctly reject the null hypothesis. But in fact, if we throw away those that are statistically insignificant, we end up with a biased picture of the effect size. The average effect size in the significant studies is more than double the true effect size. We can see this if we compare the distribution of all results to that of just the significant results.</p>
-<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb331-1"><a href="crisis.html#cb331-1" aria-hidden="true"></a><span class="kw">hist</span>(results_<span class="dv">50</span>[<span class="dv">1</span>, ])</span></code></pre></div>
+<div class="sourceCode" id="cb328"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb328-1"><a href="crisis.html#cb328-1" aria-hidden="true"></a><span class="kw">hist</span>(results_<span class="dv">50</span>[<span class="dv">1</span>, ])</span></code></pre></div>
 <p><img src="pdaps_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
-<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb332-1"><a href="crisis.html#cb332-1" aria-hidden="true"></a><span class="kw">hist</span>(results_<span class="dv">50</span>[<span class="dv">1</span>, sig_<span class="dv">50</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb329-1"><a href="crisis.html#cb329-1" aria-hidden="true"></a><span class="kw">hist</span>(results_<span class="dv">50</span>[<span class="dv">1</span>, sig_<span class="dv">50</span>])</span></code></pre></div>
 <p><img src="pdaps_files/figure-html/unnamed-chunk-17-2.png" width="672" /></p>
 <p>We can also see that this problem stems in large part from low statistical power. Suppose each lab were taking a sample of <span class="math inline">\(N = 200\)</span> instead of <span class="math inline">\(N = 50\)</span>, making their effect estimates more precise and thereby increasing each lab’s chance of (correctly) rejecting the null hypothesis.</p>
-<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb333-1"><a href="crisis.html#cb333-1" aria-hidden="true"></a>results_<span class="dv">200</span> &lt;-<span class="st"> </span><span class="kw">replicate</span>(<span class="dv">1000</span>, <span class="kw">draw_slope_and_p</span>(<span class="dv">200</span>))</span>
-<span id="cb333-2"><a href="crisis.html#cb333-2" aria-hidden="true"></a>sig_<span class="dv">200</span> &lt;-<span class="st"> </span>results_<span class="dv">200</span>[<span class="dv">2</span>, ] <span class="op">&lt;=</span><span class="st"> </span><span class="fl">0.05</span></span>
-<span id="cb333-3"><a href="crisis.html#cb333-3" aria-hidden="true"></a></span>
-<span id="cb333-4"><a href="crisis.html#cb333-4" aria-hidden="true"></a><span class="co"># Power</span></span>
-<span id="cb333-5"><a href="crisis.html#cb333-5" aria-hidden="true"></a><span class="kw">mean</span>(sig_<span class="dv">200</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb330-1"><a href="crisis.html#cb330-1" aria-hidden="true"></a>results_<span class="dv">200</span> &lt;-<span class="st"> </span><span class="kw">replicate</span>(<span class="dv">1000</span>, <span class="kw">draw_slope_and_p</span>(<span class="dv">200</span>))</span>
+<span id="cb330-2"><a href="crisis.html#cb330-2" aria-hidden="true"></a>sig_<span class="dv">200</span> &lt;-<span class="st"> </span>results_<span class="dv">200</span>[<span class="dv">2</span>, ] <span class="op">&lt;=</span><span class="st"> </span><span class="fl">0.05</span></span>
+<span id="cb330-3"><a href="crisis.html#cb330-3" aria-hidden="true"></a></span>
+<span id="cb330-4"><a href="crisis.html#cb330-4" aria-hidden="true"></a><span class="co"># Power</span></span>
+<span id="cb330-5"><a href="crisis.html#cb330-5" aria-hidden="true"></a><span class="kw">mean</span>(sig_<span class="dv">200</span>)</span></code></pre></div>
 <pre><code>## [1] 0.535</code></pre>
-<div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb335-1"><a href="crisis.html#cb335-1" aria-hidden="true"></a><span class="co"># Average estimate through the significance filter</span></span>
-<span id="cb335-2"><a href="crisis.html#cb335-2" aria-hidden="true"></a><span class="kw">mean</span>(results_<span class="dv">200</span>[<span class="dv">1</span>, sig_<span class="dv">200</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb332-1"><a href="crisis.html#cb332-1" aria-hidden="true"></a><span class="co"># Average estimate through the significance filter</span></span>
+<span id="cb332-2"><a href="crisis.html#cb332-2" aria-hidden="true"></a><span class="kw">mean</span>(results_<span class="dv">200</span>[<span class="dv">1</span>, sig_<span class="dv">200</span>])</span></code></pre></div>
 <pre><code>## [1] 0.6740676</code></pre>
-<div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb337-1"><a href="crisis.html#cb337-1" aria-hidden="true"></a><span class="kw">hist</span>(results_<span class="dv">200</span>[<span class="dv">1</span>, sig_<span class="dv">200</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb334"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb334-1"><a href="crisis.html#cb334-1" aria-hidden="true"></a><span class="kw">hist</span>(results_<span class="dv">200</span>[<span class="dv">1</span>, sig_<span class="dv">200</span>])</span></code></pre></div>
 <p><img src="pdaps_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
 <p>The significance-filtered average is still overinflated, but not nearly as drastically as when we were working with a small sample.</p>
 

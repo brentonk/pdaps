@@ -530,7 +530,7 @@ Once you've got the file stored locally, use the utilities from the \textbf{read
 
 \begin{verbatim}
 ## 
-## -- Column specification ---------------------------------------------------------------------------------------------------------------------------------
+## -- Column specification ---------------------------------------------------------------------------------
 ## cols(
 ##   country = col_character(),
 ##   gdp.2005 = col_double(),
@@ -603,70 +603,72 @@ For one thing, this means that whether a dataset is tidy or not depends---at lea
 
 Each row of \texttt{untidy\_data} is a country. In observational studies in comparative politics and international relations, more commonly the unit of observation is the country-year.\footnote{Yes, this kind of huge cross-country analysis has fallen out of favor as we've become more attentive to causal inference. But wait until later in the semester to worry about that!} How can we take \texttt{untidy\_data} and easily make it into country-year data?
 
-We'll use the \textbf{tidyr} package (again, part of \textbf{tidyverse}) to clean up this data. The biggest problem right now is that each column, besides the country identifier, really encodes two pieces of information: the year of observation and the variable being observed. To deal with this, we'll have to first transform the data from one untidy format to another. We're going to use the \texttt{gather()} function to make each row a country-year-variable.
+We'll use the \textbf{tidyr} package (again, part of \textbf{tidyverse}) to clean up this data. The biggest problem right now is that each column, besides the country identifier, really encodes two pieces of information: the year of observation and the variable being observed. To deal with this, we'll have to first transform the data from one untidy format to another. We're going to use the \texttt{pivot\_longer()} function to make each row a country-year-variable.
 
-What \texttt{gather()} does is make a row for each entry from a set of columns. It's probably easiest to understand it by seeing it in practice:
+What \texttt{pivot\_longer()} does is make a row for each entry from a set of columns. It's probably easiest to understand it by seeing it in practice:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{long\_data \textless{}{-}}\StringTok{ }\KeywordTok{gather}\NormalTok{(untidy\_data,}
-                    \DataTypeTok{key =}\NormalTok{ variable,}
-                    \DataTypeTok{value =}\NormalTok{ number,}
-\NormalTok{                    gdp}\FloatTok{.2005}\OperatorTok{:}\NormalTok{unemp}\FloatTok{.2008}\NormalTok{)}
-\KeywordTok{head}\NormalTok{(long\_data)}
+\NormalTok{long\_data \textless{}{-}}\StringTok{ }\KeywordTok{pivot\_longer}\NormalTok{(untidy\_data,}
+                          \DataTypeTok{cols =} \KeywordTok{starts\_with}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\StringTok{"gdp"}\NormalTok{, }\StringTok{"pop"}\NormalTok{, }\StringTok{"unemp"}\NormalTok{)))}
+\NormalTok{long\_data}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## # A tibble: 6 x 3
-##   country variable number
+## # A tibble: 2,580 x 3
+##   country name      value
 ##   <chr>   <chr>     <dbl>
-## 1 AD      gdp.2005   3.85
-## 2 AE      gdp.2005 257.  
-## 3 AF      gdp.2005   9.16
-## 4 AG      gdp.2005   1.15
-## 5 AL      gdp.2005   9.22
-## 6 AM      gdp.2005   7.67
+## 1 AD      gdp.2005 3.85  
+## 2 AD      gdp.2006 4.03  
+## 3 AD      gdp.2007 4.03  
+## 4 AD      gdp.2008 3.68  
+## 5 AD      pop.2005 0.0789
+## # ... with 2,575 more rows
 \end{verbatim}
 
-With the first argument, we told \texttt{gather()} to use the \texttt{untidy\_data} data frame. With the last argument, we told it the set of columns to ``gather'' together into a single column. The \texttt{key} column specifies the name of the variable to store the ``key'' (original column name) in, and the \texttt{value} column specifies the name of the variable to store the associated value. For example, the second row of \texttt{long\_data} encodes what we previously saw as the \texttt{gdp.2005} column of \texttt{untidy\_data}.
+The \texttt{cols} argument tells \texttt{pivot\_longer()} which columns to collect.
+The code here specifies that it be all of the columns starting with ``gdp'', ``pop'', or ``unemp''.
+As it happens, we could have achieved the same result by using \texttt{cols\ =\ ends\_with(c("2005",\ "2006",\ "2007",\ "2008"))}.
+To select all columns, we instead would have used \texttt{cols\ =\ everything()}.
+For additional ways of selecting columns, see the help page \texttt{?tidyselect::select\_helpers}.
 
-Now we have a new problem, which is that \texttt{variable} encodes two pieces of information: the variable and the year of its observation. \textbf{tidyr} provides the \texttt{separate()} function to solve that, splitting a single variable into two.
+Now we have a new problem, which is that the \texttt{name} column encodes two pieces of information: the variable and the year of its observation. \textbf{tidyr} provides the \texttt{separate()} function to solve that, splitting a single variable into two.
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{long\_data \textless{}{-}}\StringTok{ }\KeywordTok{separate}\NormalTok{(long\_data,}
-                      \DataTypeTok{col =}\NormalTok{ variable,}
+                      \DataTypeTok{col =} \StringTok{"name"}\NormalTok{,}
                       \DataTypeTok{into =} \KeywordTok{c}\NormalTok{(}\StringTok{"var"}\NormalTok{, }\StringTok{"year"}\NormalTok{))}
-\KeywordTok{head}\NormalTok{(long\_data)}
+\NormalTok{long\_data}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## # A tibble: 6 x 4
-##   country var   year  number
+## # A tibble: 2,580 x 4
+##   country var   year   value
 ##   <chr>   <chr> <chr>  <dbl>
-## 1 AD      gdp   2005    3.85
-## 2 AE      gdp   2005  257.  
-## 3 AF      gdp   2005    9.16
-## 4 AG      gdp   2005    1.15
-## 5 AL      gdp   2005    9.22
-## 6 AM      gdp   2005    7.67
+## 1 AD      gdp   2005  3.85  
+## 2 AD      gdp   2006  4.03  
+## 3 AD      gdp   2007  4.03  
+## 4 AD      gdp   2008  3.68  
+## 5 AD      pop   2005  0.0789
+## # ... with 2,575 more rows
 \end{verbatim}
 
-So now we have country-year-variable data, with the year and variable conveniently stored in different columns. To turn this into country-year data, we can use the \texttt{spread()} function, which is like the inverse of \texttt{gather()}. \texttt{spread()} takes a key column and a value column, and turns each different key into a column of its own.
+So now we have country-year-variable data, with the year and variable conveniently stored in different columns. To turn this into country-year data, we can use the \texttt{pivot\_wider()} function, which is like the inverse of \texttt{pivot\_longer()}. \texttt{pivot\_wider()} takes a key column and a value column, and turns each different key into a column of its own.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{clean\_data \textless{}{-}}\StringTok{ }\KeywordTok{spread}\NormalTok{(long\_data,}
-                     \DataTypeTok{key =}\NormalTok{ var,}
-                     \DataTypeTok{value =}\NormalTok{ number)}
-\KeywordTok{head}\NormalTok{(clean\_data)}
+\NormalTok{clean\_data \textless{}{-}}\StringTok{ }\KeywordTok{pivot\_wider}\NormalTok{(long\_data,}
+                          \DataTypeTok{names\_from =} \StringTok{"var"}\NormalTok{,}
+                          \DataTypeTok{values\_from =} \StringTok{"value"}\NormalTok{)}
+\NormalTok{clean\_data}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## # A tibble: 6 x 5
+## # A tibble: 860 x 5
 ##   country year     gdp    pop unemp
 ##   <chr>   <chr>  <dbl>  <dbl> <dbl>
 ## 1 AD      2005    3.85 0.0789 NA   
@@ -674,17 +676,10 @@ So now we have country-year-variable data, with the year and variable convenient
 ## 3 AD      2007    4.03 0.0827 NA   
 ## 4 AD      2008    3.68 0.0839 NA   
 ## 5 AE      2005  257.   4.59    3.12
-## 6 AE      2006  283.   5.30    2.77
+## # ... with 855 more rows
 \end{verbatim}
 
-\begin{verbatim}
-## Warning: The `path` argument of `write_csv()` is deprecated as of readr 1.4.0.
-## Please use the `file` argument instead.
-## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_warnings()` to see where this warning was generated.
-\end{verbatim}
-
-When using \texttt{spread()} on data that you didn't previously \texttt{gather()}, be sure to set the \texttt{fill} argument to tell it how to fill in empty cells. A simple example:
+When using \texttt{pivot\_wider()} on data that you didn't previously \texttt{pivot\_longer()}, be sure to set the \texttt{values\_fill} argument to tell it how to fill in empty cells. A simple example:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -694,7 +689,7 @@ When using \texttt{spread()} on data that you didn't previously \texttt{gather()
 
 \begin{verbatim}
 ## # A tibble: 3 x 3
-##   id      k         v
+##   id      name  value
 ##   <chr>   <chr> <dbl>
 ## 1 brenton a        10
 ## 2 brenton b        20
@@ -703,7 +698,7 @@ When using \texttt{spread()} on data that you didn't previously \texttt{gather()
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{spread}\NormalTok{(test\_data, }\DataTypeTok{key =}\NormalTok{ k, }\DataTypeTok{value =}\NormalTok{ v)}
+\KeywordTok{pivot\_wider}\NormalTok{(test\_data, }\DataTypeTok{names\_from =} \StringTok{"name"}\NormalTok{, }\DataTypeTok{values\_from =} \StringTok{"value"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -717,7 +712,7 @@ When using \texttt{spread()} on data that you didn't previously \texttt{gather()
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{spread}\NormalTok{(test\_data, }\DataTypeTok{key =}\NormalTok{ k, }\DataTypeTok{value =}\NormalTok{ v, }\DataTypeTok{fill =} \DecValTok{100}\NormalTok{)}
+\KeywordTok{pivot\_wider}\NormalTok{(test\_data, }\DataTypeTok{names\_from =} \StringTok{"name"}\NormalTok{, }\DataTypeTok{values\_from =} \StringTok{"value"}\NormalTok{, }\DataTypeTok{values\_fill =} \DecValTok{0}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -726,7 +721,7 @@ When using \texttt{spread()} on data that you didn't previously \texttt{gather()
 ##   id          a     b
 ##   <chr>   <dbl> <dbl>
 ## 1 brenton    10    20
-## 2 patrick   100     5
+## 2 patrick     0     5
 \end{verbatim}
 
 One more important note on \textbf{tidyverse} semantics. It includes a fabulous feature called the \emph{pipe}, \texttt{\%\textgreater{}\%}, which makes it easy to string together a truly mind-boggling number of commands.
@@ -752,13 +747,11 @@ The key thing about the \textbf{tidyverse} functions is that each of them takes 
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{untidy\_data }\OperatorTok{\%\textgreater{}\%}
-\StringTok{  }\KeywordTok{gather}\NormalTok{(}\DataTypeTok{key =}\NormalTok{ variable,}
-         \DataTypeTok{value =}\NormalTok{ number,}
-\NormalTok{         gdp}\FloatTok{.2005}\OperatorTok{:}\NormalTok{unemp}\FloatTok{.2008}\NormalTok{) }\OperatorTok{\%\textgreater{}\%}
-\StringTok{  }\KeywordTok{separate}\NormalTok{(}\DataTypeTok{col =}\NormalTok{ variable,}
+\StringTok{  }\KeywordTok{pivot\_longer}\NormalTok{(}\DataTypeTok{cols =} \KeywordTok{starts\_with}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\StringTok{"gdp"}\NormalTok{, }\StringTok{"pop"}\NormalTok{, }\StringTok{"unemp"}\NormalTok{))) }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\KeywordTok{separate}\NormalTok{(}\DataTypeTok{col =} \StringTok{"name"}\NormalTok{,}
            \DataTypeTok{into =} \KeywordTok{c}\NormalTok{(}\StringTok{"var"}\NormalTok{, }\StringTok{"year"}\NormalTok{)) }\OperatorTok{\%\textgreater{}\%}
-\StringTok{  }\KeywordTok{spread}\NormalTok{(}\DataTypeTok{key =}\NormalTok{ var,}
-         \DataTypeTok{value =}\NormalTok{ number)}
+\StringTok{  }\KeywordTok{pivot\_wider}\NormalTok{(}\DataTypeTok{names\_from =} \StringTok{"var"}\NormalTok{,}
+              \DataTypeTok{values\_from =} \StringTok{"value"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -778,18 +771,16 @@ Without the pipe, if we wanted to run all those commands together, we would have
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{spread}\NormalTok{(}\KeywordTok{separate}\NormalTok{(}\KeywordTok{gather}\NormalTok{(untidy\_data,}
-                       \DataTypeTok{key =}\NormalTok{ variable,}
-                       \DataTypeTok{value =}\NormalTok{ number,}
-\NormalTok{                       gdp}\FloatTok{.2005}\OperatorTok{:}\NormalTok{unemp}\FloatTok{.2008}\NormalTok{),}
-                \DataTypeTok{col =}\NormalTok{ variable,}
-                \DataTypeTok{into =} \KeywordTok{c}\NormalTok{(}\StringTok{"var"}\NormalTok{, }\StringTok{"year"}\NormalTok{)),}
-       \DataTypeTok{key =}\NormalTok{ var,}
-       \DataTypeTok{value =}\NormalTok{ number)}
+\KeywordTok{pivot\_wider}\NormalTok{(}\KeywordTok{separate}\NormalTok{(}\KeywordTok{pivot\_longer}\NormalTok{(untidy\_data,}
+                                  \DataTypeTok{cols =} \KeywordTok{starts\_with}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\StringTok{"gdp"}\NormalTok{, }\StringTok{"pop"}\NormalTok{, }\StringTok{"unemp"}\NormalTok{))),}
+                     \DataTypeTok{col =} \StringTok{"name"}\NormalTok{,}
+                     \DataTypeTok{into =} \KeywordTok{c}\NormalTok{(}\StringTok{"var"}\NormalTok{, }\StringTok{"year"}\NormalTok{)),}
+            \DataTypeTok{names\_from =} \StringTok{"var"}\NormalTok{,}
+            \DataTypeTok{values\_from =} \StringTok{"value"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
-Sad!
+Going back to last week's dictum of ``write programs for people'': even though this would have the same computational result, it's much harder for a human (your future self or a coauthor) to parse what the code is trying to do.
 
 \hypertarget{transforming-and-aggregating}{%
 \section{Transforming and Aggregating}\label{transforming-and-aggregating}}
@@ -886,8 +877,8 @@ If you wanted to make the change stick, you would have to run:
 ## # ... with 855 more rows
 \end{verbatim}
 
-You can also select columns based on how their names start or end, or with even more complex criteria.
-See \texttt{?select\_helpers}.
+As we saw above, you can also select columns based on how their names start or end, or with even more complex criteria.
+See \texttt{?tidyselect::select\_helpers}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1302,7 +1293,6 @@ First I load the necessary packages.
 \KeywordTok{library}\NormalTok{(}\StringTok{"tidyverse"}\NormalTok{)}
 \KeywordTok{library}\NormalTok{(}\StringTok{"WDI"}\NormalTok{)}
 \KeywordTok{library}\NormalTok{(}\StringTok{"countrycode"}\NormalTok{)}
-\KeywordTok{library}\NormalTok{(}\StringTok{"stringr"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1317,18 +1307,21 @@ Next, I download the relevant WDI data. I used the \texttt{WDIsearch()} function
                \DataTypeTok{start =} \DecValTok{2005}\NormalTok{,}
                \DataTypeTok{end =} \DecValTok{2008}\NormalTok{)}
 
-\KeywordTok{head}\NormalTok{(dat\_raw)}
+\NormalTok{dat\_raw \textless{}{-}}\StringTok{ }\KeywordTok{as\_tibble}\NormalTok{(dat\_raw)  }\CommentTok{\# convert to tidyverse data frame}
+\NormalTok{dat\_raw}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-##   iso2c    country year NY.GDP.MKTP.KD SP.POP.TOTL SL.UEM.TOTL.ZS
-## 1    1A Arab World 2005   1.698907e+12   314965793      11.069919
-## 2    1A Arab World 2006   1.809364e+12   322452754      10.252186
-## 3    1A Arab World 2007   1.891216e+12   330290716       9.788912
-## 4    1A Arab World 2008   2.001119e+12   338395961       9.452786
-## 5    1W      World 2005   5.813634e+13  6511748367       5.901350
-## 6    1W      World 2006   6.068166e+13  6592734537       5.594115
+## # A tibble: 1,056 x 6
+##   iso2c country     year NY.GDP.MKTP.KD SP.POP.TOTL SL.UEM.TOTL.ZS
+##   <chr> <chr>      <int>          <dbl>       <dbl>          <dbl>
+## 1 1A    Arab World  2005        1.70e12   314965793          11.1 
+## 2 1A    Arab World  2006        1.81e12   322452754          10.3 
+## 3 1A    Arab World  2007        1.89e12   330290716           9.79
+## 4 1A    Arab World  2008        2.00e12   338395961           9.45
+## 5 1W    World       2005        5.81e13  6511748367           5.90
+## # ... with 1,051 more rows
 \end{verbatim}
 
 I want to get rid of the aggregates, like the ``Arab World'' and ``World'' we see here. As a rough tack at that, I'm going to exclude those so-called countries whose ISO codes don't appear in the \textbf{countrycode} package data.\footnote{\textbf{countrycode} is a very useful, albeit imperfect, package for converting between different country naming/coding schemes.}
@@ -1393,18 +1386,20 @@ With that out of the way, there's still some cleaning up to do. The magnitudes o
 \StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{gdp =}\NormalTok{ gdp }\OperatorTok{/}\StringTok{ }\FloatTok{1e9}\NormalTok{,}
          \DataTypeTok{pop =}\NormalTok{ pop }\OperatorTok{/}\StringTok{ }\FloatTok{1e6}\NormalTok{)}
 
-\KeywordTok{head}\NormalTok{(dat\_countries)}
+\NormalTok{dat\_countries}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-##   country year        gdp      pop unemp
-## 1      AD 2005   3.697349 0.078867    NA
-## 2      AD 2006   3.875143 0.080993    NA
-## 3      AD 2007   3.935331 0.082684    NA
-## 4      AD 2008   3.716558 0.083862    NA
-## 5      AE 2005 257.366939 4.588225 3.120
-## 6      AE 2006 282.684948 5.300174 2.703
+## # A tibble: 860 x 5
+##   country  year    gdp    pop unemp
+##   <chr>   <int>  <dbl>  <dbl> <dbl>
+## 1 AD       2005   3.70 0.0789 NA   
+## 2 AD       2006   3.88 0.0810 NA   
+## 3 AD       2007   3.94 0.0827 NA   
+## 4 AD       2008   3.72 0.0839 NA   
+## 5 AE       2005 257.   4.59    3.12
+## # ... with 855 more rows
 \end{verbatim}
 
 Now I convert the data to ``long'' format.
@@ -1412,53 +1407,46 @@ Now I convert the data to ``long'' format.
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{dat\_countries\_long \textless{}{-}}\StringTok{ }\NormalTok{dat\_countries }\OperatorTok{\%\textgreater{}\%}
-\StringTok{  }\KeywordTok{gather}\NormalTok{(}\DataTypeTok{key =}\NormalTok{ variable,}
-         \DataTypeTok{value =}\NormalTok{ value,}
-\NormalTok{         gdp}\OperatorTok{:}\NormalTok{unemp)}
+\StringTok{  }\KeywordTok{pivot\_longer}\NormalTok{(}\DataTypeTok{cols =}\NormalTok{ gdp}\OperatorTok{:}\NormalTok{unemp)}
+
+\NormalTok{dat\_countries\_long}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## Warning: attributes are not identical across measure variables;
-## they will be dropped
+## # A tibble: 2,580 x 4
+##   country  year name    value
+##   <chr>   <int> <chr>   <dbl>
+## 1 AD       2005 gdp    3.70  
+## 2 AD       2005 pop    0.0789
+## 3 AD       2005 unemp NA     
+## 4 AD       2006 gdp    3.88  
+## 5 AD       2006 pop    0.0810
+## # ... with 2,575 more rows
 \end{verbatim}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{head}\NormalTok{(dat\_countries\_long)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##   country year variable      value
-## 1      AD 2005      gdp   3.697349
-## 2      AD 2006      gdp   3.875143
-## 3      AD 2007      gdp   3.935331
-## 4      AD 2008      gdp   3.716558
-## 5      AE 2005      gdp 257.366939
-## 6      AE 2006      gdp 282.684948
-\end{verbatim}
-
-I then smush \texttt{variable} and \texttt{year} into a single column, and drop the individual components.
+I then smush \texttt{name} and \texttt{year} into a single column, and drop the individual components.
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{dat\_countries\_long \textless{}{-}}\StringTok{ }\NormalTok{dat\_countries\_long }\OperatorTok{\%\textgreater{}\%}
-\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{var\_year =} \KeywordTok{paste}\NormalTok{(variable, year, }\DataTypeTok{sep =} \StringTok{"."}\NormalTok{)) }\OperatorTok{\%\textgreater{}\%}
-\StringTok{  }\KeywordTok{select}\NormalTok{(}\OperatorTok{{-}}\NormalTok{variable, }\OperatorTok{{-}}\NormalTok{year)}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{var\_year =} \KeywordTok{paste}\NormalTok{(name, year, }\DataTypeTok{sep =} \StringTok{"."}\NormalTok{)) }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\KeywordTok{select}\NormalTok{(}\OperatorTok{{-}}\NormalTok{name, }\OperatorTok{{-}}\NormalTok{year)}
 
-\KeywordTok{head}\NormalTok{(dat\_countries\_long)}
+\NormalTok{dat\_countries\_long}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-##   country      value var_year
-## 1      AD   3.697349 gdp.2005
-## 2      AD   3.875143 gdp.2006
-## 3      AD   3.935331 gdp.2007
-## 4      AD   3.716558 gdp.2008
-## 5      AE 257.366939 gdp.2005
-## 6      AE 282.684948 gdp.2006
+## # A tibble: 2,580 x 3
+##   country   value var_year  
+##   <chr>     <dbl> <chr>     
+## 1 AD       3.70   gdp.2005  
+## 2 AD       0.0789 pop.2005  
+## 3 AD      NA      unemp.2005
+## 4 AD       3.88   gdp.2006  
+## 5 AD       0.0810 pop.2006  
+## # ... with 2,575 more rows
 \end{verbatim}
 
 Finally, I ``widen'' the data, so that each \texttt{var\_year} is a column of its own.
@@ -1466,34 +1454,30 @@ Finally, I ``widen'' the data, so that each \texttt{var\_year} is a column of it
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{dat\_countries\_wide \textless{}{-}}\StringTok{ }\NormalTok{dat\_countries\_long }\OperatorTok{\%\textgreater{}\%}
-\StringTok{  }\KeywordTok{spread}\NormalTok{(}\DataTypeTok{key =}\NormalTok{ var\_year, }\DataTypeTok{value =}\NormalTok{ value)}
+\StringTok{  }\KeywordTok{pivot\_wider}\NormalTok{(}\DataTypeTok{names\_from =} \StringTok{"var\_year"}\NormalTok{, }\DataTypeTok{values\_from =} \StringTok{"value"}\NormalTok{)}
 
-\KeywordTok{head}\NormalTok{(dat\_countries\_wide)}
+\NormalTok{dat\_countries\_wide}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-##   country   gdp.2005   gdp.2006   gdp.2007   gdp.2008  pop.2005  pop.2006
-## 1      AD   3.697349   3.875143   3.935331   3.716558  0.078867  0.080993
-## 2      AE 257.366939 282.684948 291.686739 300.996902  4.588225  5.300174
-## 3      AF   9.164598   9.655583  10.990595  11.421974 25.654277 26.433049
-## 4      AG   1.149280   1.295332   1.415998   1.415795  0.081465  0.082704
-## 5      AL   9.223203   9.767379  10.351467  11.127824  3.011487  2.992547
-## 6      AM   7.666474   8.678449   9.867397  10.548247  2.981269  2.958307
-##    pop.2007  pop.2008 unemp.2005 unemp.2006 unemp.2007 unemp.2008
-## 1  0.082684  0.083862         NA         NA         NA         NA
-## 2  6.168838  7.089487      3.120      2.703      2.081      1.956
-## 3 27.100536 27.722276     11.429     11.224     11.046     10.985
-## 4  0.084026  0.085397         NA         NA         NA         NA
-## 5  2.970017  2.947314     16.460     16.196     15.966     13.060
-## 6  2.932618  2.907618     10.393     10.090      9.812     13.475
+## # A tibble: 215 x 13
+##   country gdp.2005 pop.2005 unemp.2005 gdp.2006 pop.2006 unemp.2006 gdp.2007
+##   <chr>      <dbl>    <dbl>      <dbl>    <dbl>    <dbl>      <dbl>    <dbl>
+## 1 AD          3.70   0.0789      NA        3.88   0.0810      NA        3.94
+## 2 AE        257.     4.59         3.12   283.     5.30         2.70   292.  
+## 3 AF          9.16  25.7         11.4      9.66  26.4         11.2     11.0 
+## 4 AG          1.15   0.0815      NA        1.30   0.0827      NA        1.42
+## 5 AL          9.22   3.01        16.5      9.77   2.99        16.2     10.4 
+## # ... with 210 more rows, and 5 more variables: pop.2007 <dbl>,
+## #   unemp.2007 <dbl>, gdp.2008 <dbl>, pop.2008 <dbl>, unemp.2008 <dbl>
 \end{verbatim}
 
 Now we have some ugly data. I save the output to upload to my website.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{write\_csv}\NormalTok{(dat\_countries\_wide, }\DataTypeTok{path =} \StringTok{"untidy{-}data.csv"}\NormalTok{)}
+\KeywordTok{write\_csv}\NormalTok{(dat\_countries\_wide, }\DataTypeTok{file =} \StringTok{"untidy{-}data.csv"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1506,29 +1490,24 @@ And here's how I made the second country-year dataset used in the merging sectio
       \DataTypeTok{indicator =} \StringTok{"FP.CPI.TOTL.ZG"}\NormalTok{,}
       \DataTypeTok{start =} \DecValTok{2004}\NormalTok{,}
       \DataTypeTok{end =} \DecValTok{2008}\NormalTok{) }\OperatorTok{\%\textgreater{}\%}
-\StringTok{  }\KeywordTok{as\_data\_frame}\NormalTok{() }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\KeywordTok{as\_tibble}\NormalTok{() }\OperatorTok{\%\textgreater{}\%}
 \StringTok{  }\KeywordTok{select}\NormalTok{(}\DataTypeTok{country =}\NormalTok{ iso2c,}
 \NormalTok{         year,}
          \DataTypeTok{inflation =}\NormalTok{ FP.CPI.TOTL.ZG) }\OperatorTok{\%\textgreater{}\%}
 \StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{year =} \KeywordTok{as.integer}\NormalTok{(year)) }\OperatorTok{\%\textgreater{}\%}
 \StringTok{  }\KeywordTok{filter}\NormalTok{(country }\OperatorTok{\%in\%}\StringTok{ }\NormalTok{clean\_data}\OperatorTok{$}\NormalTok{country) }\OperatorTok{\%\textgreater{}\%}
 \StringTok{  }\KeywordTok{arrange}\NormalTok{(country, year)}
+
+\KeywordTok{write\_csv}\NormalTok{(dat\_}\DecValTok{2}\NormalTok{, }\DataTypeTok{path =} \StringTok{"inflation.csv"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## Warning: `as_data_frame()` is deprecated as of tibble 2.0.0.
-## Please use `as_tibble()` instead.
-## The signature and semantics have changed, see `?as_tibble`.
+## Warning: The `path` argument of `write_csv()` is deprecated as of readr 1.4.0.
+## Please use the `file` argument instead.
 ## This warning is displayed once every 8 hours.
 ## Call `lifecycle::last_warnings()` to see where this warning was generated.
 \end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{write\_csv}\NormalTok{(dat\_}\DecValTok{2}\NormalTok{, }\DataTypeTok{path =} \StringTok{"inflation.csv"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
 
 \hypertarget{visualization}{%
 \chapter{Data Visualization}\label{visualization}}
@@ -2105,6 +2084,14 @@ Combining these two results, we have the OLS estimators of the intercept and slo
 \]
 
 Regression is a convenient way to summarize the relationship between variables, but it is a complement to---not a substitute for---graphical analysis. The statistician Francis Anscombe found that OLS yields nearly identical regression lines for all four of the datasets in the following graph:
+
+\begin{verbatim}
+## Warning: `as_data_frame()` is deprecated as of tibble 2.0.0.
+## Please use `as_tibble()` instead.
+## The signature and semantics have changed, see `?as_tibble`.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_warnings()` to see where this warning was generated.
+\end{verbatim}
 
 \begin{verbatim}
 ## `geom_smooth()` using formula 'y ~ x'
