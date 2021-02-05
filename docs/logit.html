@@ -24,7 +24,7 @@
 <meta name="author" content="Brenton Kenkel" />
 
 
-<meta name="date" content="2021-01-29" />
+<meta name="date" content="2021-02-05" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -57,6 +57,7 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -417,7 +418,7 @@ As with marginal effects, to calculate the average first difference across the d
 Even though we started with a geometrical purpose (minimizing squared errors), we saw that the resulting estimator had various good statistical properties, such as unbiasedness, consistency, and asymptotic normality.</p>
 <p>We typically don’t use least squares estimators for nonlinear models like logistic regression.<a href="#fn35" class="footnote-ref" id="fnref35"><sup>35</sup></a>
 Instead, we typically use <em>maximum likelihood estimation</em>.
-We won’t go into the deeper mathematical details behind maximum likelihood estimation; for that I recommend <span class="citation">Davidson and MacKinnon (<a href="#ref-davidson1993estimation" role="doc-biblioref">1993</a>)</span>.</p>
+We won’t go into the deeper mathematical details behind maximum likelihood estimation; for that I recommend <span class="citation"><a href="references.html#ref-davidson1993estimation" role="doc-biblioref">Davidson and MacKinnon</a> (<a href="references.html#ref-davidson1993estimation" role="doc-biblioref">1993</a>)</span>.</p>
 <p>What is important to know generally about maximum likelihood estimation, or MLE, is the following:</p>
 <ul>
 <li><p>To derive a maximum likelihood estimator, you must specify a <em>full probability model</em> for the process that generates your data.
@@ -664,7 +665,7 @@ This is because maximum likelihood estimation is asymptotically efficient.</p>
 <p>I want to stress one more important thing that this example highlights.
 However you choose to model the data-generating process, there are multiple distinct ways to estimate the parameters of that process.
 We already saw this in the linear model context, where OLS and GLS are distinct estimators of the same linear model, each of which is preferable in different circumstances.
-You may sometimes hear political scientists refer to “maximum likelihood models”, but this is a misnomer: maximum likelihood is just one method among many to estimate the parameters of a fully specified statistical model.
+You may sometimes hear political scientists refer to “maximum likelihood models,” but this is a misnomer: maximum likelihood is just one method among many to estimate the parameters of a fully specified statistical model.
 It happens to have quite good properties for doing so, and hence is usually the default choice, but that doesn’t mean maximum likelihood is embedded in the definition of the model itself.</p>
 </div>
 <div id="logistic-regression" class="section level3" number="13.3.4">
@@ -718,7 +719,7 @@ For example, you might use the OLS coefficients.</p></li>
 </ol>
 <p>The standard errors are then calculated using the matrix of second partial derivatives of the log-likelihood.
 I will spare you the math here.
-The important thing to know about the standard errors is that they are only “correct”, in the sense of properly estimating the degree of uncertainty in your model estimates, asymptotically.
+The important thing to know about the standard errors is that they are only “correct,” in the sense of properly estimating the degree of uncertainty in your model estimates, asymptotically.
 The logistic regression coefficients themselves are consistent but not unbiased, meaning they are only guaranteed to be reliable in sufficiently large samples, and the same is true of the inferential statistics.
 If you find yourself in the dubious situation of running a logistic regression on a very small sample—such as because a reviewer asked you do to so in an R&amp;R, because surely you wouldn’t do this voluntarily knowing what you know now—you should not rely on the default standard error computation when performing hypothesis tests.</p>
 </div>
@@ -729,7 +730,7 @@ If you find yourself in the dubious situation of running a logistic regression o
 <h3><span class="header-section-number">13.4.1</span> Separation</h3>
 <p>Sometimes you may have a covariate that perfectly predicts whether the outcome is a 0 or a 1.
 For example, on many contentious votes in Congress, whether a member votes yay or nay will be determined entirely by her partisanship.
-This phenomenon is called <em>complete separation</em> (terminology from <span class="citation">Albert and Anderson (<a href="#ref-albert1984existence" role="doc-biblioref">1984</a>)</span>), and it is a vexing problem for the maximum likelihood estimation of logistic regression models.</p>
+This phenomenon is called <em>complete separation</em> (terminology from <span class="citation"><a href="references.html#ref-albert1984existence" role="doc-biblioref">Albert and Anderson</a> (<a href="references.html#ref-albert1984existence" role="doc-biblioref">1984</a>)</span>), and it is a vexing problem for the maximum likelihood estimation of logistic regression models.</p>
 <p>Let’s imagine a dataset where we have a single covariate <span class="math inline">\(X\)</span>, the response is 0 whenever <span class="math inline">\(X\)</span> is negative, and the response is 1 whenever <span class="math inline">\(X\)</span> is positive.</p>
 <pre><code>## # A tibble: 6 x 2
 ##       y     x
@@ -746,11 +747,11 @@ No matter how high <span class="math inline">\(\beta\)</span> is, we can improve
 In effect, our estimate would be <span class="math inline">\(\hat{\beta} = \infty\)</span>.</p>
 <p><img src="pdaps_files/figure-html/logit-sep-curves-1.png" width="672" /></p>
 <p>If we try to actually fit a logistic regression to this data, we get nonsensical results.</p>
-<div class="sourceCode" id="cb357"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb357-1"><a href="logit.html#cb357-1" aria-hidden="true"></a>fit_sep &lt;-<span class="st"> </span><span class="kw">glm</span>(y <span class="op">~</span><span class="st"> </span>x,</span>
-<span id="cb357-2"><a href="logit.html#cb357-2" aria-hidden="true"></a>               <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),</span>
-<span id="cb357-3"><a href="logit.html#cb357-3" aria-hidden="true"></a>               <span class="dt">data =</span> separated_data)</span></code></pre></div>
+<div class="sourceCode" id="cb358"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb358-1"><a href="logit.html#cb358-1" aria-hidden="true" tabindex="-1"></a>fit_sep <span class="ot">&lt;-</span> <span class="fu">glm</span>(y <span class="sc">~</span> x,</span>
+<span id="cb358-2"><a href="logit.html#cb358-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">&quot;logit&quot;</span>),</span>
+<span id="cb358-3"><a href="logit.html#cb358-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">data =</span> separated_data)</span></code></pre></div>
 <pre><code>## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred</code></pre>
-<div class="sourceCode" id="cb359"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb359-1"><a href="logit.html#cb359-1" aria-hidden="true"></a><span class="kw">summary</span>(fit_sep)</span></code></pre></div>
+<div class="sourceCode" id="cb360"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb360-1"><a href="logit.html#cb360-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_sep)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = y ~ x, family = binomial(link = &quot;logit&quot;), data = separated_data)
@@ -785,7 +786,7 @@ So if I included an indicator for being a Republican in the model, its maximum l
 However, I could use the variation among the Democratic members to estimate the effects of other variables, such as President Obama’s vote share in the members’ districts.</p>
 <p>It is an open question what to do in the presence of complete or quasicomplete separation.
 Sometimes separation is an indication that you’re asking a question that the data can’t reasonably answer.
-Alternatively, <span class="citation">Zorn (<a href="#ref-zorn2005solution" role="doc-biblioref">2005</a>)</span> recommends using the bias-corrected logistic regression estimator developed by <span class="citation">Firth (<a href="#ref-firth1993bias" role="doc-biblioref">1993</a>)</span>.
+Alternatively, <span class="citation"><a href="references.html#ref-zorn2005solution" role="doc-biblioref">Zorn</a> (<a href="references.html#ref-zorn2005solution" role="doc-biblioref">2005</a>)</span> recommends using the bias-corrected logistic regression estimator developed by <span class="citation"><a href="references.html#ref-firth1993bias" role="doc-biblioref">Firth</a> (<a href="references.html#ref-firth1993bias" role="doc-biblioref">1993</a>)</span>.
 What you should <em>not</em> do is report whatever numbers your statistical software spits out as if they were proper maximum likelihood estimates — they are not.
 It is also usually a bad idea to simply remove the offending variable from your analysis, unless this variable is uncorrelated with your treatment of interest (in which case, why was it in your analysis to begin with?).</p>
 </div>
@@ -804,10 +805,10 @@ Collecting more data means surveying more households, which means including more
 The number of parameters to estimate grows with the sample size.
 Consequently, the maximum likelihood estimator is not consistent.
 This is an example of the <em>incidental parameters problem</em>.</p>
-<p>The usual fix for the incidental parameters problem is to use the “conditional logit” estimator developed by <span class="citation">Chamberlain (<a href="#ref-chamberlain1980analysis" role="doc-biblioref">1980</a>)</span>.
+<p>The usual fix for the incidental parameters problem is to use the “conditional logit” estimator developed by <span class="citation"><a href="references.html#ref-chamberlain1980analysis" role="doc-biblioref">Chamberlain</a> (<a href="references.html#ref-chamberlain1980analysis" role="doc-biblioref">1980</a>)</span>.
 Very loosely speaking, this is an alternative estimation approach that estimates the coefficients on the substantive parameters by examining only within-group variation.
 Another method is to simply use a linear probability model, in which fixed effects estimation is less problematic.
-<span class="citation">Beck (<a href="#ref-beck2018estimating" role="doc-biblioref">2018</a>)</span> compares these approaches.</p>
+<span class="citation"><a href="references.html#ref-beck2018estimating" role="doc-biblioref">Beck</a> (<a href="references.html#ref-beck2018estimating" role="doc-biblioref">2018</a>)</span> compares these approaches.</p>
 </div>
 <div id="autocorrelation-and-clustered-standard-errors" class="section level3" number="13.4.3">
 <h3><span class="header-section-number">13.4.3</span> Autocorrelation and Clustered Standard Errors</h3>
@@ -822,12 +823,12 @@ But we wrote out the likelihood function under the assumption that we could take
 So if you suspect that you have autocorrelation and yet you run an ordinary logistic regression, you are not doing maximum likelihood estimation (because your likelihood function is wrong), and you cannot rely on its good properties like consistency anymore.</p>
 <p>There are special estimators tailored for binary response models with autocorrelation.
 These are typically complicated to estimate and interpret, and so they are well beyond the scope of this course.
-See <span class="citation">Huffer and Wu (<a href="#ref-huffer1998markov" role="doc-biblioref">1998</a>)</span> or, for an introduction aimed at political scientists, <span class="citation">Ward and Gleditsch (<a href="#ref-ward2002location" role="doc-biblioref">2002</a>)</span>.
+See <span class="citation"><a href="references.html#ref-huffer1998markov" role="doc-biblioref">Huffer and Wu</a> (<a href="references.html#ref-huffer1998markov" role="doc-biblioref">1998</a>)</span> or, for an introduction aimed at political scientists, <span class="citation"><a href="references.html#ref-ward2002location" role="doc-biblioref">Ward and Gleditsch</a> (<a href="references.html#ref-ward2002location" role="doc-biblioref">2002</a>)</span>.
 Alternatively, you may prefer to just use a linear probability model.</p>
 <p>Should you decide to go ahead and use the nominal logistic regression estimator even though it’s not actually MLE in the presence of autocorrelation, there are software packages that will provide clustered standard error estimates.
-These follow the same kind of “sandwich” logic as the formula we derived for OLS <span class="citation">(Liang and Zeger <a href="#ref-Liang:1986gv" role="doc-biblioref">1986</a>)</span>.
+These follow the same kind of “sandwich” logic as the formula we derived for OLS <span class="citation">(<a href="references.html#ref-Liang:1986gv" role="doc-biblioref">Liang and Zeger 1986</a>)</span>.
 In some cases the ordinary estimator may still be consistent, though it will not be efficient.
-This requires, very loosely speaking, that the average autocorrelation between observations go to zero as the sample size increases <span class="citation">(Poirier and Ruud <a href="#ref-poirier1988probit" role="doc-biblioref">1988</a>)</span>.<a href="#fn38" class="footnote-ref" id="fnref38"><sup>38</sup></a></p>
+This requires, very loosely speaking, that the average autocorrelation between observations go to zero as the sample size increases <span class="citation">(<a href="references.html#ref-poirier1988probit" role="doc-biblioref">Poirier and Ruud 1988</a>)</span>.<a href="#fn38" class="footnote-ref" id="fnref38"><sup>38</sup></a></p>
 </div>
 </div>
 <div id="appendix-implementation-in-r-2" class="section level2" number="13.5">
@@ -835,8 +836,8 @@ This requires, very loosely speaking, that the average autocorrelation between o
 <div id="logistic-regression-1" class="section level3" number="13.5.1">
 <h3><span class="header-section-number">13.5.1</span> Logistic Regression</h3>
 <p>To illustrate logistic regression in R, we will use data from the <strong>pscl</strong> package on how senators voted on the 2002 resolution to authorize military force against Iraq.</p>
-<div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb361-1"><a href="logit.html#cb361-1" aria-hidden="true"></a><span class="kw">library</span>(<span class="st">&quot;pscl&quot;</span>)</span>
-<span id="cb361-2"><a href="logit.html#cb361-2" aria-hidden="true"></a><span class="kw">head</span>(iraqVote)</span></code></pre></div>
+<div class="sourceCode" id="cb362"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb362-1"><a href="logit.html#cb362-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;pscl&quot;</span>)</span>
+<span id="cb362-2"><a href="logit.html#cb362-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(iraqVote)</span></code></pre></div>
 <pre><code>##   y state.abb             name  rep state.name gorevote
 ## 1 1        AL  SESSIONS (R AL) TRUE    Alabama    41.59
 ## 2 1        AL    SHELBY (R AL) TRUE    Alabama    41.59
@@ -844,7 +845,7 @@ This requires, very loosely speaking, that the average autocorrelation between o
 ## 4 1        AK   STEVENS (R AK) TRUE     Alaska    27.67
 ## 5 1        AZ       KYL (R AZ) TRUE    Arizona    44.67
 ## 6 1        AZ    MCCAIN (R AZ) TRUE    Arizona    44.67</code></pre>
-<div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb363-1"><a href="logit.html#cb363-1" aria-hidden="true"></a><span class="kw">summary</span>(iraqVote)</span></code></pre></div>
+<div class="sourceCode" id="cb364"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb364-1"><a href="logit.html#cb364-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(iraqVote)</span></code></pre></div>
 <pre><code>##        y          state.abb              name       rep         
 ##  Min.   :0.00   AK     : 2   AKAKA (D HI)  : 1   Mode :logical  
 ##  1st Qu.:1.00   AL     : 2   ALLARD (R CO) : 1   FALSE:51       
@@ -865,10 +866,10 @@ This requires, very loosely speaking, that the average autocorrelation between o
 <p>To run a logistic regression model in R, you simply use the <code>glm()</code> command (stands for <em>generalized</em> linear model) much like you use <code>lm()</code> for ordinary or weighted least squares.
 The only difference is that you have to add the <code>family</code> argument to tell R to run a logistic regression.
 <code>glm()</code> runs all kinds of models; if you forget the <code>family</code> argument, it will run OLS by default.</p>
-<div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb365-1"><a href="logit.html#cb365-1" aria-hidden="true"></a>fit_logit &lt;-<span class="st"> </span><span class="kw">glm</span>(y <span class="op">~</span><span class="st"> </span>rep <span class="op">+</span><span class="st"> </span>gorevote,</span>
-<span id="cb365-2"><a href="logit.html#cb365-2" aria-hidden="true"></a>                 <span class="dt">data =</span> iraqVote,</span>
-<span id="cb365-3"><a href="logit.html#cb365-3" aria-hidden="true"></a>                 <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>))</span>
-<span id="cb365-4"><a href="logit.html#cb365-4" aria-hidden="true"></a><span class="kw">summary</span>(fit_logit)</span></code></pre></div>
+<div class="sourceCode" id="cb366"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb366-1"><a href="logit.html#cb366-1" aria-hidden="true" tabindex="-1"></a>fit_logit <span class="ot">&lt;-</span> <span class="fu">glm</span>(y <span class="sc">~</span> rep <span class="sc">+</span> gorevote,</span>
+<span id="cb366-2"><a href="logit.html#cb366-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> iraqVote,</span>
+<span id="cb366-3"><a href="logit.html#cb366-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">&quot;logit&quot;</span>))</span>
+<span id="cb366-4"><a href="logit.html#cb366-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_logit)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = y ~ rep + gorevote, family = binomial(link = &quot;logit&quot;), 
@@ -899,45 +900,45 @@ The AIC is a general measure of model fit, which we may talk about in the unlike
 Lower values of the AIC indicate better fit.
 The Fisher scoring iterations are the number of steps the fitting process took to reach the maximum of the log-likelihood function.</p>
 <p>You can extract the predicted probability of <span class="math inline">\(Y_n = 1\)</span> for each observation according to the model using the <code>predict()'</code> function.</p>
-<div class="sourceCode" id="cb367"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb367-1"><a href="logit.html#cb367-1" aria-hidden="true"></a>pp_logit &lt;-<span class="st"> </span><span class="kw">predict</span>(fit_logit, <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>)</span>
-<span id="cb367-2"><a href="logit.html#cb367-2" aria-hidden="true"></a><span class="kw">head</span>(pp_logit)</span></code></pre></div>
+<div class="sourceCode" id="cb368"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb368-1"><a href="logit.html#cb368-1" aria-hidden="true" tabindex="-1"></a>pp_logit <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit_logit, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb368-2"><a href="logit.html#cb368-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(pp_logit)</span></code></pre></div>
 <pre><code>##         1         2         3         4         5         6 
 ## 0.9850607 0.9850607 0.9968734 0.9968734 0.9789587 0.9789587</code></pre>
 <p>If you don’t use the <code>type = "response"</code> argument, then the function will instead return the latent propensity estimates, <span class="math inline">\(\mathbf{x}_n \cdot \hat{\beta}\)</span>, which are almost never what you want.</p>
-<p>We can use <code>predict()</code> to calculate average marginal effects and first differences “by hand”.
+<p>We can use <code>predict()</code> to calculate average marginal effects and first differences “by hand.”
 First let’s use our heuristic to calculate the marginal effect of a state’s Gore vote percentage in the 2000 election on a senator’s probability of voting for the war, assuming that senator would otherwise be 50-50 on voting for the war.</p>
-<div class="sourceCode" id="cb369"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb369-1"><a href="logit.html#cb369-1" aria-hidden="true"></a>cf_gore &lt;-<span class="st"> </span><span class="kw">coef</span>(fit_logit)[<span class="st">&quot;gorevote&quot;</span>]</span>
-<span id="cb369-2"><a href="logit.html#cb369-2" aria-hidden="true"></a>cf_gore <span class="op">*</span><span class="st"> </span><span class="fl">0.25</span></span></code></pre></div>
+<div class="sourceCode" id="cb370"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb370-1"><a href="logit.html#cb370-1" aria-hidden="true" tabindex="-1"></a>cf_gore <span class="ot">&lt;-</span> <span class="fu">coef</span>(fit_logit)[<span class="st">&quot;gorevote&quot;</span>]</span>
+<span id="cb370-2"><a href="logit.html#cb370-2" aria-hidden="true" tabindex="-1"></a>cf_gore <span class="sc">*</span> <span class="fl">0.25</span></span></code></pre></div>
 <pre><code>##   gorevote 
 ## -0.0283042</code></pre>
 <p>Of course, we saw from the summary statistics that 77% of senators voted for the war.
 The marginal effect on a senator who would otherwise be 77-23 in favor is slightly smaller in magnitude:</p>
-<div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb371-1"><a href="logit.html#cb371-1" aria-hidden="true"></a>cf_gore <span class="op">*</span><span class="st"> </span><span class="fl">0.77</span> <span class="op">*</span><span class="st"> </span><span class="fl">0.23</span></span></code></pre></div>
+<div class="sourceCode" id="cb372"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb372-1"><a href="logit.html#cb372-1" aria-hidden="true" tabindex="-1"></a>cf_gore <span class="sc">*</span> <span class="fl">0.77</span> <span class="sc">*</span> <span class="fl">0.23</span></span></code></pre></div>
 <pre><code>##   gorevote 
 ## -0.0200507</code></pre>
 <p>We can also do what I advised against doing, namely calculate the marginal effect for an “average” observation.
 Remember from the summary statistics above that the “average” senator is a non-Republican in whose state Gore got 45% of the vote.</p>
-<div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb373-1"><a href="logit.html#cb373-1" aria-hidden="true"></a>iraq_at_mean &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">rep =</span> <span class="ot">FALSE</span>,</span>
-<span id="cb373-2"><a href="logit.html#cb373-2" aria-hidden="true"></a>                           <span class="dt">gorevote =</span> <span class="kw">mean</span>(iraqVote<span class="op">$</span>gorevote))</span>
-<span id="cb373-3"><a href="logit.html#cb373-3" aria-hidden="true"></a>pp_at_mean &lt;-<span class="st"> </span><span class="kw">predict</span>(fit_logit,</span>
-<span id="cb373-4"><a href="logit.html#cb373-4" aria-hidden="true"></a>                      <span class="dt">newdata =</span> iraq_at_mean,</span>
-<span id="cb373-5"><a href="logit.html#cb373-5" aria-hidden="true"></a>                      <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>)</span>
-<span id="cb373-6"><a href="logit.html#cb373-6" aria-hidden="true"></a>pp_at_mean</span></code></pre></div>
+<div class="sourceCode" id="cb374"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb374-1"><a href="logit.html#cb374-1" aria-hidden="true" tabindex="-1"></a>iraq_at_mean <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">rep =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb374-2"><a href="logit.html#cb374-2" aria-hidden="true" tabindex="-1"></a>                           <span class="at">gorevote =</span> <span class="fu">mean</span>(iraqVote<span class="sc">$</span>gorevote))</span>
+<span id="cb374-3"><a href="logit.html#cb374-3" aria-hidden="true" tabindex="-1"></a>pp_at_mean <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit_logit,</span>
+<span id="cb374-4"><a href="logit.html#cb374-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">newdata =</span> iraq_at_mean,</span>
+<span id="cb374-5"><a href="logit.html#cb374-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb374-6"><a href="logit.html#cb374-6" aria-hidden="true" tabindex="-1"></a>pp_at_mean</span></code></pre></div>
 <pre><code>##        1 
 ## 0.680854</code></pre>
-<div class="sourceCode" id="cb375"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb375-1"><a href="logit.html#cb375-1" aria-hidden="true"></a>cf_gore <span class="op">*</span><span class="st"> </span>pp_at_mean <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>pp_at_mean)</span></code></pre></div>
+<div class="sourceCode" id="cb376"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb376-1"><a href="logit.html#cb376-1" aria-hidden="true" tabindex="-1"></a>cf_gore <span class="sc">*</span> pp_at_mean <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> pp_at_mean)</span></code></pre></div>
 <pre><code>##    gorevote 
 ## -0.02460109</code></pre>
 <p>Now let’s finally do this the right way.
 We can calculate the individual marginal effects using the predicted probabilities.</p>
-<div class="sourceCode" id="cb377"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb377-1"><a href="logit.html#cb377-1" aria-hidden="true"></a>margeff_gore &lt;-<span class="st"> </span>cf_gore <span class="op">*</span><span class="st"> </span>pp_logit <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>pp_logit)</span>
-<span id="cb377-2"><a href="logit.html#cb377-2" aria-hidden="true"></a><span class="kw">head</span>(margeff_gore)</span></code></pre></div>
+<div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb378-1"><a href="logit.html#cb378-1" aria-hidden="true" tabindex="-1"></a>margeff_gore <span class="ot">&lt;-</span> cf_gore <span class="sc">*</span> pp_logit <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> pp_logit)</span>
+<span id="cb378-2"><a href="logit.html#cb378-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(margeff_gore)</span></code></pre></div>
 <pre><code>##             1             2             3             4             5 
 ## -0.0016661114 -0.0016661114 -0.0003528739 -0.0003528739 -0.0023321078 
 ##             6 
 ## -0.0023321078</code></pre>
 <p>And our best estimate of the average marginal effect will be the average of the individual marginal effects:</p>
-<div class="sourceCode" id="cb379"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb379-1"><a href="logit.html#cb379-1" aria-hidden="true"></a><span class="kw">mean</span>(margeff_gore)</span></code></pre></div>
+<div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb380-1"><a href="logit.html#cb380-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(margeff_gore)</span></code></pre></div>
 <pre><code>## [1] -0.01343623</code></pre>
 <p>Notice that this is substantially smaller than our heuristics would have guessed, since many senators have a very high predicted probability of voting for the war (and thus a marginal effect close to zero).
 In particular, notice that the “average observation” method gives us almost double the true average marginal effect.</p>
@@ -945,10 +946,10 @@ In particular, notice that the “average observation” method gives us almost 
 (Luckily, we will soon see a way to do all of these much more easily.
 But you should know how to do them the hard way too.)
 First let’s create two synthetic datasets, one where every senator is a Republican and one where every one is a Democrat.</p>
-<div class="sourceCode" id="cb381"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb381-1"><a href="logit.html#cb381-1" aria-hidden="true"></a>iraq_rep &lt;-<span class="st"> </span>iraq_dem &lt;-<span class="st"> </span>iraqVote</span>
-<span id="cb381-2"><a href="logit.html#cb381-2" aria-hidden="true"></a>iraq_rep<span class="op">$</span>rep &lt;-<span class="st"> </span><span class="ot">TRUE</span></span>
-<span id="cb381-3"><a href="logit.html#cb381-3" aria-hidden="true"></a>iraq_dem<span class="op">$</span>rep &lt;-<span class="st"> </span><span class="ot">FALSE</span></span>
-<span id="cb381-4"><a href="logit.html#cb381-4" aria-hidden="true"></a><span class="kw">head</span>(iraq_rep)</span></code></pre></div>
+<div class="sourceCode" id="cb382"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb382-1"><a href="logit.html#cb382-1" aria-hidden="true" tabindex="-1"></a>iraq_rep <span class="ot">&lt;-</span> iraq_dem <span class="ot">&lt;-</span> iraqVote</span>
+<span id="cb382-2"><a href="logit.html#cb382-2" aria-hidden="true" tabindex="-1"></a>iraq_rep<span class="sc">$</span>rep <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
+<span id="cb382-3"><a href="logit.html#cb382-3" aria-hidden="true" tabindex="-1"></a>iraq_dem<span class="sc">$</span>rep <span class="ot">&lt;-</span> <span class="cn">FALSE</span></span>
+<span id="cb382-4"><a href="logit.html#cb382-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(iraq_rep)</span></code></pre></div>
 <pre><code>##   y state.abb             name  rep state.name gorevote
 ## 1 1        AL  SESSIONS (R AL) TRUE    Alabama    41.59
 ## 2 1        AL    SHELBY (R AL) TRUE    Alabama    41.59
@@ -956,7 +957,7 @@ First let’s create two synthetic datasets, one where every senator is a Republ
 ## 4 1        AK   STEVENS (R AK) TRUE     Alaska    27.67
 ## 5 1        AZ       KYL (R AZ) TRUE    Arizona    44.67
 ## 6 1        AZ    MCCAIN (R AZ) TRUE    Arizona    44.67</code></pre>
-<div class="sourceCode" id="cb383"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb383-1"><a href="logit.html#cb383-1" aria-hidden="true"></a><span class="kw">head</span>(iraq_dem)</span></code></pre></div>
+<div class="sourceCode" id="cb384"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb384-1"><a href="logit.html#cb384-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(iraq_dem)</span></code></pre></div>
 <pre><code>##   y state.abb             name   rep state.name gorevote
 ## 1 1        AL  SESSIONS (R AL) FALSE    Alabama    41.59
 ## 2 1        AL    SHELBY (R AL) FALSE    Alabama    41.59
@@ -965,23 +966,23 @@ First let’s create two synthetic datasets, one where every senator is a Republ
 ## 5 1        AZ       KYL (R AZ) FALSE    Arizona    44.67
 ## 6 1        AZ    MCCAIN (R AZ) FALSE    Arizona    44.67</code></pre>
 <p>Now we can calculate the average first difference between Republicans and Democrats using the predicted probabilities for each of these synthetic datasets.</p>
-<div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb385-1"><a href="logit.html#cb385-1" aria-hidden="true"></a>pp_logit_rep &lt;-<span class="st"> </span><span class="kw">predict</span>(fit_logit, <span class="dt">newdata =</span> iraq_rep, <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>)</span>
-<span id="cb385-2"><a href="logit.html#cb385-2" aria-hidden="true"></a>pp_logit_dem &lt;-<span class="st"> </span><span class="kw">predict</span>(fit_logit, <span class="dt">newdata =</span> iraq_dem, <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>)</span>
-<span id="cb385-3"><a href="logit.html#cb385-3" aria-hidden="true"></a><span class="kw">mean</span>(pp_logit_rep <span class="op">-</span><span class="st"> </span>pp_logit_dem)</span></code></pre></div>
+<div class="sourceCode" id="cb386"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb386-1"><a href="logit.html#cb386-1" aria-hidden="true" tabindex="-1"></a>pp_logit_rep <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit_logit, <span class="at">newdata =</span> iraq_rep, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb386-2"><a href="logit.html#cb386-2" aria-hidden="true" tabindex="-1"></a>pp_logit_dem <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit_logit, <span class="at">newdata =</span> iraq_dem, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb386-3"><a href="logit.html#cb386-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(pp_logit_rep <span class="sc">-</span> pp_logit_dem)</span></code></pre></div>
 <pre><code>## [1] 0.317038</code></pre>
 <p>We can calculate average marginal effects and first differences much more easily using the <strong>margins</strong> package.
 As a bonus, it calculates standard errors for us too.
 (We’ll talk more about how to do this in the unit on computational methods.)</p>
-<div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb387-1"><a href="logit.html#cb387-1" aria-hidden="true"></a><span class="kw">library</span>(<span class="st">&quot;margins&quot;</span>)</span>
-<span id="cb387-2"><a href="logit.html#cb387-2" aria-hidden="true"></a>meff_logit &lt;-<span class="st"> </span><span class="kw">margins</span>(fit_logit)</span>
-<span id="cb387-3"><a href="logit.html#cb387-3" aria-hidden="true"></a><span class="kw">summary</span>(meff_logit)</span></code></pre></div>
+<div class="sourceCode" id="cb388"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb388-1"><a href="logit.html#cb388-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;margins&quot;</span>)</span>
+<span id="cb388-2"><a href="logit.html#cb388-2" aria-hidden="true" tabindex="-1"></a>meff_logit <span class="ot">&lt;-</span> <span class="fu">margins</span>(fit_logit)</span>
+<span id="cb388-3"><a href="logit.html#cb388-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(meff_logit)</span></code></pre></div>
 <pre><code>##    factor     AME     SE       z      p   lower   upper
 ##  gorevote -0.0134 0.0043 -3.0949 0.0020 -0.0219 -0.0049
 ##       rep  0.3170 0.0724  4.3768 0.0000  0.1751  0.4590</code></pre>
 <p>So by going through all that trouble, we estimate a minus-1.3 percentage point marginal effect of Gore vote share and a 31 percentage point first difference due to being a Republican.
 Let’s compare that to what we get from the linear probability model:</p>
-<div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb389-1"><a href="logit.html#cb389-1" aria-hidden="true"></a>fit_lpm &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>rep <span class="op">+</span><span class="st"> </span>gorevote, <span class="dt">data =</span> iraqVote)</span>
-<span id="cb389-2"><a href="logit.html#cb389-2" aria-hidden="true"></a><span class="kw">summary</span>(fit_lpm)</span></code></pre></div>
+<div class="sourceCode" id="cb390"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb390-1"><a href="logit.html#cb390-1" aria-hidden="true" tabindex="-1"></a>fit_lpm <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> rep <span class="sc">+</span> gorevote, <span class="at">data =</span> iraqVote)</span>
+<span id="cb390-2"><a href="logit.html#cb390-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_lpm)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = y ~ rep + gorevote, data = iraqVote)
@@ -1007,7 +1008,7 @@ Let’s compare that to what we get from the linear probability model:</p>
 <div id="maximum-likelihood-estimation-1" class="section level3" number="13.5.2">
 <h3><span class="header-section-number">13.5.2</span> Maximum Likelihood Estimation</h3>
 <p>You can build your own maximum likelihood estimators using the <strong>maxLik</strong> package.</p>
-<div class="sourceCode" id="cb391"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb391-1"><a href="logit.html#cb391-1" aria-hidden="true"></a><span class="kw">library</span>(<span class="st">&quot;maxLik&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb392"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb392-1"><a href="logit.html#cb392-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;maxLik&quot;</span>)</span></code></pre></div>
 <pre><code>## Loading required package: miscTools</code></pre>
 <pre><code>## 
 ## Please cite the &#39;maxLik&#39; package as:
@@ -1022,41 +1023,41 @@ This function will take three arguments:</p>
 <li><code>y</code>: vector of responses (0s and 1s).</li>
 <li><code>x</code>: matrix of covariates (same number of rows as length of <code>y</code>).</li>
 </ol>
-<div class="sourceCode" id="cb394"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb394-1"><a href="logit.html#cb394-1" aria-hidden="true"></a>loglik_logit &lt;-<span class="st"> </span><span class="cf">function</span>(beta, y, x) {</span>
-<span id="cb394-2"><a href="logit.html#cb394-2" aria-hidden="true"></a>  <span class="co">## Calculate the expected latent propensity for each observation</span></span>
-<span id="cb394-3"><a href="logit.html#cb394-3" aria-hidden="true"></a>  xb &lt;-<span class="st"> </span>x <span class="op">%*%</span><span class="st"> </span>beta</span>
-<span id="cb394-4"><a href="logit.html#cb394-4" aria-hidden="true"></a>  xb &lt;-<span class="st"> </span><span class="kw">drop</span>(xb)  <span class="co"># Convert from matrix to vector</span></span>
-<span id="cb394-5"><a href="logit.html#cb394-5" aria-hidden="true"></a></span>
-<span id="cb394-6"><a href="logit.html#cb394-6" aria-hidden="true"></a>  <span class="co">## Calculate predicted probabilities according to logit model</span></span>
-<span id="cb394-7"><a href="logit.html#cb394-7" aria-hidden="true"></a>  pp &lt;-<span class="st"> </span><span class="kw">plogis</span>(xb)</span>
-<span id="cb394-8"><a href="logit.html#cb394-8" aria-hidden="true"></a></span>
-<span id="cb394-9"><a href="logit.html#cb394-9" aria-hidden="true"></a>  <span class="co">## Calculate likelihood for each individual observation</span></span>
-<span id="cb394-10"><a href="logit.html#cb394-10" aria-hidden="true"></a>  lik &lt;-<span class="st"> </span><span class="kw">ifelse</span>(y <span class="op">==</span><span class="st"> </span><span class="dv">0</span>, <span class="dv">1</span> <span class="op">-</span><span class="st"> </span>pp, pp)</span>
-<span id="cb394-11"><a href="logit.html#cb394-11" aria-hidden="true"></a></span>
-<span id="cb394-12"><a href="logit.html#cb394-12" aria-hidden="true"></a>  <span class="co">## Return log-likelihood</span></span>
-<span id="cb394-13"><a href="logit.html#cb394-13" aria-hidden="true"></a>  <span class="kw">sum</span>(<span class="kw">log</span>(lik))</span>
-<span id="cb394-14"><a href="logit.html#cb394-14" aria-hidden="true"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb395"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb395-1"><a href="logit.html#cb395-1" aria-hidden="true" tabindex="-1"></a>loglik_logit <span class="ot">&lt;-</span> <span class="cf">function</span>(beta, y, x) {</span>
+<span id="cb395-2"><a href="logit.html#cb395-2" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Calculate the expected latent propensity for each observation</span></span>
+<span id="cb395-3"><a href="logit.html#cb395-3" aria-hidden="true" tabindex="-1"></a>  xb <span class="ot">&lt;-</span> x <span class="sc">%*%</span> beta</span>
+<span id="cb395-4"><a href="logit.html#cb395-4" aria-hidden="true" tabindex="-1"></a>  xb <span class="ot">&lt;-</span> <span class="fu">drop</span>(xb)  <span class="co"># Convert from matrix to vector</span></span>
+<span id="cb395-5"><a href="logit.html#cb395-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb395-6"><a href="logit.html#cb395-6" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Calculate predicted probabilities according to logit model</span></span>
+<span id="cb395-7"><a href="logit.html#cb395-7" aria-hidden="true" tabindex="-1"></a>  pp <span class="ot">&lt;-</span> <span class="fu">plogis</span>(xb)</span>
+<span id="cb395-8"><a href="logit.html#cb395-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb395-9"><a href="logit.html#cb395-9" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Calculate likelihood for each individual observation</span></span>
+<span id="cb395-10"><a href="logit.html#cb395-10" aria-hidden="true" tabindex="-1"></a>  lik <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(y <span class="sc">==</span> <span class="dv">0</span>, <span class="dv">1</span> <span class="sc">-</span> pp, pp)</span>
+<span id="cb395-11"><a href="logit.html#cb395-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb395-12"><a href="logit.html#cb395-12" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Return log-likelihood</span></span>
+<span id="cb395-13"><a href="logit.html#cb395-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>(<span class="fu">log</span>(lik))</span>
+<span id="cb395-14"><a href="logit.html#cb395-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>We can use this with the <code>maxLik()</code> function to perform maximum likelihood estimation.
 We’ll construct our <code>y</code> and <code>x</code> “by hand” from the Iraq vote data.</p>
-<div class="sourceCode" id="cb395"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb395-1"><a href="logit.html#cb395-1" aria-hidden="true"></a>y_iraq &lt;-<span class="st"> </span>iraqVote<span class="op">$</span>y</span>
-<span id="cb395-2"><a href="logit.html#cb395-2" aria-hidden="true"></a><span class="kw">head</span>(y_iraq)</span></code></pre></div>
+<div class="sourceCode" id="cb396"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb396-1"><a href="logit.html#cb396-1" aria-hidden="true" tabindex="-1"></a>y_iraq <span class="ot">&lt;-</span> iraqVote<span class="sc">$</span>y</span>
+<span id="cb396-2"><a href="logit.html#cb396-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(y_iraq)</span></code></pre></div>
 <pre><code>## [1] 1 1 1 1 1 1</code></pre>
-<div class="sourceCode" id="cb397"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb397-1"><a href="logit.html#cb397-1" aria-hidden="true"></a>x_iraq &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="dt">intercept =</span> <span class="dv">1</span>,</span>
-<span id="cb397-2"><a href="logit.html#cb397-2" aria-hidden="true"></a>                <span class="dt">republican =</span> <span class="kw">as.numeric</span>(iraqVote<span class="op">$</span>rep),</span>
-<span id="cb397-3"><a href="logit.html#cb397-3" aria-hidden="true"></a>                <span class="dt">gorevote =</span> iraqVote<span class="op">$</span>gorevote)</span></code></pre></div>
+<div class="sourceCode" id="cb398"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb398-1"><a href="logit.html#cb398-1" aria-hidden="true" tabindex="-1"></a>x_iraq <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="at">intercept =</span> <span class="dv">1</span>,</span>
+<span id="cb398-2"><a href="logit.html#cb398-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">republican =</span> <span class="fu">as.numeric</span>(iraqVote<span class="sc">$</span>rep),</span>
+<span id="cb398-3"><a href="logit.html#cb398-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">gorevote =</span> iraqVote<span class="sc">$</span>gorevote)</span></code></pre></div>
 <p>The last thing we need is a set of starting values for the iterative process used to find the maximum of the likelihood function.
 We will use the OLS coefficients.</p>
-<div class="sourceCode" id="cb398"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb398-1"><a href="logit.html#cb398-1" aria-hidden="true"></a>beta_start_iraq &lt;-<span class="st"> </span><span class="kw">solve</span>(<span class="kw">t</span>(x_iraq) <span class="op">%*%</span><span class="st"> </span>x_iraq, <span class="kw">t</span>(x_iraq) <span class="op">%*%</span><span class="st"> </span>y_iraq)</span>
-<span id="cb398-2"><a href="logit.html#cb398-2" aria-hidden="true"></a>beta_start_iraq &lt;-<span class="st"> </span><span class="kw">drop</span>(beta_start_iraq)  <span class="co"># Convert from matrix to vector</span></span>
-<span id="cb398-3"><a href="logit.html#cb398-3" aria-hidden="true"></a>beta_start_iraq</span></code></pre></div>
+<div class="sourceCode" id="cb399"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb399-1"><a href="logit.html#cb399-1" aria-hidden="true" tabindex="-1"></a>beta_start_iraq <span class="ot">&lt;-</span> <span class="fu">solve</span>(<span class="fu">t</span>(x_iraq) <span class="sc">%*%</span> x_iraq, <span class="fu">t</span>(x_iraq) <span class="sc">%*%</span> y_iraq)</span>
+<span id="cb399-2"><a href="logit.html#cb399-2" aria-hidden="true" tabindex="-1"></a>beta_start_iraq <span class="ot">&lt;-</span> <span class="fu">drop</span>(beta_start_iraq)  <span class="co"># Convert from matrix to vector</span></span>
+<span id="cb399-3"><a href="logit.html#cb399-3" aria-hidden="true" tabindex="-1"></a>beta_start_iraq</span></code></pre></div>
 <pre><code>##   intercept  republican    gorevote 
 ##  1.17445777  0.31693261 -0.01237552</code></pre>
 <p>We can now estimate our hand-rolled logistic regression model.</p>
-<div class="sourceCode" id="cb400"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb400-1"><a href="logit.html#cb400-1" aria-hidden="true"></a>logit_by_hand &lt;-<span class="st"> </span><span class="kw">maxLik</span>(<span class="dt">logLik =</span> loglik_logit,</span>
-<span id="cb400-2"><a href="logit.html#cb400-2" aria-hidden="true"></a>                        <span class="dt">start =</span> beta_start_iraq,</span>
-<span id="cb400-3"><a href="logit.html#cb400-3" aria-hidden="true"></a>                        <span class="dt">y =</span> y_iraq,</span>
-<span id="cb400-4"><a href="logit.html#cb400-4" aria-hidden="true"></a>                        <span class="dt">x =</span> x_iraq)</span>
-<span id="cb400-5"><a href="logit.html#cb400-5" aria-hidden="true"></a><span class="kw">summary</span>(logit_by_hand)</span></code></pre></div>
+<div class="sourceCode" id="cb401"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb401-1"><a href="logit.html#cb401-1" aria-hidden="true" tabindex="-1"></a>logit_by_hand <span class="ot">&lt;-</span> <span class="fu">maxLik</span>(<span class="at">logLik =</span> loglik_logit,</span>
+<span id="cb401-2"><a href="logit.html#cb401-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">start =</span> beta_start_iraq,</span>
+<span id="cb401-3"><a href="logit.html#cb401-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">y =</span> y_iraq,</span>
+<span id="cb401-4"><a href="logit.html#cb401-4" aria-hidden="true" tabindex="-1"></a>                        <span class="at">x =</span> x_iraq)</span>
+<span id="cb401-5"><a href="logit.html#cb401-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(logit_by_hand)</span></code></pre></div>
 <pre><code>## --------------------------------------------
 ## Maximum Likelihood estimation
 ## Newton-Raphson maximisation, 6 iterations
@@ -1077,39 +1078,6 @@ The standard errors are slightly different, though not substantively so, because
 However, should you ever find yourself needing to estimate a model that hasn’t already been baked into R, <code>maxLik()</code> is an easy way to do so.</p>
 
 </div>
-</div>
-</div>
-<h3>References</h3>
-<div id="refs" class="references">
-<div id="ref-albert1984existence">
-<p>Albert, Adelin, and John A. Anderson. 1984. “On the Existence of Maximum Likelihood Estimates in Logistic Regression Models.” <em>Biometrika</em> 71 (1): 1–10.</p>
-</div>
-<div id="ref-beck2018estimating">
-<p>Beck, Nathaniel. 2018. “Estimating Grouped Data Models with a Binary Dependent Variable and Fixed Effects: What Are the Issues?” <a href="http://arxiv.org/abs/1809.06505">http://arxiv.org/abs/1809.06505</a>.</p>
-</div>
-<div id="ref-chamberlain1980analysis">
-<p>Chamberlain, Gary. 1980. “Analysis of Covariance with Qualitative Data.” <em>The Review of Economic Studies</em> 47 (1): 225–38.</p>
-</div>
-<div id="ref-davidson1993estimation">
-<p>Davidson, Russell, and James G. MacKinnon. 1993. <em>Estimation and Inference in Econometrics</em>. Oxford University Press.</p>
-</div>
-<div id="ref-firth1993bias">
-<p>Firth, David. 1993. “Bias Reduction of Maximum Likelihood Estimates.” <em>Biometrika</em> 80 (1): 27–38.</p>
-</div>
-<div id="ref-huffer1998markov">
-<p>Huffer, Fred W, and Hulin Wu. 1998. “Markov Chain Monte Carlo for Autologistic Regression Models with Application to the Distribution of Plant Species.” <em>Biometrics</em>, 509–24.</p>
-</div>
-<div id="ref-Liang:1986gv">
-<p>Liang, Kung-Yee, and Scott L Zeger. 1986. “Longitudinal Data Analysis Using Generalized Linear Models.” <em>Biometrika</em> 73 (1): 13.</p>
-</div>
-<div id="ref-poirier1988probit">
-<p>Poirier, Dale J., and Paul A. Ruud. 1988. “Probit with Dependent Observations.” <em>The Review of Economic Studies</em> 55 (4): 593–614.</p>
-</div>
-<div id="ref-ward2002location">
-<p>Ward, Michael D, and Kristian Skrede Gleditsch. 2002. “Location, Location, Location: An Mcmc Approach to Modeling the Spatial Context of War and Peace.” <em>Political Analysis</em> 10 (3): 244–60.</p>
-</div>
-<div id="ref-zorn2005solution">
-<p>Zorn, Christopher. 2005. “A Solution to Separation in Binary Response Models.” <em>Political Analysis</em> 13 (2): 157–70.</p>
 </div>
 </div>
 <div class="footnotes">
