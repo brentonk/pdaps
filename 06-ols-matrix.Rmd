@@ -392,7 +392,7 @@ Spherical errors summarizes two important conditions:
 
 Spherical errors holds if each $\epsilon_n$ is independent and identically distributed, though it is possible for non-i.i.d. errors to satisfy the condition.  The illustration below compares spherical and non-spherical errors.
 
-```{r spherical-errors, message=FALSE, echo=FALSE}
+```{r spherical-errors, message=FALSE, echo=FALSE, fig.height=8}
 library("tidyverse")
 set.seed(17)
 n_obs <- 500
@@ -402,6 +402,7 @@ data_sphere <- tibble(
   heteroskedastic = 2 * spherical * x,
   autocorrelated = reduce(spherical, function(x, y) c(x, 0.9 * tail(x, 1) + 0.1 * y))
 ) %>%
+  mutate(autocorrelated = 4 * autocorrelated) %>%
   pivot_longer(cols = -x) %>%
   mutate(y = 1 + x + value,
          name = as_factor(name))
