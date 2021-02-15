@@ -2,7 +2,7 @@
 
 \newcommand{\OLS}{\text{OLS}}
 
-Having learned some matrix algebra, let us now return to the world of statistics.  We are going to take what we learned about regression and ordinary least squares in the bivariate case, then generalize it to a setting with potentially many variables.  To make that task feasible, we will rely on the tools of matrix algebra that we learned last week.
+Having learned some matrix algebra, let us now return to the world of statistics.  We are going to take what we learned about regression and ordinary least squares in the bivariate case, then generalize it to a setting with potentially many variables.  To make that task feasible, we will rely on the tools of [matrix algebra](#matrix).
 
 
 ## The Linear Model in Matrix Form
@@ -106,7 +106,7 @@ Consider the linear model with three covariates,
 $$
 Y_n = \beta_r r_n + \beta_s s_n + \beta_t t_n + \epsilon_n.
 $$
-Let's do like we did with bivariate regression, and imagine estimating the parameters of the model by least squares.  Let $(b_r, b_s, b_t)$ denote an estimate of the parameters.[^no-hats]  We will set up the sum of squared errors as a function of the parameters,
+Let's do like we did with bivariate regression, and imagine estimating the parameters of the model by least squares.  Let $(b_r, b_s, b_t)$ denote an estimate of the parameters.[^no-hats]  We will set up the sum of squared errors as a function of the vector of parameter estimates,
 $$
 \SSE(b_r, b_s, b_t)
 = \sum_n (Y_n - b_r r_n - b_s s_n - b_t t_n)^2.
@@ -115,6 +115,9 @@ $$
 [^no-hats]: I'm using $b_k$ instead of $\hat{\beta}_k$ simply because it's exhausting to type all those `\hat{}`s.
 
 Just as we did to derive the bivariate OLS estimator, let's begin by taking the partial derivative of the SSE with respect to the coefficient on $r$, then equalizing it to zero.
+We do this because of a basic principle of mathematical optimization---the critical points of a function, where it is liable to be minimized or maximized, are those points where its derivative equals zero.
+So if we want to choose parameter estimates to minimize the sum of squared errors, we must find the point where the SSE's partial derivatives with respect to the parameter estimates all equal zero.
+Formally, the criterion is:
 $$
 \frac{\partial \SSE}{\partial b_r}
 = -2 \sum_n r_n (Y_n - b_r r_n - b_s s_n - b_t t_n)
@@ -363,13 +366,13 @@ which is the definition of unbiasedness.
 
 Unbiasedness is a small-sample property.  No matter the sample size, if strict exogeneity holds, the OLS estimator is unbiased.  OLS also has some asymptotic (or large-sample) properties under strict exogeneity that we won't prove, but are worth mentioning:
 
-*   OLS is *consistent*.  Informally, what this means is that as $N$ grows larger, the distribution of the OLS estimator becomes tighter around the population parameter $\beta$.  In other words, with a sufficiently large sample, it becomes highly unlikely that you will draw a sample $(\mathbf{X}, \mathbf{Y})$ such that $\hat{\beta}_{\OLS}(\mathbf{X}, \mathbf{Y})$ is far from the true value.
+*   OLS is *consistent*.  Informally, what this means is that as $N$ grows larger, the distribution of the OLS estimator becomes tighter around the population parameter $\beta$.  In other words, with a sufficiently large sample, it becomes highly unlikely that you will draw a sample $(\mathbf{X}, \mathbf{Y})$ such that $\hat{\beta}_{\OLS}(\mathbf{X}, \mathbf{Y})$ is far from the "true" population parameter.
 
-    Of course, you can't know that the OLS estimate from any particular sample is close to the truth.  But you're much more likely to get an estimate close to the truth if $N = 100{,}000$ than if $N = 10$.
+    Of course, you can't know that the OLS estimate from any particular sample is close to the population parameter.  But you're much more likely to get an estimate close to the population parameter if $N = 100{,}000$ than if $N = 10$.
     
 *   OLS is *asymptotically normal*.  Informally, what this is means is that if $N$ is large enough, the sampling distribution of $\hat{\beta}_{\OLS}$ (i.e., its distribution across different possible samples) is roughly normal.  This makes the computation of inferential statistics fairly simple in large samples.
 
-Unbiasedness and consistency are nice, but frankly they're kind of dime-a-dozen.  Lots of estimators are unbiased and consistent.  Why is OLS so ubiquitous?  The reason is that it is *efficient*, at least under a particular condition on the error term.  Unlike unbiasedness and consistency, efficiency is defined with reference to other estimators.  Given some class or collection of estimators, one is efficient if it has the lowest standard errors---i.e., it is the least sensitive to sampling variation, and thereby the most likely to come close to the true parameter value.
+Unbiasedness and consistency are nice, but frankly they're kind of dime-a-dozen.  Lots of estimators are unbiased and consistent.  Why is OLS so ubiquitous?  The reason is that it is *efficient*, at least under a particular condition on the error term.  Unlike unbiasedness and consistency, efficiency is defined with reference to other estimators.  Given some class or collection of estimators, one is efficient if it has the lowest standard errors---i.e., it is the least sensitive to sampling variation, and thereby the most likely to come close to the population parameter.
 
 The condition we need to hold is that we have *spherical errors*:
 $$
@@ -393,19 +396,20 @@ Spherical errors holds if each $\epsilon_n$ is independent and identically distr
 library("tidyverse")
 set.seed(17)
 n_obs <- 500
-data_sphere <- data_frame(
-  x = runif(n_obs),
-  type = rbinom(n_obs, 1, 0.5),
-  y = 1 + x + rnorm(n_obs,
-                    sd = ifelse(type == 0, 0.125, 0.25 * abs(x)))
-)
+data_sphere <- tibble(
+  x = sort(runif(n_obs)),
+  spherical = rnorm(n_obs, sd = 0.125),
+  heteroskedastic = 2 * spherical * x,
+  autocorrelated = reduce(spherical, function(x, y) c(x, 0.9 * tail(x, 1) + 0.1 * y))
+) %>%
+  pivot_longer(cols = -x) %>%
+  mutate(y = 1 + x + value,
+         name = as_factor(name))
 ggplot(data_sphere, aes(x = x, y = y)) +
   geom_point() +
   geom_smooth(method = "lm", se = FALSE) +
-  facet_wrap(~ factor(type, levels = 0:1, labels = c("spherical", "non-spherical")))
+  facet_wrap(~ name, ncol = 1)
 ```
-
-Notice that in the right-hand graph, the distribution of errors around the regression line is uneven---the spread is much greater at greater values of the covariate.
 
 According to the Gauss-Markov theorem, if the errors are spherical, then OLS is the *best linear unbiased estimator (BLUE)* of the linear model parameters $\beta$.  By "best," we mean that it is efficient---any other linear unbiased estimator has larger standard errors.  In other words, under the spherical error condition, any estimator $\hat{\beta}$ with a smaller standard errors than OLS must either be:
 

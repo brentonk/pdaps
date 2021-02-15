@@ -24,7 +24,7 @@
 <meta name="author" content="Brenton Kenkel" />
 
 
-<meta name="date" content="2021-02-05" />
+<meta name="date" content="2021-02-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -57,7 +57,6 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -275,7 +274,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="ols-matrix" class="section level1" number="7">
 <h1><span class="header-section-number">7</span> Reintroduction to the Linear Model</h1>
-<p>Having learned some matrix algebra, let us now return to the world of statistics. We are going to take what we learned about regression and ordinary least squares in the bivariate case, then generalize it to a setting with potentially many variables. To make that task feasible, we will rely on the tools of matrix algebra that we learned last week.</p>
+<p>Having learned some matrix algebra, let us now return to the world of statistics. We are going to take what we learned about regression and ordinary least squares in the bivariate case, then generalize it to a setting with potentially many variables. To make that task feasible, we will rely on the tools of <a href="matrix.html#matrix">matrix algebra</a>.</p>
 <div id="the-linear-model-in-matrix-form" class="section level2" number="7.1">
 <h2><span class="header-section-number">7.1</span> The Linear Model in Matrix Form</h2>
 <p>We have a sequence of observations indexed by <span class="math inline">\(n \in \{1, \ldots, N\}\)</span>. Each observation consists of a response, <span class="math inline">\(Y_n\)</span>, a real number; and a vector of <span class="math inline">\(K\)</span> covariates,
@@ -360,7 +359,7 @@ We can now write a model of the full data,
 <ul>
 <li><p>The covariate matrix <span class="math inline">\(\mathbf{X}\)</span> and the response vector <span class="math inline">\(\mathbf{Y}\)</span> are known. They are our data.</p></li>
 <li><p>The regression parameters <span class="math inline">\(\beta\)</span> are unknown. They are what we are trying to learn from the data.</p></li>
-<li><p>The error term <span class="math inline">\(\epsilon\)</span> is also unknown. We can think of each observation of <span class="math inline">\(Y_n\)</span> as being a combination of “signal,” <span class="math inline">\(\mathbf{x}_n \cdot \beta\)</span>, and “noise,” <span class="math inline">\(\epsilon_n\)</span>. The fundamental problem is that we don’t know exactly what the signal is and what the noise is.</p></li>
+<li><p>The error term <span class="math inline">\(\epsilon\)</span> is also unknown. We can think of each observation of <span class="math inline">\(Y_n\)</span> as being a combination of “signal”, <span class="math inline">\(\mathbf{x}_n \cdot \beta\)</span>, and “noise”, <span class="math inline">\(\epsilon_n\)</span>. The fundamental problem is that we don’t know exactly what the signal is and what the noise is.</p></li>
 </ul>
 </div>
 <div id="the-ols-estimator" class="section level2" number="7.2">
@@ -371,12 +370,15 @@ What I want to convince you of now is that if we start in the same place as we d
 <span class="math display">\[
 Y_n = \beta_r r_n + \beta_s s_n + \beta_t t_n + \epsilon_n.
 \]</span>
-Let’s do like we did with bivariate regression, and imagine estimating the parameters of the model by least squares. Let <span class="math inline">\((b_r, b_s, b_t)\)</span> denote an estimate of the parameters.<a href="#fn22" class="footnote-ref" id="fnref22"><sup>22</sup></a> We will set up the sum of squared errors as a function of the parameters,
+Let’s do like we did with bivariate regression, and imagine estimating the parameters of the model by least squares. Let <span class="math inline">\((b_r, b_s, b_t)\)</span> denote an estimate of the parameters.<a href="#fn22" class="footnote-ref" id="fnref22"><sup>22</sup></a> We will set up the sum of squared errors as a function of the vector of parameter estimates,
 <span class="math display">\[
 \mathop{\rm SSE}\nolimits(b_r, b_s, b_t)
 = \sum_n (Y_n - b_r r_n - b_s s_n - b_t t_n)^2.
 \]</span></p>
 <p>Just as we did to derive the bivariate OLS estimator, let’s begin by taking the partial derivative of the SSE with respect to the coefficient on <span class="math inline">\(r\)</span>, then equalizing it to zero.
+We do this because of a basic principle of mathematical optimization—the critical points of a function, where it is liable to be minimized or maximized, are those points where its derivative equals zero.
+So if we want to choose parameter estimates to minimize the sum of squared errors, we must find the point where the SSE’s partial derivatives with respect to the parameter estimates all equal zero.
+Formally, the criterion is:
 <span class="math display">\[
 \frac{\partial \mathop{\rm SSE}\nolimits}{\partial b_r}
 = -2 \sum_n r_n (Y_n - b_r r_n - b_s s_n - b_t t_n)
@@ -580,7 +582,7 @@ Assuming strict exogeneity holds, we have
 \]</span>
 Therefore, once we have assumed strict exogeneity, we have thereby assumed zero correlation between the covariates and the error term.</p>
 <p>Remember that the error for the <span class="math inline">\(n\)</span>’th observation, <span class="math inline">\(\epsilon_n\)</span>, collects everything that affects <span class="math inline">\(Y_n\)</span> but is not included in <span class="math inline">\(\mathbf{x}_n\)</span>. So what we’re saying when we impose strict exogeneity is either that there’s nothing else out there that affects <span class="math inline">\(\mathbf{Y}\)</span> besides <span class="math inline">\(\mathbf{X}\)</span> (unlikely!), or that anything else that affects <span class="math inline">\(\mathbf{Y}\)</span> is uncorrelated with <span class="math inline">\(\mathbf{X}\)</span> (also unlikely, but slightly less so!).</p>
-<p>In the ’90s and ’00s, as more data became available and computing power increased, political scientists labored under the delusion that the way to make strict exogeneity hold was to throw every covariate you could imagine into each regression. This approach was statistically illiterate <span class="citation">(<a href="references.html#ref-clarke2005phantom" role="doc-biblioref">Clarke 2005</a>)</span> and scholars have since begun to favor <em>design-based</em> approaches. The basic idea is to collect data with relatively little unobservable heterogeneity, whether through experiments or through careful observational work, rather than to try to eliminate it through endless controls. We’ll talk more about design when we get to causal inference, and it will be a major source of discussion in Stat III.</p>
+<p>In the ’90s and ’00s, as more data became available and computing power increased, political scientists labored under the delusion that the way to make strict exogeneity hold was to throw every covariate you could imagine into each regression. This approach was statistically illiterate <span class="citation">(Clarke <a href="#ref-clarke2005phantom" role="doc-biblioref">2005</a>)</span> and scholars have since begun to favor <em>design-based</em> approaches. The basic idea is to collect data with relatively little unobservable heterogeneity, whether through experiments or through careful observational work, rather than to try to eliminate it through endless controls. We’ll talk more about design when we get to causal inference, and it will be a major source of discussion in Stat III.</p>
 <p>For now, let us proceed imagining that strict exogeneity holds. Then, just as in the bivariate case, OLS is unbiased. In fact, it’s even easier to prove now. Momentarily treating the covariates <span class="math inline">\(\mathbf{X}\)</span> as fixed, strict exogeneity implies that
 <span class="math display">\[
 \begin{aligned}
@@ -608,11 +610,11 @@ E[\hat{\beta}_{\text{OLS}}] = E [ E[\hat{\beta}_{\text{OLS}} \,|\, \mathbf{X}] ]
 which is the definition of unbiasedness.</p>
 <p>Unbiasedness is a small-sample property. No matter the sample size, if strict exogeneity holds, the OLS estimator is unbiased. OLS also has some asymptotic (or large-sample) properties under strict exogeneity that we won’t prove, but are worth mentioning:</p>
 <ul>
-<li><p>OLS is <em>consistent</em>. Informally, what this means is that as <span class="math inline">\(N\)</span> grows larger, the distribution of the OLS estimator becomes tighter around the population parameter <span class="math inline">\(\beta\)</span>. In other words, with a sufficiently large sample, it becomes highly unlikely that you will draw a sample <span class="math inline">\((\mathbf{X}, \mathbf{Y})\)</span> such that <span class="math inline">\(\hat{\beta}_{\text{OLS}}(\mathbf{X}, \mathbf{Y})\)</span> is far from the true value.</p>
-<p>Of course, you can’t know that the OLS estimate from any particular sample is close to the truth. But you’re much more likely to get an estimate close to the truth if <span class="math inline">\(N = 100{,}000\)</span> than if <span class="math inline">\(N = 10\)</span>.</p></li>
+<li><p>OLS is <em>consistent</em>. Informally, what this means is that as <span class="math inline">\(N\)</span> grows larger, the distribution of the OLS estimator becomes tighter around the population parameter <span class="math inline">\(\beta\)</span>. In other words, with a sufficiently large sample, it becomes highly unlikely that you will draw a sample <span class="math inline">\((\mathbf{X}, \mathbf{Y})\)</span> such that <span class="math inline">\(\hat{\beta}_{\text{OLS}}(\mathbf{X}, \mathbf{Y})\)</span> is far from the “true” population parameter.</p>
+<p>Of course, you can’t know that the OLS estimate from any particular sample is close to the population parameter. But you’re much more likely to get an estimate close to the population parameter if <span class="math inline">\(N = 100{,}000\)</span> than if <span class="math inline">\(N = 10\)</span>.</p></li>
 <li><p>OLS is <em>asymptotically normal</em>. Informally, what this is means is that if <span class="math inline">\(N\)</span> is large enough, the sampling distribution of <span class="math inline">\(\hat{\beta}_{\text{OLS}}\)</span> (i.e., its distribution across different possible samples) is roughly normal. This makes the computation of inferential statistics fairly simple in large samples.</p></li>
 </ul>
-<p>Unbiasedness and consistency are nice, but frankly they’re kind of dime-a-dozen. Lots of estimators are unbiased and consistent. Why is OLS so ubiquitous? The reason is that it is <em>efficient</em>, at least under a particular condition on the error term. Unlike unbiasedness and consistency, efficiency is defined with reference to other estimators. Given some class or collection of estimators, one is efficient if it has the lowest standard errors—i.e., it is the least sensitive to sampling variation, and thereby the most likely to come close to the true parameter value.</p>
+<p>Unbiasedness and consistency are nice, but frankly they’re kind of dime-a-dozen. Lots of estimators are unbiased and consistent. Why is OLS so ubiquitous? The reason is that it is <em>efficient</em>, at least under a particular condition on the error term. Unlike unbiasedness and consistency, efficiency is defined with reference to other estimators. Given some class or collection of estimators, one is efficient if it has the lowest standard errors—i.e., it is the least sensitive to sampling variation, and thereby the most likely to come close to the population parameter.</p>
 <p>The condition we need to hold is that we have <em>spherical errors</em>:
 <span class="math display">\[
 V[\epsilon \,|\, \mathbf{X}] = \sigma^2 \mathbf{I}_N
@@ -630,7 +632,6 @@ Spherical errors summarizes two important conditions:</p>
 </ul>
 <p>Spherical errors holds if each <span class="math inline">\(\epsilon_n\)</span> is independent and identically distributed, though it is possible for non-i.i.d. errors to satisfy the condition. The illustration below compares spherical and non-spherical errors.</p>
 <p><img src="pdaps_files/figure-html/spherical-errors-1.png" width="672" /></p>
-<p>Notice that in the right-hand graph, the distribution of errors around the regression line is uneven—the spread is much greater at greater values of the covariate.</p>
 <p>According to the Gauss-Markov theorem, if the errors are spherical, then OLS is the <em>best linear unbiased estimator (BLUE)</em> of the linear model parameters <span class="math inline">\(\beta\)</span>. By “best,” we mean that it is efficient—any other linear unbiased estimator has larger standard errors. In other words, under the spherical error condition, any estimator <span class="math inline">\(\hat{\beta}\)</span> with a smaller standard errors than OLS must either be:</p>
 <ul>
 <li><p>Biased: <span class="math inline">\(E[\hat{\beta}] \neq \beta\)</span>.</p></li>
@@ -638,6 +639,12 @@ Spherical errors summarizes two important conditions:</p>
 </ul>
 <p>Much later in the course, we will encounter ridge regression, a linear estimator that has lower standard errors than OLS. The Gauss-Markov theorem tells us that we’re making a tradeoff when we use ridge regression—that we’re taking on some bias in exchange for the reduction in variance.</p>
 
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-clarke2005phantom">
+<p>Clarke, Kevin A. 2005. “The Phantom Menace: Omitted Variable Bias in Econometric Research.” <em>Conflict Management and Peace Science</em> 22 (4): 341–52.</p>
 </div>
 </div>
 <div class="footnotes">

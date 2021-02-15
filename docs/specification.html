@@ -24,7 +24,7 @@
 <meta name="author" content="Brenton Kenkel" />
 
 
-<meta name="date" content="2021-02-05" />
+<meta name="date" content="2021-02-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -57,7 +57,6 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -533,7 +532,7 @@ We saw before that including a categorical variable is like allowing a different
 <li><p>You might want to formally test the hypothesis that the effect of education is equal for whites and non-whites. This is easiest to do if you have a single model. Next week we will talk about the tools you would need to undertake this sort of test.</p></li>
 </ul>
 <p>One frequent source of confusion with interaction terms is whether you need to include lower-order terms in the model. For example, if we are only interested in how the effect of education differs with race, why can’t we just include education and its product with race in the specification? The equations above give you the answer. Leaving the white indicator out of the model is like fixing <span class="math inline">\(\beta_3 = 0\)</span>. This means you’re forcing the regression lines for whites and non-whites to have the same intercept, which there’s no good reason to do.</p>
-<p>If you’re not yet persuaded on the necessity of including constitutive terms of interactions in your regressions, see <span class="citation"><a href="references.html#ref-braumoeller2004hypothesis" role="doc-biblioref">Braumoeller</a> (<a href="references.html#ref-braumoeller2004hypothesis" role="doc-biblioref">2004</a>)</span>.</p>
+<p>If you’re not yet persuaded on the necessity of including constitutive terms of interactions in your regressions, see <span class="citation">Braumoeller (<a href="#ref-braumoeller2004hypothesis" role="doc-biblioref">2004</a>)</span>.</p>
 <p>For an example of interaction terms, imagine the following example. Suppose education is measured in years of schooling.</p>
 <table>
 <thead>
@@ -675,7 +674,7 @@ Similarly, for negative <span class="math inline">\(\beta_2\)</span>, this means
 <p>To interpret this specification, we say that a 1 <em>unit</em> increase in <span class="math inline">\(x_n\)</span> is associated with a <span class="math inline">\(100(e^{\beta_2} - 1)\)</span> <em>percent</em> change in <span class="math inline">\(Y_n\)</span>.
 For example, with a coefficient of <span class="math inline">\(\beta_2 = 0.5\)</span>, we would say a 1 unit increase in <span class="math inline">\(x_n\)</span> is associated with a 65% increase in <span class="math inline">\(Y_n\)</span>, as <span class="math inline">\(e^{0.5} \approx 1.65\)</span>.
 To see why this is the case, let <span class="math inline">\(Y_n\)</span> be the baseline value of the response, and let <span class="math inline">\(Y_n&#39;\)</span> be the counterfactual value under a 1 unit increase in <span class="math inline">\(x_n\)</span>.
-Then, as observed by <span class="citation"><a href="references.html#ref-angrist2015mastering" role="doc-biblioref">Angrist and Pischke</a> (<a href="references.html#ref-angrist2015mastering" role="doc-biblioref">2015, 93–94</a>)</span>, we have
+Then, as observed by <span class="citation">Angrist and Pischke (<a href="#ref-angrist2015mastering" role="doc-biblioref">2015</a>, 93–94)</span>, we have
 <span class="math display">\[
 \log \frac{Y_n&#39;}{Y_n} = \log Y_n&#39; - \log Y_n = \beta_2,
 \]</span>
@@ -750,22 +749,22 @@ For example, in the log-log model, a coefficient of <span class="math inline">\(
 <li><p>You may let theory be your guide—develop expectations, on the basis of your substantive knowledge, about whether the relevant changes in conditional expectation will be in terms of levels or proportions.</p></li>
 <li><p>Or you may be inductive—make scatterplots of all four possibilities, and choose the specification under which the relationship is closest to linear.</p></li>
 </ul>
-<p>A final note on logarithmic models. The logarithm of a number <span class="math inline">\(c \leq 0\)</span> does not exist. Therefore, a logarithmic model is only appropriate for a strictly positive response/covariate. For non-negative variables that include zeroes, some people try to “fix” this by doing <span class="math inline">\(\log(Y_n + 1)\)</span>, but in this situation it is generally better to follow the procedure advocated by <span class="citation"><a href="references.html#ref-burbidge1988alternative" role="doc-biblioref">Burbidge, Magee, and Robb</a> (<a href="references.html#ref-burbidge1988alternative" role="doc-biblioref">1988</a>)</span>.</p>
+<p>A final note on logarithmic models. The logarithm of a number <span class="math inline">\(c \leq 0\)</span> does not exist. Therefore, a logarithmic model is only appropriate for a strictly positive response/covariate. For non-negative variables that include zeroes, some people try to “fix” this by doing <span class="math inline">\(\log(Y_n + 1)\)</span>, but in this situation it is generally better to follow the procedure advocated by <span class="citation">Burbidge, Magee, and Robb (<a href="#ref-burbidge1988alternative" role="doc-biblioref">1988</a>)</span>.</p>
 </div>
 <div id="appendix-nonstandard-specifications-in-r" class="section level2" number="8.5">
 <h2><span class="header-section-number">8.5</span> Appendix: Nonstandard Specifications in R</h2>
 <p>We will use the following packages:</p>
-<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="specification.html#cb227-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</span>
-<span id="cb227-2"><a href="specification.html#cb227-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;broom&quot;</span>)</span>
-<span id="cb227-3"><a href="specification.html#cb227-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;forcats&quot;</span>)</span>
-<span id="cb227-4"><a href="specification.html#cb227-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;interplot&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="specification.html#cb226-1" aria-hidden="true"></a><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</span>
+<span id="cb226-2"><a href="specification.html#cb226-2" aria-hidden="true"></a><span class="kw">library</span>(<span class="st">&quot;broom&quot;</span>)</span>
+<span id="cb226-3"><a href="specification.html#cb226-3" aria-hidden="true"></a><span class="kw">library</span>(<span class="st">&quot;forcats&quot;</span>)</span>
+<span id="cb226-4"><a href="specification.html#cb226-4" aria-hidden="true"></a><span class="kw">library</span>(<span class="st">&quot;interplot&quot;</span>)</span></code></pre></div>
 <p><strong>forcats</strong> contains convenience functions for <em>factors</em>, which are R’s way of representing categorical variables. <strong>interplot</strong> is for plotting marginal effects from interactive models.</p>
 <p>Once again, we will work with the occupational prestige data from the <strong>car</strong> package. We will also convert it to a tibble, so that it will more closely resemble the kind of data frame we would get had we read it in with <code>read_csv()</code>.</p>
-<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb228-1"><a href="specification.html#cb228-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;car&quot;</span>)</span>
-<span id="cb228-2"><a href="specification.html#cb228-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Prestige)</span>
-<span id="cb228-3"><a href="specification.html#cb228-3" aria-hidden="true" tabindex="-1"></a>Prestige <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(Prestige)</span>
-<span id="cb228-4"><a href="specification.html#cb228-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb228-5"><a href="specification.html#cb228-5" aria-hidden="true" tabindex="-1"></a>Prestige</span></code></pre></div>
+<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="specification.html#cb227-1" aria-hidden="true"></a><span class="kw">library</span>(<span class="st">&quot;car&quot;</span>)</span>
+<span id="cb227-2"><a href="specification.html#cb227-2" aria-hidden="true"></a><span class="kw">data</span>(Prestige)</span>
+<span id="cb227-3"><a href="specification.html#cb227-3" aria-hidden="true"></a>Prestige &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(Prestige)</span>
+<span id="cb227-4"><a href="specification.html#cb227-4" aria-hidden="true"></a></span>
+<span id="cb227-5"><a href="specification.html#cb227-5" aria-hidden="true"></a>Prestige</span></code></pre></div>
 <pre><code>## # A tibble: 102 x 6
 ##   education income women prestige census type 
 ##       &lt;dbl&gt;  &lt;int&gt; &lt;dbl&gt;    &lt;dbl&gt;  &lt;int&gt; &lt;fct&gt;
@@ -778,7 +777,7 @@ For example, in the log-log model, a coefficient of <span class="math inline">\(
 <div id="categorical-variables-1" class="section level3" number="8.5.1">
 <h3><span class="header-section-number">8.5.1</span> Categorical Variables</h3>
 <p>You will notice that the <code>type</code> column of the prestige data is listed as a <code>&lt;fctr&gt;</code>, which stands for factor. A factor is R’s representation of a categorical variable. Let’s take a closer look.</p>
-<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="specification.html#cb230-1" aria-hidden="true" tabindex="-1"></a>Prestige<span class="sc">$</span>type</span></code></pre></div>
+<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="specification.html#cb229-1" aria-hidden="true"></a>Prestige<span class="op">$</span>type</span></code></pre></div>
 <pre><code>##   [1] prof prof prof prof prof prof prof prof prof prof prof prof prof prof prof
 ##  [16] prof prof prof prof prof prof prof prof prof prof prof prof bc   prof prof
 ##  [31] wc   prof wc   &lt;NA&gt; wc   wc   wc   wc   wc   wc   wc   wc   wc   wc   wc  
@@ -788,23 +787,23 @@ For example, in the log-log model, a coefficient of <span class="math inline">\(
 ##  [91] bc   bc   bc   bc   bc   prof bc   bc   bc   bc   bc   bc  
 ## Levels: bc prof wc</code></pre>
 <p>This looks kind of like—but isn’t quite—a character variable. The most noticeable difference is that R tells us its <em>levels</em>: the set of categories available. We can extract these directly with the <code>levels()</code> function.</p>
-<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="specification.html#cb232-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(Prestige<span class="sc">$</span>type)</span></code></pre></div>
+<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb231-1"><a href="specification.html#cb231-1" aria-hidden="true"></a><span class="kw">levels</span>(Prestige<span class="op">$</span>type)</span></code></pre></div>
 <pre><code>## [1] &quot;bc&quot;   &quot;prof&quot; &quot;wc&quot;</code></pre>
 <p>This brings us to an important difference between <code>read.csv()</code> (with a dot, the built-in R function) and <code>read_csv()</code> (with an underscore, the tidyverse version). The old way, <code>read.csv()</code>, by default treats any column of character strings as a factor. The tidyverse way, <code>read_csv()</code>, never creates factors by default—you must make them explicitly.</p>
 <p>To create a factor variable, you can use the <code>factor()</code> function:</p>
-<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="specification.html#cb234-1" aria-hidden="true" tabindex="-1"></a>example_vector <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">1</span>)</span>
-<span id="cb234-2"><a href="specification.html#cb234-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb234-3"><a href="specification.html#cb234-3" aria-hidden="true" tabindex="-1"></a><span class="fu">factor</span>(example_vector,  <span class="co"># vector to convert to factor</span></span>
-<span id="cb234-4"><a href="specification.html#cb234-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">levels =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,    <span class="co"># possible values of the vector</span></span>
-<span id="cb234-5"><a href="specification.html#cb234-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;ONE&quot;</span>,</span>
-<span id="cb234-6"><a href="specification.html#cb234-6" aria-hidden="true" tabindex="-1"></a>                  <span class="st">&quot;two&quot;</span>,</span>
-<span id="cb234-7"><a href="specification.html#cb234-7" aria-hidden="true" tabindex="-1"></a>                  <span class="st">&quot;Three&quot;</span>,</span>
-<span id="cb234-8"><a href="specification.html#cb234-8" aria-hidden="true" tabindex="-1"></a>                  <span class="st">&quot;FOUR!&quot;</span>))  <span class="co"># label corresponding to each value</span></span></code></pre></div>
+<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="specification.html#cb233-1" aria-hidden="true"></a>example_vector &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">1</span>)</span>
+<span id="cb233-2"><a href="specification.html#cb233-2" aria-hidden="true"></a></span>
+<span id="cb233-3"><a href="specification.html#cb233-3" aria-hidden="true"></a><span class="kw">factor</span>(example_vector,  <span class="co"># vector to convert to factor</span></span>
+<span id="cb233-4"><a href="specification.html#cb233-4" aria-hidden="true"></a>       <span class="dt">levels =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>,    <span class="co"># possible values of the vector</span></span>
+<span id="cb233-5"><a href="specification.html#cb233-5" aria-hidden="true"></a>       <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;ONE&quot;</span>,</span>
+<span id="cb233-6"><a href="specification.html#cb233-6" aria-hidden="true"></a>                  <span class="st">&quot;two&quot;</span>,</span>
+<span id="cb233-7"><a href="specification.html#cb233-7" aria-hidden="true"></a>                  <span class="st">&quot;Three&quot;</span>,</span>
+<span id="cb233-8"><a href="specification.html#cb233-8" aria-hidden="true"></a>                  <span class="st">&quot;FOUR!&quot;</span>))  <span class="co"># label corresponding to each value</span></span></code></pre></div>
 <pre><code>## [1] FOUR! ONE   Three Three ONE  
 ## Levels: ONE two Three FOUR!</code></pre>
 <p>Returning to the prestige data, let’s run a regression of occupational prestige on occupational category.</p>
-<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="specification.html#cb236-1" aria-hidden="true" tabindex="-1"></a>fit_type <span class="ot">&lt;-</span> <span class="fu">lm</span>(prestige <span class="sc">~</span> type, <span class="at">data =</span> Prestige)</span>
-<span id="cb236-2"><a href="specification.html#cb236-2" aria-hidden="true" tabindex="-1"></a>fit_type</span></code></pre></div>
+<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="specification.html#cb235-1" aria-hidden="true"></a>fit_type &lt;-<span class="st"> </span><span class="kw">lm</span>(prestige <span class="op">~</span><span class="st"> </span>type, <span class="dt">data =</span> Prestige)</span>
+<span id="cb235-2"><a href="specification.html#cb235-2" aria-hidden="true"></a>fit_type</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = prestige ~ type, data = Prestige)
@@ -813,31 +812,31 @@ For example, in the log-log model, a coefficient of <span class="math inline">\(
 ## (Intercept)     typeprof       typewc  
 ##      35.527       32.321        6.716</code></pre>
 <p><code>lm()</code> automatically converts the factor into a set of indicators, and automatically omits one category from the design matrix. In particular, it omits whichever level is listed first (which may not be the first level to appear in the data!). If you want to have a different category omitted, you need to reorder the levels, placing the category you want to omit first. You can do that with <code>fct_relevel()</code> from the <strong>forcats</strong> package. Let’s make white-collar (<code>wc</code>) the omitted category.</p>
-<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="specification.html#cb238-1" aria-hidden="true" tabindex="-1"></a>Prestige<span class="sc">$</span>type <span class="ot">&lt;-</span> <span class="fu">fct_relevel</span>(Prestige<span class="sc">$</span>type, <span class="st">&quot;wc&quot;</span>)</span>
-<span id="cb238-2"><a href="specification.html#cb238-2" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(Prestige<span class="sc">$</span>type)</span></code></pre></div>
+<div class="sourceCode" id="cb237"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb237-1"><a href="specification.html#cb237-1" aria-hidden="true"></a>Prestige<span class="op">$</span>type &lt;-<span class="st"> </span><span class="kw">fct_relevel</span>(Prestige<span class="op">$</span>type, <span class="st">&quot;wc&quot;</span>)</span>
+<span id="cb237-2"><a href="specification.html#cb237-2" aria-hidden="true"></a><span class="kw">levels</span>(Prestige<span class="op">$</span>type)</span></code></pre></div>
 <pre><code>## [1] &quot;wc&quot;   &quot;bc&quot;   &quot;prof&quot;</code></pre>
-<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="specification.html#cb240-1" aria-hidden="true" tabindex="-1"></a>fit_type_relevel <span class="ot">&lt;-</span> <span class="fu">lm</span>(prestige <span class="sc">~</span> type, <span class="at">data =</span> Prestige)</span></code></pre></div>
+<div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="specification.html#cb239-1" aria-hidden="true"></a>fit_type_relevel &lt;-<span class="st"> </span><span class="kw">lm</span>(prestige <span class="op">~</span><span class="st"> </span>type, <span class="dt">data =</span> Prestige)</span></code></pre></div>
 <p>We can confirm by checking out the model fit statistics that which category we omit makes no difference to the overall fit of the model, or the predicted values.</p>
-<div class="sourceCode" id="cb241"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb241-1"><a href="specification.html#cb241-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glance</span>(fit_type)</span></code></pre></div>
+<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="specification.html#cb240-1" aria-hidden="true"></a><span class="kw">glance</span>(fit_type)</span></code></pre></div>
 <pre><code>## # A tibble: 1 x 12
 ##   r.squared adj.r.squared sigma statistic  p.value    df logLik   AIC   BIC
 ##       &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 ## 1     0.698         0.691  9.50      110. 2.12e-25     2  -358.  724.  735.
 ## # … with 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;</code></pre>
-<div class="sourceCode" id="cb243"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb243-1"><a href="specification.html#cb243-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glance</span>(fit_type_relevel)  <span class="co"># Should be the same</span></span></code></pre></div>
+<div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb242-1"><a href="specification.html#cb242-1" aria-hidden="true"></a><span class="kw">glance</span>(fit_type_relevel)  <span class="co"># Should be the same</span></span></code></pre></div>
 <pre><code>## # A tibble: 1 x 12
 ##   r.squared adj.r.squared sigma statistic  p.value    df logLik   AIC   BIC
 ##       &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 ## 1     0.698         0.691  9.50      110. 2.12e-25     2  -358.  724.  735.
 ## # … with 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;</code></pre>
-<div class="sourceCode" id="cb245"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb245-1"><a href="specification.html#cb245-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fitted() extracts the fitted value for each observation</span></span>
-<span id="cb245-2"><a href="specification.html#cb245-2" aria-hidden="true" tabindex="-1"></a><span class="fu">all.equal</span>(<span class="fu">fitted</span>(fit_type), <span class="fu">fitted</span>(fit_type_relevel))</span></code></pre></div>
+<div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb244-1"><a href="specification.html#cb244-1" aria-hidden="true"></a><span class="co"># fitted() extracts the fitted value for each observation</span></span>
+<span id="cb244-2"><a href="specification.html#cb244-2" aria-hidden="true"></a><span class="kw">all.equal</span>(<span class="kw">fitted</span>(fit_type), <span class="kw">fitted</span>(fit_type_relevel))</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 <p>One more thing—it’s rare you should need to do this, but you can use <code>model.matrix()</code> to extract the design matrix for a fitted regression model.</p>
-<div class="sourceCode" id="cb247"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb247-1"><a href="specification.html#cb247-1" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(fit_type)</span>
-<span id="cb247-2"><a href="specification.html#cb247-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(X)</span></code></pre></div>
+<div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb246-1"><a href="specification.html#cb246-1" aria-hidden="true"></a>X &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(fit_type)</span>
+<span id="cb246-2"><a href="specification.html#cb246-2" aria-hidden="true"></a><span class="kw">dim</span>(X)</span></code></pre></div>
 <pre><code>## [1] 98  3</code></pre>
-<div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb249-1"><a href="specification.html#cb249-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(X)</span></code></pre></div>
+<div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="specification.html#cb248-1" aria-hidden="true"></a><span class="kw">head</span>(X)</span></code></pre></div>
 <pre><code>##   (Intercept) typeprof typewc
 ## 1           1        1      0
 ## 2           1        1      0
@@ -849,8 +848,8 @@ For example, in the log-log model, a coefficient of <span class="math inline">\(
 <div id="interaction-terms-1" class="section level3" number="8.5.2">
 <h3><span class="header-section-number">8.5.2</span> Interaction Terms</h3>
 <p>The syntax for an interactive model is pretty intuitive. Let’s look at the joint effect of education and income on occupational prestige.</p>
-<div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb251-1"><a href="specification.html#cb251-1" aria-hidden="true" tabindex="-1"></a>fit_interactive <span class="ot">&lt;-</span> <span class="fu">lm</span>(prestige <span class="sc">~</span> education <span class="sc">*</span> income, <span class="at">data =</span> Prestige)</span>
-<span id="cb251-2"><a href="specification.html#cb251-2" aria-hidden="true" tabindex="-1"></a>fit_interactive</span></code></pre></div>
+<div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb250-1"><a href="specification.html#cb250-1" aria-hidden="true"></a>fit_interactive &lt;-<span class="st"> </span><span class="kw">lm</span>(prestige <span class="op">~</span><span class="st"> </span>education <span class="op">*</span><span class="st"> </span>income, <span class="dt">data =</span> Prestige)</span>
+<span id="cb250-2"><a href="specification.html#cb250-2" aria-hidden="true"></a>fit_interactive</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = prestige ~ education * income, data = Prestige)
@@ -860,15 +859,15 @@ For example, in the log-log model, a coefficient of <span class="math inline">\(
 ##       -2.207e+01         5.373e+00         3.944e-03        -1.961e-04</code></pre>
 <p>Notice that <code>lm()</code> automatically included the lower-order terms for us, so we didn’t have to remember which terms to put in. This is particularly useful when you are interacting with a categorical variable that has many categories, or when you are including higher-order interactions.</p>
 <p>If you want to plot the (so-called) marginal effect of education as a function of income, you can use the handy function from the <strong>interplot</strong> package.</p>
-<div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb253-1"><a href="specification.html#cb253-1" aria-hidden="true" tabindex="-1"></a><span class="fu">interplot</span>(fit_interactive, <span class="at">var1 =</span> <span class="st">&quot;education&quot;</span>, <span class="at">var2 =</span> <span class="st">&quot;income&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb252-1"><a href="specification.html#cb252-1" aria-hidden="true"></a><span class="kw">interplot</span>(fit_interactive, <span class="dt">var1 =</span> <span class="st">&quot;education&quot;</span>, <span class="dt">var2 =</span> <span class="st">&quot;income&quot;</span>)</span></code></pre></div>
 <p><img src="pdaps_files/figure-html/interplot-1.png" width="672" /></p>
 <p>We see that the marginal effect of education on prestige is high for low-income occupations, but almost nil for an occupation that earns around $25,000/year. (The bars represent a confidence interval—of course, we haven’t done any inferential statistics yet.)</p>
 </div>
 <div id="quadratic-and-logarithmic-models" class="section level3" number="8.5.3">
 <h3><span class="header-section-number">8.5.3</span> Quadratic and Logarithmic Models</h3>
 <p>The syntax for a quadratic model is a bit weird. You would think you could use a formula like <code>y ~ x + x^2</code>, but that won’t work. Instead, you have to write <code>y ~ x + I(x^2)</code>, as in the following example.</p>
-<div class="sourceCode" id="cb254"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb254-1"><a href="specification.html#cb254-1" aria-hidden="true" tabindex="-1"></a>fit_quad <span class="ot">&lt;-</span> <span class="fu">lm</span>(prestige <span class="sc">~</span> education <span class="sc">+</span> <span class="fu">I</span>(education<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> income, <span class="at">data =</span> Prestige)</span>
-<span id="cb254-2"><a href="specification.html#cb254-2" aria-hidden="true" tabindex="-1"></a>fit_quad</span></code></pre></div>
+<div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb253-1"><a href="specification.html#cb253-1" aria-hidden="true"></a>fit_quad &lt;-<span class="st"> </span><span class="kw">lm</span>(prestige <span class="op">~</span><span class="st"> </span>education <span class="op">+</span><span class="st"> </span><span class="kw">I</span>(education<span class="op">^</span><span class="dv">2</span>) <span class="op">+</span><span class="st"> </span>income, <span class="dt">data =</span> Prestige)</span>
+<span id="cb253-2"><a href="specification.html#cb253-2" aria-hidden="true"></a>fit_quad</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = prestige ~ education + I(education^2) + income, 
@@ -878,15 +877,15 @@ For example, in the log-log model, a coefficient of <span class="math inline">\(
 ##    (Intercept)       education  I(education^2)          income  
 ##      10.979513        0.774768        0.153730        0.001276</code></pre>
 <p>The easiest way to visualize the results of a quadratic model is to create a synthetic dataset, where you vary the relevant variable across its range while holding all the other variables fixed at the same value. Then plug the synthetic dataset into the model to get predicted values.</p>
-<div class="sourceCode" id="cb256"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb256-1"><a href="specification.html#cb256-1" aria-hidden="true" tabindex="-1"></a>synthetic_data <span class="ot">&lt;-</span> <span class="fu">data_frame</span>(</span>
-<span id="cb256-2"><a href="specification.html#cb256-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">education =</span> <span class="fu">seq</span>(<span class="fu">min</span>(Prestige<span class="sc">$</span>education),</span>
-<span id="cb256-3"><a href="specification.html#cb256-3" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">max</span>(Prestige<span class="sc">$</span>education),</span>
-<span id="cb256-4"><a href="specification.html#cb256-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">length.out =</span> <span class="dv">100</span>),</span>
-<span id="cb256-5"><a href="specification.html#cb256-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">income =</span> <span class="fu">mean</span>(Prestige<span class="sc">$</span>income)</span>
-<span id="cb256-6"><a href="specification.html#cb256-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb256-7"><a href="specification.html#cb256-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb256-8"><a href="specification.html#cb256-8" aria-hidden="true" tabindex="-1"></a>synthetic_data <span class="ot">&lt;-</span> <span class="fu">augment</span>(fit_quad, <span class="at">newdata =</span> synthetic_data)</span>
-<span id="cb256-9"><a href="specification.html#cb256-9" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(synthetic_data)</span></code></pre></div>
+<div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb255-1"><a href="specification.html#cb255-1" aria-hidden="true"></a>synthetic_data &lt;-<span class="st"> </span><span class="kw">data_frame</span>(</span>
+<span id="cb255-2"><a href="specification.html#cb255-2" aria-hidden="true"></a>    <span class="dt">education =</span> <span class="kw">seq</span>(<span class="kw">min</span>(Prestige<span class="op">$</span>education),</span>
+<span id="cb255-3"><a href="specification.html#cb255-3" aria-hidden="true"></a>                    <span class="kw">max</span>(Prestige<span class="op">$</span>education),</span>
+<span id="cb255-4"><a href="specification.html#cb255-4" aria-hidden="true"></a>                    <span class="dt">length.out =</span> <span class="dv">100</span>),</span>
+<span id="cb255-5"><a href="specification.html#cb255-5" aria-hidden="true"></a>    <span class="dt">income =</span> <span class="kw">mean</span>(Prestige<span class="op">$</span>income)</span>
+<span id="cb255-6"><a href="specification.html#cb255-6" aria-hidden="true"></a>)</span>
+<span id="cb255-7"><a href="specification.html#cb255-7" aria-hidden="true"></a></span>
+<span id="cb255-8"><a href="specification.html#cb255-8" aria-hidden="true"></a>synthetic_data &lt;-<span class="st"> </span><span class="kw">augment</span>(fit_quad, <span class="dt">newdata =</span> synthetic_data)</span>
+<span id="cb255-9"><a href="specification.html#cb255-9" aria-hidden="true"></a><span class="kw">head</span>(synthetic_data)</span></code></pre></div>
 <pre><code>## # A tibble: 6 x 3
 ##   education income .fitted
 ##       &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;
@@ -896,13 +895,13 @@ For example, in the log-log model, a coefficient of <span class="math inline">\(
 ## 4      6.67  6798.    31.7
 ## 5      6.77  6798.    31.9
 ## 6      6.86  6798.    32.2</code></pre>
-<div class="sourceCode" id="cb258"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb258-1"><a href="specification.html#cb258-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(synthetic_data, <span class="fu">aes</span>(<span class="at">x =</span> education, <span class="at">y =</span> .fitted)) <span class="sc">+</span></span>
-<span id="cb258-2"><a href="specification.html#cb258-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb257"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb257-1"><a href="specification.html#cb257-1" aria-hidden="true"></a><span class="kw">ggplot</span>(synthetic_data, <span class="kw">aes</span>(<span class="dt">x =</span> education, <span class="dt">y =</span> .fitted)) <span class="op">+</span></span>
+<span id="cb257-2"><a href="specification.html#cb257-2" aria-hidden="true"></a><span class="st">    </span><span class="kw">geom_line</span>()</span></code></pre></div>
 <p><img src="pdaps_files/figure-html/plot-quadratic-1.png" width="672" /></p>
 <p>In this case, within the range spanned by the sample data, the estimated quadratic relationship is only barely nonlinear.</p>
 <p>Finally, to run a logarithmic model, just put <code>log()</code> around the variables you want to log.</p>
-<div class="sourceCode" id="cb259"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb259-1"><a href="specification.html#cb259-1" aria-hidden="true" tabindex="-1"></a>fit_log <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(prestige) <span class="sc">~</span> <span class="fu">log</span>(income) <span class="sc">+</span> education, <span class="at">data =</span> Prestige)</span>
-<span id="cb259-2"><a href="specification.html#cb259-2" aria-hidden="true" tabindex="-1"></a>fit_log</span></code></pre></div>
+<div class="sourceCode" id="cb258"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb258-1"><a href="specification.html#cb258-1" aria-hidden="true"></a>fit_log &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="kw">log</span>(prestige) <span class="op">~</span><span class="st"> </span><span class="kw">log</span>(income) <span class="op">+</span><span class="st"> </span>education, <span class="dt">data =</span> Prestige)</span>
+<span id="cb258-2"><a href="specification.html#cb258-2" aria-hidden="true"></a>fit_log</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = log(prestige) ~ log(income) + education, data = Prestige)
@@ -913,6 +912,18 @@ For example, in the log-log model, a coefficient of <span class="math inline">\(
 <p>To visualize the resulting relationship, you can use the same technique as for quadratic models.</p>
 
 </div>
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-angrist2015mastering">
+<p>Angrist, Joshua D., and Jörn-Steffen Pischke. 2015. <em>Mastering ’Metrics: The Path from Cause to Effect</em>. Princeton University Press.</p>
+</div>
+<div id="ref-braumoeller2004hypothesis">
+<p>Braumoeller, Bear F. 2004. “Hypothesis Testing and Multiplicative Interaction Terms.” <em>International Organization</em> 58 (04): 807–20.</p>
+</div>
+<div id="ref-burbidge1988alternative">
+<p>Burbidge, John B, Lonnie Magee, and A Leslie Robb. 1988. “Alternative Transformations to Handle Extreme Values of the Dependent Variable.” <em>Journal of the American Statistical Association</em> 83 (401): 123–27.</p>
 </div>
 </div>
 <div class="footnotes">

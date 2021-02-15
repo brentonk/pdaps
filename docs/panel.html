@@ -24,7 +24,7 @@
 <meta name="author" content="Brenton Kenkel" />
 
 
-<meta name="date" content="2021-02-05" />
+<meta name="date" content="2021-02-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -57,7 +57,6 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -290,7 +289,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Some state characteristics that might affect vote choice are difficult or impossible to measure. For example, some states have a more cosmopolitan culture, while others have a more traditional culture. A 50-year-old white man living in Connecticut is, we would expect, less likely to have voted for Trump than a 50-year-old white man living in Alabama. This is <em>unobserved heterogeneity</em>—characteristics that we do not observe, and therefore cannot control for, but which affect the response.</p>
 <p>If we are not careful in dealing with grouped data, unobserved heterogeneity can be a major problem. The spherical errors assumption is usually not tenable for grouped data, since observations will be correlated with others in the same group. OLS will therefore be inefficient and yield invalid inferences. Even worse, if group-level sources of unobserved heterogeneity are correlated with individual characteristics—if, say, younger voters are more likely to live in cosmopolitan states—OLS may also be biased and inconsistent.</p>
 <p>On the other hand, if we deal with grouped data properly, we can enhance the credibility of our inferences. We can eliminate the influence of variation <em>across</em> groups, allowing us to focus on the comparisons <em>within</em> groups that we are usually most interested in.</p>
-<p>Before we get started, a note of caution. We only have enough time to scratch the surface of how to analyze grouped data. If you work with grouped data in your dissertation or other research, you should think carefully about your data structure and potential sources of unobserved heterogeneity. The methods we discuss this week may not solve your problems. As further references, I recommend <span class="citation"><a href="references.html#ref-Wooldridge:2002vr" role="doc-biblioref">Wooldridge</a> (<a href="references.html#ref-Wooldridge:2002vr" role="doc-biblioref">2002</a>)</span> and <span class="citation"><a href="references.html#ref-gelman2006data" role="doc-biblioref">Gelman and Hill</a> (<a href="references.html#ref-gelman2006data" role="doc-biblioref">2006</a>)</span>.</p>
+<p>Before we get started, a note of caution. We only have enough time to scratch the surface of how to analyze grouped data. If you work with grouped data in your dissertation or other research, you should think carefully about your data structure and potential sources of unobserved heterogeneity. The methods we discuss this week may not solve your problems. As further references, I recommend <span class="citation">Wooldridge (<a href="#ref-Wooldridge:2002vr" role="doc-biblioref">2002</a>)</span> and <span class="citation">Gelman and Hill (<a href="#ref-gelman2006data" role="doc-biblioref">2006</a>)</span>.</p>
 <div id="the-linear-model-with-grouped-data" class="section level2" number="12.1">
 <h2><span class="header-section-number">12.1</span> The Linear Model with Grouped Data</h2>
 <p>We need to change our notation a bit to reflect the arrangement of observations into groups. Let there be <span class="math inline">\(G\)</span> groups indexed by <span class="math inline">\(g = 1, \ldots, G\)</span>. Within each group, we have <span class="math inline">\(N\)</span> observations indexed by <span class="math inline">\(n = 1, \ldots, N\)</span>.<a href="#fn32" class="footnote-ref" id="fnref32"><sup>32</sup></a> (In the special case of panel data, where each group is a unit observed over time, the standard notation is to use <span class="math inline">\(t = 1, \ldots, T\)</span> instead.)</p>
@@ -342,7 +341,7 @@ E[\epsilon \,|\, \mathbf{X}] \neq \mathbf{0}.
 \text{Quality}_{gn} = \beta_1 + \beta_2 \text{Grant}_g + \epsilon_{gn}.
 \]</span>
 We want to know whether receiving the grant affected quality. What we cannot measure is how well the states used the money. If some states used it better than others, then we would expect the error term to be correlated across school districts within the state. In a state where the money was used wisely, we would expect most of the schools to do “better than expected”—to have positive residuals, in the language of regression. Conversely, in a state where the money was squandered, we would expect most of the schools to do worse than we would otherwise predict.</p>
-<p>This is one example of the general phenomenon Moulton <span class="citation">(<a href="references.html#ref-Moulton:1986kw" role="doc-biblioref">1986</a>, <a href="references.html#ref-Moulton:1990bl" role="doc-biblioref">1990</a>)</span> identifies—that there is often substantial correlation in the random errors within groups, especially when we are looking at the effects of variables that only vary at the group level. One way I think about it is that, with grouped data and group-level covariates, the effective number of observations is less than the nominal number of observations. If we use the OLS standard errors, we are pretending to have more data than we really do.</p>
+<p>This is one example of the general phenomenon Moulton <span class="citation">(<a href="#ref-Moulton:1986kw" role="doc-biblioref">1986</a>, <a href="#ref-Moulton:1990bl" role="doc-biblioref">1990</a>)</span> identifies—that there is often substantial correlation in the random errors within groups, especially when we are looking at the effects of variables that only vary at the group level. One way I think about it is that, with grouped data and group-level covariates, the effective number of observations is less than the nominal number of observations. If we use the OLS standard errors, we are pretending to have more data than we really do.</p>
 <p>Let’s see a bit more formally why autocorrelation within groups would cause us to overstate the effective sample size.
 Imagine we have <span class="math inline">\(N = 4\)</span> observations organized into <span class="math inline">\(G = 2\)</span> groups, with the groups being the first two and last two observations respectively.
 Furthermore, let’s assume we have a single covariate that varies across groups but not within them (e.g., a random treatment assigned at the group level), so that our data matrix looks like
@@ -478,12 +477,12 @@ Notice that this is more general than the assumptions under which we obtained th
 (\mathbf{X}^\top \mathbf{X})^{-1},
 \]</span>
 where <span class="math inline">\(\hat{e}_g\)</span> is the <span class="math inline">\(N \times 1\)</span> vector of OLS residuals for the <span class="math inline">\(g\)</span>’th group. Like White’s estimator for heteroskedasticity, this is a “sandwich” estimator. The “meat” of the sandwich here accounts for the within-group correlations in the error term.</p>
-<p>Also like White’s estimator for heteroskedasticity, the cluster-robust estimator is consistent, but not unbiased. It approaches the truth as <span class="math inline">\(G\)</span>, the number of groups, grows large (holding fixed <span class="math inline">\(N\)</span>, the number of observations per group), but it may be badly biased in small samples. The consensus seems to be that <span class="math inline">\(N = 50\)</span> is large enough <span class="citation">(<a href="references.html#ref-Cameron:2015ud" role="doc-biblioref">Cameron and Miller 2015</a>)</span>, so you Americanists may go ahead and rejoice. However, if you observe a small number of units over a long period of time (e.g., in a study of the historical political economy of Western European countries), the cluster-robust standard error estimator will be severely biased. <span class="citation"><a href="references.html#ref-Beck:1995hm" role="doc-biblioref">Beck and Katz</a> (<a href="references.html#ref-Beck:1995hm" role="doc-biblioref">1995</a>)</span> provide a similar estimator for such data, except with the summation in the middle of the “sandwich” taken over the <span class="math inline">\(N\)</span> time periods instead of the <span class="math inline">\(G\)</span> groups.</p>
-<p>The earliest derivation of this estimator was <span class="citation"><a href="references.html#ref-Liang:1986gv" role="doc-biblioref">Liang and Zeger</a> (<a href="references.html#ref-Liang:1986gv" role="doc-biblioref">1986</a>)</span>, and that is whom you should cite when you use it. <span class="citation"><a href="references.html#ref-Arellano:1987jx" role="doc-biblioref">Arellano</a> (<a href="references.html#ref-Arellano:1987jx" role="doc-biblioref">1987</a>)</span> derives the same estimator but is a bit easier to follow. As with White’s estimator, there are various finite-sample corrections to <span class="math inline">\(\hat{\Sigma}_{\text{CR}}\)</span> that you may want to use; we will not go through those here.</p>
+<p>Also like White’s estimator for heteroskedasticity, the cluster-robust estimator is consistent, but not unbiased. It approaches the truth as <span class="math inline">\(G\)</span>, the number of groups, grows large (holding fixed <span class="math inline">\(N\)</span>, the number of observations per group), but it may be badly biased in small samples. The consensus seems to be that <span class="math inline">\(N = 50\)</span> is large enough <span class="citation">(Cameron and Miller <a href="#ref-Cameron:2015ud" role="doc-biblioref">2015</a>)</span>, so you Americanists may go ahead and rejoice. However, if you observe a small number of units over a long period of time (e.g., in a study of the historical political economy of Western European countries), the cluster-robust standard error estimator will be severely biased. <span class="citation">Beck and Katz (<a href="#ref-Beck:1995hm" role="doc-biblioref">1995</a>)</span> provide a similar estimator for such data, except with the summation in the middle of the “sandwich” taken over the <span class="math inline">\(N\)</span> time periods instead of the <span class="math inline">\(G\)</span> groups.</p>
+<p>The earliest derivation of this estimator was <span class="citation">Liang and Zeger (<a href="#ref-Liang:1986gv" role="doc-biblioref">1986</a>)</span>, and that is whom you should cite when you use it. <span class="citation">Arellano (<a href="#ref-Arellano:1987jx" role="doc-biblioref">1987</a>)</span> derives the same estimator but is a bit easier to follow. As with White’s estimator, there are various finite-sample corrections to <span class="math inline">\(\hat{\Sigma}_{\text{CR}}\)</span> that you may want to use; we will not go through those here.</p>
 </div>
 <div id="random-effects" class="section level2" number="12.4">
 <h2><span class="header-section-number">12.4</span> Random Effects</h2>
-<p><em>The coverage and notation in this section and the next one closely follow <span class="citation"><a href="references.html#ref-Johnston:1997um" role="doc-biblioref">Johnston and DiNardo</a> (<a href="references.html#ref-Johnston:1997um" role="doc-biblioref">1997, chap. 12</a>)</span>.</em></p>
+<p><em>The coverage and notation in this section and the next one closely follow <span class="citation">Johnston and DiNardo (<a href="#ref-Johnston:1997um" role="doc-biblioref">1997</a>, chap. 12)</span>.</em></p>
 <p>Just as Huber-White standard errors do not fix the inefficiency of OLS under heteroskedasticity, cluster-robust standard errors do not fix the inefficiency of OLS under within-group correlation. To get a handle on the efficiency problem, we will make further assumptions about the source of that correlation.</p>
 <p>We will assume each group <span class="math inline">\(g\)</span> has a (potentially) different intercept. We can incorporate this into our original model,
 <span class="math display">\[
@@ -524,7 +523,7 @@ We can therefore let the estimated residual variance from this model be <span cl
 <span class="math display">\[
 \hat{\beta}_{\text{RE}} = (\mathbf{X}^\top \hat{\Omega}^{-1} \mathbf{X})^{-1} \mathbf{X}^\top \hat{\Omega}^{-1} \mathbf{Y}.
 \]</span></p>
-<p>See <span class="citation"><a href="references.html#ref-Johnston:1997um" role="doc-biblioref">Johnston and DiNardo</a> (<a href="references.html#ref-Johnston:1997um" role="doc-biblioref">1997, 392–95</a>)</span> for full formulas and details. FGLS is consistent but not unbiased, so the random effects model may not be a good idea in small samples. If our specification of the error structure is correct, it is asymptotically efficient—as the sample size increases, no other estimator has lower standard errors.</p>
+<p>See <span class="citation">Johnston and DiNardo (<a href="#ref-Johnston:1997um" role="doc-biblioref">1997</a>, 392–95)</span> for full formulas and details. FGLS is consistent but not unbiased, so the random effects model may not be a good idea in small samples. If our specification of the error structure is correct, it is asymptotically efficient—as the sample size increases, no other estimator has lower standard errors.</p>
 </div>
 <div id="fixed-effects" class="section level2" number="12.5">
 <h2><span class="header-section-number">12.5</span> Fixed Effects</h2>
@@ -539,21 +538,21 @@ where <span class="math inline">\(\alpha\)</span> is the <span class="math inlin
 <li><p>If the random effects assumption is met (group-specific effects are uncorrelated with covariates), then the random effects and fixed estimators are both consistent, but fixed effects is less efficient.</p></li>
 <li><p>If the random effects assumption is not met, then the random effects estimator is inconsistent while the fixed effects estimator is consistent.</p></li>
 </ul>
-<p>The typical test for whether fixed effects are necessary comes from <span class="citation"><a href="references.html#ref-Hausman:1978bi" role="doc-biblioref">Hausman</a> (<a href="references.html#ref-Hausman:1978bi" role="doc-biblioref">1978</a>)</span>. Under the null hypothesis that both estimators are consistent (and thus fixed effects are unnecessary and inefficient), the test statistic
+<p>The typical test for whether fixed effects are necessary comes from <span class="citation">Hausman (<a href="#ref-Hausman:1978bi" role="doc-biblioref">1978</a>)</span>. Under the null hypothesis that both estimators are consistent (and thus fixed effects are unnecessary and inefficient), the test statistic
 <span class="math display">\[
 H = (\hat{\beta}_{\text{RE}} - \hat{\beta}_{\text{FE}})^\top (\hat{\Sigma}_{\text{FE}} - \hat{\Sigma}_{\text{RE}})^{-1} (\hat{\beta}_{\text{RE}} - \hat{\beta}_{\text{FE}})
 \]</span>
 asymptotically has a <span class="math inline">\(\chi^2\)</span> distribution with <span class="math inline">\(K\)</span> degrees of freedom.</p>
-<p>The other main drawback of fixed effects estimation is that you cannot estimate the effects of variables that do not vary within groups. (Why not?) See <span class="citation"><a href="references.html#ref-greene" role="doc-biblioref">Greene</a> (<a href="references.html#ref-greene" role="doc-biblioref">2003, sec. 13.5</a>)</span> for estimation strategies with panel data and time-invariant covariates.</p>
-<p>One final note: <span class="citation"><a href="references.html#ref-Arellano:1987jx" role="doc-biblioref">Arellano</a> (<a href="references.html#ref-Arellano:1987jx" role="doc-biblioref">1987</a>)</span> shows that the cluster-robust variance matrix estimator can be used with fixed effects. <span class="citation"><a href="references.html#ref-Cameron:2015ud" role="doc-biblioref">Cameron and Miller</a> (<a href="references.html#ref-Cameron:2015ud" role="doc-biblioref">2015</a>)</span> recommend doing so, at least when the number of groups is large.</p>
+<p>The other main drawback of fixed effects estimation is that you cannot estimate the effects of variables that do not vary within groups. (Why not?) See <span class="citation">Greene (<a href="#ref-greene" role="doc-biblioref">2003</a>, sec. 13.5)</span> for estimation strategies with panel data and time-invariant covariates.</p>
+<p>One final note: <span class="citation">Arellano (<a href="#ref-Arellano:1987jx" role="doc-biblioref">1987</a>)</span> shows that the cluster-robust variance matrix estimator can be used with fixed effects. <span class="citation">Cameron and Miller (<a href="#ref-Cameron:2015ud" role="doc-biblioref">2015</a>)</span> recommend doing so, at least when the number of groups is large.</p>
 </div>
 <div id="appendix-implementation-in-r-1" class="section level2" number="12.6">
 <h2><span class="header-section-number">12.6</span> Appendix: Implementation in R</h2>
 <p>The methods introduced here can be implemented via the <strong>plm</strong> package.</p>
-<div class="sourceCode" id="cb336"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb336-1"><a href="panel.html#cb336-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;plm&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb335-1"><a href="panel.html#cb335-1" aria-hidden="true"></a><span class="kw">library</span>(<span class="st">&quot;plm&quot;</span>)</span></code></pre></div>
 <p>We will use the <code>Produc</code> dataset from <strong>plm</strong>, a riveting collection of economic statistics about the U.S. states from 1970 to 1986.</p>
-<div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb337-1"><a href="panel.html#cb337-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Produc, <span class="at">package =</span> <span class="st">&quot;plm&quot;</span>)</span>
-<span id="cb337-2"><a href="panel.html#cb337-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Produc)</span></code></pre></div>
+<div class="sourceCode" id="cb336"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb336-1"><a href="panel.html#cb336-1" aria-hidden="true"></a><span class="kw">data</span>(Produc, <span class="dt">package =</span> <span class="st">&quot;plm&quot;</span>)</span>
+<span id="cb336-2"><a href="panel.html#cb336-2" aria-hidden="true"></a><span class="kw">head</span>(Produc)</span></code></pre></div>
 <pre><code>##     state year region     pcap     hwy   water    util       pc   gsp    emp
 ## 1 ALABAMA 1970      6 15032.67 7325.80 1655.68 6051.20 35793.80 28418 1010.5
 ## 2 ALABAMA 1971      6 15501.94 7525.94 1721.02 6254.98 37299.91 29375 1021.9
@@ -570,9 +569,9 @@ asymptotically has a <span class="math inline">\(\chi^2\)</span> distribution wi
 ## 6   7.7</code></pre>
 <p>The functions in <strong>plm</strong> assume that your data are organized like <code>Produc</code>, with the grouping variable in the first column and the identification variable (time, in the case of panel data) in the second column. See the <strong>plm</strong> package vignette on how to get datasets not organized this way into line.</p>
 <p>We will treat unemployment (<code>unemp</code>) as our response and public capital stock (<code>pcap</code>) and private capital stock (<code>pc</code>) as our covariates. As a benchmark, let’s use OLS.</p>
-<div class="sourceCode" id="cb339"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb339-1"><a href="panel.html#cb339-1" aria-hidden="true" tabindex="-1"></a>fit_ols <span class="ot">&lt;-</span> <span class="fu">lm</span>(unemp <span class="sc">~</span> pcap <span class="sc">+</span> pc,</span>
-<span id="cb339-2"><a href="panel.html#cb339-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> Produc)</span>
-<span id="cb339-3"><a href="panel.html#cb339-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_ols)</span></code></pre></div>
+<div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb338-1"><a href="panel.html#cb338-1" aria-hidden="true"></a>fit_ols &lt;-<span class="st"> </span><span class="kw">lm</span>(unemp <span class="op">~</span><span class="st"> </span>pcap <span class="op">+</span><span class="st"> </span>pc,</span>
+<span id="cb338-2"><a href="panel.html#cb338-2" aria-hidden="true"></a>              <span class="dt">data =</span> Produc)</span>
+<span id="cb338-3"><a href="panel.html#cb338-3" aria-hidden="true"></a><span class="kw">summary</span>(fit_ols)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = unemp ~ pcap + pc, data = Produc)
@@ -593,10 +592,10 @@ asymptotically has a <span class="math inline">\(\chi^2\)</span> distribution wi
 ## Multiple R-squared:  0.03516,    Adjusted R-squared:  0.03279 
 ## F-statistic: 14.81 on 2 and 813 DF,  p-value: 4.795e-07</code></pre>
 <p>The “pooling” estimator implemented by <code>plm()</code> ought to give us the same results.</p>
-<div class="sourceCode" id="cb341"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb341-1"><a href="panel.html#cb341-1" aria-hidden="true" tabindex="-1"></a>fit_pooling <span class="ot">&lt;-</span> <span class="fu">plm</span>(unemp <span class="sc">~</span> pcap <span class="sc">+</span> pc,</span>
-<span id="cb341-2"><a href="panel.html#cb341-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">data =</span> Produc,</span>
-<span id="cb341-3"><a href="panel.html#cb341-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">model =</span> <span class="st">&quot;pooling&quot;</span>)</span>
-<span id="cb341-4"><a href="panel.html#cb341-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_pooling)</span></code></pre></div>
+<div class="sourceCode" id="cb340"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb340-1"><a href="panel.html#cb340-1" aria-hidden="true"></a>fit_pooling &lt;-<span class="st"> </span><span class="kw">plm</span>(unemp <span class="op">~</span><span class="st"> </span>pcap <span class="op">+</span><span class="st"> </span>pc,</span>
+<span id="cb340-2"><a href="panel.html#cb340-2" aria-hidden="true"></a>                   <span class="dt">data =</span> Produc,</span>
+<span id="cb340-3"><a href="panel.html#cb340-3" aria-hidden="true"></a>                   <span class="dt">model =</span> <span class="st">&quot;pooling&quot;</span>)</span>
+<span id="cb340-4"><a href="panel.html#cb340-4" aria-hidden="true"></a><span class="kw">summary</span>(fit_pooling)</span></code></pre></div>
 <pre><code>## Pooling Model
 ## 
 ## Call:
@@ -622,10 +621,10 @@ asymptotically has a <span class="math inline">\(\chi^2\)</span> distribution wi
 ## Adj. R-Squared: 0.032788
 ## F-statistic: 14.8141 on 2 and 813 DF, p-value: 4.7947e-07</code></pre>
 <p>We can obtain the cluster-robust variance matrix estimate via <code>vcovHC()</code>. Make sure to specify <code>method = "arellano"</code> so as to get the usual estimator. It is not entirely clear to me which of the various finite-sample adjustments corresponds to the defaults in Stata.</p>
-<div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb343-1"><a href="panel.html#cb343-1" aria-hidden="true" tabindex="-1"></a>crvm_pooling <span class="ot">&lt;-</span> <span class="fu">vcovHC</span>(fit_pooling,</span>
-<span id="cb343-2"><a href="panel.html#cb343-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">method =</span> <span class="st">&quot;arellano&quot;</span>,</span>
-<span id="cb343-3"><a href="panel.html#cb343-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">type =</span> <span class="st">&quot;HC1&quot;</span>)</span>
-<span id="cb343-4"><a href="panel.html#cb343-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_pooling, <span class="at">vcov =</span> crvm_pooling)</span></code></pre></div>
+<div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb342-1"><a href="panel.html#cb342-1" aria-hidden="true"></a>crvm_pooling &lt;-<span class="st"> </span><span class="kw">vcovHC</span>(fit_pooling,</span>
+<span id="cb342-2"><a href="panel.html#cb342-2" aria-hidden="true"></a>                       <span class="dt">method =</span> <span class="st">&quot;arellano&quot;</span>,</span>
+<span id="cb342-3"><a href="panel.html#cb342-3" aria-hidden="true"></a>                       <span class="dt">type =</span> <span class="st">&quot;HC1&quot;</span>)</span>
+<span id="cb342-4"><a href="panel.html#cb342-4" aria-hidden="true"></a><span class="kw">summary</span>(fit_pooling, <span class="dt">vcov =</span> crvm_pooling)</span></code></pre></div>
 <pre><code>## Pooling Model
 ## 
 ## Note: Coefficient variance-covariance matrix supplied: crvm_pooling
@@ -652,12 +651,12 @@ asymptotically has a <span class="math inline">\(\chi^2\)</span> distribution wi
 ## R-Squared:      0.035162
 ## Adj. R-Squared: 0.032788
 ## F-statistic: 6.45144 on 2 and 47 DF, p-value: 0.0033441</code></pre>
-<p>Notice that our <span class="math inline">\(t\)</span>-statistics are cut in more than half, even though our variables have within-group variation (unlike <span class="citation"><a href="references.html#ref-Moulton:1990bl" role="doc-biblioref">Moulton</a> (<a href="references.html#ref-Moulton:1990bl" role="doc-biblioref">1990</a>)</span>’s example).</p>
+<p>Notice that our <span class="math inline">\(t\)</span>-statistics are cut in more than half, even though our variables have within-group variation (unlike <span class="citation">Moulton (<a href="#ref-Moulton:1990bl" role="doc-biblioref">1990</a>)</span>’s example).</p>
 <p>We can also use <code>plm()</code> to estimate a random-effects model.</p>
-<div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb345-1"><a href="panel.html#cb345-1" aria-hidden="true" tabindex="-1"></a>fit_random <span class="ot">&lt;-</span> <span class="fu">plm</span>(unemp <span class="sc">~</span> pcap <span class="sc">+</span> pc,</span>
-<span id="cb345-2"><a href="panel.html#cb345-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> Produc,</span>
-<span id="cb345-3"><a href="panel.html#cb345-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">model =</span> <span class="st">&quot;random&quot;</span>)</span>
-<span id="cb345-4"><a href="panel.html#cb345-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_random)</span></code></pre></div>
+<div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb344-1"><a href="panel.html#cb344-1" aria-hidden="true"></a>fit_random &lt;-<span class="st"> </span><span class="kw">plm</span>(unemp <span class="op">~</span><span class="st"> </span>pcap <span class="op">+</span><span class="st"> </span>pc,</span>
+<span id="cb344-2"><a href="panel.html#cb344-2" aria-hidden="true"></a>                  <span class="dt">data =</span> Produc,</span>
+<span id="cb344-3"><a href="panel.html#cb344-3" aria-hidden="true"></a>                  <span class="dt">model =</span> <span class="st">&quot;random&quot;</span>)</span>
+<span id="cb344-4"><a href="panel.html#cb344-4" aria-hidden="true"></a><span class="kw">summary</span>(fit_random)</span></code></pre></div>
 <pre><code>## Oneway (individual) effect Random Effect Model 
 ##    (Swamy-Arora&#39;s transformation)
 ## 
@@ -690,10 +689,10 @@ asymptotically has a <span class="math inline">\(\chi^2\)</span> distribution wi
 ## Adj. R-Squared: 0.040043
 ## Chisq: 35.9967 on 2 DF, p-value: 1.5256e-08</code></pre>
 <p>And, finally, a fixed-effects model, which <code>plm()</code> calls the <code>"within"</code> model.</p>
-<div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb347-1"><a href="panel.html#cb347-1" aria-hidden="true" tabindex="-1"></a>fit_fixed <span class="ot">&lt;-</span> <span class="fu">plm</span>(unemp <span class="sc">~</span> pcap <span class="sc">+</span> pc,</span>
-<span id="cb347-2"><a href="panel.html#cb347-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> Produc,</span>
-<span id="cb347-3"><a href="panel.html#cb347-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">model =</span> <span class="st">&quot;within&quot;</span>)</span>
-<span id="cb347-4"><a href="panel.html#cb347-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_fixed)</span></code></pre></div>
+<div class="sourceCode" id="cb346"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb346-1"><a href="panel.html#cb346-1" aria-hidden="true"></a>fit_fixed &lt;-<span class="st"> </span><span class="kw">plm</span>(unemp <span class="op">~</span><span class="st"> </span>pcap <span class="op">+</span><span class="st"> </span>pc,</span>
+<span id="cb346-2"><a href="panel.html#cb346-2" aria-hidden="true"></a>                 <span class="dt">data =</span> Produc,</span>
+<span id="cb346-3"><a href="panel.html#cb346-3" aria-hidden="true"></a>                 <span class="dt">model =</span> <span class="st">&quot;within&quot;</span>)</span>
+<span id="cb346-4"><a href="panel.html#cb346-4" aria-hidden="true"></a><span class="kw">summary</span>(fit_fixed)</span></code></pre></div>
 <pre><code>## Oneway (individual) effect Within Model
 ## 
 ## Call:
@@ -718,7 +717,7 @@ asymptotically has a <span class="math inline">\(\chi^2\)</span> distribution wi
 ## Adj. R-Squared: 0.088906
 ## F-statistic: 64.2646 on 2 and 766 DF, p-value: &lt; 2.22e-16</code></pre>
 <p>We can extract the fixed-effect estimates themselves via <code>fixef()</code>.</p>
-<div class="sourceCode" id="cb349"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb349-1"><a href="panel.html#cb349-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fixef</span>(fit_fixed)</span></code></pre></div>
+<div class="sourceCode" id="cb348"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb348-1"><a href="panel.html#cb348-1" aria-hidden="true"></a><span class="kw">fixef</span>(fit_fixed)</span></code></pre></div>
 <pre><code>##        ALABAMA        ARIZONA       ARKANSAS     CALIFORNIA       COLORADO 
 ##       3.763902       3.201232       5.020980     -24.351816       1.906885 
 ##    CONNECTICUT       DELAWARE        FLORIDA        GEORGIA          IDAHO 
@@ -740,11 +739,11 @@ asymptotically has a <span class="math inline">\(\chi^2\)</span> distribution wi
 ##  WEST_VIRGINIA      WISCONSIN        WYOMING 
 ##       6.940764       0.191971       3.798969</code></pre>
 <p>If we wanted to include time dummies as well, we could specify <code>effect = "twoways"</code> in the fitting function.</p>
-<div class="sourceCode" id="cb351"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb351-1"><a href="panel.html#cb351-1" aria-hidden="true" tabindex="-1"></a>fit_fixed_2 <span class="ot">&lt;-</span> <span class="fu">plm</span>(unemp <span class="sc">~</span> pcap <span class="sc">+</span> pc,</span>
-<span id="cb351-2"><a href="panel.html#cb351-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">data =</span> Produc,</span>
-<span id="cb351-3"><a href="panel.html#cb351-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">effect =</span> <span class="st">&quot;twoways&quot;</span>,</span>
-<span id="cb351-4"><a href="panel.html#cb351-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">model =</span> <span class="st">&quot;within&quot;</span>)</span>
-<span id="cb351-5"><a href="panel.html#cb351-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_fixed_2)</span></code></pre></div>
+<div class="sourceCode" id="cb350"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb350-1"><a href="panel.html#cb350-1" aria-hidden="true"></a>fit_fixed_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">plm</span>(unemp <span class="op">~</span><span class="st"> </span>pcap <span class="op">+</span><span class="st"> </span>pc,</span>
+<span id="cb350-2"><a href="panel.html#cb350-2" aria-hidden="true"></a>                   <span class="dt">data =</span> Produc,</span>
+<span id="cb350-3"><a href="panel.html#cb350-3" aria-hidden="true"></a>                   <span class="dt">effect =</span> <span class="st">&quot;twoways&quot;</span>,</span>
+<span id="cb350-4"><a href="panel.html#cb350-4" aria-hidden="true"></a>                   <span class="dt">model =</span> <span class="st">&quot;within&quot;</span>)</span>
+<span id="cb350-5"><a href="panel.html#cb350-5" aria-hidden="true"></a><span class="kw">summary</span>(fit_fixed_<span class="dv">2</span>)</span></code></pre></div>
 <pre><code>## Twoways effects Within Model
 ## 
 ## Call:
@@ -769,13 +768,13 @@ asymptotically has a <span class="math inline">\(\chi^2\)</span> distribution wi
 ## R-Squared:      0.016355
 ## Adj. R-Squared: -0.068894
 ## F-statistic: 6.23517 on 2 and 750 DF, p-value: 0.0020624</code></pre>
-<div class="sourceCode" id="cb353"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb353-1"><a href="panel.html#cb353-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fixef</span>(fit_fixed_2, <span class="at">effect =</span> <span class="st">&quot;time&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb352-1"><a href="panel.html#cb352-1" aria-hidden="true"></a><span class="kw">fixef</span>(fit_fixed_<span class="dv">2</span>, <span class="dt">effect =</span> <span class="st">&quot;time&quot;</span>)</span></code></pre></div>
 <pre><code>##   1970   1971   1972   1973   1974   1975   1976   1977   1978   1979   1980 
 ## 5.5480 6.2755 5.7642 5.1866 5.8250 8.5092 7.4508 6.9296 5.9312 5.8163 7.1746 
 ##   1981   1982   1983   1984   1985   1986 
 ## 7.6609 9.6937 9.6779 7.6333 7.4795 7.3435</code></pre>
 <p><code>phtest()</code> implements the Hausman test. Remember that the null hypothesis is that both estimators are consistent; if we reject it, then the random effects estimator is inconsistent and we must use fixed effects.</p>
-<div class="sourceCode" id="cb355"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb355-1"><a href="panel.html#cb355-1" aria-hidden="true" tabindex="-1"></a><span class="fu">phtest</span>(fit_random, fit_fixed)</span></code></pre></div>
+<div class="sourceCode" id="cb354"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb354-1"><a href="panel.html#cb354-1" aria-hidden="true"></a><span class="kw">phtest</span>(fit_random, fit_fixed)</span></code></pre></div>
 <pre><code>## 
 ##  Hausman Test
 ## 
@@ -783,6 +782,42 @@ asymptotically has a <span class="math inline">\(\chi^2\)</span> distribution wi
 ## chisq = 95.562, df = 2, p-value &lt; 2.2e-16
 ## alternative hypothesis: one model is inconsistent</code></pre>
 
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-Arellano:1987jx">
+<p>Arellano, M. 1987. “Practitioners’ Corner: Computing Robust Standard Errors for Within-groups Estimators.” <em>Oxford Bulletin of Economics and Statistics</em> 49 (4): 431–34.</p>
+</div>
+<div id="ref-Beck:1995hm">
+<p>Beck, Nathaniel, and Jonathan N Katz. 1995. “What to do (and Not to Do) with Time-Series Cross-Section Data.” <em>American Political Science Review</em> 89 (03): 634–47.</p>
+</div>
+<div id="ref-Cameron:2015ud">
+<p>Cameron, A Colin, and Douglas L Miller. 2015. “A Practitioner’s Guide to Cluster-Robust Inference.” <em>Journal of Human Resources</em> 50 (2): 317–72.</p>
+</div>
+<div id="ref-gelman2006data">
+<p>Gelman, Andrew, and Jennifer Hill. 2006. <em>Data Analysis Using Regression and Multilevel/Hierarchical Models</em>. Cambridge university press.</p>
+</div>
+<div id="ref-greene">
+<p>Greene, William H. 2003. <em>Econometric Analysis</em>. 5th ed. Prentice Hall.</p>
+</div>
+<div id="ref-Hausman:1978bi">
+<p>Hausman, J A. 1978. “Specification Tests in Econometrics.” <em>Econometrica</em> 46 (6): 1251.</p>
+</div>
+<div id="ref-Johnston:1997um">
+<p>Johnston, John, and John DiNardo. 1997. <em>Econometric Methods</em>. 4th ed. McGraw-Hill.</p>
+</div>
+<div id="ref-Liang:1986gv">
+<p>Liang, Kung-Yee, and Scott L Zeger. 1986. “Longitudinal Data Analysis Using Generalized Linear Models.” <em>Biometrika</em> 73 (1): 13.</p>
+</div>
+<div id="ref-Moulton:1986kw">
+<p>Moulton, Brent R. 1986. “Random group effects and the precision of regression estimates.” <em>Journal of Econometrics</em> 32 (3): 385–97.</p>
+</div>
+<div id="ref-Moulton:1990bl">
+<p>Moulton, Brent R. 1990. “An Illustration of a Pitfall in Estimating the Effects of Aggregate Variables on Micro Units.” <em>The Review of Economics and Statistics</em> 72 (2): 334.</p>
+</div>
+<div id="ref-Wooldridge:2002vr">
+<p>Wooldridge, Jeffrey M. 2002. <em>Econometric Analysis of Cross Section and Panel Data</em>. MIT Press.</p>
 </div>
 </div>
 <div class="footnotes">
