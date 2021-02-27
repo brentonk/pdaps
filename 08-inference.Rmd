@@ -7,7 +7,7 @@
 \providecommand{\CI}{}
 \renewcommand{\CI}{\mathop{\rm CI}\nolimits}
 
-You can think of regression as a descriptive statistic or data reduction method---a simple way to summarize trends and relationships in multivariate data.  But for better or worse, most social scientists view regression as a tool for hypothesis testing.  This week, we will talk about what it is that we're doing when we gaze at the "stars" that accompany our regression output.
+You can think of regression as a descriptive statistic or data reduction method---a simple way to summarize trends and relationships in multivariate data.  But for better or worse, most social scientists view regression as a tool for hypothesis testing.  In this section, we will talk about what it is that we're doing when we gaze at the "stars" that accompany our regression output.
 
 
 ## The Basics of Hypothesis Testing
@@ -58,9 +58,10 @@ In order to draw inferences on OLS results, the first thing we need to know is t
 $$
 V[\bar{X}] = \frac{V[X]}{N},
 $$
-whose square root ends up in the denominator of the $t$-test statistic.  We will do something similar for OLS.
+This should look familiar to you from the denominator of the $t$-test statistic, where we replace $V[X]$ here with the sample variance and then take the square root.
+We will do something similar for OLS.
 
-Throughout this week, we will maintain the following two assumptions on the error term:
+Throughout this section, we will maintain the following two assumptions on the error term:
 
 *   Strict exogeneity: $E[\epsilon \,|\, \mathbf{X}] = \mathbf{0}$.
 
@@ -101,7 +102,7 @@ A very important note.  If the errors are not spherical, this formula produces a
 
 *   Our hypothesis tests will **not** perform as advertised---typically, they will lead us to reject the null hypothesis more often than we should---and this problem does **not** go away as our sample size increases.
 
-For the remainder of this week, we will proceed under the assumption of spherical errors.  Later on, we will discuss how to draw inferences appropriately when this assumption fails to hold.
+For the remainder of this section, we will proceed under the assumption of spherical errors.  Later on, we will discuss how to draw inferences appropriately when this assumption fails to hold.
 
 
 ## Single Variable Hypotheses
@@ -140,7 +141,7 @@ $$
 
 ## Multiple Variable Hypotheses
 
-It is common, especially (though not exclusively) when working with categorical variables or higher-order terms, to have hypotheses involving multiple variables.  For example, think of our model from last week,
+It is common, especially (though not exclusively) when working with categorical variables or higher-order terms, to have hypotheses involving multiple variables.  For example, think of our model from our study of categorical variables,
 $$
 \text{Trump}_n = \beta_1 + \beta_2 \text{Independent}_n + \beta_3 \text{Democratic}_n + \beta_4 \text{Age}_n + \epsilon_n.
 $$

@@ -24,7 +24,7 @@
 <meta name="author" content="Brenton Kenkel" />
 
 
-<meta name="date" content="2021-02-15" />
+<meta name="date" content="2021-02-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="bivariate.html"/>
 <link rel="next" href="ols-matrix.html"/>
-<script src="libs/header-attrs-2.6/header-attrs.js"></script>
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -57,6 +57,7 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -640,108 +641,108 @@ x_1 + x_2 &amp;= 1, \\
 <h2><span class="header-section-number">6.5</span> Appendix: Matrices in R</h2>
 <!-- Making this a separate Rmd file since the math in the other one was driving R Studio insane -->
 <p>We use the <code>matrix()</code> command to create matrices.</p>
-<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="matrix.html#cb178-1" aria-hidden="true"></a>A &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">4</span>),</span>
-<span id="cb178-2"><a href="matrix.html#cb178-2" aria-hidden="true"></a>            <span class="dt">nrow =</span> <span class="dv">2</span>,</span>
-<span id="cb178-3"><a href="matrix.html#cb178-3" aria-hidden="true"></a>            <span class="dt">ncol =</span> <span class="dv">2</span>)</span>
-<span id="cb178-4"><a href="matrix.html#cb178-4" aria-hidden="true"></a>A</span></code></pre></div>
+<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="matrix.html#cb178-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">4</span>),</span>
+<span id="cb178-2"><a href="matrix.html#cb178-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">nrow =</span> <span class="dv">2</span>,</span>
+<span id="cb178-3"><a href="matrix.html#cb178-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">ncol =</span> <span class="dv">2</span>)</span>
+<span id="cb178-4"><a href="matrix.html#cb178-4" aria-hidden="true" tabindex="-1"></a>A</span></code></pre></div>
 <pre><code>##      [,1] [,2]
 ## [1,]    2    3
 ## [2,]    1    4</code></pre>
 <p>Notice that it fills “down” by column. To fill “across” instead, use the <code>byrow</code> argument:</p>
-<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="matrix.html#cb180-1" aria-hidden="true"></a>B &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">4</span>),</span>
-<span id="cb180-2"><a href="matrix.html#cb180-2" aria-hidden="true"></a>            <span class="dt">nrow =</span> <span class="dv">2</span>,</span>
-<span id="cb180-3"><a href="matrix.html#cb180-3" aria-hidden="true"></a>            <span class="dt">ncol =</span> <span class="dv">2</span>,</span>
-<span id="cb180-4"><a href="matrix.html#cb180-4" aria-hidden="true"></a>            <span class="dt">byrow =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb180-5"><a href="matrix.html#cb180-5" aria-hidden="true"></a>B</span></code></pre></div>
+<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="matrix.html#cb180-1" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">4</span>),</span>
+<span id="cb180-2"><a href="matrix.html#cb180-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">nrow =</span> <span class="dv">2</span>,</span>
+<span id="cb180-3"><a href="matrix.html#cb180-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">ncol =</span> <span class="dv">2</span>,</span>
+<span id="cb180-4"><a href="matrix.html#cb180-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb180-5"><a href="matrix.html#cb180-5" aria-hidden="true" tabindex="-1"></a>B</span></code></pre></div>
 <pre><code>##      [,1] [,2]
 ## [1,]    2    1
 ## [2,]    3    4</code></pre>
 <p>There are a few utilities for checking the dimension of a matrix.</p>
-<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="matrix.html#cb182-1" aria-hidden="true"></a><span class="kw">nrow</span>(A)</span></code></pre></div>
+<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="matrix.html#cb182-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(A)</span></code></pre></div>
 <pre><code>## [1] 2</code></pre>
-<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="matrix.html#cb184-1" aria-hidden="true"></a><span class="kw">ncol</span>(A)</span></code></pre></div>
+<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="matrix.html#cb184-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ncol</span>(A)</span></code></pre></div>
 <pre><code>## [1] 2</code></pre>
-<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="matrix.html#cb186-1" aria-hidden="true"></a><span class="kw">dim</span>(A)</span></code></pre></div>
+<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="matrix.html#cb186-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(A)</span></code></pre></div>
 <pre><code>## [1] 2 2</code></pre>
 <p>To extract the <span class="math inline">\(i\)</span>’th row, <span class="math inline">\(j\)</span>’th column, or <span class="math inline">\(ij\)</span>’th element, use square brackets.</p>
-<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="matrix.html#cb188-1" aria-hidden="true"></a>A[<span class="dv">1</span>, ]   <span class="co"># 1st row</span></span></code></pre></div>
+<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="matrix.html#cb188-1" aria-hidden="true" tabindex="-1"></a>A[<span class="dv">1</span>, ]   <span class="co"># 1st row</span></span></code></pre></div>
 <pre><code>## [1] 2 3</code></pre>
-<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="matrix.html#cb190-1" aria-hidden="true"></a>A[, <span class="dv">2</span>]   <span class="co"># 2nd column</span></span></code></pre></div>
+<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="matrix.html#cb190-1" aria-hidden="true" tabindex="-1"></a>A[, <span class="dv">2</span>]   <span class="co"># 2nd column</span></span></code></pre></div>
 <pre><code>## [1] 3 4</code></pre>
-<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="matrix.html#cb192-1" aria-hidden="true"></a>A[<span class="dv">2</span>, <span class="dv">1</span>]  <span class="co"># entry in 2nd row, 1st column</span></span></code></pre></div>
+<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="matrix.html#cb192-1" aria-hidden="true" tabindex="-1"></a>A[<span class="dv">2</span>, <span class="dv">1</span>]  <span class="co"># entry in 2nd row, 1st column</span></span></code></pre></div>
 <pre><code>## [1] 1</code></pre>
 <p>Notice that when you extract a row or column, R turns it into a vector—the result has only a single dimension. If you dislike this behavior (i.e., you want an extracted column to be a 1-column matrix), use the <code>drop = FALSE</code> option in the square brackets.</p>
-<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="matrix.html#cb194-1" aria-hidden="true"></a>A[, <span class="dv">2</span>, drop =<span class="st"> </span><span class="ot">FALSE</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="matrix.html#cb194-1" aria-hidden="true" tabindex="-1"></a>A[, <span class="dv">2</span>, drop <span class="ot">=</span> <span class="cn">FALSE</span>]</span></code></pre></div>
 <pre><code>##      [,1]
 ## [1,]    3
 ## [2,]    4</code></pre>
 <p>Adding and subtracting matrices works as you’d expect.</p>
-<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="matrix.html#cb196-1" aria-hidden="true"></a>A <span class="op">+</span><span class="st"> </span>B</span></code></pre></div>
+<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="matrix.html#cb196-1" aria-hidden="true" tabindex="-1"></a>A <span class="sc">+</span> B</span></code></pre></div>
 <pre><code>##      [,1] [,2]
 ## [1,]    4    4
 ## [2,]    4    8</code></pre>
-<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="matrix.html#cb198-1" aria-hidden="true"></a>A <span class="op">-</span><span class="st"> </span>B</span></code></pre></div>
+<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="matrix.html#cb198-1" aria-hidden="true" tabindex="-1"></a>A <span class="sc">-</span> B</span></code></pre></div>
 <pre><code>##      [,1] [,2]
 ## [1,]    0    2
 ## [2,]   -2    0</code></pre>
 <p>As does scalar multiplication.</p>
-<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="matrix.html#cb200-1" aria-hidden="true"></a><span class="dv">5</span> <span class="op">*</span><span class="st"> </span>A</span></code></pre></div>
+<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="matrix.html#cb200-1" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span> <span class="sc">*</span> A</span></code></pre></div>
 <pre><code>##      [,1] [,2]
 ## [1,]   10   15
 ## [2,]    5   20</code></pre>
-<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="matrix.html#cb202-1" aria-hidden="true"></a><span class="dv">-1</span> <span class="op">*</span><span class="st"> </span>B</span></code></pre></div>
+<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="matrix.html#cb202-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span><span class="dv">1</span> <span class="sc">*</span> B</span></code></pre></div>
 <pre><code>##      [,1] [,2]
 ## [1,]   -2   -1
 ## [2,]   -3   -4</code></pre>
 <p>However, the <code>*</code> operator performs <em>element-by-element</em> multiplication, not matrix multiplication.</p>
-<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="matrix.html#cb204-1" aria-hidden="true"></a>A <span class="op">*</span><span class="st"> </span>B</span></code></pre></div>
+<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="matrix.html#cb204-1" aria-hidden="true" tabindex="-1"></a>A <span class="sc">*</span> B</span></code></pre></div>
 <pre><code>##      [,1] [,2]
 ## [1,]    4    3
 ## [2,]    3   16</code></pre>
 <p>To perform matrix multiplication, use the <code>%*%</code> operator.</p>
-<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="matrix.html#cb206-1" aria-hidden="true"></a>A <span class="op">%*%</span><span class="st"> </span>B</span></code></pre></div>
+<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="matrix.html#cb206-1" aria-hidden="true" tabindex="-1"></a>A <span class="sc">%*%</span> B</span></code></pre></div>
 <pre><code>##      [,1] [,2]
 ## [1,]   13   14
 ## [2,]   14   17</code></pre>
 <p>To invert a matrix or solve a linear system, use the <code>solve()</code> function.</p>
-<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="matrix.html#cb208-1" aria-hidden="true"></a><span class="co"># Invert A</span></span>
-<span id="cb208-2"><a href="matrix.html#cb208-2" aria-hidden="true"></a><span class="kw">solve</span>(A)</span></code></pre></div>
+<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="matrix.html#cb208-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Invert A</span></span>
+<span id="cb208-2"><a href="matrix.html#cb208-2" aria-hidden="true" tabindex="-1"></a><span class="fu">solve</span>(A)</span></code></pre></div>
 <pre><code>##      [,1] [,2]
 ## [1,]  0.8 -0.6
 ## [2,] -0.2  0.4</code></pre>
-<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb210-1"><a href="matrix.html#cb210-1" aria-hidden="true"></a><span class="co"># Solve for x in Ax = (3, 2)</span></span>
-<span id="cb210-2"><a href="matrix.html#cb210-2" aria-hidden="true"></a><span class="kw">solve</span>(A, <span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">2</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb210-1"><a href="matrix.html#cb210-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Solve for x in Ax = (3, 2)</span></span>
+<span id="cb210-2"><a href="matrix.html#cb210-2" aria-hidden="true" tabindex="-1"></a><span class="fu">solve</span>(A, <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">2</span>))</span></code></pre></div>
 <pre><code>## [1] 1.2 0.2</code></pre>
 <p>Here is a not-so-fun fact about matrix inversion in R: it’s not entirely exact. To see this, let’s invert a matrix with some decimal elements.</p>
-<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="matrix.html#cb212-1" aria-hidden="true"></a>X &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="fl">1.123</span>, <span class="fl">2.345</span>, <span class="fl">3.456</span>, <span class="fl">4.567</span>), <span class="dv">2</span>, <span class="dv">2</span>)</span>
-<span id="cb212-2"><a href="matrix.html#cb212-2" aria-hidden="true"></a>Y &lt;-<span class="st"> </span><span class="kw">solve</span>(X)</span>
-<span id="cb212-3"><a href="matrix.html#cb212-3" aria-hidden="true"></a>Y</span></code></pre></div>
+<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="matrix.html#cb212-1" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="fl">1.123</span>, <span class="fl">2.345</span>, <span class="fl">3.456</span>, <span class="fl">4.567</span>), <span class="dv">2</span>, <span class="dv">2</span>)</span>
+<span id="cb212-2"><a href="matrix.html#cb212-2" aria-hidden="true" tabindex="-1"></a>Y <span class="ot">&lt;-</span> <span class="fu">solve</span>(X)</span>
+<span id="cb212-3"><a href="matrix.html#cb212-3" aria-hidden="true" tabindex="-1"></a>Y</span></code></pre></div>
 <pre><code>##            [,1]       [,2]
 ## [1,] -1.5348273  1.1614546
 ## [2,]  0.7880819 -0.3774055</code></pre>
 <p>Now let’s see what we get when we multiply <code>X</code> and <code>Y</code>.</p>
-<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="matrix.html#cb214-1" aria-hidden="true"></a>X <span class="op">%*%</span><span class="st"> </span>Y</span></code></pre></div>
-<pre><code>##      [,1]         [,2]
-## [1,]    1 2.220446e-16
-## [2,]    0 1.000000e+00</code></pre>
+<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="matrix.html#cb214-1" aria-hidden="true" tabindex="-1"></a>X <span class="sc">%*%</span> Y</span></code></pre></div>
+<pre><code>##              [,1]          [,2]
+## [1,] 1.000000e+00 -7.406889e-17
+## [2,] 8.210031e-17  1.000000e+00</code></pre>
 <p>That’s not an identity matrix! The issue here is <em>floating point error</em>, the fact that decimal numbers are not stored exactly on computers. Notice that the off-diagonal elements here, which are supposed to be exactly zero, are instead very very tiny numbers, on the order of <span class="math inline">\(10^{-16}\)</span>, or 0.0000000000000001.</p>
 <p>Let’s check that our result is <em>numerically</em> equal to what we expected. By numerically equal, I mean, loosely speaking, that any differences are less than the amount of error you would expect due to floating point error. First we’ll use <code>diag()</code> to generate a <span class="math inline">\(2 \times 2\)</span> identity matrix, then we’ll compare numerical equality using <code>all.equal()</code>.</p>
-<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="matrix.html#cb216-1" aria-hidden="true"></a>I &lt;-<span class="st"> </span><span class="kw">diag</span>(<span class="dv">2</span>)</span>
-<span id="cb216-2"><a href="matrix.html#cb216-2" aria-hidden="true"></a><span class="kw">all.equal</span>(X <span class="op">%*%</span><span class="st"> </span>Y, I)</span></code></pre></div>
+<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="matrix.html#cb216-1" aria-hidden="true" tabindex="-1"></a>I <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="dv">2</span>)</span>
+<span id="cb216-2"><a href="matrix.html#cb216-2" aria-hidden="true" tabindex="-1"></a><span class="fu">all.equal</span>(X <span class="sc">%*%</span> Y, I)</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 <p>Whereas the traditional <code>==</code> operator is stricter, checking for exact equality.</p>
-<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="matrix.html#cb218-1" aria-hidden="true"></a>X <span class="op">%*%</span><span class="st"> </span>Y <span class="op">==</span><span class="st"> </span>I</span></code></pre></div>
+<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="matrix.html#cb218-1" aria-hidden="true" tabindex="-1"></a>X <span class="sc">%*%</span> Y <span class="sc">==</span> I</span></code></pre></div>
 <pre><code>##       [,1]  [,2]
-## [1,] FALSE FALSE
-## [2,]  TRUE FALSE</code></pre>
+## [1,]  TRUE FALSE
+## [2,] FALSE FALSE</code></pre>
 <p>Moral of the story: when comparing decimal numbers, use <code>all.equal()</code> rather than <code>==</code>. When <code>all.equal()</code> is not <code>TRUE</code>, it returns a message indicating how far apart the numbers are. This is annoying if you want to use <code>all.equal()</code> in, say, an <code>if</code>/<code>else</code> statement. To get around that, we have the <code>isTRUE()</code> function.</p>
-<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="matrix.html#cb220-1" aria-hidden="true"></a><span class="kw">all.equal</span>(<span class="fl">1.0</span>, <span class="fl">1.5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="matrix.html#cb220-1" aria-hidden="true" tabindex="-1"></a><span class="fu">all.equal</span>(<span class="fl">1.0</span>, <span class="fl">1.5</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;Mean relative difference: 0.5&quot;</code></pre>
-<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb222-1"><a href="matrix.html#cb222-1" aria-hidden="true"></a><span class="kw">isTRUE</span>(<span class="kw">all.equal</span>(<span class="fl">1.0</span>, <span class="fl">1.5</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb222-1"><a href="matrix.html#cb222-1" aria-hidden="true" tabindex="-1"></a><span class="fu">isTRUE</span>(<span class="fu">all.equal</span>(<span class="fl">1.0</span>, <span class="fl">1.5</span>))</span></code></pre></div>
 <pre><code>## [1] FALSE</code></pre>
-<p>One last thing. If <code>solve()</code> throws an error that says “reciprocal condition number…” or “system is exactly singular”, that means you tried to invert a matrix that is not invertible.</p>
-<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="matrix.html#cb224-1" aria-hidden="true"></a>Z &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>), <span class="dv">2</span>, <span class="dv">2</span>)</span>
-<span id="cb224-2"><a href="matrix.html#cb224-2" aria-hidden="true"></a><span class="kw">solve</span>(Z)</span></code></pre></div>
+<p>One last thing. If <code>solve()</code> throws an error that says “reciprocal condition number…” or “system is exactly singular,” that means you tried to invert a matrix that is not invertible.</p>
+<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="matrix.html#cb224-1" aria-hidden="true" tabindex="-1"></a>Z <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>), <span class="dv">2</span>, <span class="dv">2</span>)</span>
+<span id="cb224-2"><a href="matrix.html#cb224-2" aria-hidden="true" tabindex="-1"></a><span class="fu">solve</span>(Z)</span></code></pre></div>
 <pre><code>## Error in solve.default(Z): Lapack routine dgesv: system is exactly singular: U[2,2] = 0</code></pre>
 
 </div>
@@ -749,7 +750,7 @@ x_1 + x_2 &amp;= 1, \\
 <div class="footnotes">
 <hr />
 <ol start="20">
-<li id="fn20"><p>R will let you add and subtract vectors of different lengths, via a technique called “recycling”. For example <code>c(1, 0) + c(1, 2, 3, 4)</code> will produce <code>c(2, 2, 4, 4)</code>. This is kosher in R, but not in mathematical derivations.<a href="matrix.html#fnref20" class="footnote-back">↩︎</a></p></li>
+<li id="fn20"><p>R will let you add and subtract vectors of different lengths, via a technique called “recycling.” For example <code>c(1, 0) + c(1, 2, 3, 4)</code> will produce <code>c(2, 2, 4, 4)</code>. This is kosher in R, but not in mathematical derivations.<a href="matrix.html#fnref20" class="footnote-back">↩︎</a></p></li>
 <li id="fn21"><p>On the determinants of <span class="math inline">\(3 \times 3\)</span> and larger matrices, see your friendly local linear algebra textbook. Calculating the determinant becomes exponentially more complicated with the size of the matrix.<a href="matrix.html#fnref21" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>

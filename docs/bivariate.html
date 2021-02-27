@@ -24,7 +24,7 @@
 <meta name="author" content="Brenton Kenkel" />
 
 
-<meta name="date" content="2021-02-15" />
+<meta name="date" content="2021-02-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="visualization.html"/>
 <link rel="next" href="matrix.html"/>
-<script src="libs/header-attrs-2.6/header-attrs.js"></script>
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -57,6 +57,7 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -373,10 +374,8 @@ S_Y^2 = \frac{1}{N-1} \sum_n Y_n (Y_n - \bar{Y}).
 <p>We will spend some time in the latter part of the course on how to move from conditional expectations to causality. Then, in Stat III, you will learn about causal inference in excruciating detail.</p></li>
 <li><p>The conditional expectation doesn’t give you everything you’d want to know about the relationship between variables.</p>
 <p>As a hypothetical example, suppose I told you that taking a particular drug made people happier on average. In other words, <span class="math inline">\(E[\text{Happiness} \,|\, \text{Drug}] &gt; E[\text{Happiness} \,|\, \text{No Drug}]\)</span>. Sounds great! Then imagine the dose-response graph looked like this:</p>
-<pre><code>## Warning: `data_frame()` is deprecated as of tibble 1.1.0.
-## Please use `tibble()` instead.
-## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_warnings()` to see where this warning was generated.</code></pre>
+<pre><code>## Warning: `data_frame()` was deprecated in tibble 1.1.0.
+## Please use `tibble()` instead.</code></pre>
 <p><img src="pdaps_files/figure-html/happiness-drug-1.png" width="672" /></p>
 <p>The fact that expected happiness rises by half a point doesn’t quite tell the whole story.</p></li>
 </ol>
@@ -451,11 +450,9 @@ As long as the sample variance of <span class="math inline">\(X\)</span> is non-
 \end{aligned}
 \]</span></p>
 <p>Regression is a convenient way to summarize the relationship between variables, but it is a complement to—not a substitute for—graphical analysis. The statistician Francis Anscombe found that OLS yields nearly identical regression lines for all four of the datasets in the following graph:</p>
-<pre><code>## Warning: `as_data_frame()` is deprecated as of tibble 2.0.0.
+<pre><code>## Warning: `as_data_frame()` was deprecated in tibble 2.0.0.
 ## Please use `as_tibble()` instead.
-## The signature and semantics have changed, see `?as_tibble`.
-## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_warnings()` to see where this warning was generated.</code></pre>
+## The signature and semantics have changed, see `?as_tibble`.</code></pre>
 <pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
 <p><img src="pdaps_files/figure-html/anscombe-1.png" width="672" /></p>
 <p>Unless your data all lie along a line, the regression line estimated by OLS will not predict the data perfectly. Let the <em>residual sum of squares</em> be the squared error left over by OLS,
@@ -539,11 +536,11 @@ This takes more algebra than we have time for, so I leave it as an exercise for 
 <div id="appendix-regression-in-r" class="section level2" number="5.5">
 <h2><span class="header-section-number">5.5</span> Appendix: Regression in R</h2>
 <p>We will be using the <strong>tidyverse</strong> package as always, the <strong>car</strong> package for the <code>Prestige</code> data, and the <strong>broom</strong> package for its convenient post-analysis functions.</p>
-<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="bivariate.html#cb148-1" aria-hidden="true"></a><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</span>
-<span id="cb148-2"><a href="bivariate.html#cb148-2" aria-hidden="true"></a><span class="kw">library</span>(<span class="st">&quot;car&quot;</span>)</span>
-<span id="cb148-3"><a href="bivariate.html#cb148-3" aria-hidden="true"></a><span class="kw">library</span>(<span class="st">&quot;broom&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="bivariate.html#cb148-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</span>
+<span id="cb148-2"><a href="bivariate.html#cb148-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;car&quot;</span>)</span>
+<span id="cb148-3"><a href="bivariate.html#cb148-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;broom&quot;</span>)</span></code></pre></div>
 <p>Let’s take a look at <code>Prestige</code>, which records basic information (including perceived prestige) for a variety of occupations.</p>
-<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="bivariate.html#cb149-1" aria-hidden="true"></a><span class="kw">head</span>(Prestige)</span></code></pre></div>
+<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="bivariate.html#cb149-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Prestige)</span></code></pre></div>
 <pre><code>##                     education income women prestige census type
 ## gov.administrators      13.11  12351 11.16     68.8   1113 prof
 ## general.managers        12.26  25879  4.02     69.1   1130 prof
@@ -552,7 +549,7 @@ This takes more algebra than we have time for, so I leave it as an exercise for 
 ## chemists                14.62   8403 11.68     73.5   2111 prof
 ## physicists              15.64  11030  5.13     77.6   2113 prof</code></pre>
 <p>Suppose we want to run a regression of prestige on education. We will use the <code>lm()</code> function, which stands for <em>linear model</em>. This will employ the “formula” syntax that you previously saw when faceting in ggplot. The basic syntax of a formula is <code>response ~ covariate</code>, where <code>response</code> and <code>covariate</code> are the names of the variables in question. In this case, with <code>prestige</code> (note that the variable is lowercase, while the dataset is capitalized) as the response and education as the covariate:</p>
-<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="bivariate.html#cb151-1" aria-hidden="true"></a><span class="kw">lm</span>(prestige <span class="op">~</span><span class="st"> </span>education, <span class="dt">data =</span> Prestige)</span></code></pre></div>
+<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="bivariate.html#cb151-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(prestige <span class="sc">~</span> education, <span class="at">data =</span> Prestige)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = prestige ~ education, data = Prestige)
@@ -562,9 +559,9 @@ This takes more algebra than we have time for, so I leave it as an exercise for 
 ##     -10.732        5.361</code></pre>
 <p>You’ll notice that didn’t give us very much. If you’ve previously used statistical programs like Stata, you might expect a ton of output at this point. It’s all there in R too, but R has a different philosophy about models. R sees the fitted model as an object in its own right—like a data frame, a function, or anything else you load or create in R. Therefore, to analyze regression results in R, you will typically save the regression results to a variable.</p>
 <p>Like any other variable, you’ll want to give your regression results meaningful names. I typically call them <code>fit_</code> to indicate a fitted model, followed by some memorable description.</p>
-<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="bivariate.html#cb153-1" aria-hidden="true"></a>fit_educ &lt;-<span class="st"> </span><span class="kw">lm</span>(prestige <span class="op">~</span><span class="st"> </span>education, <span class="dt">data =</span> Prestige)</span></code></pre></div>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="bivariate.html#cb153-1" aria-hidden="true" tabindex="-1"></a>fit_educ <span class="ot">&lt;-</span> <span class="fu">lm</span>(prestige <span class="sc">~</span> education, <span class="at">data =</span> Prestige)</span></code></pre></div>
 <p>When you do this, the output doesn’t get printed. To see the default output, just run the variable name, just like you would to see the content of a data frame:</p>
-<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="bivariate.html#cb154-1" aria-hidden="true"></a>fit_educ</span></code></pre></div>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="bivariate.html#cb154-1" aria-hidden="true" tabindex="-1"></a>fit_educ</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = prestige ~ education, data = Prestige)
@@ -573,7 +570,7 @@ This takes more algebra than we have time for, so I leave it as an exercise for 
 ## (Intercept)    education  
 ##     -10.732        5.361</code></pre>
 <p>For a more detailed readout, use the <code>summary()</code> method:</p>
-<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="bivariate.html#cb156-1" aria-hidden="true"></a><span class="kw">summary</span>(fit_educ)</span></code></pre></div>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="bivariate.html#cb156-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_educ)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = prestige ~ education, data = Prestige)
@@ -603,16 +600,16 @@ This takes more algebra than we have time for, so I leave it as an exercise for 
 <li>Test statistic for a hypothesis test of equality with zero</li>
 <li><span class="math inline">\(p\)</span>-value associated with the test statistic</li>
 </ul></li>
-<li><span class="math inline">\(\hat{\sigma}\)</span> (called the “residual standard error”, a term seemingly unique to R)</li>
+<li><span class="math inline">\(\hat{\sigma}\)</span> (called the “residual standard error,” a term seemingly unique to R)</li>
 <li><span class="math inline">\(R^2\)</span> and an “adjusted” variant that accounts for the number of variables in the model</li>
 <li><span class="math inline">\(F\)</span> statistic, degrees of freedom, and associated <span class="math inline">\(p\)</span>-value for a hypothesis test that every coefficient besides the intercept equals zero</li>
 </ul>
 <p>Strangely, <code>summary()</code> doesn’t give you the sample size. For that you must use <code>nobs()</code>:</p>
-<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="bivariate.html#cb158-1" aria-hidden="true"></a><span class="kw">nobs</span>(fit_educ)</span></code></pre></div>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="bivariate.html#cb158-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nobs</span>(fit_educ)</span></code></pre></div>
 <pre><code>## [1] 102</code></pre>
 <p>You can use a fitted model object to make predictions for new data. For example, let’s make a basic data frame of education levels.</p>
-<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="bivariate.html#cb160-1" aria-hidden="true"></a>my_data &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">education =</span> <span class="dv">8</span><span class="op">:</span><span class="dv">16</span>)</span>
-<span id="cb160-2"><a href="bivariate.html#cb160-2" aria-hidden="true"></a>my_data</span></code></pre></div>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="bivariate.html#cb160-1" aria-hidden="true" tabindex="-1"></a>my_data <span class="ot">&lt;-</span> <span class="fu">data_frame</span>(<span class="at">education =</span> <span class="dv">8</span><span class="sc">:</span><span class="dv">16</span>)</span>
+<span id="cb160-2"><a href="bivariate.html#cb160-2" aria-hidden="true" tabindex="-1"></a>my_data</span></code></pre></div>
 <pre><code>## # A tibble: 9 x 1
 ##   education
 ##       &lt;int&gt;
@@ -626,17 +623,17 @@ This takes more algebra than we have time for, so I leave it as an exercise for 
 ## 8        15
 ## 9        16</code></pre>
 <p>To calculate the predicted level of prestige for each education level, use <code>predict()</code>:</p>
-<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="bivariate.html#cb162-1" aria-hidden="true"></a><span class="kw">predict</span>(fit_educ, <span class="dt">newdata =</span> my_data)</span></code></pre></div>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="bivariate.html#cb162-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(fit_educ, <span class="at">newdata =</span> my_data)</span></code></pre></div>
 <pre><code>##        1        2        3        4        5        6        7        8 
 ## 32.15504 37.51592 42.87680 48.23767 53.59855 58.95943 64.32031 69.68118 
 ##        9 
 ## 75.04206</code></pre>
 <p>When using <code>predict()</code>, it is crucial that the <code>newdata</code> have the same column names as in the data used to fit the model.</p>
 <p>You can also extract a confidence interval for each prediction:</p>
-<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="bivariate.html#cb164-1" aria-hidden="true"></a><span class="kw">predict</span>(fit_educ,</span>
-<span id="cb164-2"><a href="bivariate.html#cb164-2" aria-hidden="true"></a>        <span class="dt">newdata =</span> my_data,</span>
-<span id="cb164-3"><a href="bivariate.html#cb164-3" aria-hidden="true"></a>        <span class="dt">interval =</span> <span class="st">&quot;confidence&quot;</span>,</span>
-<span id="cb164-4"><a href="bivariate.html#cb164-4" aria-hidden="true"></a>        <span class="dt">level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="bivariate.html#cb164-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(fit_educ,</span>
+<span id="cb164-2"><a href="bivariate.html#cb164-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">newdata =</span> my_data,</span>
+<span id="cb164-3"><a href="bivariate.html#cb164-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">interval =</span> <span class="st">&quot;confidence&quot;</span>,</span>
+<span id="cb164-4"><a href="bivariate.html#cb164-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
 <pre><code>##        fit      lwr      upr
 ## 1 32.15504 29.61530 34.69478
 ## 2 37.51592 35.39261 39.63922
@@ -648,37 +645,37 @@ This takes more algebra than we have time for, so I leave it as an exercise for 
 ## 8 69.68118 66.35281 73.00956
 ## 9 75.04206 71.14209 78.94204</code></pre>
 <p>One of the problems with <code>summary()</code> and <code>predict()</code> is that they return inconveniently shaped output. The output of <code>summary()</code> is particularly hard to deal with. The <strong>broom</strong> package provides three utilities to help get model output into shape. The first is <code>tidy()</code>, which makes a tidy data frame out of the regression coefficients and the associated inferential statistics:</p>
-<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="bivariate.html#cb166-1" aria-hidden="true"></a><span class="kw">tidy</span>(fit_educ)</span></code></pre></div>
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="bivariate.html#cb166-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(fit_educ)</span></code></pre></div>
 <pre><code>## # A tibble: 2 x 5
 ##   term        estimate std.error statistic  p.value
 ##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
 ## 1 (Intercept)   -10.7      3.68      -2.92 4.34e- 3
 ## 2 education       5.36     0.332     16.1  1.29e-29</code></pre>
 <p>The second is <code>glance()</code>, which provides a one-row data frame containing overall model characteristics (e.g., <span class="math inline">\(R^2\)</span> and <span class="math inline">\(\hat{\sigma}\)</span>):</p>
-<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="bivariate.html#cb168-1" aria-hidden="true"></a><span class="kw">glance</span>(fit_educ)</span></code></pre></div>
+<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="bivariate.html#cb168-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glance</span>(fit_educ)</span></code></pre></div>
 <pre><code>## # A tibble: 1 x 12
 ##   r.squared adj.r.squared sigma statistic  p.value    df logLik   AIC   BIC
 ##       &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 ## 1     0.723         0.720  9.10      261. 1.29e-29     1  -369.  744.  752.
 ## # … with 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;</code></pre>
 <p>The third is <code>augment()</code>, which “augments” the original data—or new data you supply, as in <code>predict()</code>—with information from the model, such as predicted values.</p>
-<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="bivariate.html#cb170-1" aria-hidden="true"></a><span class="co"># Lots of output, so only printing first 10 rows</span></span>
-<span id="cb170-2"><a href="bivariate.html#cb170-2" aria-hidden="true"></a><span class="kw">head</span>(<span class="kw">augment</span>(fit_educ), <span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="bivariate.html#cb170-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Lots of output, so only printing first 10 rows</span></span>
+<span id="cb170-2"><a href="bivariate.html#cb170-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">augment</span>(fit_educ), <span class="dv">10</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 10 x 9
-##    .rownames  prestige education .fitted .resid .std.resid   .hat .sigma .cooksd
-##    &lt;chr&gt;         &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;
-##  1 gov.admin…     68.8      13.1    59.5   9.25      1.03  0.0173   9.10 9.24e-3
-##  2 general.m…     69.1      12.3    55.0  14.1       1.56  0.0129   9.04 1.59e-2
-##  3 accountan…     63.4      12.8    57.7   5.67      0.628 0.0153   9.13 3.06e-3
-##  4 purchasin…     56.8      11.4    50.5   6.31      0.697 0.0104   9.13 2.56e-3
-##  5 chemists       73.5      14.6    67.6   5.86      0.653 0.0298   9.13 6.56e-3
-##  6 physicists     77.6      15.6    73.1   4.49      0.504 0.0418   9.14 5.53e-3
-##  7 biologists     72.6      15.1    70.2   2.44      0.272 0.0350   9.15 1.35e-3
-##  8 architects     78.1      15.4    72.0   6.06      0.679 0.0392   9.13 9.41e-3
-##  9 civil.eng…     73.1      14.5    67.1   5.99      0.668 0.0288   9.13 6.62e-3
-## 10 mining.en…     68.8      14.6    67.8   1.05      0.117 0.0301   9.15 2.12e-4</code></pre>
-<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="bivariate.html#cb172-1" aria-hidden="true"></a><span class="kw">augment</span>(fit_educ,</span>
-<span id="cb172-2"><a href="bivariate.html#cb172-2" aria-hidden="true"></a>        <span class="dt">newdata =</span> my_data)</span></code></pre></div>
+##    .rownames  prestige education .fitted .resid   .hat .sigma .cooksd .std.resid
+##    &lt;chr&gt;         &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt;
+##  1 gov.admin…     68.8      13.1    59.5   9.25 0.0173   9.10 9.24e-3      1.03 
+##  2 general.m…     69.1      12.3    55.0  14.1  0.0129   9.04 1.59e-2      1.56 
+##  3 accountan…     63.4      12.8    57.7   5.67 0.0153   9.13 3.06e-3      0.628
+##  4 purchasin…     56.8      11.4    50.5   6.31 0.0104   9.13 2.56e-3      0.697
+##  5 chemists       73.5      14.6    67.6   5.86 0.0298   9.13 6.56e-3      0.653
+##  6 physicists     77.6      15.6    73.1   4.49 0.0418   9.14 5.53e-3      0.504
+##  7 biologists     72.6      15.1    70.2   2.44 0.0350   9.15 1.35e-3      0.272
+##  8 architects     78.1      15.4    72.0   6.06 0.0392   9.13 9.41e-3      0.679
+##  9 civil.eng…     73.1      14.5    67.1   5.99 0.0288   9.13 6.62e-3      0.668
+## 10 mining.en…     68.8      14.6    67.8   1.05 0.0301   9.15 2.12e-4      0.117</code></pre>
+<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="bivariate.html#cb172-1" aria-hidden="true" tabindex="-1"></a><span class="fu">augment</span>(fit_educ,</span>
+<span id="cb172-2"><a href="bivariate.html#cb172-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">newdata =</span> my_data)</span></code></pre></div>
 <pre><code>## # A tibble: 9 x 2
 ##   education .fitted
 ##       &lt;int&gt;   &lt;dbl&gt;
@@ -693,15 +690,15 @@ This takes more algebra than we have time for, so I leave it as an exercise for 
 ## 9        16    75.0</code></pre>
 <p>Notice that you get back more information for the data used to fit the model than for newly supplied data. The most important is <code>.fitted</code>, the predicted value. See <code>?augment.lm</code> for what all the various output represents.</p>
 <p>One last note on plotting regression lines with ggplot. Use <code>geom_smooth(method = "lm")</code>.</p>
-<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="bivariate.html#cb174-1" aria-hidden="true"></a><span class="kw">ggplot</span>(Prestige, <span class="kw">aes</span>(<span class="dt">x =</span> education, <span class="dt">y =</span> prestige)) <span class="op">+</span></span>
-<span id="cb174-2"><a href="bivariate.html#cb174-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></span>
-<span id="cb174-3"><a href="bivariate.html#cb174-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="bivariate.html#cb174-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Prestige, <span class="fu">aes</span>(<span class="at">x =</span> education, <span class="at">y =</span> prestige)) <span class="sc">+</span></span>
+<span id="cb174-2"><a href="bivariate.html#cb174-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb174-3"><a href="bivariate.html#cb174-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>)</span></code></pre></div>
 <pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
 <p><img src="pdaps_files/figure-html/ggplot-lm-1.png" width="672" /></p>
 <p>To get rid of the confidence interval:</p>
-<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb176-1"><a href="bivariate.html#cb176-1" aria-hidden="true"></a><span class="kw">ggplot</span>(Prestige, <span class="kw">aes</span>(<span class="dt">x =</span> education, <span class="dt">y =</span> prestige)) <span class="op">+</span></span>
-<span id="cb176-2"><a href="bivariate.html#cb176-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></span>
-<span id="cb176-3"><a href="bivariate.html#cb176-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">se =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb176-1"><a href="bivariate.html#cb176-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Prestige, <span class="fu">aes</span>(<span class="at">x =</span> education, <span class="at">y =</span> prestige)) <span class="sc">+</span></span>
+<span id="cb176-2"><a href="bivariate.html#cb176-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb176-3"><a href="bivariate.html#cb176-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">se =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
 <p><img src="pdaps_files/figure-html/ggplot-lm-no-se-1.png" width="672" /></p>
 

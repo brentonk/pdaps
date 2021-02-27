@@ -3,30 +3,36 @@
 \providecommand{\pderiv}{}
 \renewcommand{\pderiv}[2]{\frac{\partial{}#1}{\partial{}#2}}
 
-I lied to you about the linear model last week.  Like the grade-school teachers who told you everyone thought the world was flat before Columbus proved them wrong, I had good intentions---but it was a lie nonetheless.
-
-I claimed that the linear model assumed that the conditional expectation of the response was a linear function of the covariates.  That is false.  A data model is a linear model, can be estimated consistently and without bias by OLS, and all that good stuff, as long as it is linear in the *parameters*.
-
-For example, the following is a linear model.
+Let's talk about what a linear model is.
+In its canonical form, a linear model posits that the conditional expectation of the response is a linear combination of the covariates:
 $$
-Y_n = \beta_1 + \beta_2 x_n + \beta_3 x_n^2 + \beta_4 x_n^7 + \epsilon_n.
+Y_n = \beta_1 + \beta_2 x_n + \beta_3 z_n + \epsilon_n.
 $$
-The conditional expectation of $Y_n$ is a nonlinear function of $x_n$ (holding $\beta$ fixed) but a linear function of $\beta$ (holding $x_n$ fixed).  Therefore, assuming strict exogeneity holds, OLS is an unbiased, consistent, asymptotically normal estimator of $\beta$.
+However, we can use OLS to estimate certain models where the relationship between the covariates and the response is nonlinear.
+For example, the following model can be estimated (consistently, and with all the other good properties) by OLS:
+$$
+Y_n = \beta_1 + \beta_2 x_n + \beta_3 z_n + \beta_4 z_n^2 + \epsilon_n.
+$$
+Notice here that $z_n$ has a nonlinear relationship with the conditional expectation of the response:
+$$
+\pderiv{Y_n}{z_n} = \beta_3 + 2 \beta_4 z_n.
+$$
 
-The following is not a linear model.
+What matters for the applicability of OLS is not the linearity of the relationship between the covariates and the response, but rather the linearity of the relationship between the *coefficients* and the response.
+For example, the following model cannot be estimated properly by OLS:
 $$
-Y_n = 2^{\beta_1} + 2^{\beta_2} x_n + \epsilon_n.
+Y_n = \beta_1 \beta_2 + \beta_1 \beta_3 x_n + \beta_2 \beta_3 z_n + \epsilon_n.
 $$
-Holding $\beta$ fixed, this is a linear function of the covariate $x_n$.  But, holding $x_n$ fixed, this is not a linear function of $\beta$.  OLS is not an appropriate estimator for the parameters of this model.
+Holding $\beta$ fixed, this is a linear function of the covariates $x_n$ and $z_n$.  But, holding the covariates fixed, this is not a linear function of $\beta$.  OLS is not an appropriate estimator for the parameters of this model.
 
-This week, we will talk about linear models with non-standard covariate specifications---those that aren't just a linear function of continuous variables.
+In this section, we will talk about linear models with non-standard covariate specifications---those that aren't just a linear function of continuous variables.
 
 
 ## Categorical Variables
 
 Using the linear model, we write the conditional expectation for the $n$'th response as
 $$
-E[Y_n \,|\, \mathbf{x}_n] = \mathbf{x}_n \cdot \beta + \epsilon_n,
+E[Y_n \,|\, \mathbf{x}_n] = \mathbf{x}_n \cdot \beta,
 $$
 where $\mathbf{x}_n$ is the vector of $K$ covariates (including the intercept) and $\beta$ is the vector of $K$ coefficients we wish to estimate.
 
@@ -36,7 +42,7 @@ $$
 $$
 doesn't really make sense, because party ID isn't a number.[^pearl-clutching]
 
-[^pearl-clutching]: Oldish-school political scientists, by which I mean just about anyone who got their PhD between 1990 and 2010, would now be clutching their pearls at the mere thought of using a linear model for vote choice.  But so-called "binary dependent variable" models like logistic regression are at best overrated, as you read in *Mostly Harmless Econometrics*.
+[^pearl-clutching]: There's a nontrivial (but decreasing) proportion of political scientists who feel uncomfortable using linear models to estimate binary responses, who think a model like this would require something like logistic regression.  As you can read about in *Mostly Harmless Econometrics* and as we'll see later in the course, this view is basically misguided.  For the quantities we care about, a linear model is fine even if the dependent variable is binary.
 
 To incorporate a categorical variable into the linear model, we break each category into its own binary variable.  For example, with our party ID variable, we go from
 $$
@@ -132,7 +138,7 @@ Coefficient   | Estimate
 Republican    | 0.75
 Independent   | 0.35
 
-Given that the results are substantively the same no matter what, does it matter which category we choose to drop?  Yes, for the purpose of communicating your results.  The omitted category should serve as a meaningful baseline.  For this example, all of our three categories are substantively meaningful, so any choice will do.  But imagine replacing our part ID variable with a race variable that has the following categories:
+Given that the results are substantively the same no matter what, does it matter which category we choose to drop?  Yes, for the purpose of communicating your results.  The omitted category should serve as a meaningful baseline.  For this example, all of our three categories are substantively meaningful, so any choice will do.  But imagine if instead of party ID, we were working with a racial identification variable with the following categories:
 
 * White
 * Black
@@ -140,7 +146,7 @@ Given that the results are substantively the same no matter what, does it matter
 * Asian
 * Other
 
-You may be tempted to make "Other" the excluded category, so that you obtain a coefficient for each of the specific racial groups.  But that's actually the worst choice possible.  The coefficient on the White variable would then represent the difference in probability of voting for Trump between a white voter and a voter in the "other" category---which is hard to interpret.  Whereas if we instead omitted the Black category, the coefficient on the White variable would represent the difference between white and black voters.
+You may be tempted to make "Other" the excluded category, so that you obtain a coefficient for each of the specific racial groups.  But that's actually the worst choice possible.  The coefficient on the "White" variable would then represent the difference in probability of voting for Trump between a white voter and a voter in the "Other" category---which is hard to interpret.  Whereas if we instead omitted the "Black" category, the coefficient on the "White" variable would represent the difference between white and Black voters.
 
 When in doubt, I recommend omitting whichever category is largest in the data.
 

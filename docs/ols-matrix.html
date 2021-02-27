@@ -24,7 +24,7 @@
 <meta name="author" content="Brenton Kenkel" />
 
 
-<meta name="date" content="2021-02-15" />
+<meta name="date" content="2021-02-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="matrix.html"/>
 <link rel="next" href="specification.html"/>
-<script src="libs/header-attrs-2.6/header-attrs.js"></script>
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -57,6 +57,7 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -359,7 +360,7 @@ We can now write a model of the full data,
 <ul>
 <li><p>The covariate matrix <span class="math inline">\(\mathbf{X}\)</span> and the response vector <span class="math inline">\(\mathbf{Y}\)</span> are known. They are our data.</p></li>
 <li><p>The regression parameters <span class="math inline">\(\beta\)</span> are unknown. They are what we are trying to learn from the data.</p></li>
-<li><p>The error term <span class="math inline">\(\epsilon\)</span> is also unknown. We can think of each observation of <span class="math inline">\(Y_n\)</span> as being a combination of “signal”, <span class="math inline">\(\mathbf{x}_n \cdot \beta\)</span>, and “noise”, <span class="math inline">\(\epsilon_n\)</span>. The fundamental problem is that we don’t know exactly what the signal is and what the noise is.</p></li>
+<li><p>The error term <span class="math inline">\(\epsilon\)</span> is also unknown. We can think of each observation of <span class="math inline">\(Y_n\)</span> as being a combination of “signal,” <span class="math inline">\(\mathbf{x}_n \cdot \beta\)</span>, and “noise,” <span class="math inline">\(\epsilon_n\)</span>. The fundamental problem is that we don’t know exactly what the signal is and what the noise is.</p></li>
 </ul>
 </div>
 <div id="the-ols-estimator" class="section level2" number="7.2">
@@ -582,7 +583,7 @@ Assuming strict exogeneity holds, we have
 \]</span>
 Therefore, once we have assumed strict exogeneity, we have thereby assumed zero correlation between the covariates and the error term.</p>
 <p>Remember that the error for the <span class="math inline">\(n\)</span>’th observation, <span class="math inline">\(\epsilon_n\)</span>, collects everything that affects <span class="math inline">\(Y_n\)</span> but is not included in <span class="math inline">\(\mathbf{x}_n\)</span>. So what we’re saying when we impose strict exogeneity is either that there’s nothing else out there that affects <span class="math inline">\(\mathbf{Y}\)</span> besides <span class="math inline">\(\mathbf{X}\)</span> (unlikely!), or that anything else that affects <span class="math inline">\(\mathbf{Y}\)</span> is uncorrelated with <span class="math inline">\(\mathbf{X}\)</span> (also unlikely, but slightly less so!).</p>
-<p>In the ’90s and ’00s, as more data became available and computing power increased, political scientists labored under the delusion that the way to make strict exogeneity hold was to throw every covariate you could imagine into each regression. This approach was statistically illiterate <span class="citation">(Clarke <a href="#ref-clarke2005phantom" role="doc-biblioref">2005</a>)</span> and scholars have since begun to favor <em>design-based</em> approaches. The basic idea is to collect data with relatively little unobservable heterogeneity, whether through experiments or through careful observational work, rather than to try to eliminate it through endless controls. We’ll talk more about design when we get to causal inference, and it will be a major source of discussion in Stat III.</p>
+<p>In the ’90s and ’00s, as more data became available and computing power increased, political scientists labored under the delusion that the way to make strict exogeneity hold was to throw every covariate you could imagine into each regression. This approach was statistically illiterate <span class="citation">(<a href="references.html#ref-clarke2005phantom" role="doc-biblioref">Clarke 2005</a>)</span> and scholars have since begun to favor <em>design-based</em> approaches. The basic idea is to collect data with relatively little unobservable heterogeneity, whether through experiments or through careful observational work, rather than to try to eliminate it through endless controls. We’ll talk more about design when we get to causal inference, and it will be a major source of discussion in Stat III.</p>
 <p>For now, let us proceed imagining that strict exogeneity holds. Then, just as in the bivariate case, OLS is unbiased. In fact, it’s even easier to prove now. Momentarily treating the covariates <span class="math inline">\(\mathbf{X}\)</span> as fixed, strict exogeneity implies that
 <span class="math display">\[
 \begin{aligned}
@@ -639,12 +640,6 @@ Spherical errors summarizes two important conditions:</p>
 </ul>
 <p>Much later in the course, we will encounter ridge regression, a linear estimator that has lower standard errors than OLS. The Gauss-Markov theorem tells us that we’re making a tradeoff when we use ridge regression—that we’re taking on some bias in exchange for the reduction in variance.</p>
 
-</div>
-</div>
-<h3>References</h3>
-<div id="refs" class="references">
-<div id="ref-clarke2005phantom">
-<p>Clarke, Kevin A. 2005. “The Phantom Menace: Omitted Variable Bias in Econometric Research.” <em>Conflict Management and Peace Science</em> 22 (4): 341–52.</p>
 </div>
 </div>
 <div class="footnotes">

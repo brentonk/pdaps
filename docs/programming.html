@@ -24,7 +24,7 @@
 <meta name="author" content="Brenton Kenkel" />
 
 
-<meta name="date" content="2021-02-15" />
+<meta name="date" content="2021-02-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="index.html"/>
 <link rel="next" href="data.html"/>
-<script src="libs/header-attrs-2.6/header-attrs.js"></script>
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -57,6 +57,7 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -278,8 +279,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>First, as a working social scientist, most of the time you spend on data analysis won’t be on the <em>analysis</em> part. It’ll be on obtaining and cleaning the data, to get it in a form that makes sense to analyze. Good programming skills will let you spend less time cleaning data and more time publishing papers.</p>
 <p>Second, even if you don’t want to develop good programming habits, journals are going to force you to. Every reputable political science journal requires that you provide replication scripts, and some of the best (e.g., <em>American Journal of Political Science</em>) have begun auditing the replication materials as a condition of publication. Better to learn The Right Way now when you have lots of time than to be forced to when you’re writing a dissertation or on the market or teaching your own courses.</p>
 <p>Third, while I feel embarrassed to invoke the cliché that is Big Data, that doesn’t mean it’s not a real thing. Political scientists have access to more data and more computing power than ever before. You can’t collect, manage, clean, and analyze large quantities of data without understanding the basic principles of programming.</p>
-<p>As <span class="citation">Bowers (<a href="#ref-Bowers:2011ua" role="doc-biblioref">2011</a>)</span> puts it, “Data analysis is computer programming.” By getting a PhD in political science,<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> by necessity you’re going to become a computer programmer. The choice before you is whether to be a good one or a bad one.</p>
-<p><span class="citation">Wilson et al. (<a href="#ref-Wilson:2014ck" role="doc-biblioref">2014</a>)</span> list eight “best practices for scientific computing.” The first two encapsulate most of what you need to know:</p>
+<p>As <span class="citation"><a href="references.html#ref-Bowers:2011ua" role="doc-biblioref">Bowers</a> (<a href="references.html#ref-Bowers:2011ua" role="doc-biblioref">2011</a>)</span> puts it, “Data analysis is computer programming.” By getting a PhD in political science,<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> by necessity you’re going to become a computer programmer. The choice before you is whether to be a good one or a bad one.</p>
+<p><span class="citation"><a href="references.html#ref-Wilson:2014ck" role="doc-biblioref">Wilson et al.</a> (<a href="references.html#ref-Wilson:2014ck" role="doc-biblioref">2014</a>)</span> list eight “best practices for scientific computing.” The first two encapsulate most of what you need to know:</p>
 <ol style="list-style-type: decimal">
 <li>Write programs for people, not computers.</li>
 <li>Let the computer do the work.</li>
@@ -298,24 +299,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The exact structure varies depending on the nature of the project. Notice that the scripts are numbered in the order they should be run.</p>
 <p>Using an omnibus script that runs every bit of analysis is like writing a paper without paragraph breaks. And if portions of your analysis take a long time to run, an omnibus file at best is unwieldy to work with and at worst causes you to lose valuable time.</p>
 <p>Within each script, write the code to make it as easy as possible for your reader to follow what you’re doing. You should indent your code according to style conventions such as <a href="https://style.tidyverse.org/" class="uri">https://style.tidyverse.org/</a>. Even better, use the <code>Code -&gt; Reindent Lines</code> menu option in R Studio to automatically indent according to a sane style.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="programming.html#cb1-1" aria-hidden="true"></a><span class="co"># Terrible</span></span>
-<span id="cb1-2"><a href="programming.html#cb1-2" aria-hidden="true"></a>my_results&lt;-<span class="kw">c</span>(<span class="kw">mean</span>(variable),<span class="kw">quantile</span>(variable,<span class="dt">probs=</span><span class="fl">0.25</span>),<span class="kw">max</span>(variable))</span>
-<span id="cb1-3"><a href="programming.html#cb1-3" aria-hidden="true"></a></span>
-<span id="cb1-4"><a href="programming.html#cb1-4" aria-hidden="true"></a><span class="co"># Bad</span></span>
-<span id="cb1-5"><a href="programming.html#cb1-5" aria-hidden="true"></a>my_results &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">mean</span>(variable),</span>
-<span id="cb1-6"><a href="programming.html#cb1-6" aria-hidden="true"></a><span class="kw">quantile</span>(variable,</span>
-<span id="cb1-7"><a href="programming.html#cb1-7" aria-hidden="true"></a><span class="dt">probs =</span> <span class="fl">0.25</span>),</span>
-<span id="cb1-8"><a href="programming.html#cb1-8" aria-hidden="true"></a><span class="kw">max</span>(variable))</span>
-<span id="cb1-9"><a href="programming.html#cb1-9" aria-hidden="true"></a></span>
-<span id="cb1-10"><a href="programming.html#cb1-10" aria-hidden="true"></a><span class="co"># Better</span></span>
-<span id="cb1-11"><a href="programming.html#cb1-11" aria-hidden="true"></a>my_results &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">mean</span>(variable),</span>
-<span id="cb1-12"><a href="programming.html#cb1-12" aria-hidden="true"></a>                <span class="kw">quantile</span>(variable,</span>
-<span id="cb1-13"><a href="programming.html#cb1-13" aria-hidden="true"></a>                         <span class="dt">probs =</span> <span class="fl">0.25</span>),</span>
-<span id="cb1-14"><a href="programming.html#cb1-14" aria-hidden="true"></a>                <span class="kw">max</span>(variable))</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="programming.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Terrible</span></span>
+<span id="cb1-2"><a href="programming.html#cb1-2" aria-hidden="true" tabindex="-1"></a>my_results<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="fu">mean</span>(variable),<span class="fu">quantile</span>(variable,<span class="at">probs=</span><span class="fl">0.25</span>),<span class="fu">max</span>(variable))</span>
+<span id="cb1-3"><a href="programming.html#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="programming.html#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Bad</span></span>
+<span id="cb1-5"><a href="programming.html#cb1-5" aria-hidden="true" tabindex="-1"></a>my_results <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">mean</span>(variable),</span>
+<span id="cb1-6"><a href="programming.html#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(variable,</span>
+<span id="cb1-7"><a href="programming.html#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="at">probs =</span> <span class="fl">0.25</span>),</span>
+<span id="cb1-8"><a href="programming.html#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(variable))</span>
+<span id="cb1-9"><a href="programming.html#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="programming.html#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Better</span></span>
+<span id="cb1-11"><a href="programming.html#cb1-11" aria-hidden="true" tabindex="-1"></a>my_results <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">mean</span>(variable),</span>
+<span id="cb1-12"><a href="programming.html#cb1-12" aria-hidden="true" tabindex="-1"></a>                <span class="fu">quantile</span>(variable,</span>
+<span id="cb1-13"><a href="programming.html#cb1-13" aria-hidden="true" tabindex="-1"></a>                         <span class="at">probs =</span> <span class="fl">0.25</span>),</span>
+<span id="cb1-14"><a href="programming.html#cb1-14" aria-hidden="true" tabindex="-1"></a>                <span class="fu">max</span>(variable))</span></code></pre></div>
 <p>Another way to make your code readable—one that, unfortunately, cannot be accomplished quite so algorithmically—is to add explanatory comments. The point of comments is not to document how the language works. The following comment is an extreme example of a useless comment.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="programming.html#cb2-1" aria-hidden="true"></a><span class="co"># Take the square root of the errors and assign them to</span></span>
-<span id="cb2-2"><a href="programming.html#cb2-2" aria-hidden="true"></a><span class="co"># the output variable</span></span>
-<span id="cb2-3"><a href="programming.html#cb2-3" aria-hidden="true"></a>output &lt;-<span class="st"> </span><span class="kw">sqrt</span>(errors)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="programming.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Take the square root of the errors and assign them to</span></span>
+<span id="cb2-2"><a href="programming.html#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># the output variable</span></span>
+<span id="cb2-3"><a href="programming.html#cb2-3" aria-hidden="true" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(errors)</span></code></pre></div>
 <p>A better use for the comment would be to explain <em>why</em> you’re taking the square root of the errors, at least if your purpose in doing so would be unclear to a hypothetical reader of the code.</p>
 <p>My basic heuristic for code readability is <em>If I got hit by a bus tomorrow, could one of my coauthors figure out what the hell I was doing and finish the paper?</em></p>
 </div>
@@ -340,13 +341,13 @@ Specifically, we will see that their sampling distributions are approximately no
 We’ll assume the regressor <span class="math inline">\(X_n\)</span> has an exponential distribution, <span class="math inline">\(X_n \sim \text{Exponential}(\lambda)\)</span>, with rate parameter <span class="math inline">\(\lambda = 0.25\)</span>.<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a>
 And we’ll assume the response <span class="math inline">\(Y_n\)</span> is generated according to a linear model, <span class="math display">\[Y_n = \alpha + \beta X_n + \epsilon_n,\]</span> where <span class="math inline">\(\alpha = 1\)</span>, <span class="math inline">\(\beta = -2\)</span>, and <span class="math inline">\(\epsilon_n \sim U[-5, 5]\)</span>.
 To draw a sample from this population, we can use R’s built-in random number sampling functions: <code>rexp</code> for an exponential variable and <code>runif</code> for a uniform.<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a></p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="programming.html#cb3-1" aria-hidden="true"></a>n_samp &lt;-<span class="st"> </span><span class="dv">50</span></span>
-<span id="cb3-2"><a href="programming.html#cb3-2" aria-hidden="true"></a>x &lt;-<span class="st"> </span><span class="kw">rexp</span>(<span class="dt">n =</span> n_samp, <span class="dt">rate =</span> <span class="fl">0.25</span>)</span>
-<span id="cb3-3"><a href="programming.html#cb3-3" aria-hidden="true"></a>y &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>x <span class="op">+</span><span class="st"> </span><span class="kw">runif</span>(<span class="dt">n =</span> n_samp, <span class="dt">min =</span> <span class="dv">-5</span>, <span class="dt">max =</span> <span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="programming.html#cb3-1" aria-hidden="true" tabindex="-1"></a>n_samp <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb3-2"><a href="programming.html#cb3-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rexp</span>(<span class="at">n =</span> n_samp, <span class="at">rate =</span> <span class="fl">0.25</span>)</span>
+<span id="cb3-3"><a href="programming.html#cb3-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="dv">2</span> <span class="sc">*</span> x <span class="sc">+</span> <span class="fu">runif</span>(<span class="at">n =</span> n_samp, <span class="at">min =</span> <span class="sc">-</span><span class="dv">5</span>, <span class="at">max =</span> <span class="dv">5</span>)</span></code></pre></div>
 <p>You can run a regression on your simulated data the usual way.
 (Your output will, in all likelihood, differ from mine here—remember that we are working with random numbers!)</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="programming.html#cb4-1" aria-hidden="true"></a>fit &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x)</span>
-<span id="cb4-2"><a href="programming.html#cb4-2" aria-hidden="true"></a><span class="kw">summary</span>(fit)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="programming.html#cb4-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x)</span>
+<span id="cb4-2"><a href="programming.html#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = y ~ x)
@@ -367,36 +368,36 @@ To draw a sample from this population, we can use R’s built-in random number s
 ## F-statistic:   227 on 1 and 48 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>We are interested in the distribution of the OLS coefficients across many samples like this one.
 To begin, let’s write a <strong>function</strong> to extract the estimated slope, <span class="math inline">\(\hat{\beta}_1\)</span>, from a bivariate regression.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="programming.html#cb6-1" aria-hidden="true"></a>ols_coef &lt;-<span class="st"> </span><span class="cf">function</span>(x, y) {</span>
-<span id="cb6-2"><a href="programming.html#cb6-2" aria-hidden="true"></a>  fit &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x)</span>
-<span id="cb6-3"><a href="programming.html#cb6-3" aria-hidden="true"></a>  cf &lt;-<span class="st"> </span><span class="kw">coef</span>(fit)[<span class="dv">2</span>]</span>
-<span id="cb6-4"><a href="programming.html#cb6-4" aria-hidden="true"></a>  <span class="kw">return</span>(cf)</span>
-<span id="cb6-5"><a href="programming.html#cb6-5" aria-hidden="true"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="programming.html#cb6-1" aria-hidden="true" tabindex="-1"></a>ols_coef <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y) {</span>
+<span id="cb6-2"><a href="programming.html#cb6-2" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x)</span>
+<span id="cb6-3"><a href="programming.html#cb6-3" aria-hidden="true" tabindex="-1"></a>  cf <span class="ot">&lt;-</span> <span class="fu">coef</span>(fit)[<span class="dv">2</span>]</span>
+<span id="cb6-4"><a href="programming.html#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(cf)</span>
+<span id="cb6-5"><a href="programming.html#cb6-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>This code creates a function called <code>ols_coef</code>.
 It has two <em>arguments</em>, <code>x</code> (covariate vector) and <code>y</code> (response vector).
 It runs a regression of <code>y</code> on <code>x</code> and then <code>return</code>s the OLS slope estimate as the output.
 If we run this function on the <code>x</code> and <code>y</code> we just simulated, it should spit out the OLS coefficient we saw earlier.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="programming.html#cb7-1" aria-hidden="true"></a><span class="kw">ols_coef</span>(x, y)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="programming.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ols_coef</span>(x, y)</span></code></pre></div>
 <pre><code>##         x 
 ## -2.253125</code></pre>
 <p>Remember that we’re interested in the <em>sampling distribution</em> of the OLS coefficients—their probability distribution across all possible samples of <span class="math inline">\(N = 50\)</span> from the population we’ve defined.
 We can approximate this distribution by drawing a new sample and calculating the OLS slope many times (e.g., 1000 or more).
 This would be infeasible by copy-paste.
 Instead, we will use a <strong>for loop</strong> to perform the same operation repeatedly.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="programming.html#cb9-1" aria-hidden="true"></a><span class="co"># Set up a vector to store the output</span></span>
-<span id="cb9-2"><a href="programming.html#cb9-2" aria-hidden="true"></a>n_samp &lt;-<span class="st"> </span><span class="dv">50</span>  <span class="co"># Observations per sample</span></span>
-<span id="cb9-3"><a href="programming.html#cb9-3" aria-hidden="true"></a>n_replicates &lt;-<span class="st"> </span><span class="dv">1000</span>  <span class="co"># Number of distinct samples to draw</span></span>
-<span id="cb9-4"><a href="programming.html#cb9-4" aria-hidden="true"></a>sampling_dist &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>, n_replicates)</span>
-<span id="cb9-5"><a href="programming.html#cb9-5" aria-hidden="true"></a></span>
-<span id="cb9-6"><a href="programming.html#cb9-6" aria-hidden="true"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>n_replicates) {</span>
-<span id="cb9-7"><a href="programming.html#cb9-7" aria-hidden="true"></a>  <span class="co"># Draw sample from defined population</span></span>
-<span id="cb9-8"><a href="programming.html#cb9-8" aria-hidden="true"></a>  x &lt;-<span class="st"> </span><span class="kw">rexp</span>(<span class="dt">n =</span> n_samp, <span class="dt">rate =</span> <span class="fl">0.25</span>)</span>
-<span id="cb9-9"><a href="programming.html#cb9-9" aria-hidden="true"></a>  y &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>x <span class="op">+</span><span class="st"> </span><span class="kw">runif</span>(<span class="dt">n =</span> n_samp, <span class="dt">min =</span> <span class="dv">-5</span>, <span class="dt">max =</span> <span class="dv">5</span>)</span>
-<span id="cb9-10"><a href="programming.html#cb9-10" aria-hidden="true"></a></span>
-<span id="cb9-11"><a href="programming.html#cb9-11" aria-hidden="true"></a>  <span class="co"># Calculate and store OLS slope</span></span>
-<span id="cb9-12"><a href="programming.html#cb9-12" aria-hidden="true"></a>  est &lt;-<span class="st"> </span><span class="kw">ols_coef</span>(x, y)</span>
-<span id="cb9-13"><a href="programming.html#cb9-13" aria-hidden="true"></a>  sampling_dist[i] &lt;-<span class="st"> </span>est</span>
-<span id="cb9-14"><a href="programming.html#cb9-14" aria-hidden="true"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="programming.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set up a vector to store the output</span></span>
+<span id="cb9-2"><a href="programming.html#cb9-2" aria-hidden="true" tabindex="-1"></a>n_samp <span class="ot">&lt;-</span> <span class="dv">50</span>  <span class="co"># Observations per sample</span></span>
+<span id="cb9-3"><a href="programming.html#cb9-3" aria-hidden="true" tabindex="-1"></a>n_replicates <span class="ot">&lt;-</span> <span class="dv">1000</span>  <span class="co"># Number of distinct samples to draw</span></span>
+<span id="cb9-4"><a href="programming.html#cb9-4" aria-hidden="true" tabindex="-1"></a>sampling_dist <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, n_replicates)</span>
+<span id="cb9-5"><a href="programming.html#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="programming.html#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n_replicates) {</span>
+<span id="cb9-7"><a href="programming.html#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Draw sample from defined population</span></span>
+<span id="cb9-8"><a href="programming.html#cb9-8" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">rexp</span>(<span class="at">n =</span> n_samp, <span class="at">rate =</span> <span class="fl">0.25</span>)</span>
+<span id="cb9-9"><a href="programming.html#cb9-9" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="dv">2</span> <span class="sc">*</span> x <span class="sc">+</span> <span class="fu">runif</span>(<span class="at">n =</span> n_samp, <span class="at">min =</span> <span class="sc">-</span><span class="dv">5</span>, <span class="at">max =</span> <span class="dv">5</span>)</span>
+<span id="cb9-10"><a href="programming.html#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="programming.html#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculate and store OLS slope</span></span>
+<span id="cb9-12"><a href="programming.html#cb9-12" aria-hidden="true" tabindex="-1"></a>  est <span class="ot">&lt;-</span> <span class="fu">ols_coef</span>(x, y)</span>
+<span id="cb9-13"><a href="programming.html#cb9-13" aria-hidden="true" tabindex="-1"></a>  sampling_dist[i] <span class="ot">&lt;-</span> est</span>
+<span id="cb9-14"><a href="programming.html#cb9-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Here’s how the for loop works.
 We specified <code>i</code> as the name of the index variable, with values <code>1:n_replicates</code>.
 The for loop takes each value in the sequence, assigns it to the variable <code>i</code>, then runs the expression in brackets.
@@ -404,70 +405,61 @@ In this case, that consists of drawing a sample of data from the same distributi
 After completing the expression in brackets, the for loop moves on to the next element of the given sequence, continuing until it reaches the end.</p>
 <p>Let’s take a look at the results and compare them to our expectations.
 OLS is unbiased, so we should expect the average estimated slope to be close to the true value of <span class="math inline">\(-2\)</span>.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="programming.html#cb10-1" aria-hidden="true"></a><span class="kw">mean</span>(sampling_dist)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="programming.html#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(sampling_dist)</span></code></pre></div>
 <pre><code>## [1] -1.999707</code></pre>
 <p>And, by the CLT, the estimates should be approximately normally distributed.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="programming.html#cb12-1" aria-hidden="true"></a><span class="kw">hist</span>(sampling_dist, <span class="dt">breaks =</span> <span class="dv">25</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="programming.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(sampling_dist, <span class="at">breaks =</span> <span class="dv">25</span>)</span></code></pre></div>
 <p><img src="pdaps_files/figure-html/mc-ols-clt-1.png" width="672" /></p>
 <p>For loops are fun, but don’t overuse them. Many simple operations are <strong>vectorized</strong> and don’t require a loop. For example, suppose you want to take the square of a sequence of numbers. You could use a for loop …</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="programming.html#cb13-1" aria-hidden="true"></a>input &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">7</span>, <span class="dv">29</span>)</span>
-<span id="cb13-2"><a href="programming.html#cb13-2" aria-hidden="true"></a>output &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>, <span class="kw">length</span>(input))</span>
-<span id="cb13-3"><a href="programming.html#cb13-3" aria-hidden="true"></a></span>
-<span id="cb13-4"><a href="programming.html#cb13-4" aria-hidden="true"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(input)) {</span>
-<span id="cb13-5"><a href="programming.html#cb13-5" aria-hidden="true"></a>  output[i] &lt;-<span class="st"> </span>input[i]<span class="op">^</span><span class="dv">2</span></span>
-<span id="cb13-6"><a href="programming.html#cb13-6" aria-hidden="true"></a>}</span>
-<span id="cb13-7"><a href="programming.html#cb13-7" aria-hidden="true"></a></span>
-<span id="cb13-8"><a href="programming.html#cb13-8" aria-hidden="true"></a>output</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="programming.html#cb13-1" aria-hidden="true" tabindex="-1"></a>input <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">7</span>, <span class="dv">29</span>)</span>
+<span id="cb13-2"><a href="programming.html#cb13-2" aria-hidden="true" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="fu">length</span>(input))</span>
+<span id="cb13-3"><a href="programming.html#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="programming.html#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(input)) {</span>
+<span id="cb13-5"><a href="programming.html#cb13-5" aria-hidden="true" tabindex="-1"></a>  output[i] <span class="ot">&lt;-</span> input[i]<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb13-6"><a href="programming.html#cb13-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-7"><a href="programming.html#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="programming.html#cb13-8" aria-hidden="true" tabindex="-1"></a>output</span></code></pre></div>
 <pre><code>## [1]   1   9  49 841</code></pre>
 <p>… but it’s faster (in terms of computational speed) and easier to just take advantage of vectorization:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="programming.html#cb15-1" aria-hidden="true"></a>input<span class="op">^</span><span class="dv">2</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="programming.html#cb15-1" aria-hidden="true" tabindex="-1"></a>input<span class="sc">^</span><span class="dv">2</span></span></code></pre></div>
 <pre><code>## [1]   1   9  49 841</code></pre>
 <p>Another useful piece of control flow is <strong>if/else statements</strong>. These check a logical condition—an expression whose value is <code>TRUE</code> or <code>FALSE</code>—and run different code depending on the value of the expression. (You may want to catch up on the comparison operators: <code>==</code>, <code>&gt;</code>, <code>&gt;=</code>, <code>&lt;</code>, <code>&lt;=</code>, etc.)</p>
 <p>Let’s edit the <code>ols_coef</code> function to allow us to extract the intercept instead of the slope. We’ll add another argument to the function, and implement the option using an if/else statement.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="programming.html#cb17-1" aria-hidden="true"></a>ols_coef &lt;-<span class="st"> </span><span class="cf">function</span>(x, y, <span class="dt">slope =</span> <span class="ot">TRUE</span>) {</span>
-<span id="cb17-2"><a href="programming.html#cb17-2" aria-hidden="true"></a>  fit &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x)</span>
-<span id="cb17-3"><a href="programming.html#cb17-3" aria-hidden="true"></a></span>
-<span id="cb17-4"><a href="programming.html#cb17-4" aria-hidden="true"></a>  <span class="cf">if</span> (slope) {</span>
-<span id="cb17-5"><a href="programming.html#cb17-5" aria-hidden="true"></a>    cf &lt;-<span class="st"> </span><span class="kw">coef</span>(fit)[<span class="dv">2</span>]</span>
-<span id="cb17-6"><a href="programming.html#cb17-6" aria-hidden="true"></a>  } <span class="cf">else</span> {</span>
-<span id="cb17-7"><a href="programming.html#cb17-7" aria-hidden="true"></a>    cf &lt;-<span class="st"> </span><span class="kw">coef</span>(fit)[<span class="dv">1</span>]</span>
-<span id="cb17-8"><a href="programming.html#cb17-8" aria-hidden="true"></a>  }</span>
-<span id="cb17-9"><a href="programming.html#cb17-9" aria-hidden="true"></a></span>
-<span id="cb17-10"><a href="programming.html#cb17-10" aria-hidden="true"></a>  <span class="kw">return</span>(cf)</span>
-<span id="cb17-11"><a href="programming.html#cb17-11" aria-hidden="true"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="programming.html#cb17-1" aria-hidden="true" tabindex="-1"></a>ols_coef <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y, <span class="at">slope =</span> <span class="cn">TRUE</span>) {</span>
+<span id="cb17-2"><a href="programming.html#cb17-2" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x)</span>
+<span id="cb17-3"><a href="programming.html#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="programming.html#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (slope) {</span>
+<span id="cb17-5"><a href="programming.html#cb17-5" aria-hidden="true" tabindex="-1"></a>    cf <span class="ot">&lt;-</span> <span class="fu">coef</span>(fit)[<span class="dv">2</span>]</span>
+<span id="cb17-6"><a href="programming.html#cb17-6" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb17-7"><a href="programming.html#cb17-7" aria-hidden="true" tabindex="-1"></a>    cf <span class="ot">&lt;-</span> <span class="fu">coef</span>(fit)[<span class="dv">1</span>]</span>
+<span id="cb17-8"><a href="programming.html#cb17-8" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb17-9"><a href="programming.html#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-10"><a href="programming.html#cb17-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(cf)</span>
+<span id="cb17-11"><a href="programming.html#cb17-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Here’s how the <code>if</code>/<code>else</code> block in the middle of the function works.
 The first line checks the <code>slope</code> variable.
 If it’s <code>TRUE</code>, then it runs the first set of brackets (extract the slope).
 If not, then it skips that, and runs the second set of brackets (extract the intercept).</p>
 <p>Also notice how we wrote <code>slope = TRUE</code> into the arguments of the function.
 This sets <code>TRUE</code> as the default value, so if we call <code>ols_coef()</code> without explicitly specifying the <code>slope</code> argument, it will assume we wanted it to be <code>TRUE</code>.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="programming.html#cb18-1" aria-hidden="true"></a><span class="kw">ols_coef</span>(x, y)</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="programming.html#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ols_coef</span>(x, y)</span></code></pre></div>
 <pre><code>##         x 
 ## -2.126934</code></pre>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="programming.html#cb20-1" aria-hidden="true"></a><span class="kw">ols_coef</span>(x, y, <span class="dt">slope =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="programming.html#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ols_coef</span>(x, y, <span class="at">slope =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>##         x 
 ## -2.126934</code></pre>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="programming.html#cb22-1" aria-hidden="true"></a><span class="kw">ols_coef</span>(x, y, <span class="dt">slope =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="programming.html#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ols_coef</span>(x, y, <span class="at">slope =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <pre><code>## (Intercept) 
 ##     1.11694</code></pre>
 <p>There is a vectorized version of if/else statements called, naturally, the <code>ifelse</code> function. This function takes three arguments, each a vector of the same length: (1) a logical condition, (2) an output value if the condition is <code>TRUE</code>, (3) an output value if the condition is <code>FALSE</code>.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="programming.html#cb24-1" aria-hidden="true"></a>x &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span></span>
-<span id="cb24-2"><a href="programming.html#cb24-2" aria-hidden="true"></a>big_x &lt;-<span class="st"> </span>x <span class="op">*</span><span class="st"> </span><span class="dv">100</span></span>
-<span id="cb24-3"><a href="programming.html#cb24-3" aria-hidden="true"></a>small_x &lt;-<span class="st"> </span>x <span class="op">*</span><span class="st"> </span><span class="dv">-100</span></span>
-<span id="cb24-4"><a href="programming.html#cb24-4" aria-hidden="true"></a></span>
-<span id="cb24-5"><a href="programming.html#cb24-5" aria-hidden="true"></a><span class="kw">ifelse</span>(x <span class="op">&gt;</span><span class="st"> </span><span class="dv">5</span>, big_x, small_x)</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="programming.html#cb24-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb24-2"><a href="programming.html#cb24-2" aria-hidden="true" tabindex="-1"></a>big_x <span class="ot">&lt;-</span> x <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb24-3"><a href="programming.html#cb24-3" aria-hidden="true" tabindex="-1"></a>small_x <span class="ot">&lt;-</span> x <span class="sc">*</span> <span class="sc">-</span><span class="dv">100</span></span>
+<span id="cb24-4"><a href="programming.html#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-5"><a href="programming.html#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ifelse</span>(x <span class="sc">&gt;</span> <span class="dv">5</span>, big_x, small_x)</span></code></pre></div>
 <pre><code>##  [1] -100 -200 -300 -400 -500  600  700  800  900 1000</code></pre>
 <p>Functions, for loops, and if/else statements are just a few of the useful tools for programming in R.<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a> But even these simple tools are enough to allow you to do much more at scale than you could with a copy-paste philosophy.</p>
 
-</div>
-</div>
-<h3>References</h3>
-<div id="refs" class="references">
-<div id="ref-Bowers:2011ua">
-<p>Bowers, Jake. 2011. “Six Steps to a Better Relationship with Your Future Self.” <em>The Political Methodologist</em> 18 (2): 2–8.</p>
-</div>
-<div id="ref-Wilson:2014ck">
-<p>Wilson, Greg, D A Aruliah, C Titus Brown, Neil P Chue Hong, Matt Davis, Richard T Guy, Steven H D Haddock, et al. 2014. “Best Practices for Scientific Computing.” <em>PLOS Biology</em> 12 (1): e1001745.</p>
 </div>
 </div>
 <div class="footnotes">
