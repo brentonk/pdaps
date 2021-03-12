@@ -24,7 +24,7 @@
 <meta name="author" content="Brenton Kenkel" />
 
 
-<meta name="date" content="2021-02-27" />
+<meta name="date" content="2021-03-12" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -285,7 +285,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>To return to our running example, suppose you are interested in the correlates of voting for Donald Trump in the 2016 general election. You observe survey respondents grouped by state. Vote choice might be affected by:</p>
 <ol style="list-style-type: decimal">
 <li><p><em>Individual</em> characteristics like one’s age, gender, race, income, and education.</p></li>
-<li><p><em>State</em> characteristics<a href="#fn31" class="footnote-ref" id="fnref31"><sup>31</sup></a> like the unemployment rate, undocumented population, and exposure to trade with China.</p></li>
+<li><p><em>State</em> characteristics<a href="#fn30" class="footnote-ref" id="fnref30"><sup>30</sup></a> like the unemployment rate, undocumented population, and exposure to trade with China.</p></li>
 </ol>
 <p>Some state characteristics that might affect vote choice are difficult or impossible to measure. For example, some states have a more cosmopolitan culture, while others have a more traditional culture. A 50-year-old white man living in Connecticut is, we would expect, less likely to have voted for Trump than a 50-year-old white man living in Alabama. This is <em>unobserved heterogeneity</em>—characteristics that we do not observe, and therefore cannot control for, but which affect the response.</p>
 <p>If we are not careful in dealing with grouped data, unobserved heterogeneity can be a major problem. The spherical errors assumption is usually not tenable for grouped data, since observations will be correlated with others in the same group. OLS will therefore be inefficient and yield invalid inferences. Even worse, if group-level sources of unobserved heterogeneity are correlated with individual characteristics—if, say, younger voters are more likely to live in cosmopolitan states—OLS may also be biased and inconsistent.</p>
@@ -293,7 +293,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Before we get started, a note of caution. We only have enough time to scratch the surface of how to analyze grouped data. If you work with grouped data in your dissertation or other research, you should think carefully about your data structure and potential sources of unobserved heterogeneity. The methods we discuss this week may not solve your problems. As further references, I recommend <span class="citation"><a href="references.html#ref-Wooldridge:2002vr" role="doc-biblioref">Wooldridge</a> (<a href="references.html#ref-Wooldridge:2002vr" role="doc-biblioref">2002</a>)</span> and <span class="citation"><a href="references.html#ref-gelman2006data" role="doc-biblioref">Gelman and Hill</a> (<a href="references.html#ref-gelman2006data" role="doc-biblioref">2006</a>)</span>.</p>
 <div id="the-linear-model-with-grouped-data" class="section level2" number="12.1">
 <h2><span class="header-section-number">12.1</span> The Linear Model with Grouped Data</h2>
-<p>We need to change our notation a bit to reflect the arrangement of observations into groups. Let there be <span class="math inline">\(G\)</span> groups indexed by <span class="math inline">\(g = 1, \ldots, G\)</span>. Within each group, we have <span class="math inline">\(N\)</span> observations indexed by <span class="math inline">\(n = 1, \ldots, N\)</span>.<a href="#fn32" class="footnote-ref" id="fnref32"><sup>32</sup></a> (In the special case of panel data, where each group is a unit observed over time, the standard notation is to use <span class="math inline">\(t = 1, \ldots, T\)</span> instead.)</p>
+<p>We need to change our notation a bit to reflect the arrangement of observations into groups. Let there be <span class="math inline">\(G\)</span> groups indexed by <span class="math inline">\(g = 1, \ldots, G\)</span>. Within each group, we have <span class="math inline">\(N\)</span> observations indexed by <span class="math inline">\(n = 1, \ldots, N\)</span>.<a href="#fn31" class="footnote-ref" id="fnref31"><sup>31</sup></a> (In the special case of panel data, where each group is a unit observed over time, the standard notation is to use <span class="math inline">\(t = 1, \ldots, T\)</span> instead.)</p>
 <p>We will now index individual “rows” of the data by <span class="math inline">\(gn\)</span>, which stands for the <span class="math inline">\(n\)</span>’th observation within group <span class="math inline">\(g\)</span>.</p>
 <ul>
 <li>Unit-level
@@ -533,7 +533,7 @@ We can therefore let the estimated residual variance from this model be <span cl
 \mathbf{Y} = \mathbf{X} \beta + \mathbf{D} \alpha + \eta,
 \]</span>
 where <span class="math inline">\(\alpha\)</span> is the <span class="math inline">\(G \times 1\)</span> vector of group-specific intercepts. This suggests that we run OLS on our covariates plus the full set of group membership indicators. (As with any set of indicators, we need to omit one category.) The first <span class="math inline">\(K\)</span> elements of this regression constitute the <em>fixed effects</em> estimator.</p>
-<p>Most textbook treatments of fixed effect estimators go through a whole rigmarole about computation, because it used to be challenging to invert a <span class="math inline">\((K + G) \times (K + G)\)</span> matrix when <span class="math inline">\(G\)</span> was moderately large. This is no longer true,<a href="#fn33" class="footnote-ref" id="fnref33"><sup>33</sup></a> so you can safely ignore most of the hand-wringing about computational difficulties.</p>
+<p>Most textbook treatments of fixed effect estimators go through a whole rigmarole about computation, because it used to be challenging to invert a <span class="math inline">\((K + G) \times (K + G)\)</span> matrix when <span class="math inline">\(G\)</span> was moderately large. This is no longer true,<a href="#fn32" class="footnote-ref" id="fnref32"><sup>32</sup></a> so you can safely ignore most of the hand-wringing about computational difficulties.</p>
 <p>The standard errors of the fixed effects estimator are usually higher than those of the random effects estimator, since estimating <span class="math inline">\(G\)</span> additional parameters uses a lot of degrees of freedom. This leads us to the following pair of observations.</p>
 <ul>
 <li><p>If the random effects assumption is met (group-specific effects are uncorrelated with covariates), then the random effects and fixed estimators are both consistent, but fixed effects is less efficient.</p></li>
@@ -787,10 +787,10 @@ asymptotically has a <span class="math inline">\(\chi^2\)</span> distribution wi
 </div>
 <div class="footnotes">
 <hr />
-<ol start="31">
-<li id="fn31"><p>Why did I leave out national characteristics, like inflation or the national unemployment rate? In a single-election study, these are constant. While they might shape variation <em>across</em> elections, they cannot be linked to variation <em>within</em> a single election.<a href="panel.html#fnref31" class="footnote-back">↩︎</a></p></li>
-<li id="fn32"><p>Everything we do here would go through if we allowed the number of observations to vary across groups, but the notation would get uglier. In the panel data context we say that the panels are <em>balanced</em> if the number of observations is the same for each group and <em>unbalanced</em> otherwise.<a href="panel.html#fnref32" class="footnote-back">↩︎</a></p></li>
-<li id="fn33"><p>When I taught this class last year, I simulated a dataset with a single covariate, <span class="math inline">\(N = 1{,}000\)</span>, and <span class="math inline">\(J = 1{,}000\)</span>, meaning the fixed effects regression entailed estimating <span class="math inline">\(1{,}001\)</span> parameters from <span class="math inline">\(1{,}000{,}000\)</span> observations. It took less than two minutes to run on my not-especially-powerful laptop. That said, should you ever have <span class="math inline">\(N\)</span> another order of magnitude above that, the computational tricks given in the textbook treatments will once again be of use.<a href="panel.html#fnref33" class="footnote-back">↩︎</a></p></li>
+<ol start="30">
+<li id="fn30"><p>Why did I leave out national characteristics, like inflation or the national unemployment rate? In a single-election study, these are constant. While they might shape variation <em>across</em> elections, they cannot be linked to variation <em>within</em> a single election.<a href="panel.html#fnref30" class="footnote-back">↩︎</a></p></li>
+<li id="fn31"><p>Everything we do here would go through if we allowed the number of observations to vary across groups, but the notation would get uglier. In the panel data context we say that the panels are <em>balanced</em> if the number of observations is the same for each group and <em>unbalanced</em> otherwise.<a href="panel.html#fnref31" class="footnote-back">↩︎</a></p></li>
+<li id="fn32"><p>When I taught this class last year, I simulated a dataset with a single covariate, <span class="math inline">\(N = 1{,}000\)</span>, and <span class="math inline">\(J = 1{,}000\)</span>, meaning the fixed effects regression entailed estimating <span class="math inline">\(1{,}001\)</span> parameters from <span class="math inline">\(1{,}000{,}000\)</span> observations. It took less than two minutes to run on my not-especially-powerful laptop. That said, should you ever have <span class="math inline">\(N\)</span> another order of magnitude above that, the computational tricks given in the textbook treatments will once again be of use.<a href="panel.html#fnref32" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>

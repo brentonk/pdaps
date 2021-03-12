@@ -24,7 +24,7 @@
 <meta name="author" content="Brenton Kenkel" />
 
 
-<meta name="date" content="2021-02-27" />
+<meta name="date" content="2021-03-12" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -309,7 +309,7 @@ V[\hat{\beta}_{\text{OLS}} \,|\, \mathbf{X}] = \sigma^2 (\mathbf{X}^\top \mathbf
 <li><p>There is a better estimator available—one that is still unbiased, but is less sensitive to sampling variation (i.e., has lower standard errors).</p></li>
 <li><p>The formula we use to estimate the standard errors of OLS is invalid. Our confidence intervals and hypothesis tests will (usually) be overconfident, overstating the precision of our results.</p></li>
 </ol>
-<p>This week, we will talk about two ways to proceed in the face of non-spherical errors. The first is to use an estimator other than OLS, specifically one called <em>generalized least squares</em>, or GLS. GLS solves both of the problems listed above (inefficiency and invalid standard errors), but its own validity depends on stringent assumptions that are tough to confirm.</p>
+<p>This week, we will talk about two ways to proceed in the face of non-spherical errors. The first is to use an estimator other than OLS, specifically one called <em>generalized least squares</em>, or GLS. GLS solves both of the problems listed above (inefficiency and invalid standard errors), but only under stringent conditions that are tough to confirm.</p>
 <p>The second is to use OLS, but to correct the standard errors. Then our estimates will still be inefficient, relative to the hypothetical ideal GLS estimator, but we will at least be able to draw valid inferences (from large samples).</p>
 <p>Before we dive into these two methods, let’s remind ourselves what deviations from the spherical errors assumption look like. Spherical errors fails when we have either or both of:</p>
 <ul>
@@ -318,7 +318,7 @@ V[\hat{\beta}_{\text{OLS}} \,|\, \mathbf{X}] = \sigma^2 (\mathbf{X}^\top \mathbf
 </ul>
 <p>Here’s what each of the three cases looks like in bivariate data.</p>
 <p><img src="pdaps_files/figure-html/plot-spherical-errors-1.png" width="672" /></p>
-<p>Autocorrelation usually arises in time series analysis, which is beyond the scope of this course, so we will focus primarily on heteroskedasticity.</p>
+<p>Autocorrelation usually arises in time series analysis, which is beyond the scope of this course, so we will focus on solving heteroskedasticity.</p>
 <div id="generalized-least-squares" class="section level2" number="10.1">
 <h2><span class="header-section-number">10.1</span> Generalized Least Squares</h2>
 <p>Suppose strict exogeneity holds, but spherical errors fails, with
@@ -381,7 +381,13 @@ is valid for inference using the same methods we discussed in the OLS case.</p><
   0 &amp; 0 &amp; \cdots &amp; \omega_{NN}
 \end{bmatrix}.
 \]</span>
-This special case is called <em>weighted least squares</em>, since GLS gives us the same answer as if we ran OLS on the following “weighted” data:
+In this special case, which is called <em>weighted least squares</em>, the weighted sum of squared errors is a simple weighted average:
+<span class="math display">\[
+\text{WSSE} = \sum_n \frac{(Y_n - \mathbf{x}_n \cdot \hat{\beta})^2}{\omega_n}.
+\]</span>
+Notice that the observations with the lowest residual variance (smallest <span class="math inline">\(\omega_n\)</span>) contribute the most to the regression estimate.
+The penalty on the size of the residual is largest for these observations, so GLS will try hard to find a regression line close to them, even at the expense of larger errors for the observations with greater residual variance.
+A fun fact (that admittedly is not so useful with modern computing tools available) is that GLS in this case gives us the same answer as if we ran OLS on the following “weighted” data:
 <span class="math display">\[
 \mathbf{X}^* = \begin{bmatrix}
   x_{11} / \sqrt{\omega_{11}} &amp; x_{12} / \sqrt{\omega_{11}} &amp; \cdots &amp; x_{1K} / \sqrt{\omega_{11}} \\
@@ -442,8 +448,8 @@ You know I love proofs, but I am not even going to attempt to prove that this co
 \hat{\Sigma}_{\text{HC1}} = \frac{N}{N - K} \hat{\Sigma}_{\text{HC}}
 \]</span>
 In this scheme, the standard White estimator is called the “HC” or “HC0” estimator. There are many other consistent estimators that apply some or other finite-sample correction; see <span class="citation"><a href="references.html#ref-mackinnon1985some" role="doc-biblioref">MacKinnon and White</a> (<a href="references.html#ref-mackinnon1985some" role="doc-biblioref">1985</a>)</span> for the gory details.</p>
-<p>Because of its association with the <code>, robust</code> option in Stata, people sometimes call the White estimator of the standard errors “robust standard errors.” Don’t do that. In your own work, if you estimate and report heteroskedasticity-consistent standard errors, report that you use the <span class="citation"><a href="references.html#ref-white1980heteroskedasticity" role="doc-biblioref">White</a> (<a href="references.html#ref-white1980heteroskedasticity" role="doc-biblioref">1980</a>)</span> estimator of the standard errors, and specify which variant (HC0, HC1, and so on). Remember that your goal is to give others enough information to replicate your analysis even if they don’t have your code—“robust standard errors” has too many interpretations to accomplish that.</p>
-<p>Finally, it is important to know that weighted least squares and heteroskedasticity-consistent standard errors are not mutually exclusive approaches. If you have a suspicion about the error variances that you think can improve the precision of the regression, but you are not totally comfortable with committing to WLS for inference, you can calculate heteroskedasticity-consistent standard errors for a WLS (or GLS) fit.</p>
+<p>Because of its association with the <code>, robust</code> option in Stata, people sometimes call the White estimator of the standard errors “robust standard errors.” I personally prefer to be more precise, and I’d recommend doing the same. If you estimate and report heteroskedasticity-consistent standard errors, report that you use the <span class="citation"><a href="references.html#ref-white1980heteroskedasticity" role="doc-biblioref">White</a> (<a href="references.html#ref-white1980heteroskedasticity" role="doc-biblioref">1980</a>)</span> estimator of the standard errors, and specify which variant (HC0, HC1, and so on). Remember that your goal is to give others enough information to replicate your analysis even if they don’t have your code—“robust standard errors” has too many interpretations to accomplish that.</p>
+<p>Weighted least squares and heteroskedasticity-consistent standard errors are not mutually exclusive approaches. If you have a suspicion about the error variances that you think can improve the precision of the regression, but you are not totally comfortable with committing to WLS for inference, you can calculate heteroskedasticity-consistent standard errors for a WLS (or GLS) fit.</p>
 </div>
 <div id="appendix-implementation-in-r" class="section level2" number="10.4">
 <h2><span class="header-section-number">10.4</span> Appendix: Implementation in R</h2>

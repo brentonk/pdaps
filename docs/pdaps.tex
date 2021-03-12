@@ -118,7 +118,7 @@
 
 \title{Practical Data Analysis for Political Scientists}
 \author{Brenton Kenkel}
-\date{2021-02-27}
+\date{2021-03-12}
 
 \begin{document}
 \maketitle
@@ -531,7 +531,7 @@ Once you've got the file stored locally, use the utilities from the \textbf{read
 
 \begin{verbatim}
 ## 
-## -- Column specification ----------------------------------------------------------------------
+## -- Column specification ---------------------------------------------------------------------------------------------
 ## cols(
 ##   country = col_character(),
 ##   gdp.2005 = col_double(),
@@ -3778,12 +3778,12 @@ Take a look at the following results of a hypothetical regression.
 
 \begin{longtable}[]{@{}ll@{}}
 \toprule
-Coefficient & Estimate \\ \addlinespace
+Coefficient & Estimate \\
 \midrule
 \endhead
-(Intercept) & 0.9 \\ \addlinespace
-Independent & -0.4 \\ \addlinespace
-Democratic & -0.75 \\ \addlinespace
+(Intercept) & 0.9 \\
+Independent & -0.4 \\
+Democratic & -0.75 \\
 \bottomrule
 \end{longtable}
 
@@ -3800,12 +3800,12 @@ Had we instead omitted Independent, we would get different coefficients, but the
 
 \begin{longtable}[]{@{}ll@{}}
 \toprule
-Coefficient & Estimate \\ \addlinespace
+Coefficient & Estimate \\
 \midrule
 \endhead
-(Intercept) & 0.5 \\ \addlinespace
-Republican & 0.4 \\ \addlinespace
-Democratic & -0.35 \\ \addlinespace
+(Intercept) & 0.5 \\
+Republican & 0.4 \\
+Democratic & -0.35 \\
 \bottomrule
 \end{longtable}
 
@@ -3813,12 +3813,12 @@ Same story, different numbers, had we omitted Democratic.
 
 \begin{longtable}[]{@{}ll@{}}
 \toprule
-Coefficient & Estimate \\ \addlinespace
+Coefficient & Estimate \\
 \midrule
 \endhead
-(Intercept) & 0.15 \\ \addlinespace
-Republican & 0.75 \\ \addlinespace
-Independent & 0.35 \\ \addlinespace
+(Intercept) & 0.15 \\
+Republican & 0.75 \\
+Independent & 0.35 \\
 \bottomrule
 \end{longtable}
 
@@ -3846,13 +3846,13 @@ Now let's introduce covariates into the mix. Consider a regression of Trump vote
 
 \begin{longtable}[]{@{}ll@{}}
 \toprule
-Coefficient & Estimate \\ \addlinespace
+Coefficient & Estimate \\
 \midrule
 \endhead
-(Intercept) & 0.8 \\ \addlinespace
-Independent & -0.4 \\ \addlinespace
-Democratic & -0.75 \\ \addlinespace
-Age & 0.002 \\ \addlinespace
+(Intercept) & 0.8 \\
+Independent & -0.4 \\
+Democratic & -0.75 \\
+Age & 0.002 \\
 \bottomrule
 \end{longtable}
 
@@ -3953,13 +3953,13 @@ For an example of interaction terms, imagine the following example. Suppose educ
 
 \begin{longtable}[]{@{}ll@{}}
 \toprule
-Coefficient & Estimate \\ \addlinespace
+Coefficient & Estimate \\
 \midrule
 \endhead
-(Intercept) & 0.3 \\ \addlinespace
-Education & 0.01 \\ \addlinespace
-White & 0.4 \\ \addlinespace
-Education * White & -0.03 \\ \addlinespace
+(Intercept) & 0.3 \\
+Education & 0.01 \\
+White & 0.4 \\
+Education * White & -0.03 \\
 \bottomrule
 \end{longtable}
 
@@ -3976,13 +3976,13 @@ What about an interaction between two continuous variables? For example, imagine
 
 \begin{longtable}[]{@{}ll@{}}
 \toprule
-Coefficient & Estimate \\ \addlinespace
+Coefficient & Estimate \\
 \midrule
 \endhead
-(Intercept) & 0.4 \\ \addlinespace
-Education & -0.02 \\ \addlinespace
-Age & 0.002 \\ \addlinespace
-Education * Age & 0.0002 \\ \addlinespace
+(Intercept) & 0.4 \\
+Education & -0.02 \\
+Age & 0.002 \\
+Education * Age & 0.0002 \\
 \bottomrule
 \end{longtable}
 
@@ -4131,13 +4131,13 @@ To summarize, here are the four possible logarithmic specifications and their in
   >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.29}}
   >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.45}}@{}}
 \toprule
-Response & Covariate & Interpretation \\ \addlinespace
+Response & Covariate & Interpretation \\
 \midrule
 \endhead
-\(Y_n\) & \(x_n\) & 1 unit increase in \(x_n\) \(\Rightarrow\) \(\beta\) unit change in \(Y_n\) \\ \addlinespace
-\(Y_n\) & \(\log x_n\) & 1 percent increase in \(x_n\) \(\Rightarrow\) \(\beta / 100\) unit change in \(Y_n\) \\ \addlinespace
-\(\log Y_n\) & \(x_n\) & 1 unit increase in \(x_n\) \(\Rightarrow\) \(100(e^\beta - 1)\) percent change in \(Y_n\) \\ \addlinespace
-\(\log Y_n\) & \(\log x_n\) & 1 percent increase in \(x_n\) \(\Rightarrow\) \(\beta\) percent change in \(Y_n\) \\ \addlinespace
+\(Y_n\) & \(x_n\) & 1 unit increase in \(x_n\) \(\Rightarrow\) \(\beta\) unit change in \(Y_n\) \\
+\(Y_n\) & \(\log x_n\) & 1 percent increase in \(x_n\) \(\Rightarrow\) \(\beta / 100\) unit change in \(Y_n\) \\
+\(\log Y_n\) & \(x_n\) & 1 unit increase in \(x_n\) \(\Rightarrow\) \(100(e^\beta - 1)\) percent change in \(Y_n\) \\
+\(\log Y_n\) & \(\log x_n\) & 1 percent increase in \(x_n\) \(\Rightarrow\) \(\beta\) percent change in \(Y_n\) \\
 \bottomrule
 \end{longtable}
 
@@ -5150,7 +5150,7 @@ In other words, if the spherical errors assumption fails to hold, there are two 
   The formula we use to estimate the standard errors of OLS is invalid. Our confidence intervals and hypothesis tests will (usually) be overconfident, overstating the precision of our results.
 \end{enumerate}
 
-This week, we will talk about two ways to proceed in the face of non-spherical errors. The first is to use an estimator other than OLS, specifically one called \emph{generalized least squares}, or GLS. GLS solves both of the problems listed above (inefficiency and invalid standard errors), but its own validity depends on stringent assumptions that are tough to confirm.
+This week, we will talk about two ways to proceed in the face of non-spherical errors. The first is to use an estimator other than OLS, specifically one called \emph{generalized least squares}, or GLS. GLS solves both of the problems listed above (inefficiency and invalid standard errors), but only under stringent conditions that are tough to confirm.
 
 The second is to use OLS, but to correct the standard errors. Then our estimates will still be inefficient, relative to the hypothetical ideal GLS estimator, but we will at least be able to draw valid inferences (from large samples).
 
@@ -5167,7 +5167,7 @@ Here's what each of the three cases looks like in bivariate data.
 
 \includegraphics{pdaps_files/figure-latex/plot-spherical-errors-1.pdf}
 
-Autocorrelation usually arises in time series analysis, which is beyond the scope of this course, so we will focus primarily on heteroskedasticity.
+Autocorrelation usually arises in time series analysis, which is beyond the scope of this course, so we will focus on solving heteroskedasticity.
 
 \hypertarget{generalized-least-squares}{%
 \section{Generalized Least Squares}\label{generalized-least-squares}}
@@ -5240,7 +5240,13 @@ An important special case of GLS is when there is heteroskedasticity but no auto
   0 & 0 & \cdots & \omega_{NN}
 \end{bmatrix}.
 \]
-This special case is called \emph{weighted least squares}, since GLS gives us the same answer as if we ran OLS on the following ``weighted'' data:
+In this special case, which is called \emph{weighted least squares}, the weighted sum of squared errors is a simple weighted average:
+\[
+\text{WSSE} = \sum_n \frac{(Y_n - \mathbf{x}_n \cdot \hat{\beta})^2}{\omega_n}.
+\]
+Notice that the observations with the lowest residual variance (smallest \(\omega_n\)) contribute the most to the regression estimate.
+The penalty on the size of the residual is largest for these observations, so GLS will try hard to find a regression line close to them, even at the expense of larger errors for the observations with greater residual variance.
+A fun fact (that admittedly is not so useful with modern computing tools available) is that GLS in this case gives us the same answer as if we ran OLS on the following ``weighted'' data:
 \[
 \mathbf{X}^* = \begin{bmatrix}
   x_{11} / \sqrt{\omega_{11}} & x_{12} / \sqrt{\omega_{11}} & \cdots & x_{1K} / \sqrt{\omega_{11}} \\
@@ -5315,9 +5321,9 @@ White's estimator is consistent but not unbiased, so we may want to apply a sort
 \]
 In this scheme, the standard White estimator is called the ``HC'' or ``HC0'' estimator. There are many other consistent estimators that apply some or other finite-sample correction; see \citet{mackinnon1985some} for the gory details.
 
-Because of its association with the \texttt{,\ robust} option in Stata, people sometimes call the White estimator of the standard errors ``robust standard errors''. Don't do that. In your own work, if you estimate and report heteroskedasticity-consistent standard errors, report that you use the \citet{white1980heteroskedasticity} estimator of the standard errors, and specify which variant (HC0, HC1, and so on). Remember that your goal is to give others enough information to replicate your analysis even if they don't have your code---``robust standard errors'' has too many interpretations to accomplish that.
+Because of its association with the \texttt{,\ robust} option in Stata, people sometimes call the White estimator of the standard errors ``robust standard errors''. I personally prefer to be more precise, and I'd recommend doing the same. If you estimate and report heteroskedasticity-consistent standard errors, report that you use the \citet{white1980heteroskedasticity} estimator of the standard errors, and specify which variant (HC0, HC1, and so on). Remember that your goal is to give others enough information to replicate your analysis even if they don't have your code---``robust standard errors'' has too many interpretations to accomplish that.
 
-Finally, it is important to know that weighted least squares and heteroskedasticity-consistent standard errors are not mutually exclusive approaches. If you have a suspicion about the error variances that you think can improve the precision of the regression, but you are not totally comfortable with committing to WLS for inference, you can calculate heteroskedasticity-consistent standard errors for a WLS (or GLS) fit.
+Weighted least squares and heteroskedasticity-consistent standard errors are not mutually exclusive approaches. If you have a suspicion about the error variances that you think can improve the precision of the regression, but you are not totally comfortable with committing to WLS for inference, you can calculate heteroskedasticity-consistent standard errors for a WLS (or GLS) fit.
 
 \hypertarget{appendix-implementation-in-r}{%
 \section{Appendix: Implementation in R}\label{appendix-implementation-in-r}}
@@ -5650,7 +5656,7 @@ As a general rule, I do not believe the statistical results reported in politica
 
 My position is not one of blind skepticism. It follows, perhaps ironically, from empirical research showing that far more than 5 percent of studies do not replicate upon re-testing \citep{open2015estimating}. \citet{ioannidis2005most} puts it bluntly: ``Most published research findings are false.'' Today we'll discuss why.
 
-I'll follow \citet{young2008current}'s economic analogy. Consider scientific publication as an economic activity, where researchers ``sell'' findings to journals in exchange for prestige.\footnote{Have you ever wondered why academic journal subscriptions cost unholy amounts of money, yet the authors, reviewers, and (usually) editors are unpaid?} The \emph{demand-side problem} is that journals will only ``buy'' statistically significant findings. Even absent any effects on author behavior, this practice makes published findings a biased sample of actual findings. But of course there are effects on author behavior. The \emph{supply-side problem} is that authors try to produce ``statistically significant'' findings instead of scientifically sound findings.
+I'll follow \citet{young2008current}'s economic analogy. Consider scientific publication as an economic activity, where researchers ``sell'' findings to journals in exchange for prestige. The \emph{demand-side problem} is that journals will only ``buy'' statistically significant findings. Even absent any effects on author behavior, this practice makes published findings a biased sample of actual findings. But of course there are effects on author behavior. The \emph{supply-side problem} is that authors try to produce ``statistically significant'' findings instead of scientifically sound findings.
 
 There is far more out there on the replication crisis in science than we can cover in a week. Sanjay Srivastava's faux syllabus, \href{https://hardsci.wordpress.com/2016/08/11/everything-is-fucked-the-syllabus/}{``Everything is fucked''}, provides a more comprehensive treatment.
 
@@ -5668,14 +5674,15 @@ But the statistical significance filter has another, less obvious---and thus mor
 That's not so bad, right? Only the studies that reject the null hypothesis get published, but the null hypothesis is wrong! The problem comes in when we want to evaluate the size of the effect---what political scientists like to call ``substantive significance.''\footnote{Mini rant: In my admittedly short career in political science, I have seen zero talks or papers claim to have found a statistically significant but substantively insignificant result. I have, however, seen talks that claimed a 0.001\% increase constituted a substantively significant finding. Without a threshold for substantive significance that is decided on \emph{before} the results are obtained, any claim about substantive significance is incredible.} On average, the statistically significant studies will tend to overestimate the magnitude of the effect. Viewing studies through the statistical significance filter, we will correctly infer that there is an effect, but we will systematically overestimate how strong it is.
 
 Why does the statistical significance filter result in an overestimate of effect magnitudes? Imagine that the population regression coefficient is real but small, say \(\beta_k = 0.1\). Then the sampling distribution of \(\hat{\beta}_k\) will look something like the following graph.
+As a reminder, the sampling distribution is the distribution of estimates that we would get across samples, if we could draw infinitely many samples and run our regression on each of them.
 
 \includegraphics{pdaps_files/figure-latex/filter-plot-1.pdf}
 
-Since the population parameter is close to zero, we are rather likely to yield a sample estimate close to zero. With a small sample size, sample estimates close to zero are likely to be statistically insignificant. Under the statistical significance filter, only the results in the ``tails'' of the distribution will end up being published.
+Since the population parameter is close to zero, we are rather likely to yield a sample estimate close to zero. With a small sample size, sample estimates close to zero are likely to be statistically insignificant. Only the results in the ``tails'' of the distribution will end up being published.
 
 \includegraphics{pdaps_files/figure-latex/filter-plot-2-1.pdf}
 
-The first time I read about this result, on Andrew Gelman's blog, I didn't believe it. (I \emph{should} have believed it, because he's a professional statistician and I'm not.) So I fired up R and ran a simulation to answer: if we only report our estimate of \(\beta_k\) when it's statistically significant, will we overestimate its magnitude on average? In your R session this week, you will run a version of this same simulation.
+The first time I read about this result, on Andrew Gelman's blog, I didn't believe it. (I \emph{should} have believed it, because he's a professional statistician and I'm not.) So I fired up R and ran a simulation to answer: if we only report our estimate of \(\beta_k\) when it's statistically significant, will we overestimate its magnitude on average? The appendix to this unit contains a version of this same simulation.
 
 \hypertarget{p-hacking}{%
 \section{\texorpdfstring{\(p\)-Hacking}{p-Hacking}}\label{p-hacking}}
@@ -5762,7 +5769,7 @@ And at a more micro level, to avoid \(p\)-hacking in your own research:
 \item
   Randomly split your sample before performing any tests. Go wild with the first half of the sample looking for an interesting hypothesis. Then test that hypothesis on the other half of the sample (and report the results whether they come out in your favor or not). Equivalently, hack your pilot data and then go out and collect new data to try to replicate your hacked initial hypothesis.
 \item
-  Apply a correction for multiple testing problems, or use computational methods (e.g., bootstrap) to calculate the distribution of a data-conditional test statistic under the null hypothesis.
+  Apply a correction for multiple hypothesis testing.
 \end{itemize}
 
 \hypertarget{appendix-r-simulation}{%
@@ -6896,12 +6903,12 @@ Exponents and logarithms have some helpful properties that will become second na
 
 \begin{longtable}[]{@{}ll@{}}
 \toprule
-Exponent Property & Logarithm Property \\ \addlinespace
+Exponent Property & Logarithm Property \\
 \midrule
 \endhead
-\(e^{a + b} = e^a \cdot e^b\) & \(\log (ab) = \log(a) + \log(b)\) \\ \addlinespace
-\(e^{a - b} = \frac{e^a}{e^b}\) & \(\log (\frac{a}{b}) = \log(a) - \log(b)\) \\ \addlinespace
-\(e^{ab} = (e^a)^b\) & \(\log (a^b) = b \log (a)\) \\ \addlinespace
+\(e^{a + b} = e^a \cdot e^b\) & \(\log (ab) = \log(a) + \log(b)\) \\
+\(e^{a - b} = \frac{e^a}{e^b}\) & \(\log (\frac{a}{b}) = \log(a) - \log(b)\) \\
+\(e^{ab} = (e^a)^b\) & \(\log (a^b) = b \log (a)\) \\
 \bottomrule
 \end{longtable}
 

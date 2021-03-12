@@ -36,7 +36,7 @@ In other words, if the spherical errors assumption fails to hold, there are two 
 
 2.  The formula we use to estimate the standard errors of OLS is invalid.  Our confidence intervals and hypothesis tests will (usually) be overconfident, overstating the precision of our results.
 
-This week, we will talk about two ways to proceed in the face of non-spherical errors.  The first is to use an estimator other than OLS, specifically one called *generalized least squares*, or GLS.  GLS solves both of the problems listed above (inefficiency and invalid standard errors), but its own validity depends on stringent assumptions that are tough to confirm.
+This week, we will talk about two ways to proceed in the face of non-spherical errors.  The first is to use an estimator other than OLS, specifically one called *generalized least squares*, or GLS.  GLS solves both of the problems listed above (inefficiency and invalid standard errors), but only under stringent conditions that are tough to confirm.
 
 The second is to use OLS, but to correct the standard errors.  Then our estimates will still be inefficient, relative to the hypothetical ideal GLS estimator, but we will at least be able to draw valid inferences (from large samples).
 
@@ -74,7 +74,7 @@ y_spher <- ey + e_spher
 y_het <- ey + e_het
 y_auto <- ey + e_auto
 
-data_error_types <- data_frame(x, y_spher, y_het, y_auto) %>%
+data_error_types <- tibble(x, y_spher, y_het, y_auto) %>%
     gather(key = y_type, value = y, starts_with("y")) %>%
     mutate(y_type = factor(y_type,
                            levels = c("y_spher", "y_het", "y_auto"),
@@ -86,7 +86,7 @@ ggplot(data_error_types, aes(x = x, y = y)) +
     facet_wrap(~ y_type, ncol = 1)
 ```
 
-Autocorrelation usually arises in time series analysis, which is beyond the scope of this course, so we will focus primarily on heteroskedasticity.
+Autocorrelation usually arises in time series analysis, which is beyond the scope of this course, so we will focus on solving heteroskedasticity.
 
 
 ## Generalized Least Squares
@@ -157,7 +157,13 @@ $$
   0 & 0 & \cdots & \omega_{NN}
 \end{bmatrix}.
 $$
-This special case is called *weighted least squares*, since GLS gives us the same answer as if we ran OLS on the following "weighted" data:
+In this special case, which is called *weighted least squares*, the weighted sum of squared errors is a simple weighted average:
+$$
+\text{WSSE} = \sum_n \frac{(Y_n - \mathbf{x}_n \cdot \hat{\beta})^2}{\omega_n}.
+$$
+Notice that the observations with the lowest residual variance (smallest $\omega_n$) contribute the most to the regression estimate.
+The penalty on the size of the residual is largest for these observations, so GLS will try hard to find a regression line close to them, even at the expense of larger errors for the observations with greater residual variance.
+A fun fact (that admittedly is not so useful with modern computing tools available) is that GLS in this case gives us the same answer as if we ran OLS on the following "weighted" data:
 $$
 \mathbf{X}^* = \begin{bmatrix}
   x_{11} / \sqrt{\omega_{11}} & x_{12} / \sqrt{\omega_{11}} & \cdots & x_{1K} / \sqrt{\omega_{11}} \\
@@ -225,9 +231,9 @@ $$
 $$
 In this scheme, the standard White estimator is called the "HC" or "HC0" estimator.  There are many other consistent estimators that apply some or other finite-sample correction; see @mackinnon1985some for the gory details.
 
-Because of its association with the `, robust` option in Stata, people sometimes call the White estimator of the standard errors "robust standard errors".  Don't do that.  In your own work, if you estimate and report heteroskedasticity-consistent standard errors, report that you use the @white1980heteroskedasticity estimator of the standard errors, and specify which variant (HC0, HC1, and so on).  Remember that your goal is to give others enough information to replicate your analysis even if they don't have your code---"robust standard errors" has too many interpretations to accomplish that.
+Because of its association with the `, robust` option in Stata, people sometimes call the White estimator of the standard errors "robust standard errors".  I personally prefer to be more precise, and I'd recommend doing the same.  If you estimate and report heteroskedasticity-consistent standard errors, report that you use the @white1980heteroskedasticity estimator of the standard errors, and specify which variant (HC0, HC1, and so on).  Remember that your goal is to give others enough information to replicate your analysis even if they don't have your code---"robust standard errors" has too many interpretations to accomplish that.
 
-Finally, it is important to know that weighted least squares and heteroskedasticity-consistent standard errors are not mutually exclusive approaches.  If you have a suspicion about the error variances that you think can improve the precision of the regression, but you are not totally comfortable with committing to WLS for inference, you can calculate heteroskedasticity-consistent standard errors for a WLS (or GLS) fit.
+Weighted least squares and heteroskedasticity-consistent standard errors are not mutually exclusive approaches.  If you have a suspicion about the error variances that you think can improve the precision of the regression, but you are not totally comfortable with committing to WLS for inference, you can calculate heteroskedasticity-consistent standard errors for a WLS (or GLS) fit.
 
 
 ## Appendix: Implementation in R

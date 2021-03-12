@@ -24,7 +24,7 @@
 <meta name="author" content="Brenton Kenkel" />
 
 
-<meta name="date" content="2021-02-27" />
+<meta name="date" content="2021-03-12" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -348,7 +348,7 @@ Y_n = \begin{cases}
 The logistic regression model follows from this combination of assumptions.</p>
 <p>I hope you notice that the assumptions we’ve made on the latent propensity <span class="math inline">\(Y_n^*\)</span> are even stronger than the usual linear model assumptions.
 We assumed that <span class="math inline">\(\epsilon_n\)</span> was independent across observations, whereas the usual linear model allows for autocorrelation.
-We assumed that <span class="math inline">\(\epsilon_n\)</span> was identically distributed across observations, whereas the usual linear model allows for heteroskedasticity.<a href="#fn34" class="footnote-ref" id="fnref34"><sup>34</sup></a>
+We assumed that <span class="math inline">\(\epsilon_n\)</span> was identically distributed across observations, whereas the usual linear model allows for heteroskedasticity.<a href="#fn33" class="footnote-ref" id="fnref33"><sup>33</sup></a>
 Finally, we assumed that <span class="math inline">\(\epsilon_n\)</span> has a logistic distribution, whereas the usual linear model does not assume a specific distributional form for the error term.
 The verisimilitude of the S-curve comes at the cost of forcing us to make many more assumptions than we do with a linear model.</p>
 <p>Probit regression is the same as logistic regression, except we assume that the error term <span class="math inline">\(\epsilon_n\)</span> in the latent propensity equation has a standard normal distribution.
@@ -416,7 +416,7 @@ As with marginal effects, to calculate the average first difference across the d
 <h2><span class="header-section-number">13.3</span> Maximum Likelihood Estimation</h2>
 <p>Remember how we derived the ordinary least squares estimator for the linear model: we decided our goal was to minimize the sum of squared residuals, then we found the formula (the function of <span class="math inline">\(\mathbf{X}\)</span> and <span class="math inline">\(\mathbf{Y}\)</span>) that accomplished this task.
 Even though we started with a geometrical purpose (minimizing squared errors), we saw that the resulting estimator had various good statistical properties, such as unbiasedness, consistency, and asymptotic normality.</p>
-<p>We typically don’t use least squares estimators for nonlinear models like logistic regression.<a href="#fn35" class="footnote-ref" id="fnref35"><sup>35</sup></a>
+<p>We typically don’t use least squares estimators for nonlinear models like logistic regression.<a href="#fn34" class="footnote-ref" id="fnref34"><sup>34</sup></a>
 Instead, we typically use <em>maximum likelihood estimation</em>.
 We won’t go into the deeper mathematical details behind maximum likelihood estimation; for that I recommend <span class="citation"><a href="references.html#ref-davidson1993estimation" role="doc-biblioref">Davidson and MacKinnon</a> (<a href="references.html#ref-davidson1993estimation" role="doc-biblioref">1993</a>)</span>.</p>
 <p>What is important to know generally about maximum likelihood estimation, or MLE, is the following:</p>
@@ -426,7 +426,7 @@ This entails specifying distributional families for all random variables.</p>
 <p>What this means is most easily illustrated by contrast with the ordinary linear model.
 With the linear model, when we wrote <span class="math inline">\(Y_n = \mathbf{x}_n \cdot \beta + \epsilon_n\)</span>, all we assumed about <span class="math inline">\(\epsilon_n\)</span> was that it satisfied strict exogeneity and (sometimes) spherical errors.
 We didn’t assume it had a normal (or any other) distribution when we derived the OLS and GLS estimators.
-But if we wanted to estimate the linear model via maximum likelihood, we would have to specify a distribution for the error term.<a href="#fn36" class="footnote-ref" id="fnref36"><sup>36</sup></a></p></li>
+But if we wanted to estimate the linear model via maximum likelihood, we would have to specify a distribution for the error term.<a href="#fn35" class="footnote-ref" id="fnref35"><sup>35</sup></a></p></li>
 <li><p>The general idea behind maximum likelihood estimation is to find the model parameters under which our observed data is most likely to have occurred.
 If you draw a random sample of Democratic primary voters, and 68% of them tell you that they prefer Joe Biden over Bernie Sanders, it is <em>possible</em> that in fact Biden’s support in the population is 10%, or that it’s 90%.
 However, we’d be much more likely to draw the sample that we did if the true population proportion is 68% than if it were 10% or 90%.
@@ -615,7 +615,7 @@ f_\theta(z) = \begin{cases}
 <p><img src="pdaps_files/figure-html/uniform-dens-1.png" width="672" /></p>
 <p>There is a simple unbiased estimator of <span class="math inline">\(\theta\)</span> available to us.
 Let <span class="math inline">\(\bar{Z}\)</span> denote our sample mean, <span class="math inline">\(\bar{Z} = \frac{1}{N} \sum_{n=1}^N Z_n\)</span>.
-Then <span class="math inline">\(\hat{\theta}_{\text{MM}}(\mathbf{Z}) = 2 \bar{Z}\)</span> is an unbiased estimator of <span class="math inline">\(\theta\)</span>.<a href="#fn37" class="footnote-ref" id="fnref37"><sup>37</sup></a>
+Then <span class="math inline">\(\hat{\theta}_{\text{MM}}(\mathbf{Z}) = 2 \bar{Z}\)</span> is an unbiased estimator of <span class="math inline">\(\theta\)</span>.<a href="#fn36" class="footnote-ref" id="fnref36"><sup>36</sup></a>
 This is true because (1) the population mean of <span class="math inline">\(U[0, \theta]\)</span> is <span class="math inline">\(\frac{\theta}{2}\)</span> and (2) the sample mean is an unbiased estimator of the population mean, and thus we have
 <span class="math display">\[
 E[\hat{\theta}_{\text{MM}}(\mathbf{Z})]
@@ -828,7 +828,7 @@ Alternatively, you may prefer to just use a linear probability model.</p>
 <p>Should you decide to go ahead and use the nominal logistic regression estimator even though it’s not actually MLE in the presence of autocorrelation, there are software packages that will provide clustered standard error estimates.
 These follow the same kind of “sandwich” logic as the formula we derived for OLS <span class="citation">(<a href="references.html#ref-Liang:1986gv" role="doc-biblioref">Liang and Zeger 1986</a>)</span>.
 In some cases the ordinary estimator may still be consistent, though it will not be efficient.
-This requires, very loosely speaking, that the average autocorrelation between observations go to zero as the sample size increases <span class="citation">(<a href="references.html#ref-poirier1988probit" role="doc-biblioref">Poirier and Ruud 1988</a>)</span>.<a href="#fn38" class="footnote-ref" id="fnref38"><sup>38</sup></a></p>
+This requires, very loosely speaking, that the average autocorrelation between observations go to zero as the sample size increases <span class="citation">(<a href="references.html#ref-poirier1988probit" role="doc-biblioref">Poirier and Ruud 1988</a>)</span>.<a href="#fn37" class="footnote-ref" id="fnref37"><sup>37</sup></a></p>
 </div>
 </div>
 <div id="appendix-implementation-in-r-2" class="section level2" number="13.5">
@@ -1082,12 +1082,12 @@ However, should you ever find yourself needing to estimate a model that hasn’t
 </div>
 <div class="footnotes">
 <hr />
-<ol start="34">
-<li id="fn34"><p>The differences actually go even further than allowing for heteroskedasticity. We can have a homoskedastic linear model where the error variances are the same but their full distributions are different. For example, in the usual linear model we could have <span class="math inline">\(\epsilon_1 \sim U[0, 1]\)</span> and <span class="math inline">\(\epsilon_2 \sim N(0, 1/12)\)</span>, so that <span class="math inline">\(V[\epsilon_1] = V[\epsilon_2] = 1/12\)</span> even though their distributions differ.<a href="logit.html#fnref34" class="footnote-back">↩︎</a></p></li>
-<li id="fn35"><p>You <em>can</em> estimate these models with least squares, such as via the nonlinear least functions <code>ns()</code> in R. However, nonlinear least squares is inefficient relative to maximum likelihood estimation, and is usually no simpler to undertake computationally.<a href="logit.html#fnref35" class="footnote-back">↩︎</a></p></li>
-<li id="fn36"><p>As it turns out, the OLS formula <em>is</em> the maximum likelihood estimator for the linear model if we assume <span class="math inline">\(\epsilon_n\)</span> is independent across observations and that each <span class="math inline">\(\epsilon_n \sim N(0, \sigma^2)\)</span>.<a href="logit.html#fnref36" class="footnote-back">↩︎</a></p></li>
-<li id="fn37"><p>The “MM” subscript denotes the fact that <span class="math inline">\(\hat{\theta}_{\text{MM}}\)</span> is a <em>method of moments</em> estimator of <span class="math inline">\(\theta\)</span>. Like maximum likelihood estimation, the method of moments is a set of principles used to derive estimators.<a href="logit.html#fnref37" class="footnote-back">↩︎</a></p></li>
-<li id="fn38"><p>I thank Larry Bartels for drawing my attention to the reference here, in response to a question by a previous PSCI 8357 student.<a href="logit.html#fnref38" class="footnote-back">↩︎</a></p></li>
+<ol start="33">
+<li id="fn33"><p>The differences actually go even further than allowing for heteroskedasticity. We can have a homoskedastic linear model where the error variances are the same but their full distributions are different. For example, in the usual linear model we could have <span class="math inline">\(\epsilon_1 \sim U[0, 1]\)</span> and <span class="math inline">\(\epsilon_2 \sim N(0, 1/12)\)</span>, so that <span class="math inline">\(V[\epsilon_1] = V[\epsilon_2] = 1/12\)</span> even though their distributions differ.<a href="logit.html#fnref33" class="footnote-back">↩︎</a></p></li>
+<li id="fn34"><p>You <em>can</em> estimate these models with least squares, such as via the nonlinear least functions <code>ns()</code> in R. However, nonlinear least squares is inefficient relative to maximum likelihood estimation, and is usually no simpler to undertake computationally.<a href="logit.html#fnref34" class="footnote-back">↩︎</a></p></li>
+<li id="fn35"><p>As it turns out, the OLS formula <em>is</em> the maximum likelihood estimator for the linear model if we assume <span class="math inline">\(\epsilon_n\)</span> is independent across observations and that each <span class="math inline">\(\epsilon_n \sim N(0, \sigma^2)\)</span>.<a href="logit.html#fnref35" class="footnote-back">↩︎</a></p></li>
+<li id="fn36"><p>The “MM” subscript denotes the fact that <span class="math inline">\(\hat{\theta}_{\text{MM}}\)</span> is a <em>method of moments</em> estimator of <span class="math inline">\(\theta\)</span>. Like maximum likelihood estimation, the method of moments is a set of principles used to derive estimators.<a href="logit.html#fnref36" class="footnote-back">↩︎</a></p></li>
+<li id="fn37"><p>I thank Larry Bartels for drawing my attention to the reference here, in response to a question by a previous PSCI 8357 student.<a href="logit.html#fnref37" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>
